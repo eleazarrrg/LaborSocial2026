@@ -1,0 +1,22 @@
+# El repositorio guarda LF siempre. Sin esto, cada quien sube los finales de
+# línea de su sistema y los diffs se llenan de ruido que no cambió nada.
+* text=auto eol=lf
+
+# Binarios: que git no los toque.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.pdf binary
+*.docx binary
+*.woff binary
+*.woff2 binary
+*.tar.gz binary
+
+# No cuentan como código en las estadísticas de lenguaje de GitHub: el
+# repositorio es de una aplicación, no de documentación, aunque haya 11 000
+# líneas de documentos.
+docs/** linguist-documentation
+*.md linguist-documentation

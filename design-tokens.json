@@ -1,0 +1,88 @@
+{
+  "$comentario": "Tokens del portal de la Fundación REFUVA. La fuente de verdad es src/app/globals.css; este archivo es para traspaso a herramientas de diseño. Si difieren, manda el CSS. Ver DESIGN.md.",
+  "meta": {
+    "proyecto": "Portal Fundación REFUVA",
+    "version": "1.0",
+    "fecha": "2026-09-06",
+    "estado": "provisional",
+    "advertencia": "Esta NO es la paleta oficial de REFUVA. Su logo y sus colores de marca no están publicados en ninguna parte y siguen pendientes de entrega (O-08). La paleta se derivó del significado del nombre: REsiliente, FUerte, VAliente.",
+    "verificacion": "npm run contraste — 34/34 comprobaciones WCAG 2.2 AA en ambos temas"
+  },
+  "color": {
+    "claro": {
+      "papel": "#f8f4ed",
+      "papel-alto": "#efe7d9",
+      "superficie": "#fffdf9",
+      "tinta": "#16140f",
+      "tinta-suave": "#565049",
+      "fuerte": "#0e4a3e",
+      "fuerte-tenue": "#e0ebe5",
+      "valiente": "#af4e1b",
+      "valiente-tenue": "#f8e7db",
+      "borde": "#dfd6c6",
+      "borde-fuerte": "#c2b7a3",
+      "borde-control": "#8e8471"
+    },
+    "oscuro": {
+      "papel": "#12100c",
+      "papel-alto": "#1c1915",
+      "superficie": "#1a1713",
+      "tinta": "#f3eee4",
+      "tinta-suave": "#aba396",
+      "fuerte": "#78c9ac",
+      "fuerte-tenue": "#16302a",
+      "valiente": "#ee9256",
+      "valiente-tenue": "#2f1e11",
+      "borde": "#2d2822",
+      "borde-fuerte": "#4a4238",
+      "borde-control": "#6e6558"
+    }
+  },
+  "semantica": {
+    "papel": "RESILIENTE — lo que sostiene. Todos los fondos.",
+    "fuerte": "FUERTE — confianza y calma. Botones, enlaces, banda de crisis, cifras.",
+    "valiente": "VALIENTE — el acto de hablar. Numerales, acentos, foco, error.",
+    "borde-control": "El único borde obligado a pasar 3:1 (WCAG 1.4.11): es lo único que identifica un campo de formulario."
+  },
+  "tipografia": {
+    "display": {
+      "familia": "Fraunces",
+      "ejes": { "SOFT": 28, "WONK": 1, "opsz": 100 },
+      "letterSpacing": "-0.021em",
+      "uso": "Titulares, numerales y cifras"
+    },
+    "cuerpo": {
+      "familia": "Inter",
+      "tamano": "17px",
+      "lineHeight": 1.6,
+      "uso": "Todo lo demás. 17px y no 16 porque el público lee en la calle y con teléfonos modestos."
+    },
+    "escalaDisplay": "clamp(2.5rem, 1.2rem + 5.2vw, 5.5rem)"
+  },
+  "medida": {
+    "prosa": "62ch",
+    "contenedor": "72rem",
+    "areaTactilMinima": "44px",
+    "comentario": "44px supera los 24×24 que exige WCAG 2.2 (2.5.8)."
+  },
+  "textura": {
+    "grano": {
+      "claro": 0.038,
+      "oscuro": 0.055,
+      "tecnica": "SVG feTurbulence en línea, ~200 bytes, cero peticiones de red"
+    }
+  },
+  "movimiento": {
+    "duracion": "150ms",
+    "duracionLarga": "200ms",
+    "regla": "Solo transiciones de estado. Todo se anula bajo prefers-reduced-motion."
+  },
+  "tema": {
+    "estados": ["sistema", "claro", "oscuro"],
+    "porDefecto": "sistema",
+    "almacenamiento": "localStorage, llave refuva-tema",
+    "atributo": "data-tema en <html>",
+    "sinCookies": true,
+    "comentario": "La elección explícita gana sobre prefers-color-scheme en ambas direcciones. Un guion en el <head> evita el parpadeo antes del primer pintado."
+  }
+}

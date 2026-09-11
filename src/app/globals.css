@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   SISTEMA DE COLOR — Fundación REFUVA
+
+   ORIGEN DE LA PALETA. El nombre de la fundación es su propio brief:
+   REFUVA = REsiliente, FUerte, VAliente. Y a Edwin lo describen como
+   «un referente de fortaleza y vulnerabilidad al mismo tiempo». Un sistema de
+   color que solo transmita fuerza fallaría la mitad del encargo.
+
+     RESILIENTE  →  el papel     Lo que sostiene y aguanta. Fondo cálido, con
+                                 grano. Nunca el blanco clínico de un hospital.
+     FUERTE      →  fuerte       Verde profundo. Ancla, calma, cosa que crece.
+                                 Es el color de la confianza: botones, enlaces,
+                                 la banda de crisis.
+     VALIENTE    →  valiente     Terracota cálida. El acto de hablar, de pedir
+                                 ayuda. Se usa poco y por eso se nota: números,
+                                 acentos, el estado de error.
+
+   ADVERTENCIA. Esta paleta es PROVISIONAL. El logo y los colores oficiales de
+   REFUVA no están publicados en ninguna parte y siguen pendientes de entrega
+   (O-08 en docs/06-inventario-contenido.md). Cuando lleguen, se cambian los
+   valores de los dos bloques de abajo y NADA MÁS: ningún componente conoce un
+   color literal, todos usan estos nombres.
+
+   CONTRASTE. Verificado con el algoritmo de WCAG 2.2 en los dos temas.
+   La tabla completa está en DESIGN.md. Ninguna pareja de texto baja de 4.5:1
+   y ningún borde de control baja de 3:1.
+=========================================================================== */
+
+@theme inline {
+  --color-papel: var(--papel);
+  --color-papel-alto: var(--papel-alto);
+  --color-superficie: var(--superficie);
+  --color-tinta: var(--tinta);
+  --color-tinta-suave: var(--tinta-suave);
+  --color-fuerte: var(--fuerte);
+  --color-fuerte-tenue: var(--fuerte-tenue);
+  --color-valiente: var(--valiente);
+  --color-valiente-tenue: var(--valiente-tenue);
+  --color-borde: var(--borde);
+  --color-borde-fuerte: var(--borde-fuerte);
+  --color-borde-control: var(--borde-control);
+
+  --font-display: var(--fuente-display), Georgia, "Times New Roman", serif;
+  --font-sans: var(--fuente-sans), system-ui, sans-serif;
+}
+
+/* --------------------------------------------------------------- TEMA CLARO
+   Es el tema por defecto y el que se diseñó primero. El sitio se lee de día,
+   en la calle y en teléfonos con el brillo al máximo. */
+:root {
+  color-scheme: light;
+
+  --papel: #f8f4ed;
+  --papel-alto: #efe7d9;
+  --superficie: #fffdf9;
+  --tinta: #16140f;
+  --tinta-suave: #565049;
+  --fuerte: #0e4a3e;
+  --fuerte-tenue: #e0ebe5;
+  --valiente: #af4e1b;
+  --valiente-tenue: #f8e7db;
+  --borde: #dfd6c6;
+  --borde-fuerte: #c2b7a3;
+  --borde-control: #8e8471;
+
+  --grano: 0.038;
+}
+
+/* --------------------------------------------------------------- TEMA OSCURO
+   No es el claro invertido. Se diseñó aparte: el papel se vuelve tinta cálida
+   —nunca el gris azulado de una terminal— y el verde y la terracota suben de
+   luminosidad lo justo para seguir pasando contraste sin brillar.
+
+   Esta regla cubre a quien tiene el sistema en oscuro y NO ha elegido tema en
+   el sitio. La negación es la que hace que elegir «claro» gane sobre el
+   sistema. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    color-scheme: dark;
+
+    --papel: #12100c;
+    --papel-alto: #1c1915;
+    --superficie: #1a1713;
+    --tinta: #f3eee4;
+    --tinta-suave: #aba396;
+    --fuerte: #78c9ac;
+    --fuerte-tenue: #16302a;
+    --valiente: #ee9256;
+    --valiente-tenue: #2f1e11;
+    --borde: #2d2822;
+    --borde-fuerte: #4a4238;
+    --borde-control: #6e6558;
+
+    --grano: 0.055;
+  }
+}
+
+/* Elección explícita del usuario. Va después para ganarle al sistema, y
+   duplica los valores a propósito: si un día el tema oscuro deja de ser el
+   claro invertido en algún token, este bloque es el que manda. */
+:root[data-tema="oscuro"] {
+  color-scheme: dark;
+
+  --papel: #12100c;
+  --papel-alto: #1c1915;
+  --superficie: #1a1713;
+  --tinta: #f3eee4;
+  --tinta-suave: #aba396;
+  --fuerte: #78c9ac;
+  --fuerte-tenue: #16302a;
+  --valiente: #ee9256;
+  --valiente-tenue: #2f1e11;
+  --borde: #2d2822;
+  --borde-fuerte: #4a4238;
+  --borde-control: #6e6558;
+
+  --grano: 0.055;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* La escala del display crece con el ancho, pero nunca por debajo de lo
+     legible ni por encima de lo cómodo. */
+  --paso-display: clamp(2.5rem, 1.2rem + 5.2vw, 5.5rem);
+}
+
+body {
+  background-color: var(--papel);
+  color: var(--tinta);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+}
+
+/* Grano de papel. Un SVG de ~200 bytes en línea: da atmósfera sin pedir una
+   sola petición de red, que importa cuando el público navega con datos caros. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: var(--grano);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Fraunces con sus ejes puestos a trabajar: WONK activa las terminaciones
+   raras y SOFT redondea. Es la diferencia entre usar una tipografía y
+   diseñar con ella. */
+.font-display,
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 28, "WONK" 1, "opsz" 100;
+  letter-spacing: -0.021em;
+  text-wrap: balance;
+}
+
+/* Numerales tabulares donde hay cifras alineadas: evita el baile de columnas. */
+.cifras-alineadas {
+  font-variant-numeric: tabular-nums;
+}
+
+/* El foco visible es requisito de accesibilidad (WCAG 2.2 AA), no preferencia
+   estética. No se quita nunca. */
+:focus-visible {
+  outline: 3px solid var(--valiente);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Parte del público llega con el sistema en «reducir movimiento». Se respeta. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

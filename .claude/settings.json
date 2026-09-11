@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(npm install:*)",
+      "Bash(npm ci)",
+      "Bash(npx tsc:*)",
+      "Bash(npx next:*)",
+      "Bash(npx supabase:*)",
+      "Bash(npx shadcn:*)",
+      "Bash(npx playwright:*)",
+      "Bash(node:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git ls-files:*)",
+      "WebSearch",
+      "WebFetch(domain:nextjs.org)",
+      "WebFetch(domain:supabase.com)",
+      "WebFetch(domain:resend.com)",
+      "WebFetch(domain:docs.n8n.io)",
+      "WebFetch(domain:www.yappy.com.pa)",
+      "WebFetch(domain:developers.facebook.com)",
+      "WebFetch(domain:web.dev)",
+      "WebFetch(domain:developers.google.com)",
+      "WebFetch(domain:www.w3.org)",
+      "WebFetch(domain:schema.org)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./**/.env)",
+      "Read(./**/.env.*)",
+      "Bash(npx supabase db reset --linked:*)",
+      "Bash(npx supabase link:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-fuentes.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-rls.mjs\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

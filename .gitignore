@@ -1,0 +1,64 @@
+# dependencias
+node_modules/
+.pnp
+.pnp.*
+
+# build
+.next/
+out/
+build/
+dist/
+
+# entorno — nunca subir credenciales de Supabase, Resend ni n8n
+.env
+.env.*
+!.env.example
+
+# supabase local
+supabase/.branches/
+supabase/.temp/
+supabase/.env
+
+# herramientas
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+coverage/
+playwright-report/
+test-results/
+.eslintcache
+
+# claude code — configuración local de cada quien
+.claude/settings.local.json
+.claude/plans/
+
+# Skills de terceros copiadas de otro proyecto (mattpocock, emilkowalski,
+# supabase, vercel-labs, Anthropic...). Son 3.6 MB, 339 archivos, y cada una
+# trae su propia licencia. No son código de este proyecto y republicarlas aquí
+# no le aporta nada a la fundación. Cada quien las instala en su máquina.
+# Lo que SÍ se versiona de .claude/ es lo nuestro: agents, commands, rules y hooks.
+.claude/skills/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# MATERIAL ORIGINAL — fuera del repositorio público
+#
+# La grabación de la reunión del 20 de agosto es una conversación privada con
+# una persona real (Edwin Quintero) sobre la operación, las finanzas y la
+# historia personal de su fundación. Este repositorio es PÚBLICO, y lo que entra
+# en el historial de git no se puede retirar del todo: queda en clones, en forks
+# y en la caché de GitHub.
+#
+# Los requisitos destilados sí se versionan — están en docs/00-fuentes/hechos-
+# verificados.md y en docs/01..09. Eso es el producto de trabajo. Lo que se
+# queda fuera es la grabación en crudo.
+#
+# El equipo guarda el material original en su carpeta compartida. Si deciden que
+# puede ser público, basta con borrar estas dos líneas.
+docs/00-fuentes/originales/
+docs/00-fuentes/transcripcion-reunion-2026-08-20.md
+
+# sistema
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
