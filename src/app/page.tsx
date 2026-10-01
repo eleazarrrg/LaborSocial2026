@@ -1,14 +1,15 @@
 import Link from "next/link";
-import { IndiceProyectos } from "@/components/indice-proyectos";
-import { Boton, Dato, Marco, Nota } from "@/components/ui";
+import { IndiceCatalogo } from "@/components/indice-catalogo";
+import { CAMPANAS, PROYECTOS, enPalabras, rutaDe } from "@/lib/catalogo";
+import { Boton, Dato, Marco, Nota, Placa } from "@/components/ui";
 
 /**
  * Inicio.
  *
  * Tiene un solo trabajo, y es el requisito raíz (O-04 / RF-06): que en diez
- * segundos se entienda que REFUVA es siete frentes y no uno. De ahí salen dos
+ * segundos se entienda que REFUVA son muchos frentes y no uno. De ahí salen dos
  * decisiones que no se negocian: el titular nombra comida y Navidad ANTES que
- * salud mental (HU-01), y las siete líneas aparecen como índice numerado —
+ * salud mental (HU-01), y los proyectos aparecen como índice numerado —
  * todas al mismo nivel, ninguna «la principal».
  *
  * Los cuatro CTA de HU-02 van juntos y por encima del pliegue, verificado a
@@ -24,7 +25,7 @@ const CTAS = [
 ];
 
 const CIFRAS = [
-  { valor: "7", pie: "líneas de acción sostenidas a la vez" },
+  { valor: String(PROYECTOS.length), pie: "proyectos sostenidos a la vez" },
   { valor: "50 → +100", pie: "raciones por jornada en la calle" },
   { valor: "+30", pie: "escuelas esperando el programa" },
   { valor: "3", pie: "años saliendo a dar terapia gratuita" },
@@ -48,10 +49,10 @@ export default function Inicio() {
           <p className="mt-8 max-w-2xl text-lg leading-relaxed text-tinta-suave sm:text-xl">
             Sostenemos{" "}
             <strong className="font-semibold text-tinta">
-              siete líneas de acción
+              {enPalabras(PROYECTOS.length)} proyectos
             </strong>{" "}
-            en Panamá: escuelas, calle, cárceles, animales, escritura, Navidad y
-            salud mental. La salud mental es una de ellas —{" "}
+            en Panamá: escuelas, calle, animales, familias, escritura,
+            emprendimiento y Navidad. La salud mental es uno de ellos —{" "}
             <strong className="font-semibold text-tinta">no es la única</strong>.
           </p>
 
@@ -77,7 +78,7 @@ export default function Inicio() {
         </div>
       </section>
 
-      {/* ═════════════════════════════════════════ Las siete líneas (núcleo) */}
+      {/* ═══════════════════════════════════════════ Los proyectos (núcleo) */}
       <section
         aria-labelledby="lineas"
         className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24"
@@ -85,29 +86,84 @@ export default function Inicio() {
         <div className="mb-11 flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-2xl">
             <h2 id="lineas" className="text-3xl font-semibold sm:text-4xl">
-              Las siete líneas de acción
+              Nuestros proyectos
             </h2>
             <p className="mt-4 text-lg text-tinta-suave">
-              Cada una nació de una historia y va en honor a alguien. Todas se
-              sostienen a la vez, con el mismo equipo.
+              Cada uno nació de una historia y va en honor a alguien. Se
+              sostienen todos a la vez, con el mismo equipo.
             </p>
           </div>
           <Link
             href="/proyectos"
             className="shrink-0 font-semibold text-fuerte decoration-2 underline-offset-4 hover:underline"
           >
-            Ver todas en detalle →
+            Ver todos en detalle →
           </Link>
         </div>
 
-        <IndiceProyectos />
+        <IndiceCatalogo entradas={PROYECTOS} />
+      </section>
+
+      {/* ═══════════════════════════════════════════════════ Campañas
+          Van aparte de los proyectos porque la fundación las separa, y porque
+          juntas serían media lista de salud mental — justo lo que el sitio
+          existe para desmentir. Banda baja y tipográfica: no es una rejilla de
+          logos, que sería el collage. */}
+      <section
+        aria-labelledby="campanas"
+        className="border-y border-borde bg-papel-alto"
+      >
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <h2 id="campanas" className="text-2xl font-semibold sm:text-3xl">
+                Y dos campañas, para que se hable de esto
+              </h2>
+              <p className="mt-3 text-tinta-suave">
+                No piden que te inscribas a nada. Piden que hablemos, que
+                escuchemos y que acompañemos.
+              </p>
+            </div>
+            <Link
+              href="/campanas"
+              className="shrink-0 font-semibold text-fuerte decoration-2 underline-offset-4 hover:underline"
+            >
+              Ver las campañas →
+            </Link>
+          </div>
+
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+            {CAMPANAS.map((c) => (
+              <li key={c.codigo}>
+                <Link
+                  href={rutaDe(c)}
+                  className="group flex h-full items-start gap-4 rounded-xl border border-borde bg-superficie p-5 transition-colors hover:bg-papel-alto"
+                >
+                  {c.logo && (
+                    <Placa
+                      src={c.logo.src}
+                      alt={c.logo.alt}
+                      fondo={c.logo.fondo}
+                      tamano="listado"
+                    />
+                  )}
+                  <span className="min-w-0">
+                    <span className="block font-display text-xl font-semibold group-hover:text-fuerte">
+                      {c.nombreCorto}
+                    </span>
+                    <span className="mt-1.5 block text-sm leading-snug text-tinta-suave">
+                      {c.resumen}
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       {/* ══════════════════════════════════════════ Atención psicológica */}
-      <section
-        aria-labelledby="atencion"
-        className="border-y border-borde bg-papel-alto"
-      >
+      <section aria-labelledby="atencion" className="border-b border-borde">
         <div className="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 sm:py-24 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-20">
           <div>
             <h2 id="atencion" className="text-3xl font-semibold sm:text-4xl">
@@ -210,7 +266,7 @@ export default function Inicio() {
           <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-end">
             <div>
               <h2 className="max-w-[16ch] text-3xl leading-tight font-semibold sm:text-5xl">
-                Siete frentes, un solo equipo.
+                Muchos frentes, un solo equipo.
               </h2>
               <p className="mt-5 max-w-xl text-lg opacity-85">
                 Sosteniendo todo esto hay muy poca gente. Con tiempo, con un

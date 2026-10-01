@@ -23,22 +23,45 @@ Los cinco trabajos que el sitio tiene que hacer bien:
 4. Recibir **donaciones** con confianza y sin fricción.
 5. Que **Edwin publique y oculte contenido sin nosotros** — porque nos vamos.
 
-## 2. Las siete líneas de acción
+## 2. El catálogo: ocho proyectos y dos campañas
 
-Nómbralas siempre así. No inventes nombres ni los traduzcas.
+> **Esto cambió en octubre de 2026.** El material oficial de la fundación desmintió las «siete
+> líneas de acción» que habíamos inferido de la reunión. La fuente de verdad del catálogo es
+> `src/lib/catalogo.ts`; la tabla de migración está en `docs/10-migracion-catalogo-2026-10.md`.
 
-| Código | Proyecto | Nota |
-|---|---|---|
-| `psicoeducativo` | **Proyecto Psicoeducativo REFUVA** | El fundacional. +30 escuelas en lista; el grueso en la Escuela Jerónimo de la Osa. |
-| `navidad` | **Fiesta navideña** para niños que nunca han vivido la Navidad | 3.er año. Dos convocatorias: comunidades y padrinos/madrinas. El monto del regalo **no lo fija REFUVA**. |
-| `alimentacion` | **Alimentación a personas en situación de calle** | Empezó con 50 raciones, hoy +100. «El hambre no es un solo día». |
-| `animales` | **Alimentación a animales callejeros** | Va junto con `alimentacion`. Meta: refugio con adopción. |
-| `prevencion-suicidio` | **Campaña del Día Mundial para la Prevención del Suicidio** | Del 10 de agosto al **10 de septiembre**. Terapia gratuita en la calle y abrazos. |
-| `rompiendo-el-circulo` | **Rompiendo el Círculo** | Barrios y escuelas de área roja. Abrió las cárceles: capacitación a privados de libertad. |
-| `historias-que-sanan` | **Historias que Sanan** | Escritura terapéutica, liderada por escritores publicados. |
+**Nómbralos siempre así.** No inventes nombres, no los traduzcas, no los acortes.
 
-Cada proyecto **tiene logo propio** y **nació de una historia, en honor a alguien**. Eso es material
-narrativo del sitio, no adorno: es lo que distingue a REFUVA de una ONG genérica.
+### Proyectos — `/proyectos/{codigo}`
+
+| Código | Proyecto |
+|---|---|
+| `psicoeducativo` | **Proyecto Psicoeducativo REFUVA** — toda la comunidad educativa, no solo estudiantes |
+| `psicoempresarial` | **Proyecto Psicoempresarial REFUVA** — emprendimiento y liderazgo |
+| `rompiendo-el-circulo` | **Rompiendo el Círculo** — personas en riesgo social |
+| `historias-que-sanan` | **Historias que Sanan** — escritura terapéutica |
+| `grupo-un-solo-corazon` | **Grupo Un Solo Corazón** — nació en la pandemia, bolsas de comida a familias |
+| `una-estrella-otiliana` | **Una Estrella Otiliana** — el proyecto navideño, en honor a la abuela Otilia |
+| `comida-en-la-calle` | **Comida en la Calle, Esperanza en el Corazón** — personas en situación de calle |
+| `angelitos-de-la-calle` | **Angelitos de la Calle** — perros y gatos sin hogar |
+
+### Campañas — `/campanas/{codigo}`
+
+| Código | Campaña |
+|---|---|
+| `hablame-panama` | **Háblame Panamá** — prevención del suicidio, en honor a **Jessica** |
+| `escuchame-panama` | **#EscúchamePanamá** — sensibilización en salud mental |
+
+Las campañas van en **colección aparte** porque la fundación las separa en su propio material, y
+porque juntas serían media lista de salud mental — justo la percepción que el sitio existe para
+desmentir (§1). Viene una tercera campaña en cuanto esté su logo.
+
+**El conteo nunca se escribe a mano.** Ni «ocho», ni «diez». Se deriva de `catalogo.ts` con
+`PROYECTOS.length` y `enPalabras()`. Que el número estuviera quemado en 27 archivos es exactamente
+lo que hizo caro este cambio, y Edwin puede abrir el noveno proyecto desde el panel.
+
+Cada entrada **nació de una historia, en honor a alguien** — solo tres están confirmadas (Otilia,
+Jessica, la pandemia). Eso es material narrativo del sitio, no adorno: es lo que distingue a REFUVA
+de una ONG genérica.
 
 ## 3. El stack, y por qué
 

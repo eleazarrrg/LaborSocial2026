@@ -36,7 +36,7 @@ const FORMAS = [
     titulo: "Proponer una alianza",
     tiempo: "Para instituciones",
     texto:
-      "Escuelas, empresas y organizaciones que quieran trabajar con alguna de las siete líneas de acción.",
+      "Escuelas, empresas y organizaciones que quieran trabajar con alguno de nuestros proyectos.",
   },
 ];
 
@@ -46,7 +46,7 @@ export default function Participar() {
       <TituloPagina
         sobretitulo="Participar"
         titulo="Cuatro formas de sostener esto."
-        entrada="Sosteniendo siete proyectos hay muy poca gente. Cualquiera de estas cuatro cosas suma, y ninguna exige más de lo que puedas dar."
+        entrada="Sosteniendo todo esto hay muy poca gente. Cualquiera de estas cuatro cosas suma, y ninguna exige más de lo que puedas dar."
       />
 
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
@@ -94,10 +94,10 @@ export default function Participar() {
             Los requisitos están en la página del proyecto.
           </p>
           <Link
-            href="/proyectos/navidad"
+            href="/proyectos/una-estrella-otiliana"
             className="mt-5 inline-block font-semibold text-fuerte decoration-2 underline-offset-4 hover:underline"
           >
-            Ver los requisitos de la convocatoria →
+            Ver los requisitos de Una Estrella Otiliana →
           </Link>
         </section>
       </div>

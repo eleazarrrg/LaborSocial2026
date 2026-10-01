@@ -4,7 +4,7 @@ import { Boton, Marco, Nota, TituloPagina } from "@/components/ui";
 export const metadata: Metadata = {
   title: "Nosotros",
   description:
-    "Quién es la Fundación REFUVA, cómo empezó y por qué sostiene siete líneas de acción en Panamá.",
+    "Quién es la Fundación REFUVA, cómo empezó y por qué sostiene tantos proyectos a la vez en Panamá.",
 };
 
 export default function Nosotros() {
@@ -13,7 +13,7 @@ export default function Nosotros() {
       <TituloPagina
         sobretitulo="La fundación"
         titulo="Empezó atendiendo gratis."
-        entrada="REFUVA nació del trabajo de un psicólogo que salía a atender sin cobrar. Hoy son siete líneas de acción y cada una nació de una historia."
+        entrada="REFUVA nació del trabajo de un psicólogo que salía a atender sin cobrar. Hoy son varios proyectos y dos campañas, y cada uno nació de una historia."
       />
 
       <div className="mx-auto grid max-w-6xl gap-14 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16">
@@ -34,7 +34,7 @@ export default function Nosotros() {
             </p>
             <p>
               De ahí fueron saliendo los demás proyectos. Cada uno nació de una
-              historia y va en honor a alguien. Son siete y se sostienen a la
+              historia y va en honor a alguien. Se sostienen todos a la
               vez: escuelas, calle, animales, prevención del suicidio,
               comunidades de alto riesgo, escritura terapéutica y Navidad.
             </p>
@@ -83,7 +83,7 @@ export default function Nosotros() {
             <div className="mt-7 flex flex-wrap gap-2.5">
               <Boton href="/alianzas">Solicitar una alianza</Boton>
               <Boton href="/proyectos" variante="secundario">
-                Ver los siete proyectos
+                Ver todos los proyectos
               </Boton>
             </div>
             <div className="mt-7 max-w-[62ch]">

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PROYECTOS } from "@/lib/proyectos";
+import { CAMPANAS, PROYECTOS, rutaDe } from "@/lib/catalogo";
 import { VERIFICADO_EL } from "@/lib/crisis";
 
 const PARTICIPAR = [
@@ -21,12 +21,12 @@ export function Pie() {
               Fundación REFUVA
             </p>
             <p className="mt-3 max-w-xs leading-relaxed text-tinta-suave">
-              Siete líneas de acción en Panamá. Salud mental es una de ellas, no
-              la única.
+              Resiliente, Fuerte, Valiente. Varios proyectos y dos campañas en
+              Panamá — la salud mental es una parte, no el todo.
             </p>
           </div>
 
-          <nav aria-label="Proyectos">
+          <nav aria-label="Proyectos y campañas">
             <p className="text-sm font-semibold tracking-wide uppercase">
               Proyectos
             </p>
@@ -34,10 +34,28 @@ export function Pie() {
               {PROYECTOS.map((p) => (
                 <li key={p.codigo}>
                   <Link
-                    href={`/proyectos/${p.codigo}`}
+                    href={rutaDe(p)}
                     className="text-tinta-suave transition-colors hover:text-tinta"
                   >
-                    {p.nombre}
+                    {p.nombreCorto}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            {/* Las campañas repiten aquí el argumento de O-04, y con mejor
+                proporción: ocho proyectos arriba, dos campañas debajo. */}
+            <p className="mt-7 text-sm font-semibold tracking-wide uppercase">
+              Campañas
+            </p>
+            <ul className="mt-4 space-y-2.5">
+              {CAMPANAS.map((c) => (
+                <li key={c.codigo}>
+                  <Link
+                    href={rutaDe(c)}
+                    className="text-tinta-suave transition-colors hover:text-tinta"
+                  >
+                    {c.nombreCorto}
                   </Link>
                 </li>
               ))}

@@ -101,10 +101,10 @@ export default function AyudaEnCrisis() {
             Solicitar una cita
           </Link>
           <Link
-            href="/proyectos/prevencion-suicidio"
+            href="/campanas/hablame-panama"
             className="rounded-xl bg-superficie px-6 py-3.5 font-semibold text-tinta ring-1 ring-inset ring-borde transition-colors hover:bg-superficie-alta"
           >
-            Ver la campaña
+            Ver Háblame Panamá
           </Link>
         </div>
         <p className="mt-6 text-sm text-tinta-suave">

@@ -30,11 +30,11 @@ const sans = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Fundación REFUVA — Siete formas de ayudar en Panamá",
+    default: "Fundación REFUVA — Resiliente, Fuerte, Valiente",
     template: "%s · Fundación REFUVA",
   },
   description:
-    "Fundación panameña con siete líneas de acción: salud mental en escuelas, alimentación en la calle, prevención del suicidio, Navidad para niños que nunca la han vivido y más.",
+    "Fundación panameña: salud mental en escuelas, alimentación en la calle y a animales, Navidad para niños que nunca la han vivido, escritura terapéutica, emprendimiento y campañas de prevención del suicidio.",
   // Prototipo en revisión: no se indexa hasta que Edwin apruebe el contenido.
   robots: { index: false, follow: false },
 };

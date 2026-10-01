@@ -64,6 +64,13 @@ const PAREJAS = [
   ["Borde de control sobre el papel", "borde-control", "papel", 3],
   ["Borde de control sobre superficie", "borde-control", "superficie", 3],
   ["Anillo de foco sobre el papel", "valiente", "papel", 3],
+  // Parejas que la marca real obligó a añadir.
+  ["Acento vivo sobre el papel", "vivo", "papel", 3],
+  ["Acento vivo sobre superficie", "vivo", "superficie", 3],
+  ["Error de formulario sobre el papel", "alerta", "papel", 4.5],
+  ["Error de formulario sobre superficie", "alerta", "superficie", 4.5],
+  // La que faltaba, y es la que delató al turquesa crudo.
+  ["Enlaces sobre papel alto", "valiente", "papel-alto", 4.5],
 ];
 
 const TEMAS = [
@@ -94,7 +101,7 @@ for (const [nombre, paleta] of TEMAS) {
 
 console.log(`\n${"═".repeat(78)}`);
 if (fallos === 0) {
-  console.log("  Las 34 comprobaciones pasan en los dos temas.");
+  console.log(`  Las ${TEMAS.length * PAREJAS.length} comprobaciones pasan en los dos temas.`);
 } else {
   console.log(`  ${fallos} comprobaciones POR DEBAJO del umbral.`);
 }

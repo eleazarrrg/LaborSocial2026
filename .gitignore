@@ -62,3 +62,7 @@ docs/00-fuentes/transcripcion-reunion-2026-08-20.md
 Thumbs.db
 *.log
 npm-debug.log*
+
+# El ZIP suelto en la raíz: su contenido ya vive descomprimido en
+# docs/00-fuentes/material-fundacion-2026-10/ y en public/marca/.
+/Refuva.zip

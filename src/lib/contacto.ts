@@ -14,9 +14,13 @@
 export const CONTACTO = {
   /** Pendiente S-07: número de WhatsApp empresarial. */
   whatsapp: null as string | null,
-  /** Pendiente: correo institucional, condicionado al dominio propio (R-07). */
-  correo: null as string | null,
-  instagram: "https://www.instagram.com/",
+  /**
+   * El correo que la fundación usa hoy. Es un Gmail, no el institucional:
+   * sirve de interino hasta que haya dominio propio (R-07, pendiente T-05).
+   */
+  correo: "refuva.panama@gmail.com" as string | null,
+  instagram: "https://www.instagram.com/refuva_pma/",
+  instagramUsuario: "@refuva_pma",
   /** Pendiente S-05: dirección física, si es publicable. */
   direccion: null as string | null,
   /** Pendiente S-05: horarios de atención. */

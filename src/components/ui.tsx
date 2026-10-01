@@ -1,5 +1,58 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+
+/* ----------------------------------------------------------------- Placa
+   El contenedor de un logo, y la pieza que resuelve el problema de marca.
+
+   De los once logos que entregó la fundación, solo el institucional tiene
+   transparencia. Los otros diez son PNG con el fondo horneado dentro —y no el
+   mismo: hay blancos, un gris #cdcdcb, un #f5f5f5—. Puestos sobre una
+   superficie de color aparece un rectángulo; en tema oscuro, un bloque que
+   deslumbra.
+
+   La solución no es recortarlos. Media docena tiene el borde en un solo color y
+   un relleno por inundación los limpiaría, pero `grupo-un-solo-corazon` tiene un
+   degradado de 81 colores en el borde, el antialiasing dejaría orla blanca sobre
+   papel oscuro, y sobre todo: son los activos de marca de un tercero y no nos
+   toca recortarlos por nuestra cuenta.
+
+   Lo que se hace es usar el fondo horneado del archivo COMO color de la placa.
+   El borde del PNG desaparece contra ella porque son el mismo color. El
+   rectángulo deja de ser un accidente y pasa a ser el objeto: un sello, con su
+   radio y su anillo. Y funciona igual el día que lleguen los vectores.
+
+   Tamaños cerrados a propósito. Una placa de 112 px sobre papel oscuro es un
+   cuadrito del tamaño del icono de una app: el patrón que la gente ya reconoce.
+   Una banda de 600 px sería una linterna. */
+
+export function Placa({
+  src,
+  alt,
+  fondo,
+  tamano = "ficha",
+}: {
+  src: string;
+  alt: string;
+  fondo: string;
+  tamano?: "ficha" | "listado";
+}) {
+  const px = tamano === "ficha" ? 112 : 56;
+  return (
+    <div
+      className="grid shrink-0 place-items-center overflow-hidden rounded-2xl ring-1 ring-borde-fuerte"
+      style={{ backgroundColor: fondo, width: px, height: px }}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        width={px}
+        height={px}
+        className="size-full object-contain"
+      />
+    </div>
+  );
+}
 
 /* ---------------------------------------------------------------- Botones */
 

@@ -3,29 +3,38 @@
 /* ===========================================================================
    SISTEMA DE COLOR — Fundación REFUVA
 
-   ORIGEN DE LA PALETA. El nombre de la fundación es su propio brief:
-   REFUVA = REsiliente, FUerte, VAliente. Y a Edwin lo describen como
-   «un referente de fortaleza y vulnerabilidad al mismo tiempo». Un sistema de
-   color que solo transmita fuerza fallaría la mitad del encargo.
+   ORIGEN DE LA PALETA — ahora sí, la marca real.
 
-     RESILIENTE  →  el papel     Lo que sostiene y aguanta. Fondo cálido, con
-                                 grano. Nunca el blanco clínico de un hospital.
-     FUERTE      →  fuerte       Verde profundo. Ancla, calma, cosa que crece.
-                                 Es el color de la confianza: botones, enlaces,
-                                 la banda de crisis.
-     VALIENTE    →  valiente     Terracota cálida. El acto de hablar, de pedir
-                                 ayuda. Se usa poco y por eso se nota: números,
-                                 acentos, el estado de error.
+   Los colores salen del logo institucional: un árbol cuyo tronco es la Ψ de
+   psicología, con un cerebro y un corazón en la base. Se midieron sobre el
+   archivo, no se eligieron a ojo. Y el nombre de la fundación les da su papel:
+   REFUVA = REsiliente, FUerte, VAliente.
 
-   ADVERTENCIA. Esta paleta es PROVISIONAL. El logo y los colores oficiales de
-   REFUVA no están publicados en ninguna parte y siguen pendientes de entrega
-   (O-08 en docs/06-inventario-contenido.md). Cuando lleguen, se cambian los
-   valores de los dos bloques de abajo y NADA MÁS: ningún componente conoce un
-   color literal, todos usan estos nombres.
+     RESILIENTE  →  papel        Lo que sostiene y aguanta. Cálido, con grano.
+                                 Nunca el blanco clínico de un consultorio.
+     FUERTE      →  fuerte       El marrón del tronco, 37 % del logo. Enlaces,
+                                 botones, banda de crisis, cifras.
+     VALIENTE    →  valiente     El turquesa de las hojas, 12 %. El acto de
+                                 hablar: numerales, foco, acentos.
 
-   CONTRASTE. Verificado con el algoritmo de WCAG 2.2 en los dos temas.
-   La tabla completa está en DESIGN.md. Ninguna pareja de texto baja de 4.5:1
-   y ningún borde de control baja de 3:1.
+   Y dos tokens que la marca real obligó a añadir, porque sus colores crudos no
+   pasan contraste y no pueden tocar texto:
+
+     vivo        El naranja de las hojas (15 %), oscurecido. 3,96:1 — nunca
+                 texto. Reglas, subrayados, rellenos.
+     alerta      El rojo del corazón (11 %), oscurecido. Solo error.
+
+   LO QUE NO ENTRA. El naranja crudo #f07800 se queda en 2,59:1 y el turquesa
+   crudo #007878 en 4,32:1 sobre papel-alto: ninguno llega a AA. Se conserva el
+   matiz y se baja la luminancia. Esa es la regla de DESIGN.md §9, aplicada.
+
+   Cada proyecto y cada campaña tiene además su propio color, derivado de su
+   logo y verificado igual. Viven en src/lib/catalogo.ts, no aquí, y la regla
+   anti-collage que los gobierna está en ese archivo.
+
+   CONTRASTE. Verificado con `npm run contraste` en los dos temas. La tabla
+   completa está en DESIGN.md. Ninguna pareja de texto baja de 4,5:1 y ningún
+   borde de control baja de 3:1.
 =========================================================================== */
 
 @theme inline {
@@ -41,6 +50,8 @@
   --color-borde: var(--borde);
   --color-borde-fuerte: var(--borde-fuerte);
   --color-borde-control: var(--borde-control);
+  --color-vivo: var(--vivo);
+  --color-alerta: var(--alerta);
 
   --font-display: var(--fuente-display), Georgia, "Times New Roman", serif;
   --font-sans: var(--fuente-sans), system-ui, sans-serif;
@@ -57,13 +68,21 @@
   --superficie: #fffdf9;
   --tinta: #16140f;
   --tinta-suave: #565049;
-  --fuerte: #0e4a3e;
-  --fuerte-tenue: #e0ebe5;
-  --valiente: #af4e1b;
-  --valiente-tenue: #f8e7db;
+  /* El tronco del árbol: el color que más pesa en el logo (37 %). */
+  --fuerte: #903000;
+  --fuerte-tenue: #f6e3d8;
+  /* Las hojas turquesa (12 %), oscurecidas desde #007878 — el crudo se queda
+     en 4,32:1 sobre papel-alto y no llega a AA. */
+  --valiente: #006b6b;
+  --valiente-tenue: #dceceb;
   --borde: #dfd6c6;
   --borde-fuerte: #c2b7a3;
   --borde-control: #8e8471;
+  /* El naranja de las hojas (15 %), oscurecido. NUNCA texto: 3,96:1.
+     Reglas, subrayados y rellenos decorativos. */
+  --vivo: #c05e00;
+  /* El rojo del corazón (11 %), oscurecido. Solo error de formulario. */
+  --alerta: #b81c00;
 
   --grano: 0.038;
 }
@@ -85,13 +104,15 @@
     --superficie: #1a1713;
     --tinta: #f3eee4;
     --tinta-suave: #aba396;
-    --fuerte: #78c9ac;
-    --fuerte-tenue: #16302a;
-    --valiente: #ee9256;
-    --valiente-tenue: #2f1e11;
+    --fuerte: #ec9a6e;
+    --fuerte-tenue: #33190c;
+    --valiente: #5fc4c4;
+    --valiente-tenue: #0e2a2a;
     --borde: #2d2822;
     --borde-fuerte: #4a4238;
     --borde-control: #6e6558;
+    --vivo: #f0a060;
+    --alerta: #ff9e8a;
 
     --grano: 0.055;
   }
@@ -108,13 +129,15 @@
   --superficie: #1a1713;
   --tinta: #f3eee4;
   --tinta-suave: #aba396;
-  --fuerte: #78c9ac;
-  --fuerte-tenue: #16302a;
-  --valiente: #ee9256;
-  --valiente-tenue: #2f1e11;
+  --fuerte: #ec9a6e;
+  --fuerte-tenue: #33190c;
+  --valiente: #5fc4c4;
+  --valiente-tenue: #0e2a2a;
   --borde: #2d2822;
   --borde-fuerte: #4a4238;
   --borde-control: #6e6558;
+  --vivo: #f0a060;
+  --alerta: #ff9e8a;
 
   --grano: 0.055;
 }

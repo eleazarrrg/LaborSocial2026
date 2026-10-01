@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { FormularioContacto } from "@/components/formularios/form-contacto";
 import { Nota, TituloPagina } from "@/components/ui";
-import { PROYECTOS } from "@/lib/proyectos";
+import { PROYECTOS } from "@/lib/catalogo";
 
 export const metadata: Metadata = {
   title: "Solicitar una alianza",
   description:
-    "Escuelas, empresas y organizaciones que quieran trabajar con alguna de las siete líneas de acción de la Fundación REFUVA.",
+    "Escuelas, empresas y organizaciones que quieran trabajar con alguno de los proyectos de la Fundación REFUVA.",
 };
 
 /**
@@ -25,7 +25,7 @@ export default function Alianzas() {
       <TituloPagina
         sobretitulo="Para instituciones"
         titulo="Abrir una puerta también es ayudar."
-        entrada="Hay más de treinta escuelas esperando el programa psicoeducativo. Si tu institución quiere trabajar con alguna de las siete líneas, escríbenos."
+        entrada="Hay más de treinta escuelas esperando el programa psicoeducativo. Si tu institución quiere trabajar con alguno de nuestros proyectos, escríbenos."
       />
 
       <div className="mx-auto grid max-w-6xl gap-14 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
@@ -40,7 +40,7 @@ export default function Alianzas() {
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm text-tinta-suave">
               {PROYECTOS.map((p) => (
-                <li key={p.codigo}>{p.nombre}</li>
+                <li key={p.codigo}>{p.nombreCorto}</li>
               ))}
             </ul>
           </section>

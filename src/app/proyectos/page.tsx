@@ -1,24 +1,25 @@
 import type { Metadata } from "next";
-import { IndiceProyectos } from "@/components/indice-proyectos";
+import { IndiceCatalogo } from "@/components/indice-catalogo";
+import { PROYECTOS } from "@/lib/catalogo";
 import { TituloPagina, Boton } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Proyectos",
   description:
-    "Las siete líneas de acción de la Fundación REFUVA: escuelas, calle, animales, prevención del suicidio, comunidades de alto riesgo, escritura terapéutica y Navidad.",
+    "Los proyectos de la Fundación REFUVA: escuelas, emprendimiento, riesgo social, escritura terapéutica, familias, Navidad, personas en situación de calle y animales.",
 };
 
 export default function Proyectos() {
   return (
     <>
       <TituloPagina
-        sobretitulo="Siete líneas de acción"
+        sobretitulo="Proyectos"
         titulo="Todo lo que hace REFUVA, en un solo lugar."
-        entrada="No es una fundación de salud mental que además hace otras cosas. Son siete frentes que se sostienen a la vez, con el mismo equipo y la misma gente."
+        entrada="No es una fundación de salud mental que además hace otras cosas. Son varios frentes que se sostienen a la vez, con el mismo equipo y la misma gente."
       />
 
       <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <IndiceProyectos />
+        <IndiceCatalogo entradas={PROYECTOS} />
       </section>
 
       <section className="border-t border-borde bg-papel-alto">
@@ -29,7 +30,7 @@ export default function Proyectos() {
             </h2>
             <p className="mt-3 text-tinta-suave">
               Escuelas, empresas y organizaciones pueden solicitar una alianza
-              para cualquiera de las siete líneas.
+              para cualquiera de ellos.
             </p>
           </div>
           <Boton href="/alianzas">Solicitar una alianza</Boton>
