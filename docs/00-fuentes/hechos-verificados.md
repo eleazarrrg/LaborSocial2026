@@ -9,6 +9,15 @@
 > - ✅ **Confirmado** — Edwin lo dijo explícitamente en la reunión.
 > - 🟡 **Inferido** — se desprende de lo dicho, pero no se enunció así; hay que confirmarlo.
 > - 🔴 **Pendiente** — nos falta el dato; está pedido en el inventario de contenido.
+>
+> **Dos procedencias, y conviene no mezclarlas.** Las secciones 1 a 7 son lo que Edwin dijo
+> **hablando**, el 20 de agosto. La sección 8 es lo que la fundación entregó **por escrito**, el
+> 1 de octubre. Lo escrito manda para el texto público; lo hablado conserva detalles que lo escrito
+> omitió, y por eso no se borra. Donde los dos discrepan hay un conflicto abierto, y los tres que hay
+> están en [`../10-migracion-catalogo-2026-10.md`](../10-migracion-catalogo-2026-10.md).
+>
+> **El catálogo ya no se lee aquí.** Su fuente de verdad es
+> [`../../src/lib/catalogo.ts`](../../src/lib/catalogo.ts).
 
 ---
 
@@ -40,7 +49,7 @@ hechos **no salieron en la reunión** y son material de primera para el sitio.
 | O-14 | Edwin fue **uno de los siete líderes sociales reconocidos en Héroes por Panamá 2025**. Es un aval de credibilidad de primer orden para la página «Nosotros» y para buscar patrocinio (O-07). | TVN | ✅ |
 | O-15 | REFUVA impulsa la campaña **«500 Voces por la Salud Emocional de los Niños y Jóvenes en Panamá»** junto a **Plan4Kids** y **Fundación Serenamente**, contra el bullying, el ciberacoso, la ansiedad, la depresión y el aislamiento social. Instagram de la campaña: **@500vocespa**. | Decisiones Panamá | ✅ |
 | O-16 | La fundación busca crear **«espacios seguros donde las personas puedan hablar de lo que duele y pedir ayuda»**. | TVN | ✅ |
-| O-17 | **No existe identidad visual publicada.** Logo, colores de marca y cuenta de Instagram de la fundación no aparecen en ninguna fuente accesible; Instagram devuelve un muro de sesión. La paleta actual del sitio es **provisional** y está justificada en [`../../DESIGN.md`](../../DESIGN.md). | — | 🔴 |
+| O-17 | ~~**No existe identidad visual publicada.**~~ Era cierto en agosto: ni logo, ni colores, ni cuenta localizable. **Cerrado por el material de octubre** — ver M-01, M-06 y M-14. La paleta del sitio ya no es provisional: sale de la marca medida, y está en [`../../DESIGN.md`](../../DESIGN.md). | — | ✅ |
 | O-18 | **Falta el usuario exacto del Instagram de la fundación.** Octavio se lo compartió al equipo en la reunión (S-08) pero no está en la transcripción. Hay que pedírselo: bloquea el feed del Inicio (RF-05). | — | 🔴 |
 
 > **Alianzas que valen la pena mencionar.** O-15 revela que REFUVA ya trabaja con otras dos
@@ -48,9 +57,16 @@ hechos **no salieron en la reunión** y son material de primera para el sitio.
 > «Nosotros», pero **hay que confirmarlo con Edwin antes de publicarlo**: una alianza mal declarada
 > compromete a terceros.
 
-## 2. Las siete líneas de acción
+## 2. Las siete líneas de acción, tal como Edwin las describió
 
-Edwin describió siete. Están ordenadas por el peso que les dio en la reunión, no por antigüedad.
+> ⚠️ **Esta sección es registro histórico, no el catálogo vigente.** Edwin describió siete líneas
+> hablando; el material oficial de octubre dice que son **ocho proyectos y dos campañas**, y que
+> cinco se llaman distinto. Los códigos `P-01`…`P-07` siguen significando exactamente lo que dijo el
+> 20 de agosto —eso no cambia porque llegara material nuevo—, pero la lista que se publica sale de la
+> sección 8 y de `catalogo.ts`. La correspondencia completa, código por código, está en
+> [`../10-migracion-catalogo-2026-10.md`](../10-migracion-catalogo-2026-10.md).
+
+Están ordenadas por el peso que les dio en la reunión, no por antigüedad.
 
 | # | Proyecto | Lo que se sabe | Estado |
 |---|---|---|---|
@@ -61,7 +77,7 @@ Edwin describió siete. Están ordenadas por el peso que les dio en la reunión,
 | P-05 | **Campaña del Día Mundial para la Prevención del Suicidio** | Tercer año consecutivo. **Arrancó el 10 de agosto** y culmina el **10 de septiembre**. El equipo sale a la calle a dar **terapia psicológica gratuita** y **abrazos**. Temían que nadie se acercara; pasó lo contrario — se formaron filas para hablar con los psicólogos y hubo gente que corrió desde lejos por un abrazo. Edwin la llama la campaña «más loable e imprescindible». Nació por los altos índices de suicidio y porque «es un tema del cual nadie habla». | ✅ |
 | P-06 | **Rompiendo el Círculo** | Trabaja con personas en riesgo social: barrios y escuelas de **área roja**. Este proyecto es el que les abrió las **cárceles**: capacitación a privados de libertad. | ✅ |
 | P-07 | **Historias que Sanan** | **Escritura terapéutica**. Lo lideran escritores que ya han publicado libros. La idea: combinar salud mental y escritura para que la persona sane y su historia ayude a otros. | ✅ |
-| P-08 | Descripción final por escrito, población objetivo, requisitos de participación, fotos de evidencia, logo y calendario de **cada uno de los siete**. | 🔴 |
+| P-08 | Descripción final por escrito, población objetivo, requisitos de participación, fotos de evidencia, logo y calendario de **cada entrada del catálogo**. Octubre entregó las descripciones y nueve de los once logos; **sigue sin llegar ni una fotografía de actividad**. | 🔴 |
 
 ## 3. Servicios y datos operativos
 
@@ -138,6 +154,35 @@ en la reunión y no lo son. El detalle con precios y fuentes está en
 
 ---
 
+## 8. Material oficial de la fundación — octubre de 2026
+
+Entregado el **1 de octubre de 2026** y archivado íntegro en
+[`material-fundacion-2026-10/`](./material-fundacion-2026-10/). Es la primera vez que la fundación
+pone su propio texto por escrito, y corrige cosas que llevábamos seis semanas infiriendo.
+
+| # | Hecho | Estado |
+|---|---|---|
+| M-01 | El nombre se despliega como **REFUVA — Resiliente · Fuerte · Valiente**. Es el origen del acrónimo, que la reunión nunca explicó. | ✅ |
+| M-02 | **Misión**, texto literal: «Brindar acompañamiento humano, psicológico y social a personas en situación de vulnerabilidad, promoviendo la resiliencia, la fortaleza emocional y el desarrollo integral mediante programas de orientación, apoyo comunitario y atención profesional.» Cierra **O-08**. | ✅ |
+| M-03 | **Visión**, texto literal: «Ser una fundación reconocida por su compromiso social, impacto humano y fortalecimiento comunitario, generando espacios seguros, inclusivos y transformadores para las personas y familias que requieren apoyo integral.» Cierra **O-08**. | ✅ |
+| M-04 | **Ocho valores**: Respeto · Empatía · Solidaridad · Compromiso social · Confidencialidad · Inclusión · Responsabilidad · Humanidad. | ✅ |
+| M-05 | **Tres principios fundamentales**, cada uno con su definición propia: **Resiliencia**, **Fuerza**, **Valentía**. No son los valores de M-04: son otra lista, y son las tres sílabas del nombre. | ✅ |
+| M-06 | Instagram oficial: **@refuva_pma**. Cierra **O-18**. | ✅ |
+| M-07 | Correo oficial: **refuva.panama@gmail.com**. Confirma que el buzón sigue siendo Gmail personal — ver la corrección de §6 sobre Google Workspace for Nonprofits. | ✅ |
+| M-08 | El catálogo real son **ocho proyectos**, y las campañas van en apartado propio, bajo el encabezado literal «Campañas memorables de Refuva». No son siete líneas de acción. | ✅ |
+| M-09 | Aparecen **dos proyectos que nunca se mencionaron en la reunión**: *Proyecto Psicoempresarial REFUVA* y *Grupo Un Solo Corazón*. | ✅ |
+| M-10 | **Cinco proyectos tenían un nombre real distinto** del que habíamos inferido. La correspondencia está en la tabla de migración. | ✅ |
+| M-11 | **Una Estrella Otiliana** nace «en honor a alguien muy especial, mi abuela Otilia» — dicho en primera persona. **Háblame Panamá** va en honor a **Jessica**. **Grupo Un Solo Corazón** nació en la pandemia. Confirma **O-06** para tres de las diez entradas; faltan siete. | ✅ |
+| M-12 | **Viene una tercera campaña de salud mental**, a la espera de su logo, «actualmente en proceso de creación». | ✅ |
+| M-13 | El sitio **debe estar en español y en inglés**, «con la posibilidad de sumar otros idiomas más adelante». Esto **no se dijo en la reunión y cambia el alcance**: i18n sale de «fuera de alcance» en el SRS. | ✅ |
+| M-14 | Llegaron **once logos**. Solo el institucional —un árbol cuyo tronco es la **Ψ**, con cerebro y corazón— tiene transparencia; los otros diez son PNG con el fondo horneado, distinto cada uno. | ✅ |
+| M-15 | **No llegó ni una fotografía de actividad.** Lo del paquete son logos. **P-08 sigue abierto** y las galerías de evidencia siguen vacías. | 🔴 |
+| M-16 | **No llegó logo de Psicoeducativo ni de Psicoempresarial** — los dos únicos sin emblema propio. | 🔴 |
+| M-17 | El texto de **Psicoeducativo** dice «comunidad educativa en general: administrativos, docentes, padres de familia y estudiantes». En la reunión era «estudiantes en riesgo social». **Conflicto C-1.** | 🟡 |
+| M-18 | El texto de **Rompiendo el Círculo** **no menciona cárceles ni área roja**, que en la reunión fue uno de los datos más fuertes de los 37 minutos. **Conflicto C-3**: no se publica hasta aclararlo. | 🔴 |
+
+---
+
 ## Preguntas abiertas para Edwin
 
 Las que la reunión dejó sin responder y bloquean decisiones de diseño. Van consolidadas
@@ -157,3 +202,17 @@ Las que la reunión dejó sin responder y bloquean decisiones de diseño. Van co
 11. ¿Quiere **listar a los padrinos** públicamente o mantenerlos anónimos?
 12. ¿Hay **consentimiento firmado** para publicar fotos de niños beneficiarios y de personas en
     situación de calle? Sin eso no se publican esas fotos.
+
+Las que abrió el material de octubre:
+
+13. **Psicoeducativo (C-1):** ¿el proyecto creció a toda la comunidad educativa, o el texto oficial
+    es el resumen formal de lo mismo que contó en agosto?
+14. **Comida en la Calle contra Grupo Un Solo Corazón (C-2):** son dos proyectos distintos con la
+    misma materia prima. ¿Siguen ambos activos, o Un Solo Corazón es historia de la pandemia?
+15. **Rompiendo el Círculo (C-3):** ¿las cárceles y el área roja se omitieron por acuerdo con la
+    institución penitenciaria, o simplemente no cabían en el párrafo?
+16. ¿La **tercera campaña** se suma a las dos, o sustituye a alguna?
+17. ¿Quién **traduce al inglés**, y para cuándo? Mientras no haya respuesta, v1 se publica solo en
+    español y el inglés queda andamiado y vacío.
+18. ¿Existen los logos de **Psicoeducativo** y **Psicoempresarial**, o hay que diseñarlos?
+19. ¿Hay versiones **con transparencia o vectoriales** de los diez logos restantes?

@@ -21,7 +21,7 @@ gratuito de Supabase se pausa igual a los siete días.
 
 ## Decisión
 
-**El contenido editorial —noticias, eventos y los textos de las siete líneas de acción— vive en
+**El contenido editorial —noticias, eventos y los textos del catálogo— vive en
 PostgreSQL y se consulta en tiempo de ejecución.** Se edita desde el panel administrativo propio
 (módulos 3.2.2 y 3.2.3), en español, contra las mismas tablas y las mismas políticas RLS que el resto
 del sistema.

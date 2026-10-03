@@ -38,13 +38,14 @@ npx supabase db reset
 Sirve para que Edwin vea la dirección y la apruebe (compromiso C-09 de la reunión). No está
 conectado a nada y no se indexa en buscadores.
 
-**20 páginas, todas construidas y verificadas:**
+**25 páginas, todas construidas y verificadas:**
 
 | Ruta | Qué es |
 |---|---|
-| `/` | Inicio. Las siete líneas de acción como índice numerado. |
+| `/` | Inicio. El catálogo entero como índice numerado. |
 | `/ayuda-en-crisis` | Recursos verificados. La página más importante del sitio. |
-| `/proyectos` · `/proyectos/[codigo]` | Índice y las siete páginas de detalle. |
+| `/proyectos` · `/proyectos/[codigo]` | Índice y una página de detalle por proyecto. |
+| `/campanas` · `/campanas/[codigo]` | Las campañas, en colección aparte. |
 | `/agendar-cita` | Solicitud de cita, con el bloque de crisis antes del primer campo. |
 | `/donar` | Yappy y transferencia. Sin formularios y sin registro. |
 | `/participar` · `/participar/apadrinar` · `/participar/voluntariado` | Formas de ayudar. |
@@ -73,14 +74,16 @@ src/
     actions.ts            Server Actions de los formularios (validación con Zod)
     <ruta>/page.tsx       una carpeta por ruta, en español
   components/
-    ui.tsx                Boton, Dato, Marco, Nota, TituloPagina
+    ui.tsx                Boton, Dato, Marco, Nota, Placa, TituloPagina
     banda-crisis.tsx      banda y bloque de crisis
-    indice-proyectos.tsx  el índice numerado — la pieza que define el sitio
+    indice-catalogo.tsx   el índice numerado — la pieza que define el sitio
+    ficha-entrada.tsx     plantilla de detalle, compartida por proyectos y campañas
     formulario.tsx        primitivas de formulario accesibles
     formularios/          un componente por formulario
   lib/
     crisis.ts             SOLO recursos verificados. Ver la advertencia del archivo.
-    proyectos.ts          las siete líneas. Semilla; luego vive en Supabase.
+    catalogo.ts           ocho proyectos y dos campañas. La fuente de verdad
+                          del catálogo. Semilla; luego vive en Supabase.
     esquemas.ts           validación con Zod — SERVIDOR ÚNICAMENTE
     opciones.ts           listas de los formularios, sin dependencias
     contacto.ts           datos de contacto y donación, hoy pendientes

@@ -16,6 +16,7 @@
 import { readFileSync } from "node:fs";
 
 const CSS = readFileSync(new URL("../src/app/globals.css", import.meta.url), "utf8");
+const CATALOGO = readFileSync(new URL("../src/lib/catalogo.ts", import.meta.url), "utf8");
 
 /** Extrae el bloque de tokens de un selector concreto. */
 function tokens(selector) {
@@ -27,6 +28,24 @@ function tokens(selector) {
     mapa[m[1]] = m[2];
   }
   return mapa;
+}
+
+/**
+ * Los colores propios de cada entrada salen de catalogo.ts, no de globals.css:
+ * son dato de la entrada, no del sistema. Se leen igual -- del archivo real,
+ * nunca de una copia para que no puedan divergir de lo que pinta el sitio.
+ */
+function coloresDelCatalogo() {
+  const fuera = [];
+  const re =
+    /codigo: "([a-z0-9-]+)",[\s\S]*?colorAcento: "(#[0-9a-f]{6})",[\s\S]*?colorAcentoOscuro: "(#[0-9a-f]{6})",/g;
+  for (const m of CATALOGO.matchAll(re)) {
+    fuera.push({ codigo: m[1], claro: m[2], oscuro: m[3] });
+  }
+  if (fuera.length === 0) {
+    throw new Error("No encuentro ningun colorAcento en catalogo.ts");
+  }
+  return fuera;
 }
 
 function luminancia(hex) {
@@ -100,8 +119,45 @@ for (const [nombre, paleta] of TEMAS) {
 }
 
 console.log(`\n${"═".repeat(78)}`);
+/**
+ * Cada entrada pinta su color sobre los dos papeles de cada tema. El valor
+ * claro sobre el papel oscuro da 2.36:1 -- por eso existe la variante oscura, y
+ * por eso esto se comprueba: una entrada nueva con un solo color falla aqui, no
+ * en produccion.
+ */
+const CLARO = tokens(":root {");
+const OSCURO = tokens(':root[data-tema="oscuro"] {');
+const RAYA = "═".repeat(78);
+
+console.log(`
+${RAYA}
+  COLORES DEL CATÁLOGO
+${RAYA}`);
+let parejasCatalogo = 0;
+for (const { codigo, claro, oscuro } of coloresDelCatalogo()) {
+  for (const [etiqueta, color, fondo] of [
+    ["claro  sobre papel", claro, CLARO["papel"]],
+    ["claro  sobre papel alto", claro, CLARO["papel-alto"]],
+    ["oscuro sobre papel", oscuro, OSCURO["papel"]],
+    ["oscuro sobre papel alto", oscuro, OSCURO["papel-alto"]],
+  ]) {
+    parejasCatalogo++;
+    const r = razon(color, fondo);
+    const pasa = r >= 4.5;
+    if (!pasa) fallos++;
+    console.log(
+      `  ${pasa ? "ok" : "NO"}  ${r.toFixed(2).padStart(6)}:1  (min 4.5)  ` +
+        `${codigo.padEnd(22)} ${etiqueta}  ${color} sobre ${fondo}`,
+    );
+  }
+}
+
+console.log(`
+${RAYA}`);
 if (fallos === 0) {
-  console.log(`  Las ${TEMAS.length * PAREJAS.length} comprobaciones pasan en los dos temas.`);
+  console.log(
+    `  Las ${TEMAS.length * PAREJAS.length + parejasCatalogo} comprobaciones pasan en los dos temas.`,
+  );
 } else {
   console.log(`  ${fallos} comprobaciones POR DEBAJO del umbral.`);
 }

@@ -35,7 +35,7 @@ Lo que se corrigió:
 | HU-21 | El mapa embebido queda condicionado a que exista dirección publicable, y se carga con clic previo. | S-05 sigue pendiente; RF-10. |
 | Todas | Los criterios que decían «fácil», «claro» o «rápido» se sustituyeron por umbrales medibles. | Un criterio que se discute no es un criterio. |
 
-Lo que se agregó: las siete líneas como iguales y la historia de cada proyecto (HU-22), la
+Lo que se agregó: los proyectos como iguales y la historia de cada uno (HU-22), la
 postulación de comunidad (HU-23), el bloque de crisis (HU-24), la bandeja (HU-25), las convocatorias
 (HU-26), buscadores y compartir por WhatsApp (HU-27), las tareas programadas (HU-28), las historias
 de Edwin como administrador (HU-29, HU-30, HU-32, HU-33, HU-38), los textos legales (HU-31), el
@@ -85,8 +85,8 @@ REFUVA no se limita a salud mental, **para** decidir si exploro más, pido ayuda
 - [ ] El hero muestra un titular y un subtítulo, y el subtítulo nombra **al menos dos frentes de
       acción distintos a salud mental** (por ejemplo alimentación en calle y fiesta navideña).
 - [ ] Con el viewport en **375×667 px**, el titular y el subtítulo se leen completos sin hacer scroll.
-- [ ] Las **siete** líneas de acción están presentes en el Inicio. No seis, no «las principales».
-- [ ] Ninguna de las siete se presenta visualmente como subordinada a otra: mismo tipo de tarjeta,
+- [ ] **Todas** las entradas del catálogo están presentes en el Inicio. No una muestra, no «las principales».
+- [ ] Ninguna se presenta visualmente como subordinada a otra: mismo tipo de tarjeta,
       mismo tamaño, misma jerarquía tipográfica.
 - [ ] El nombre de cada línea es exactamente el de la tabla de [`../CLAUDE.md`](../CLAUDE.md) §2.
 - [ ] El orden de los bloques del Inicio es configurable y lo decide Edwin (C-11), no el equipo.
@@ -228,7 +228,7 @@ de contacto.
 
 # 6. Módulo 3.1.3 — Proyectos
 
-### HU-06 — Recorrer las siete líneas desde un índice
+### HU-06 — Recorrer el catálogo desde un índice
 
 | | |
 |---|---|
@@ -236,20 +236,20 @@ de contacto.
 | Implementa | RF-06 |
 | Origen | **O-04**, O-05 |
 
-**Como** visitante, **quiero** navegar las siete líneas de acción desde una página índice, **para**
-encontrar el proyecto que me interesa apoyar.
+**Como** visitante, **quiero** navegar los proyectos y las campañas desde una página índice,
+**para** encontrar el que me interesa apoyar.
 
 **Criterios de aceptación**
 
-- [ ] El índice muestra **siete** tarjetas, cada una con nombre, logo o imagen propia y una
+- [ ] El índice muestra **una tarjeta por entrada**, cada una con nombre, logo o imagen propia y una
       descripción de una o dos frases.
 - [ ] Cada tarjeta enlaza a su página de detalle con una URL legible en español
       (`/proyectos/historias-que-sanan`), nunca `/p?id=7`.
-- [ ] Las siete tarjetas tienen el mismo peso visual. Ninguna aparece como categoría contenedora de
+- [ ] Todas las tarjetas tienen el mismo peso visual. Ninguna aparece como categoría contenedora de
       las demás.
 - [ ] El índice es navegable por teclado y cada tarjeta es un único destino de foco.
 - [ ] **PENDIENTE (P-08): Edwin** debe entregar descripción, población objetivo, requisitos de
-      participación, fotos y logo de cada uno de los siete.
+      participación, fotos y logo de cada proyecto.
 
 ---
 
@@ -266,14 +266,15 @@ que detrás de REFUVA hay historias reales y no una lista de servicios.
 
 **Criterios de aceptación**
 
-- [ ] Cada una de las siete páginas de proyecto contiene, en este orden: nombre, logo propio, **su
+- [ ] Cada página de proyecto contiene, en este orden: nombre, logo propio, **su
       historia de origen y en honor a quién nació**, qué hace, a quién sirve, requisitos de
       participación, galería de evidencia y su propia acción (donar, postular, ser voluntario o
       solicitar alianza).
 - [ ] La sección de historia de origen **no es opcional en el panel**: una página de proyecto sin ese
       campo no se puede pasar a estado `publicado`.
 - [ ] La historia se cuenta en primera persona de la fundación y sin lenguaje clínico.
-- [ ] En las páginas de `prevencion-suicidio`, `psicoeducativo` e `historias-que-sanan` se aplica la
+- [ ] En las páginas de `campanas/hablame-panama`, `campanas/escuchame-panama`, `psicoeducativo`
+      e `historias-que-sanan` se aplica la
       guía de mensajes seguros de [`../CLAUDE.md`](../CLAUDE.md) §5.1: cero métodos, cero lugares,
       cero cifras sensacionalistas, y las expresiones «cometió suicidio», «suicidio exitoso» y
       «suicidio fallido» no aparecen en ninguna página del sitio.
@@ -281,7 +282,8 @@ que detrás de REFUVA hay historias reales y no una lista de servicios.
       mensaje de esperanza.
 - [ ] Cada imagen de la galería tiene texto alternativo. **Sin texto alternativo no se puede
       publicar** (RF-01).
-- [ ] **PENDIENTE (O-06, P-08): Edwin** debe entregar la historia de origen de cada uno de los siete.
+- [ ] **PENDIENTE (O-06, P-08): Edwin** debe entregar la historia de origen de cada entrada.
+      Tres están confirmadas: Otilia, Jessica y la pandemia.
       Es el material que más diferencia al sitio y es el que no podemos escribir por él.
 
 ---
@@ -380,7 +382,7 @@ Es la historia más importante de este documento. Todas las demás se pueden apl
 - [ ] **Banda de una línea** —911, 147 y enlace al bloque completo— en el armazón de **todas** las
       páginas del sitio. El Inicio lleva la banda, **no** el bloque completo.
 - [ ] **Bloque completo** en: `/agendar-cita`, `/ayuda-en-crisis`, y las páginas de proyecto y las
-      entradas de noticias **etiquetadas como salud mental** (`prevencion-suicidio`, `psicoeducativo`,
+      entradas de noticias **etiquetadas como salud mental** (`hablame-panama`, `escuchame-panama`, `psicoeducativo`,
       `rompiendo-el-circulo`, `historias-que-sanan`). El sistema lo inserta por etiqueta, de modo que
       Edwin no pueda olvidarlo al publicar. Esta lista es la única: no se agregan ubicaciones sueltas
       ni se quita ninguna sin cambiar esta historia.
@@ -415,7 +417,7 @@ es lo único que está abierto, **quiero** encontrar en la primera pantalla algo
       de crisis declara literalmente que el 147 y el 911 atienden **24 horas, todos los días**.
 - [ ] Desde cualquier página del sitio, el bloque de crisis se alcanza **con un solo toque** desde la
       banda persistente del armazón (HU-24). En el Inicio la banda está por encima del pliegue; en el
-      formulario de cita y en la página de `prevencion-suicidio` lo está el bloque completo, en
+      formulario de cita y en la página de `campanas/hablame-panama` lo está el bloque completo, en
       375×667 px.
 - [ ] La página de crisis carga y es usable **con JavaScript desactivado**. Se verifica desactivando
       JS en el navegador y comprobando que los enlaces `tel:` y `wa.me` funcionan.
@@ -628,8 +630,8 @@ postular a mi comunidad, **para** que REFUVA la considere para la fiesta de este
 
 **Criterios de aceptación**
 
-- [ ] Se puede exportar filtrando por programa (`navidad`, `alimentacion`, `psicoeducativo`, y el
-      resto de las siete líneas) y por rango de fechas.
+- [ ] Se puede exportar filtrando por programa (`una-estrella-otiliana`, `comida-en-la-calle`,
+      `psicoeducativo`, y el resto del catálogo) y por rango de fechas.
 - [ ] El archivo sale en **CSV con codificación UTF-8 y BOM**, de modo que Excel en español abra las
       tildes y la ñ correctamente sin configurar nada.
 - [ ] La descarga exige sesión iniciada. Un enlace de exportación abierto en una ventana sin sesión
@@ -691,7 +693,7 @@ y qué logra cada aporte, **para** donar con confianza en vez de con duda.
       por un dato que Edwin confirme. **Si no hay dato confirmado, no se muestra la equivalencia.**
 - [ ] Hay al menos un enlace desde donaciones a la evidencia fotográfica de actividades ya
       realizadas.
-- [ ] La página nombra las siete líneas y permite dirigir la donación mencionando el proyecto en el
+- [ ] La página nombra todos los proyectos y permite dirigir la donación mencionando el proyecto en el
       mensaje de la transferencia.
 - [ ] No se usa lenguaje de culpa ni imágenes de sufrimiento explícito para presionar. La invitación
       se hace desde lo que la fundación logra, no desde el dolor de un beneficiario.
@@ -715,7 +717,7 @@ mantenerme informado sin depender solo de Instagram.
 **Criterios de aceptación**
 
 - [ ] El listado muestra fecha, imagen y resumen de cada publicación.
-- [ ] Las publicaciones se pueden filtrar por proyecto usando los códigos de las siete líneas.
+- [ ] Las publicaciones se pueden filtrar por proyecto usando los códigos del catálogo.
 - [ ] Cada artículo tiene URL propia y legible en español.
 - [ ] Toda imagen lleva `width`, `height` y texto alternativo.
 - [ ] Los eventos vencidos no aparecen entre los próximos, pero **siguen siendo accesibles** por su
@@ -940,8 +942,8 @@ evento, **para** mantener la web actualizada sin depender del equipo de desarrol
 | Implementa | RF-06 |
 | Origen | O-05, O-06, C-07 |
 
-**Como** administrador, **quiero** editar el texto, la galería y la acción de cada una de las siete
-líneas, **para** que un proyecto que cambia no obligue a llamar a un programador.
+**Como** administrador, **quiero** editar el texto, la galería y la acción de cada entrada del
+catálogo, **para** que un proyecto que cambia no obligue a llamar a un programador.
 
 **Criterios de aceptación**
 
@@ -950,10 +952,10 @@ líneas, **para** que un proyecto que cambia no obligue a llamar a un programado
 - [ ] Se puede reordenar la galería y quitar una foto sin borrarla del almacenamiento.
 - [ ] La acción principal se elige de una lista (donar, ser voluntario, apadrinar, postular
       comunidad, solicitar alianza), no se escribe una URL a mano.
-- [ ] **No se puede eliminar una de las siete líneas desde el panel.** Se puede dejar de mostrar.
+- [ ] **No se puede eliminar una entrada del catálogo desde el panel.** Se puede dejar de mostrar.
       Borrarla por accidente rompería el requisito raíz (O-04).
 - [ ] Al dejar de mostrar un proyecto, el Inicio deja de enlazarlo pero el sitio **avisa en el panel**
-      de que ya no se muestran las siete.
+      de que ya no se muestra el catálogo completo.
 - [ ] Los cambios se ven en el sitio público sin necesidad de un despliegue.
 - [ ] Cada cambio queda en la bitácora con autor y fecha.
 
@@ -1242,7 +1244,7 @@ Ninguna de estas condiciones se resuelve inventando el dato. Si no llega, la sec
 | HU-03 | Feed de Instagram | RF-05 | 3.1.1 | Media |
 | HU-04 | Misión, visión y valores | RF-06 | 3.1.2 | Media |
 | HU-05 | Trayectoria y transparencia | RF-06 | 3.1.2 | Media |
-| HU-06 | Índice de las siete líneas | RF-06 | 3.1.3 | Alta |
+| HU-06 | Índice del catálogo | RF-06 | 3.1.3 | Alta |
 | HU-07 | Requisitos de la convocatoria navideña | RF-07, RF-13 | 3.1.3 | Alta |
 | HU-08 | Alianza desde la página del proyecto | RF-08 | 3.1.3 | Media |
 | HU-09 | Solicitud de cita | RF-02 | 3.1.4 | Alta |

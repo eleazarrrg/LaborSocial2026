@@ -12,12 +12,12 @@ El proyecto lo ejecuta un equipo de **servicio social universitario** (Octavio F
 Martínez, Rafael Gómez, Juan Zhu). Levantamiento hecho el **20 de agosto de 2026**.
 
 **El requisito raíz, con las palabras de Edwin:** la gente cree que REFUVA «solo ve el tema de
-salud mental». No es cierto — son **siete líneas de acción**. El portal existe para desmentir eso.
+salud mental». No es cierto — son **ocho proyectos y dos campañas**. El portal existe para desmentir eso.
 Toda decisión de diseño se juzga contra ese objetivo.
 
 Los cinco trabajos que el sitio tiene que hacer bien:
 
-1. Que en 10 segundos se entienda que REFUVA es siete proyectos, no uno.
+1. Que en 10 segundos se entienda que REFUVA es un catálogo entero de proyectos, no un solo tema.
 2. Sacar las **solicitudes de cita psicológica** de WhatsApp y meterlas en un flujo con registro y correo.
 3. Captar **padrinos, madrinas y voluntarios** sin que Edwin los atienda uno por uno por chat.
 4. Recibir **donaciones** con confianza y sin fricción.

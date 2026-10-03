@@ -25,7 +25,7 @@ Estados, igual que en [`00-fuentes/hechos-verificados.md`](./00-fuentes/hechos-v
 | Trabajo | Resultado | Estado |
 |---|---|---|
 | Levantamiento de requisitos | Reunión del 20 de agosto de 2026, 37 minutos, con Edwin Quintero. Transcripción normalizada y depurada del ruido del transcriptor (O-01). | ✅ |
-| Destilado de la fuente de verdad | [`00-fuentes/hechos-verificados.md`](./00-fuentes/hechos-verificados.md): 7 líneas de acción, 10 peticiones de Edwin, 12 compromisos del equipo, 7 restricciones. | ✅ |
+| Destilado de la fuente de verdad | [`00-fuentes/hechos-verificados.md`](./00-fuentes/hechos-verificados.md): las líneas de acción tal como Edwin las describió, 10 peticiones suyas, 12 compromisos del equipo, 7 restricciones. El catálogo oficial lo corrige [`10-migracion-catalogo-2026-10.md`](./10-migracion-catalogo-2026-10.md). | ✅ |
 | Investigación técnica | [`anexos/investigacion-tecnica-2026-09-06.md`](./anexos/investigacion-tecnica-2026-09-06.md): ocho frentes con precios verificados y fuente por afirmación. Corrigió seis cosas que se dieron por buenas en la reunión (Resend, GA4, Supabase, SQL Server, Stripe, publicidad multi-red). | ✅ |
 | SRS | [`01-srs.md`](./01-srs.md) v2.0. RF-01 a RF-15, módulos 3.1.x y 3.2.x, alcance explícito de lo que queda fuera. | ✅ Redactado, sin validar |
 | Historias de usuario | [`02-historias-usuario.md`](./02-historias-usuario.md), las 21 originales ampliadas y trazadas a los RF. | ✅ Redactado, sin validar |
@@ -77,7 +77,7 @@ teléfono sin verificar, sería el peor error posible de este proyecto. Ver [`..
 | Qué | Quién | Por qué sirve |
 |---|---|---|
 | Pieza de cierre para Instagram con el balance de la campaña. | Octavio (C-01, R-05) | Es el frente de marketing, no el de software. Sale el 10 sin depender de nada nuestro. |
-| **Recoger y archivar la evidencia de la campaña completa** (10 de agosto a 10 de septiembre): fotos, cuántas personas se atendieron, en qué puntos, qué se repartió. Carpetas por fecha. | Octavio, con Edwin | Es el insumo exacto de la futura página de `prevencion-suicidio` (P-08) y lo que pide un patrocinador (O-07). En seis semanas nadie va a recordar cuánta gente hizo fila. |
+| **Recoger y archivar la evidencia de la campaña completa** (10 de agosto a 10 de septiembre): fotos, cuántas personas se atendieron, en qué puntos, qué se repartió. Carpetas por fecha. | Octavio, con Edwin | Es el insumo exacto de la futura página de `campanas/hablame-panama` (P-08) y lo que pide un patrocinador (O-07). En seis semanas nadie va a recordar cuánta gente hizo fila. |
 | **Verificar por teléfono la 169 del MINSA y los números del INSAM.** Llamar, anotar qué contesta y quién contesta, con fecha. | Juan | Desbloquea RF-11 y no requiere una sola línea de código. Hoy están en conflicto entre fuentes y por eso **no se publican**. Ver [`../CLAUDE.md`](../CLAUDE.md) §5.1. |
 | Confirmar la línea 147 del MIDES y el WhatsApp 6694-2747 de la misma llamada. | Juan | Es lo único verificado que hoy se puede publicar. Conviene revalidarlo antes de ponerlo en producción. |
 
@@ -185,7 +185,7 @@ C-09 lo puso antes del desarrollo y así se queda. Prototipo navegable, no captu
 **Criterio de salida**
 
 - El prototipo es navegable en un teléfono, que es donde va a entrar la mayoría del público.
-- Un tercero que no conoce REFUVA identifica las siete líneas de acción en menos de diez segundos.
+- Un tercero que no conoce REFUVA identifica que son muchos frentes, no uno, en menos de diez segundos.
 
 ---
 
@@ -233,7 +233,7 @@ El alcance exacto está en §4.2. C-05 lo dijo: doble desarrollo, sitio público
 
 **Entregables**
 
-- Sitio público de la ola 1, con las siete líneas de acción y el bloque de crisis.
+- Sitio público de la ola 1, con el catálogo completo y el bloque de crisis.
 - Panel con contenido, bandeja mínima y ajustes.
 - Formularios de padrino, voluntario y postulación de comunidad, escribiendo en Postgres antes de
   disparar cualquier correo ([`../CLAUDE.md`](../CLAUDE.md) §4).
@@ -343,7 +343,7 @@ lanzar cualquier cosa. Nada más.
 
 | RF | Qué | Por qué entra |
 |---|---|---|
-| **RF-06** | Las siete líneas de acción, cada una con página propia. | Es **el requisito raíz** (O-04). Sin esto el sitio no tiene motivo de existir. |
+| **RF-06** | El catálogo entero, cada entrada con página propia. | Es **el requisito raíz** (O-04). Sin esto el sitio no tiene motivo de existir. |
 | **RF-11** | Bloque de recursos de crisis. | **Bloqueante para lanzar.** El sitio habla de suicidio desde la primera página de proyecto. |
 | **RF-04** | Autenticación del panel, con segundo factor y dos administradores. | Prerrequisito de todo lo demás del panel. |
 | **RF-01** | Crear, editar, publicar, ocultar y archivar noticias y eventos. | R-02, C-06 y C-08. Es el cuarto de los cinco trabajos del sitio: que Edwin publique sin nosotros. |
@@ -476,7 +476,7 @@ el supuesto A-04 del SRS y es un riesgo asumido, no un olvido.
 
 | # | Riesgo | Prob. | Impacto | Responsable | Señal de alerta temprana | Mitigación |
 |---|---|---|---|---|---|---|
-| **R-01** | **Edwin no entrega el contenido a tiempo.** Es una sola persona operando toda la fundación (O-02, O-03) y el inventario le pide mucho: textos de los siete proyectos, logos, fotos, misión y visión (P-08, O-08). | **Alta** | **Alto.** El sitio se lanza con vacíos o con relleno — justo lo que el inventario existe para evitar (supuesto A-03). | Octavio Frauca | En la semana 3 no ha llegado ni el primer bloque de material. | El inventario se entrega por bloques pequeños con fecha, no como una lista de veinte cosas. Octavio hace seguimiento semanal en un solo canal (C-12). Cada página lleva un texto mínimo aceptable escrito por nosotros y marcado como provisional, para que la ausencia de material no bloquee el desarrollo. **Ninguna foto de niños ni de personas en situación de calle se publica sin consentimiento firmado**, y eso no se negocia por prisa. |
+| **R-01** | **Edwin no entrega el contenido a tiempo.** Es una sola persona operando toda la fundación (O-02, O-03) y el inventario le pide mucho: textos de todos los proyectos, logos, fotos, misión y visión (P-08, O-08). | **Alta** | **Alto.** El sitio se lanza con vacíos o con relleno — justo lo que el inventario existe para evitar (supuesto A-03). | Octavio Frauca | En la semana 3 no ha llegado ni el primer bloque de material. | El inventario se entrega por bloques pequeños con fecha, no como una lista de veinte cosas. Octavio hace seguimiento semanal en un solo canal (C-12). Cada página lleva un texto mínimo aceptable escrito por nosotros y marcado como provisional, para que la ausencia de material no bloquee el desarrollo. **Ninguna foto de niños ni de personas en situación de calle se publica sin consentimiento firmado**, y eso no se negocia por prisa. |
 | **R-02** | **El trámite bancario se atrasa** o resulta que REFUVA no tiene cuenta comercial en Banco General (T-02, supuesto A-02). | **Alta** | **Medio.** Se cae Yappy Comercial y las donaciones quedan solo en transferencia. | Octavio Frauca, con Edwin Quintero | Semana 3 sin respuesta del banco, o Edwin no sabe si la cuenta está a nombre de la fundación. | RF-09 se diseña desde el inicio para funcionar solo con ACH. Los datos de pago son editables desde el panel (3.2.7), así que agregar Yappy después no requiere despliegue ni al equipo. Preguntarlo en H1, no en octubre. |
 | **R-03** | **El equipo estudiantil tiene parciales y finales.** Son cuatro estudiantes de servicio social, no un equipo a tiempo completo (X-01). | **Alta** | **Alto.** Dos semanas de examen borran el colchón entero del plan. | Jeremy Martínez | PL-03 sigue sin respuesta pasada la semana 1. | Levantar el calendario académico en la semana 1 y colocar H3, H5 y H6 fuera de esas semanas. Ninguna fase depende de una sola persona: el par panel/público (C-05) se cubre entre Rafael y Juan. Si una semana se pierde, se recorta la **ola 2**, nunca la calidad de la ola 1 (§2.3). |
 | **R-04** | **Se descubre que no hay personería jurídica al día** o que la figura legal no es la que se supone (O-09, O-10, T-01). | **Media** | **Alto.** Se caen Google for Nonprofits, Yappy Comercial y cualquier dominio `.pa`. El presupuesto de [`05-stack-y-presupuesto.md`](./05-stack-y-presupuesto.md) se apoya en programas para organizaciones sin fines de lucro. | Octavio Frauca | Edwin no encuentra los documentos, o los tiene pero vencidos o sin inscribir. | Preguntarlo en H1 y pedir copia de los documentos, no una afirmación verbal. Si no están al día: el portal se construye igual, el correo queda en Cloudflare Email Routing sobre el Gmail actual (T-06), las donaciones quedan en transferencia, y se le explica a Edwin qué desbloquea regularizarlo. La regularización es asunto del asesor legal de la fundación, no nuestro. |

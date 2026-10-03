@@ -13,7 +13,7 @@ Nadie pidió un calendario.
 Tres datos delimitan el problema:
 
 1. **Hay un solo profesional atendiendo.** Edwin es la única persona que opera la fundación: los
-   siete proyectos, las redes, las consultas y la administración (O-02). No hay a quién delegar
+   proyectos, las redes, las consultas y la administración (O-02). No hay a quién delegar
    todavía (O-03). Un calendario de disponibilidad con bloqueo de doble reserva resuelve el problema
    de coordinar varias agendas. Aquí no hay varias agendas.
 2. **Las historias de usuario v1.0 hablan de «solicitud», no de «reserva».** HU-09 a HU-11 describen

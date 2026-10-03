@@ -363,7 +363,7 @@ que entra cada dos semanas y no recuerda dónde estaba nada (X-03).
 1. Menú lateral → **Contenido** → **Noticias**.
 2. Botón **Nueva noticia**.
 3. Escribir el **título**. Es lo que va a aparecer en Google y en WhatsApp cuando alguien la comparta.
-4. Elegir el **proyecto** al que pertenece, de los siete. Si es de la fundación en general, dejarlo
+4. Elegir el **proyecto o la campaña** al que pertenece. Si es de la fundación en general, dejarlo
    sin proyecto.
 5. Escribir el texto. La barra de arriba tiene negrita, cursiva, títulos, listas y enlaces.
 6. Subir la **imagen de portada**. El panel la comprime solo; no hace falta prepararla antes.

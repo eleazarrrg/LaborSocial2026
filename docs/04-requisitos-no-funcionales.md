@@ -146,12 +146,12 @@ la reescribe ni la amplía por su cuenta. Las rutas son las de
 | Nivel | Qué es | Dónde aparece |
 |---|---|---|
 | **Banda de una línea** | Una sola línea con el **911** y el **147**, y un enlace a `/ayuda-en-crisis`. Vive en el armazón del sitio, no en cada página. | **Todas las páginas del sitio público, sin excepción.** |
-| **Bloque completo** | El texto de referencia de RNF-04 entero, con los dos recursos, `tel:` y `wa.me`. | `/agendar-cita` · `/ayuda-en-crisis` · las páginas de proyecto etiquetadas como salud mental: `prevencion-suicidio`, `psicoeducativo`, `rompiendo-el-circulo`, `historias-que-sanan` · toda noticia o testimonio etiquetado con el tema. |
+| **Bloque completo** | El texto de referencia de RNF-04 entero, con los dos recursos, `tel:` y `wa.me`. | `/agendar-cita` · `/ayuda-en-crisis` · las entradas marcadas con `bloqueCrisis: true` en `catalogo.ts`: `hablame-panama`, `escuchame-panama`, `psicoeducativo`, `rompiendo-el-circulo`, `historias-que-sanan` · toda noticia o testimonio etiquetado con el tema. |
 
 **El Inicio lleva banda, no bloque completo.** Es deliberado y contradice lo que parece intuitivo:
 el requisito raíz del proyecto es desmentir que REFUVA «solo ve el tema de salud mental»
 ([`../CLAUDE.md`](../CLAUDE.md) §1), y un bloque de crisis a pantalla completa en la portada dice
-exactamente lo contrario de las siete líneas de acción. La banda garantiza que el número esté en
+exactamente lo contrario del catálogo entero. La banda garantiza que el número esté en
 todas partes; el bloque se reserva para donde la persona ya llegó buscando ese tema.
 
 El formulario de cita, además del bloque, declara: **«Este formulario no es un canal de
@@ -199,7 +199,7 @@ alguien lo marca en el peor momento posible.
 ## RNF-07 — Contenido de terceros fuera de las páginas de salud mental
 
 **El feed automático de Instagram no aparece en ninguna página del ámbito de salud mental.**
-Umbral: cero apariciones en la página de `prevencion-suicidio`, en `historias-que-sanan`, en el
+Umbral: cero apariciones en la página de `hablame-panama`, en `historias-que-sanan`, en el
 formulario de cita ni en artículos etiquetados con el tema.
 
 La OMS desaconseja expresamente los enlaces a redes sociales en contenido sobre suicidio, y un
@@ -610,7 +610,7 @@ anuncian.
 enlaces vacíos, cero botones vacíos, `<html lang="es">` presente en toda página.
 
 Un icono solo —el de WhatsApp, el de copiar el número de cuenta, el de cerrar— lleva su texto
-accesible. «Leer más» repetido siete veces no es un nombre útil: se escribe «Leer más sobre
+accesible. «Leer más» repetido en cada tarjeta no es un nombre útil: se escribe «Leer más sobre
 Historias que Sanan».
 
 ## RNF-29 — Objetivo táctil y foco (2.5.8, 2.4.11, foco visible)

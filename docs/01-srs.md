@@ -27,7 +27,7 @@ levantamiento.
 
 **Está dentro:**
 
-- Un **sitio público** que presenta a la fundación y sus siete líneas de acción.
+- Un **sitio público** que presenta a la fundación, sus ocho proyectos y sus dos campañas.
 - Formularios de **solicitud de cita psicológica**, **voluntariado**, **apadrinamiento**,
   **postulación de comunidad** y **contacto general**.
 - Una **página de donaciones** con Yappy Comercial y transferencia bancaria.
@@ -59,7 +59,8 @@ levantamiento.
 | **Postulante de comunidad** | Persona que propone a su comunidad para la convocatoria navideña. |
 | **Administrador** | Edwin o alguien autorizado por él, con sesión iniciada en el panel. |
 | **CMS / panel** | El panel administrativo. Se llama «panel» de cara a Edwin; «CMS» solo entre nosotros. |
-| **Línea de acción / proyecto** | Cada uno de los siete programas de la fundación. |
+| **Proyecto** | Cada uno de los programas permanentes de la fundación. Hoy son ocho; el catálogo vive en `src/lib/catalogo.ts`. |
+| **Campaña** | Iniciativa de sensibilización con ciclo propio, en colección aparte (`/campanas`). Hoy son dos. |
 | **Convocatoria** | Periodo abierto de inscripción de una campaña, con fecha de inicio y de cierre. |
 | **B/.** | Balboa panameño, a la par con el dólar estadounidense. |
 
@@ -80,8 +81,8 @@ levantamiento.
 ## 2.1 El problema que resuelve
 
 Edwin lo dijo en la primera intervención de la reunión: hay «muchas personas que tienen el
-pensamiento que creen que nosotros solamente vemos el tema de salud mental». Es falso — son siete
-líneas de acción — pero la fundación no tiene dónde demostrarlo.
+pensamiento que creen que nosotros solamente vemos el tema de salud mental». Es falso — son ocho
+proyectos y dos campañas — pero la fundación no tiene dónde demostrarlo.
 
 Hoy todo pasa por WhatsApp y por un Instagram. Eso tiene tres consecuencias medibles:
 
@@ -152,9 +153,9 @@ Heredadas de [`00-fuentes/hechos-verificados.md`](./00-fuentes/hechos-verificado
 
 | # | Módulo | Contenido | Historias |
 |---|---|---|---|
-| **3.1.1** | **Inicio** | Hero que nombra al menos dos frentes distintos a salud mental; los cuatro CTA (Donar, Agendar cita, Ser padrino, Ser voluntario); las siete líneas de acción; próximos eventos; feed de Instagram; bloque de crisis. | HU-01 a HU-03 |
+| **3.1.1** | **Inicio** | Hero que nombra al menos dos frentes distintos a salud mental; los cuatro CTA (Donar, Agendar cita, Ser padrino, Ser voluntario); el catálogo completo de proyectos y campañas; próximos eventos; feed de Instagram; bloque de crisis. | HU-01 a HU-03 |
 | **3.1.2** | **Nosotros** | Misión, visión, valores; reseña histórica; trayectoria y evidencia; equipo (si se publica); documentos de transparencia (si se publican). | HU-04, HU-05 |
-| **3.1.3** | **Proyectos** | Índice con las siete tarjetas + una página de detalle por proyecto, cada una con su historia, población objetivo, requisitos de participación, galería de evidencia y su propia acción. Incluye la solicitud de alianza institucional. | HU-06, HU-07, HU-08, HU-22, HU-35 |
+| **3.1.3** | **Proyectos y campañas** | Índice con una tarjeta por entrada + una página de detalle cada una, con su historia, población objetivo, requisitos de participación, galería de evidencia y su propia acción. Las campañas van en colección aparte, `/campanas`. Incluye la solicitud de alianza institucional. | HU-06, HU-07, HU-08, HU-22, HU-35 |
 | **3.1.4** | **Agendamiento de citas** | Bloque de crisis **antes del primer campo**, aviso de que no es canal de emergencia, formulario de solicitud, alternativa por WhatsApp, información de precio y de jornadas gratuitas. | HU-24, HU-37, HU-09, HU-10, HU-11 |
 | **3.1.5** | **Voluntariado y apadrinamiento** | Formulario de voluntariado con áreas de interés; formulario de padrino/madrina; formulario de postulación de comunidad; estado de la convocatoria (abierta/cerrada). | HU-12, HU-13, HU-14, HU-23 |
 | **3.1.6** | **Donaciones** | Alias y QR de Yappy; datos bancarios copiables; qué logra cada monto; transparencia. | HU-15, HU-34 |
@@ -169,7 +170,7 @@ Heredadas de [`00-fuentes/hechos-verificados.md`](./00-fuentes/hechos-verificado
 |---|---|---|---|
 | **3.2.1** | **Acceso** | Iniciar sesión, cerrar sesión, recuperar contraseña, segundo factor. | HU-19, HU-32, HU-33 |
 | **3.2.2** | **Contenido** | Crear, editar, publicar, **dejar de mostrar** y archivar noticias y eventos, con editor de formato enriquecido e imágenes. | HU-18 |
-| **3.2.3** | **Proyectos** | Editar el texto, la galería y la acción de cada una de las siete líneas. | HU-38 |
+| **3.2.3** | **Proyectos y campañas** | Editar el texto, la galería y la acción de cada entrada del catálogo. | HU-38 |
 | **3.2.4** | **Bandeja de solicitudes** | Ver, filtrar y cambiar el estado de solicitudes de cita, voluntarios, padrinos, postulaciones, alianzas y mensajes de contacto. | HU-25 |
 | **3.2.5** | **Convocatorias** | Crear una convocatoria con sus fechas, y cerrarla antes de tiempo. | HU-26 |
 | **3.2.6** | **Exportación** | Descargar en CSV cualquier bandeja, filtrada por programa. | HU-14 |
@@ -319,9 +320,10 @@ depender de credenciales que el equipo tenga que renovar a mano.**
 
 ---
 
-### RF-06 — Presentación de las siete líneas de acción
+### RF-06 — Presentación del catálogo de proyectos y campañas
 
-**El sistema debe presentar las siete líneas de acción como iguales, cada una con página propia.**
+**El sistema debe presentar los proyectos como iguales, cada uno con página propia, y las campañas
+en una colección aparte.**
 
 | | |
 |---|---|
@@ -329,7 +331,8 @@ depender de credenciales que el equipo tenga que renovar a mano.**
 | Prioridad | **Alta** |
 | Historias | HU-06, HU-22 |
 
-- El Inicio muestra las **siete**, no una selección.
+- El Inicio muestra **todas** las entradas, no una selección. El conteo se deriva de
+  `src/lib/catalogo.ts`; nunca se escribe a mano.
 - Ninguna se presenta como subordinada a salud mental.
 - Cada página de proyecto lleva: nombre, logo propio, **su historia y en honor a quién** (O-06),
   qué hace, a quién sirve, requisitos de participación, galería de evidencia y su acción propia.
@@ -687,7 +690,7 @@ No se considera entregable hasta que **todo** esto sea cierto:
 
 | # | Criterio | Verificación |
 |---|---|---|
-| AC-01 | Las siete líneas de acción aparecen en el Inicio, con página propia cada una. | Revisión visual |
+| AC-01 | Todos los proyectos y campañas aparecen en el Inicio, con página propia cada uno. | Revisión visual |
 | AC-02 | Una solicitud de cita se guarda, confirma al solicitante y avisa a la administración en menos de un minuto. | Prueba de extremo a extremo |
 | AC-03 | Cortando la automatización, la solicitud **se guarda igual** y queda marcada como pendiente de notificar. | Prueba de fallo inducido |
 | AC-04 | **Edwin publica y oculta una noticia por su cuenta, sin ayuda del equipo.** | Prueba piloto con Edwin (C-08) |

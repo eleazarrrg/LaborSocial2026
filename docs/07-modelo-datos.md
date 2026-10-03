@@ -333,15 +333,23 @@ create trigger al_crear_usuario_crear_perfil
 
 ## 3.2 `proyectos`
 
-**Para qué existe.** Las siete líneas de acción. Es la tabla que sostiene el requisito raíz (O-04):
-la fundación no es solo salud mental, y el sitio tiene que poder demostrarlo con siete páginas
-iguales en jerarquía.
+**Para qué existe.** El catálogo entero: los proyectos y las campañas. Es la tabla que sostiene el
+requisito raíz (O-04) — la fundación no es solo salud mental, y el sitio tiene que poder demostrarlo
+con páginas iguales en jerarquía.
+
+**Una tabla, dos colecciones.** Las campañas no tienen tabla propia: las distingue la columna `tipo`,
+y de ella salen las dos rutas (`/proyectos/{slug}` y `/campanas/{slug}`). Partirla en dos duplicaría
+las cinco claves foráneas que apuntan a `proyectos.id` y sus políticas RLS, a cambio de nada. El
+porqué de la separación está en
+[`10-migracion-catalogo-2026-10.md`](./10-migracion-catalogo-2026-10.md).
 
 ```sql
 create table public.proyectos (
   id                       uuid        primary key default gen_random_uuid(),
   slug                     text        not null unique
                                        check (slug ~ '^[a-z0-9]+(-[a-z0-9]+)*$'),
+  tipo                     text        not null default 'proyecto'
+                                       check (tipo in ('proyecto', 'campana')),
   nombre                   text        not null check (length(btrim(nombre)) > 2),
   nombre_corto             text        not null check (length(btrim(nombre_corto)) > 2),
   resumen                  text        not null check (length(btrim(resumen)) between 20 and 240),
@@ -351,11 +359,14 @@ create table public.proyectos (
   requisitos_participacion text,
   logo_url                 text,
   logo_alt                 text,
+  logo_fondo               text        check (logo_fondo ~ '^#[0-9a-f]{6}$'),
   imagen_portada_url       text,
   imagen_portada_alt       text,
   color_acento             text        check (color_acento ~ '^#[0-9a-f]{6}$'),
+  color_marca              text        check (color_marca ~ '^#[0-9a-f]{6}$'),
   accion_etiqueta          text,
   accion_url               text,
+  bloque_crisis            boolean     not null default false,
   orden                    smallint    not null default 100,
   activo                   boolean     not null default true,
   creado_en                timestamptz not null default now(),
@@ -366,7 +377,7 @@ create table public.proyectos (
     check (imagen_portada_url is null or imagen_portada_alt is not null)
 );
 
-create index proyectos_publicos_idx on public.proyectos (orden, nombre) where activo;
+create index proyectos_publicos_idx on public.proyectos (tipo, orden, nombre) where activo;
 
 create trigger proyectos_tocar
   before update on public.proyectos
@@ -379,9 +390,25 @@ alter table public.proyectos enable row level security;
 
 - `slug` es la URL en español que exige RF-14 (`/proyectos/historias-que-sanan`). El `CHECK` impide
   mayúsculas, tildes y espacios, que son las tres formas habituales de romper una URL.
-- **No hay `CHECK` que limite `slug` a las siete líneas actuales.** Es deliberado: C-07 pide que el
-  sitio sea extensible y que Edwin pueda abrir una sección nueva. Un octavo proyecto se agrega desde
-  el panel, no con una migración.
+- **No hay `CHECK` que limite `slug` al catálogo actual.** Es deliberado: C-07 pide que el sitio sea
+  extensible y que Edwin pueda abrir una sección nueva. El noveno proyecto se agrega desde el panel,
+  no con una migración — y hay una tercera campaña en camino, esperando su logo.
+- `tipo` decide la colección y, con ella, la URL: `proyecto` sirve en `/proyectos/{slug}` y `campana`
+  en `/campanas/{slug}`. El `slug` es único **en toda la tabla**, no por tipo, así que una entrada no
+  puede cambiar de colección y colisionar con otra.
+- `logo_fondo` es el color de fondo **medido del propio archivo del logo**. De los once logos de la
+  fundación, solo el institucional tiene transparencia; los demás son PNG con el fondo horneado, y
+  distinto cada uno. La placa que los enmarca usa este color, de modo que el borde del PNG desaparece
+  contra ella. Cuando lleguen los logos vectoriales o con alfa (pendiente con Edwin), la columna
+  queda en `null` y la placa cae al color de superficie.
+- `color_marca` es el color **real** del logo, para mostrarlo tal cual. `color_acento` es el mismo
+  matiz ya **oscurecido hasta pasar 4.5:1** sobre los dos papeles, y es el único que se usa para
+  texto o para trazos. Separarlos evita la tentación recurrente de usar el color de marca crudo: el
+  turquesa `#007878` se queda en 4,32:1 y el naranja `#f07800` en 2,59:1. Ninguno llega a AA.
+- `bloque_crisis` en `true` obliga a que la página cierre con el bloque completo de recursos
+  (RF-11, CLAUDE.md §5.1). Hoy lo llevan `psicoeducativo`, `rompiendo-el-circulo`,
+  `historias-que-sanan` y las dos campañas. Es un control de seguridad, no una preferencia: el panel
+  lo deja activar libremente, pero **desactivarlo pide confirmación explícita**.
 - `historia` y `en_honor_a` no son adorno. O-06: cada proyecto nació de una historia y va en honor a
   alguien; es lo que distingue a REFUVA de una ONG genérica. Están separados del `resumen` porque el
   índice de proyectos muestra el resumen y la página de detalle muestra la historia completa.
@@ -391,15 +418,21 @@ alter table public.proyectos enable row level security;
 - `orden` decide la posición en el Inicio. Edwin decide ese orden (C-11: «usted es el dueño de su
   página»), así que es un campo editable y no una constante en el código. Las semillas usan saltos de
   10 para poder meter uno en medio sin renumerar todo.
-- `accion_etiqueta` y `accion_url` son la acción propia de cada proyecto que pide RF-06: en
-  `navidad` apuntan al formulario de padrinos; en `psicoeducativo`, al de alianza institucional.
+- `accion_etiqueta` y `accion_url` son la acción propia de cada entrada que pide RF-06: en
+  `una-estrella-otiliana` apuntan al formulario de padrinos; en `psicoeducativo`, al de alianza
+  institucional.
 - `activo` en `false` **oculta el proyecto del sitio público sin borrarlo** (C-06 aplicado a
   proyectos, no solo a eventos).
 
-🔴 **Pendiente:** el texto de `historia`, `poblacion_objetivo`, `requisitos_participacion`, los logos
-y las fotos de los siete proyectos. Los debe Edwin (P-08). Están pedidos en
-[`06-inventario-contenido.md`](./06-inventario-contenido.md). Las semillas de §7 crean las siete
-filas con el `resumen` derivado de la reunión y el resto en `null`.
+🔴 **Pendiente:** el texto de `historia`, `poblacion_objetivo`, `requisitos_participacion`, las fotos
+de actividad y los logos de `psicoeducativo` y `psicoempresarial` — los dos únicos que no llegaron en
+el material de octubre. Los debe Edwin (P-08), pedidos en
+[`06-inventario-contenido.md`](./06-inventario-contenido.md). Las semillas de §7 crean las diez filas
+con el texto oficial de la fundación y el resto en `null`.
+
+De `en_honor_a` solo hay **tres confirmados**: Otilia (la abuela de Edwin), Jessica y las familias de
+la pandemia. Los otros siete están en blanco a propósito. Inventarlos sería lo peor que se le puede
+hacer a este campo.
 
 ---
 
@@ -2534,7 +2567,7 @@ sitio sigue funcionando perfectamente. Solo lo ve quien lo busca.
 ## 7.1 Dónde van, y por qué no en `seed.sql`
 
 `supabase/seed.sql` solo se ejecuta con `npx supabase db reset` **en local**. Nunca corre en
-producción. Las siete líneas de acción y los ajustes iniciales no son datos de prueba: son el
+producción. El catálogo y los ajustes iniciales no son datos de prueba: son el
 contenido real de la fundación, y tienen que existir en el proyecto remoto desde el primer despliegue.
 
 Por eso van en una **migración numerada**, con `on conflict do nothing` para que sea segura al
@@ -2542,65 +2575,85 @@ reaplicarse. `seed.sql` se reserva para lo que solo tiene sentido en local: dos 
 un evento pasado y otro futuro para probar el filtro de caducidad, y una solicitud de cita de mentira
 para ver la bandeja llena.
 
-## 7.2 Las siete líneas de acción
+## 7.2 El catálogo
 
 Los `slug` son los de [`../CLAUDE.md`](../CLAUDE.md) §2 y **no se cambian**: son las URL públicas
-(RF-14) y cualquier cambio posterior rompe enlaces ya compartidos. El `orden` refleja el peso que les
-dio Edwin en la reunión, con saltos de 10 para poder intercalar sin renumerar; Edwin lo reordena
-desde el panel cuando quiera (C-11).
+(RF-14) y cualquier cambio posterior rompe enlaces ya compartidos. El `orden` lleva saltos de 10 para
+poder intercalar sin renumerar; Edwin lo reordena desde el panel cuando quiera (C-11).
+
+> **La copia canónica es [`src/lib/catalogo.ts`](../src/lib/catalogo.ts).** Mientras no exista la base
+> de datos, el sitio lee de ahí. Cuando se escriba esta migración, se genera desde ese archivo — no se
+> teclea. Dos copias a mano de diez textos en español divergen a la primera corrección de Edwin.
 
 ```sql
-insert into public.proyectos (slug, nombre, nombre_corto, resumen, orden, activo) values
+insert into public.proyectos
+  (slug, tipo, nombre, nombre_corto, resumen, en_honor_a,
+   color_acento, color_marca, logo_fondo, bloque_crisis, orden, activo) values
 
-  ('psicoeducativo',
-   'Proyecto Psicoeducativo REFUVA',
-   'Psicoeducativo',
-   'El proyecto fundacional, con el que inició todo. Trabaja en escuelas con estudiantes en riesgo social. Hay más de 30 escuelas en lista de espera.',
-   10, true),
+  -- ── Proyectos ───────────────────────────────────────────────────────
+  ('psicoeducativo', 'proyecto',
+   'Proyecto Psicoeducativo REFUVA', 'Psicoeducativo',
+   'Orientación y acompañamiento para toda la comunidad educativa, no solo para los estudiantes.',
+   null, '#903000', null, null, true, 10, true),
 
-  ('navidad',
-   'Fiesta navideña para niños que nunca han vivido la Navidad',
-   'Fiesta navideña',
-   'Tercer año llevando la Navidad a comunidades donde los niños nunca la han vivido. Se abre en dos convocatorias: comunidades que postulan y padrinos que apadrinan.',
-   20, true),
+  ('psicoempresarial', 'proyecto',
+   'Proyecto Psicoempresarial REFUVA', 'Psicoempresarial',
+   'Formación y acompañamiento para convertir ideas en oportunidades y sueños en proyectos sostenibles.',
+   null, '#903000', null, null, false, 20, true),
 
-  ('alimentacion',
-   'Alimentación a personas en situación de calle',
-   'Alimentación',
-   'Empezó con 50 raciones y hoy reparte más de 100 por toda la ciudad. Es el primer paso hacia un refugio. El hambre no es un solo día.',
-   30, true),
+  ('rompiendo-el-circulo', 'proyecto',
+   'Rompiendo el Círculo', 'Rompiendo el Círculo',
+   'Acompañamiento a personas en riesgo social. Ninguna persona queda definida por sus circunstancias.',
+   null, '#846000', '#c09000', '#ffffff', true, 30, true),
 
-  ('animales',
-   'Alimentación a animales callejeros',
-   'Animales callejeros',
-   'Perros y gatos de la calle, en la misma salida que la alimentación a personas. La meta a futuro es un refugio con adopción.',
-   40, true),
+  ('historias-que-sanan', 'proyecto',
+   'Historias que Sanan', 'Historias que Sanan',
+   'Escritura terapéutica. Algunas historias necesitan ser contadas para comenzar a sanar.',
+   null, '#9a3246', '#f0d8d8', '#ffffff', true, 40, true),
 
-  ('prevencion-suicidio',
-   'Campaña del Día Mundial para la Prevención del Suicidio',
-   'Prevención del suicidio',
-   'Terapia psicológica gratuita y abrazos en la calle, del 10 de agosto al 10 de septiembre. Nació porque es un tema del cual nadie habla.',
-   50, true),
+  ('grupo-un-solo-corazon', 'proyecto',
+   'Grupo Un Solo Corazón', 'Un Solo Corazón',
+   'Nació en la pandemia llevando bolsas de comida a familias. Sigue hasta hoy.',
+   'Las familias que sostuvieron la pandemia sin soltarse',
+   '#b81c00', '#d80000', '#cdcdcb', false, 50, true),
 
-  ('rompiendo-el-circulo',
-   'Rompiendo el Círculo',
-   'Rompiendo el Círculo',
-   'Trabajo con personas en riesgo social en barrios y escuelas de área roja. Es el proyecto que abrió las cárceles: capacitación a privados de libertad.',
-   60, true),
+  ('una-estrella-otiliana', 'proyecto',
+   'Una Estrella Otiliana', 'Una Estrella Otiliana',
+   'El proyecto navideño. Nace en honor a Otilia, la abuela de Edwin.',
+   'Otilia, la abuela de Edwin',
+   '#806300', '#f0c000', '#ffffff', false, 60, true),
 
-  ('historias-que-sanan',
-   'Historias que Sanan',
-   'Historias que Sanan',
-   'Escritura terapéutica liderada por escritores que ya han publicado libros. La persona sana escribiendo, y su historia ayuda a otros.',
-   70, true)
+  ('comida-en-la-calle', 'proyecto',
+   'Comida en la Calle, Esperanza en el Corazón', 'Comida en la Calle',
+   'Alimento al cuerpo y esperanza al corazón, para personas en situación de calle.',
+   null, '#903000', null, '#f6f6f6', false, 70, true),
+
+  ('angelitos-de-la-calle', 'proyecto',
+   'Angelitos de la Calle', 'Angelitos de la Calle',
+   'Alimento para perritos y gatitos sin hogar. Ayudar a un animalito también transforma una vida.',
+   null, '#006b6b', '#90c0c0', '#f5f5f5', false, 80, true),
+
+  -- ── Campañas ────────────────────────────────────────────────────────
+  -- Los colores de marca NO se tocan: el ámbar es el lazo internacional de
+  -- prevención del suicidio y el verde el de salud mental.
+  ('hablame-panama', 'campana',
+   'Háblame Panamá', 'Háblame Panamá',
+   'Campaña de prevención del suicidio. Nace en honor a Jessica.',
+   'Jessica', '#8a6000', '#f0a800', '#fdfdfd', true, 10, true),
+
+  ('escuchame-panama', 'campana',
+   '#EscúchamePanamá', '#EscúchamePanamá',
+   'Campaña de sensibilización en salud mental. Pedir ayuda es un acto de fortaleza.',
+   null, '#006018', '#006018', '#fefefe', true, 20, true)
 
 on conflict (slug) do nothing;
 ```
 
-🔴 **Lo que estas filas no traen, y hay que pedirle a Edwin (P-08):** `historia`, `en_honor_a`,
-`poblacion_objetivo`, `requisitos_participacion`, `logo_url`, `imagen_portada_url` y `color_acento`
-de los siete. Cada proyecto **nació de una historia y va en honor a alguien** (O-06); ese texto es lo
-que distingue al sitio de un folleto y no lo podemos escribir nosotros. Está pedido en
+🔴 **Lo que estas filas no traen, y hay que pedirle a Edwin (P-08):** `historia`,
+`poblacion_objetivo`, `requisitos_participacion`, `logo_url` e `imagen_portada_url`. Cada entrada
+**nació de una historia y va en honor a alguien** (O-06); ese texto es lo que distingue al sitio de un
+folleto y no lo podemos escribir nosotros. De `en_honor_a` solo hay tres confirmados y los otros
+siete quedan en `null` — inventarlos sería peor que dejarlos vacíos. Está pedido en
 [`06-inventario-contenido.md`](./06-inventario-contenido.md).
 
 ## 7.3 Ajustes iniciales
@@ -2860,7 +2913,7 @@ Cuatro cosas, y las cuatro hacen falta. Con tres de ellas no se reconstruye el s
 El tercero merece una explicación, porque es el que la gente omite. El volcado SQL sirve para
 restaurar en Supabase. El **JSON versionado del contenido** sirve para algo distinto: sobrevivir a la
 pérdida total del proveedor. Si un día no hay Supabase, con ese JSON el contenido de la fundación
-—las siete historias, las noticias, las fotos con su texto alternativo— se puede volver a publicar en
+—las historias del catálogo, las noticias, las fotos con su texto alternativo— se puede volver a publicar en
 cualquier cosa. Es barato, cabe en el repositorio y es el único respaldo que no depende de nadie.
 
 ## 8.3 Con qué frecuencia, y dónde se guarda
@@ -3168,7 +3221,7 @@ corresponda, sin dos consultas y sin que el sitio tenga que adivinar (RF-07, RF-
 | # | Qué falta | Quién lo debe | Qué bloquea |
 |---|---|---|---|
 | 1 | Aprobar los plazos de retención de §5 | Edwin, con el asesor legal de la fundación | El texto de la política de privacidad y la casilla de consentimiento |
-| 2 | Textos de los siete proyectos: historia, en honor a quién, población, requisitos, logos y fotos (P-08) | Edwin | Las semillas quedan a medias y las páginas de proyecto, vacías |
+| 2 | Textos del catálogo: historia, en honor a quién, población, requisitos, logos y fotos (P-08) | Edwin | Las semillas quedan a medias y las páginas de proyecto, vacías |
 | 3 | Alias de Yappy, cuentas bancarias y canal de comprobante (S-06) | Edwin | La página de donaciones (RF-09) |
 | 4 | WhatsApp institucional y correo del dominio propio (S-07, R-07) | Edwin | El aviso a la administración y los canales de contacto |
 | 5 | Modalidad de atención y tiempo de respuesta (S-05) | Edwin | Campos del formulario de cita |

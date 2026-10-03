@@ -26,7 +26,7 @@ Se lo mandamos completo, y no por partes, por tres razones concretas:
 
 1. **El contenido decide el diseño, no al revés.** Si un proyecto tiene tres líneas de descripción y
    otro tiene tres párrafos, las tarjetas no calzan y hay que rehacer la pantalla. Necesitamos ver
-   los siete textos juntos antes de dibujar nada.
+   todos los textos juntos antes de dibujar nada.
 2. **Varias piezas se bloquean entre sí.** La cuenta de Google gratuita necesita los documentos de la
    fundación; Yappy necesita la cuenta del banco; el correo con dominio propio necesita el dominio.
    Si esas cosas empiezan tarde, no hay forma de recuperar el tiempo porque no dependen de nosotros.
@@ -170,7 +170,7 @@ Las reglas completas están en la sección 3.
 **Cuánto tarda.** Depende de volver a encontrar a esas personas, que es justamente lo difícil. Por eso
 va en esta lista y no en la de más abajo.
 
-**Qué desbloquea.** Las galerías de evidencia de los siete proyectos (RF-06) y el material que le
+**Qué desbloquea.** Las galerías de evidencia de los proyectos (RF-06) y el material que le
 enseña a un patrocinador que REFUVA hace lo que dice (O-07, HU-05). **Sin consentimiento firmado, esa
 foto no se publica.** No es negociable y más adelante explicamos por qué.
 
@@ -206,7 +206,7 @@ que usted tiene que decirnos es si eso calza con cómo trabaja REFUVA, sobre tod
 psicológica: un plazo corto borra el rastro de alguien que vuelve a los tres años, y uno largo guarda
 de más sin razón.
 
-**Cuánto tarda.** Leer una tabla de siete líneas y decir «sí» o «cámbieme este». Media hora.
+**Cuánto tarda.** Leer una tabla corta y decir «sí» o «cámbieme este». Media hora.
 
 **Qué desbloquea.** El texto de la política de privacidad (2.5) y la casilla de consentimiento que abre
 todos los formularios del sitio. No podemos prometerle a una persona «guardamos su solicitud X meses»
@@ -227,7 +227,7 @@ hasta que usted apruebe la X, y esa frase es literalmente el texto que va debajo
 | Nombres y roles del equipo | Sección de equipo, **solo si usted decide publicarla** | Nombre, rol y foto de cada uno, con su permiso | Edwin | 🔴 |
 | Una frase que resuma a REFUVA en una línea | El titular del Inicio tiene que nombrar al menos dos frentes distintos a salud mental (RF-06, HU-01) | Una sola frase. Se la podemos proponer y usted la corrige | Edwin | 🔴 |
 
-### 2.2 Los siete proyectos
+### 2.2 Los proyectos y las campañas
 
 Este es el bloque grande, y es el que sostiene el requisito raíz del proyecto: que en diez segundos
 se entienda que REFUVA **no es solo salud mental** (O-04, RF-06).
@@ -466,8 +466,8 @@ por qué se la hacemos. Si alguna no la sabe todavía, dígalo también: un «no
 
 ### Los proyectos y su gente
 
-21. **¿Cuál es el nombre público exacto de cada uno de los siete proyectos?**
-    *Tal como debe aparecer en el menú y en la tarjeta, con sus tildes y sus mayúsculas. Los siete nombres
+21. **¿Cuál es el nombre público exacto de cada proyecto y de cada campaña?**
+    *Tal como debe aparecer en el menú y en la tarjeta, con sus tildes y sus mayúsculas. Los nombres
     que usamos hoy los dedujimos de la reunión del 20 de agosto: están inferidos, no confirmados por usted.
     De ese nombre sale la dirección web de cada página —el mapa de direcciones vive en
     [`03-arquitectura-informacion.md`](./03-arquitectura-informacion.md)— y cambiarlo después del
@@ -494,7 +494,7 @@ por qué se la hacemos. Si alguna no la sabe todavía, dígalo también: un «no
     página, con una frase suya. Si no lo hay, no construimos ese contador y nadie tiene que mantenerlo (RF-13).*
 29. **¿Cada cuánto sale la jornada de alimentación? ¿Se publica el calendario o se avisa después?**
     *Usted dijo que la frecuencia es irregular (P-03). Anunciar una fecha que después se mueve es peor que no anunciarla.*
-30. **¿Los siete proyectos van en algún orden de importancia, o todos igual?**
+30. **¿Los proyectos van en algún orden de importancia, o todos igual?**
     *Nuestra recomendación es todos iguales, porque ese es el punto del sitio (O-04). Pero usted es el dueño de su página (C-11).*
 
 ### Comunicación y canales
@@ -531,7 +531,7 @@ por qué se la hacemos. Si alguna no la sabe todavía, dígalo también: un «no
 | Orden | Qué | Cómo | Quién |
 |---|---|---|---|
 | **1.º** | Los ocho bloqueantes de la sección 1 | Correo o llamada. Lo antes posible | Edwin, con su asesor legal y el banco |
-| **2.º** | Los siete proyectos completos | **Una sola sesión de trabajo grabada.** Ver 5.2 | Edwin y su equipo, con nosotros |
+| **2.º** | El catálogo completo | **Una sola sesión de trabajo grabada.** Ver 5.2 | Edwin y su equipo, con nosotros |
 | **3.º** | Las fotos | Un enlace a la carpeta. Ver 5.3 | Edwin |
 | **4.º** | Identidad institucional: logo, colores, misión, visión, valores | En la misma sesión de trabajo, o por correo | Edwin |
 | **5.º** | Datos operativos: horarios, WhatsApp, cuentas | Cuando el banco responda | Edwin |
@@ -545,12 +545,12 @@ tarde.
 
 **Cómo funciona:** nos sentamos con usted —presencial o por videollamada— durante unos **90 minutos**.
 Le hacemos las preguntas de la plantilla de la sección 7, proyecto por proyecto. Usted habla; nosotros
-grabamos. Después transcribimos, redactamos los siete textos y se los devolvemos para que los corrija
+grabamos. Después transcribimos, redactamos los textos y se los devolvemos para que los corrija
 o los apruebe. **Usted no escribe una sola línea.**
 
 Por qué así:
 
-- Usted ya contó estos siete proyectos en la reunión del 20 de agosto y los contó bien. El problema no
+- Usted ya contó estos proyectos en la reunión del 20 de agosto y los contó bien. El problema no
   es que no sepa qué decir: es que sentarse a escribirlo son horas que no tiene.
 - Hablando salen las historias, que es exactamente el material que más nos falta (O-06) y el que menos
   sale cuando alguien se sienta a redactar.
@@ -578,7 +578,7 @@ para decidir:
 - **Los ocho bloqueantes de la sección 1: esta misma semana.** No dependen de nosotros y ninguno se
   puede acelerar después. La verificación de Goodstack sola son 3 a 5 días hábiles, y eso solo
   arranca cuando estén los documentos.
-- **Los siete proyectos y las fotos: dentro de las dos semanas siguientes a recibir este documento.**
+- **El catálogo completo y las fotos: dentro de las dos semanas siguientes a recibir este documento.**
   El prototipo se dibuja con el contenido real o no se dibuja: esa es la diferencia entre validar una
   pantalla y validar un dibujo bonito.
 - **Las fotos de la campaña de prevención: antes del 10 de septiembre**, porque es cuando cierra la

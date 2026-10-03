@@ -24,11 +24,11 @@ El sitio existe para desmentir que REFUVA es solo salud mental (**O-04**, el req
 Eso no se resuelve escribiendo «también hacemos otras cosas» en un párrafo: se resuelve con la forma
 del sitio. Un visitante lee la estructura antes de leer el texto —ve el menú, ve cuántas tarjetas
 hay, ve de qué cuelga cada cosa— y de ahí saca su conclusión. Por eso la arquitectura de este portal
-toma seis decisiones que sostienen O-04 aunque el contenido todavía no esté escrito: **(a)** las siete
-líneas son **hermanas**, todas al mismo nivel bajo `/proyectos/`, sin proyecto padre ni sección de
+toma seis decisiones que sostienen O-04 aunque el contenido todavía no esté escrito: **(a)** los
+proyectos son **hermanos**, todos al mismo nivel bajo `/proyectos/`, sin proyecto padre ni sección de
 «otros»; **(b)** ninguna URL contiene un prefijo `/salud-mental/`, porque la jerarquía de la URL es
-una afirmación sobre quién manda; **(c)** el Inicio muestra **las siete**, no una selección ni un
-carrusel que esconda seis; **(d)** las siete comparten la misma plantilla, el mismo peso visual y la
+una afirmación sobre quién manda; **(c)** el Inicio los muestra **todos**, no una selección ni un
+carrusel que esconda la mayoría; **(d)** todos comparten la misma plantilla, el mismo peso visual y la
 **misma prioridad de sitemap**, de modo que ni el sitio ni el buscador las ordenan por importancia;
 **(e)** los recursos de crisis —obligatorios por **RF-11**— se resuelven en **dos niveles**: una banda
 de una línea en el armazón de **todas** las páginas, y un **bloque completo** únicamente en la lista
@@ -49,7 +49,7 @@ O-04 seguiría llegando.
 - Español, minúsculas, palabras separadas por guiones. Nada de guiones bajos ni de `?id=7` (**RF-14**).
 - **Slugs sin tildes y sin ñ.** Se transliteran: `fiesta-navidena-2026`, no `fiesta-navideña-2026`.
   Un carácter acentuado en la URL se codifica en porcentaje y llega ilegible al pegarse en WhatsApp.
-- **Sin barra final.** `/proyectos/navidad/` redirige a `/proyectos/navidad` con 301.
+- **Sin barra final.** `/proyectos/psicoeducativo/` redirige a `/proyectos/psicoeducativo` con 301.
 - La URL de un proyecto es su código de [`../CLAUDE.md`](../CLAUDE.md) §2. Es el mismo identificador
   en la base de datos, en el filtro de noticias y en la exportación por programa (**RF-03**). Un
   proyecto, un identificador, en todo el sistema.
@@ -63,14 +63,19 @@ O-04 seguiría llegando.
 │
 ├── /nosotros                            Misión, visión, valores, trayectoria, evidencia
 │
-├── /proyectos                           Índice: las siete tarjetas, sin jerarquía
+├── /proyectos                           Índice: una tarjeta por proyecto, sin jerarquía
 │   ├── /proyectos/psicoeducativo             Proyecto Psicoeducativo REFUVA
-│   ├── /proyectos/navidad                    Fiesta navideña
-│   ├── /proyectos/alimentacion               Alimentación a personas en situación de calle
-│   ├── /proyectos/animales                   Alimentación a animales callejeros
-│   ├── /proyectos/prevencion-suicidio        Campaña del Día Mundial para la Prevención del Suicidio
+│   ├── /proyectos/psicoempresarial           Proyecto Psicoempresarial REFUVA
 │   ├── /proyectos/rompiendo-el-circulo       Rompiendo el Círculo
-│   └── /proyectos/historias-que-sanan        Historias que Sanan
+│   ├── /proyectos/historias-que-sanan        Historias que Sanan
+│   ├── /proyectos/grupo-un-solo-corazon      Grupo Un Solo Corazón
+│   ├── /proyectos/una-estrella-otiliana      Una Estrella Otiliana
+│   ├── /proyectos/comida-en-la-calle         Comida en la Calle, Esperanza en el Corazón
+│   └── /proyectos/angelitos-de-la-calle      Angelitos de la Calle
+│
+├── /campanas                            Índice de campañas, colección aparte
+│   ├── /campanas/hablame-panama              Háblame Panamá
+│   └── /campanas/escuchame-panama            #EscúchamePanamá
 │
 ├── /agendar-cita                        Formulario de solicitud de cita psicológica
 ├── /ayuda-en-crisis                     Recursos de crisis, permanentes y verificados
@@ -105,7 +110,7 @@ O-04 seguiría llegando.
     ├── /panel/contenido                      Noticias y eventos (RF-01)
     │   ├── /panel/contenido/nuevo
     │   └── /panel/contenido/{id}
-    ├── /panel/proyectos                      Texto, galería y acción de las siete líneas (RF-06)
+    ├── /panel/proyectos                      Texto, galería y acción del catálogo (RF-06)
     │   └── /panel/proyectos/{codigo}
     ├── /panel/solicitudes                    Bandeja general con contadores (RF-12)
     │   ├── /panel/solicitudes/citas               Ordenada por antigüedad, la más vieja destacada
@@ -138,7 +143,7 @@ O-04 seguiría llegando.
 **Sobre la columna de prioridad:** es el valor `<priority>` del `sitemap.xml`. Los buscadores
 modernos la ignoran casi por completo; la mantenemos porque documenta el orden de importancia
 editorial del sitio y porque cuesta cero. La decisión que sí importa está en la fila de los
-proyectos: **las siete comparten el mismo valor**. Ninguna es más que otra (O-04).
+proyectos: **todos comparten el mismo valor**. Ninguno es más que otro (O-04).
 
 **Sobre la columna «Módulo SRS»:** cierra la trazabilidad por los dos lados. El SRS ([`01-srs.md`](./01-srs.md)
 §3.1 y §3.2) dice qué módulos existen; esta tabla dice en qué URL vive cada uno. Ninguna ruta puede
@@ -149,16 +154,20 @@ el dueño del mapa: si una URL discrepa en otro documento, se corrige allá, no 
 
 | URL | Plantilla | Módulo SRS | Qué hace | Acceso | Prioridad |
 |---|---|---|---|---|---|
-| `/` | Inicio (única) | 3.1.1 | Entiende en 10 segundos que son siete líneas; ofrece los cuatro CTA. HU-01, HU-02 | Pública | 1.0 |
+| `/` | Inicio (única) | 3.1.1 | Entiende en 10 segundos que son ocho proyectos y dos campañas; ofrece los cuatro CTA. HU-01, HU-02 | Pública | 1.0 |
 | `/nosotros` | Contenido editorial | 3.1.2 | Misión, visión, valores, trayectoria y evidencia para patrocinadores. HU-04, HU-05 | Pública | 0.8 |
-| `/proyectos` | Índice | 3.1.3 | Las siete tarjetas, sin orden de importancia. HU-06 | Pública | 0.9 |
-| `/proyectos/psicoeducativo` | Proyecto | 3.1.3 | Historia, población, evidencia, solicitud de alianza. P-01 | Pública | 0.9 |
-| `/proyectos/navidad` | Proyecto | 3.1.3 | Las dos convocatorias: padrinos y comunidades. P-02 | Pública | 0.9 |
-| `/proyectos/alimentacion` | Proyecto | 3.1.3 | Raciones en calle, frecuencia, meta del refugio. P-03 | Pública | 0.9 |
-| `/proyectos/animales` | Proyecto | 3.1.3 | Perros y gatos de calle, meta de refugio con adopción. P-04 | Pública | 0.9 |
-| `/proyectos/prevencion-suicidio` | Proyecto | 3.1.3 | Campaña anual, terapia gratuita en calle. Cierra con bloque de crisis (§4.5). P-05 | Pública | 0.9 |
-| `/proyectos/rompiendo-el-circulo` | Proyecto | 3.1.3 | Área roja, escuelas, capacitación a privados de libertad. P-06 | Pública | 0.9 |
-| `/proyectos/historias-que-sanan` | Proyecto | 3.1.3 | Escritura terapéutica. P-07 | Pública | 0.9 |
+| `/proyectos` | Índice | 3.1.3 | Una tarjeta por proyecto, sin orden de importancia. HU-06 | Pública | 0.9 |
+| `/proyectos/psicoeducativo` | Proyecto | 3.1.3 | Historia, población, evidencia, solicitud de alianza. PR-01 | Pública | 0.9 |
+| `/proyectos/psicoempresarial` | Proyecto | 3.1.3 | Emprendimiento y liderazgo. PR-02 | Pública | 0.9 |
+| `/proyectos/rompiendo-el-circulo` | Proyecto | 3.1.3 | Personas en riesgo social. PR-03 (ver conflicto C-3) | Pública | 0.9 |
+| `/proyectos/historias-que-sanan` | Proyecto | 3.1.3 | Escritura terapéutica. PR-04 | Pública | 0.9 |
+| `/proyectos/grupo-un-solo-corazon` | Proyecto | 3.1.3 | Bolsas de comida a familias; nació en la pandemia. PR-05 | Pública | 0.9 |
+| `/proyectos/una-estrella-otiliana` | Proyecto | 3.1.3 | Las dos convocatorias: padrinos y comunidades. PR-06 | Pública | 0.9 |
+| `/proyectos/comida-en-la-calle` | Proyecto | 3.1.3 | Raciones en calle, frecuencia, meta del refugio. PR-07 | Pública | 0.9 |
+| `/proyectos/angelitos-de-la-calle` | Proyecto | 3.1.3 | Perros y gatos de calle, meta de refugio con adopción. PR-08 | Pública | 0.9 |
+| `/campanas` | Índice | 3.1.3 | Las campañas, en colección aparte. HU-06 | Pública | 0.9 |
+| `/campanas/hablame-panama` | Campaña | 3.1.3 | Prevención del suicidio. Cierra con bloque de crisis (§4.5). CA-01 | Pública | 0.9 |
+| `/campanas/escuchame-panama` | Campaña | 3.1.3 | Sensibilización en salud mental. Cierra con bloque de crisis (§4.5). CA-02 | Pública | 0.9 |
 | `/agendar-cita` | Formulario | 3.1.4 | Solicita cita psicológica. Abre con bloque de crisis. RF-02, RF-11 | Pública | 0.9 |
 | `/ayuda-en-crisis` | Contenido editorial | 3.1.10 | Recursos verificados, permanentes. Destino de la banda de crisis. RF-11 | Pública | 0.9 |
 | `/participar` | Índice | 3.1.5 | Concentrador de las cuatro formas de sumarse | Pública | 0.7 |
@@ -190,7 +199,7 @@ Ninguna ruta del panel entra al `sitemap.xml`, todas llevan `noindex` y todas qu
 | `/panel/contenido` | Panel — listado | 3.2.2 | Noticias y eventos, con estado `borrador`/`publicado`/`archivado`. RF-01 | Privada |
 | `/panel/contenido/nuevo` | Panel — editor | 3.2.2 | Crear con formato enriquecido; texto alternativo obligatorio | Privada |
 | `/panel/contenido/{id}` | Panel — editor | 3.2.2 | Editar, publicar, **dejar de mostrar (ocultar)** y archivar. C-06 | Privada |
-| `/panel/proyectos` | Panel — listado | 3.2.3 | Las siete líneas | Privada |
+| `/panel/proyectos` | Panel — listado | 3.2.3 | El catálogo entero | Privada |
 | `/panel/proyectos/{codigo}` | Panel — editor | 3.2.3 | Texto, galería y acción del proyecto. RF-06 | Privada |
 | `/panel/solicitudes` | Panel — listado | 3.2.4 | Todas las bandejas con su contador. RF-12 | Privada |
 | `/panel/solicitudes/{tipo}` | Panel — bandeja | 3.2.4 + 3.2.6 | Filtrar, cambiar estado, nota interna, exportar CSV. RF-12 | Privada |
@@ -277,12 +286,12 @@ Cuatro columnas. El pie es el mapa del sitio completo: todo lo que no está en e
 
 | Columna | Contenido |
 |---|---|
-| **La fundación** | Nosotros · Proyectos (las siete, listadas una por una) · Noticias · Eventos · Contacto |
+| **La fundación** | Nosotros · Proyectos (listados uno por uno) · Campañas · Noticias · Eventos · Contacto |
 | **Participar** | Ser voluntario · Ser padrino o madrina · Postular mi comunidad · Alianzas institucionales · Donar |
 | **Si necesitas ayuda** | Agendar cita · Ayuda en crisis · 911 · Línea 147 y su WhatsApp · la frase «este sitio no es un canal de emergencia» |
 | **Legales y redes** | Política de privacidad · Términos de uso · Instagram · correo institucional · WhatsApp |
 
-Las siete líneas se listan **una por una** en el pie, no como un solo enlace «Proyectos». Es la
+Los proyectos se listan **uno por uno** en el pie, no como un solo enlace «Proyectos». Es la
 repetición barata del argumento de O-04: aparece en todas las páginas del sitio sin ocupar nada
 por encima del pliegue.
 
@@ -298,7 +307,7 @@ trabajo para dos personas, no un destino del sitio. Se llega escribiendo `/panel
 |---|---|---|
 | `/eventos/{slug}-{año}` | Inicio, `/eventos`, `/noticias`, página del proyecto | Son piezas de contenido, no secciones. Cada edición nace y caduca. |
 | `/noticias/{slug}` | `/noticias`, Inicio, página del proyecto | Ídem. |
-| `/postular-comunidad` | `/proyectos/navidad`, `/participar`, pie | Su público llega por la convocatoria, no explorando el menú. Y solo tiene sentido con la convocatoria abierta (RF-13). |
+| `/postular-comunidad` | `/proyectos/una-estrella-otiliana`, `/participar`, pie | Su público llega por la convocatoria, no explorando el menú. Y solo tiene sentido con la convocatoria abierta (RF-13). |
 | `/alianzas` | `/proyectos/psicoeducativo`, `/participar`, pie | Es un canal institucional, no de público general (RF-08). |
 | `/ayuda-en-crisis` | Banda de crisis (todas las páginas), `/agendar-cita`, proyecto de prevención | Está en todas partes por la banda; meterla también al menú la volvería la cara del sitio y contradiría O-04. |
 | Confirmación de formulario | Solo tras enviar | Reemplaza al formulario en la misma URL. |
@@ -322,11 +331,11 @@ qué hacer mientras llega la ayuda y el mensaje de esperanza (CLAUDE.md §5.1). 
 |---|---|
 | `/agendar-cita` | **Antes del primer campo**, junto al aviso de que no es canal de emergencia (§6.3). Quien llena este formulario puede no poder esperar la cita |
 | `/ayuda-en-crisis` | La página **es** el bloque, desarrollado, con la fecha de última verificación de cada número (§6.5) |
-| `/proyectos/prevencion-suicidio` · `/proyectos/psicoeducativo` · `/proyectos/rompiendo-el-circulo` · `/proyectos/historias-que-sanan` | Son las cuatro líneas de acción cuyo contenido toca salud mental. Cierra la página (zona 10 de §6.1). Las otras tres —`navidad`, `alimentacion`, `animales`— llevan solo la banda |
+| `/campanas/hablame-panama` · `/campanas/escuchame-panama` · `/proyectos/psicoeducativo` · `/proyectos/rompiendo-el-circulo` · `/proyectos/historias-que-sanan` | Son las entradas cuyo contenido toca salud mental; `catalogo.ts` las marca con `bloqueCrisis: true`. Cierra la página (zona 10 de §6.1). Las demás llevan solo la banda |
 | Noticias y eventos **etiquetados con uno de esos cuatro proyectos** | La etiqueta de proyecto es obligatoria (§6.2, zona 4), así que la regla se resuelve sola: no hace falta que Edwin decida nada al publicar |
 
 **El Inicio lleva banda sola.** No lleva bloque completo. Es la página que tiene que demostrar en
-diez segundos que REFUVA son siete líneas (**O-04**), y un bloque grande de salud mental sobre el
+diez segundos que REFUVA es mucho más que salud mental (**O-04**), y un bloque grande del tema sobre el
 pliegue afirma justo lo contrario. Quien necesite más que la banda tiene el enlace a
 `/ayuda-en-crisis` dentro de ella, a un clic. Lo mismo vale para `/nosotros`, `/donar`, `/participar`,
 los índices, las páginas legales y el 404: **banda sí, bloque no**.
@@ -348,7 +357,7 @@ puede mover.
 | 1 | **Banda de crisis** | Recursos verificados en una línea, en todas las páginas. **Solo la banda: el Inicio no lleva bloque completo** (§4.5). RF-11 | «Necesito ayuda ahora mismo» → llama al 911 o al 147, o entra a `/ayuda-en-crisis` | **NO** |
 | 2 | **Hero** | Titular y subtítulo que nombran al menos dos frentes distintos a salud mental. HU-01, RF-06 | «Esto no es lo que yo creía» → sigo leyendo | **NO** |
 | 3 | **Las cuatro acciones** | Donar · Agendar cita · Ser padrino · Ser voluntario, juntos y visibles sin desplazarse. HU-02 | «Ya sé a qué vine» → va directo a su formulario | **NO** (pegado al hero) |
-| 4 | **Las siete líneas de acción** | Siete tarjetas iguales: logo, nombre, una frase. RF-06 | «Hay uno que me toca» → entra a esa página de proyecto | Sí, con reparo |
+| 4 | **El catálogo** | Una tarjeta igual por entrada: logo, nombre, una frase. RF-06 | «Hay uno que me toca» → entra a esa página de proyecto | Sí, con reparo |
 | 5 | **Quiénes somos, en corto** | Tres frases y la trayectoria en cifras verificables: tercer año de campaña navideña y de prevención (P-02, P-05), de 50 a más de 100 raciones (P-03), más de 30 escuelas en lista (P-01). Enlaza a `/nosotros` | «Son serios y llevan años» → confía lo suficiente para donar o pedir cita | Sí |
 | 6 | **Próximos eventos y convocatorias abiertas** | Lo que está pasando ahora. Los vencidos desaparecen solos (RF-01). C-02 | «Esto es en dos semanas y puedo ir» → se inscribe o postula | Sí |
 | 7 | **Últimas noticias** | Tres publicaciones con fecha, imagen y resumen. RF-01 | «Hay actividad reciente» → lee, o comparte | Sí |
@@ -380,8 +389,8 @@ escritorio y en móvil. Separarlas del hero rompe ese criterio de aceptación.
 ## 5.2 El reparo del bloque 4
 
 Los bloques 4 a 9 son de Edwin. Lo decimos sin letra chica: si quiere las noticias antes que las
-siete tarjetas, o Instagram antes que los eventos, se hace. El único movimiento sobre el que dejamos
-constancia es bajar mucho el bloque 4: el hero **afirma** que son siete líneas y las tarjetas lo
+tarjetas del catálogo, o Instagram antes que los eventos, se hace. El único movimiento sobre el que
+dejamos constancia es bajar mucho el bloque 4: el hero **afirma** que son muchos frentes y las tarjetas lo
 **demuestran**; cuanto más lejos queden una de otra, más se parece la afirmación a una frase de
 folleto. Nuestra recomendación es que las tarjetas queden en la primera pantalla siguiente al hero.
 Si Edwin decide otra cosa, va como él diga, y esta nota queda aquí como lo que es: una opinión
@@ -495,8 +504,8 @@ sitio.
 
 Reglas propias de cada índice:
 
-- **`/proyectos` no pagina, no filtra y no lleva carrusel.** Siempre las siete, siempre visibles a la
-  vez. Un carrusel esconde seis de siete y deshace en un componente todo el argumento de O-04.
+- **`/proyectos` no pagina, no filtra y no lleva carrusel.** Siempre todos, siempre visibles a la
+  vez. Un carrusel esconde todos menos uno y deshace en un componente todo el argumento de O-04.
 - **`/noticias` y `/eventos` paginan; no llevan desplazamiento infinito.** El desplazamiento infinito
   vuelve inalcanzable el pie —que en este sitio es el mapa completo—, rompe el botón «atrás» y hace
   imposible navegar con teclado hasta el final de la lista.
@@ -560,7 +569,7 @@ terminó de leer y ningún enlace del pie compite visualmente con nada.
 | `navidad` | Apadrinar **y** postular comunidad | Dos convocatorias, dos públicos (P-02) |
 | `alimentacion` | Ser voluntario | Hacen falta manos y transporte en cada salida (P-03) |
 | `animales` | Donar | Lo que hace falta es comida, y eso se compra (P-04) |
-| `prevencion-suicidio` | Agendar cita / pedir ayuda | **Nunca donar.** Ver §6.3 |
+| `hablame-panama` · `escuchame-panama` | Agendar cita / pedir ayuda | **Nunca donar.** Ver §6.3 |
 | `rompiendo-el-circulo` | Ser voluntario | Trabajo de campo en barrios y escuelas (P-06) |
 | `historias-que-sanan` | Ser voluntario | Busca escritores y facilitadores (P-07) |
 
@@ -579,7 +588,7 @@ tras el lanzamiento.*
 | Elemento | En móvil |
 |---|---|
 | Menú principal | Botón de menú. Al abrirse, las seis entradas en lista vertical, cada una de ancho completo |
-| Las siete tarjetas de proyecto | Una columna, las siete apiladas. **Nunca un carrusel** (§6.4) |
+| Las tarjetas del catálogo | Una columna, todas apiladas. **Nunca un carrusel** (§6.4) |
 | Las cuatro acciones del Inicio | Cuatro botones de ancho completo, apilados, en el mismo orden |
 | Columnas del pie | Cuatro secciones apiladas, plegables, con «Si necesitas ayuda» desplegada por defecto |
 | Tablas de requisitos | Lista vertical de puntos. Ninguna tabla obliga a desplazarse en horizontal |
@@ -621,12 +630,12 @@ pasa, por qué, y ofrece una salida. Ninguno culpa al visitante.
 | **`/noticias` con filtro por proyecto** | «Aún no hay noticias de {proyecto}» + botón «Ver todas las noticias» + enlace a la página del proyecto | — |
 | **`/eventos`, sección próximos** | «No hay eventos programados por ahora. Las convocatorias se anuncian aquí y en Instagram». Los eventos pasados siguen mostrándose debajo: son la evidencia de trayectoria (O-07) | Ídem noticias |
 | **`/eventos`, sin ningún evento** | Se explica que la agenda se está armando y se enlaza a `/proyectos` | — |
-| **`/proyectos`** | No puede estar vacío: son siete, fijas. Si un proyecto no tiene texto todavía, su tarjeta se muestra igual con el nombre y el logo, y su página dice «Estamos preparando esta información» sin dejar de mostrar la acción | — |
+| **`/proyectos`** | No puede estar vacío: el catálogo es fijo. Si un proyecto no tiene texto todavía, su tarjeta se muestra igual con el nombre y el logo, y su página dice «Estamos preparando esta información» sin dejar de mostrar la acción | — |
 | **Galería de un proyecto** | La sección entera desaparece. No se muestra un marco vacío ni una foto genérica de banco de imágenes | — |
 | **Convocatoria cerrada** (`/apadrinar`, `/postular-comunidad`) | La página existe siempre y se puede compartir. En vez del formulario: qué convocatoria es, **cuándo vuelve a abrir** si la fecha está definida —o «se anuncia en Instagram» si no—, y una salida alternativa: ser voluntario o donar. El formulario deja de aceptar envíos también en el servidor, no solo se oculta (RF-13) | — |
 | **Feed de Instagram** | Si no hay ninguna publicación cacheada, **la sección entera desaparece del Inicio** (RF-05). No se muestra un hueco, ni un icono roto, ni «error al cargar» | Si la fuente no responde, se muestra **la última copia buena** de la base de datos, sin avisar al visitante. Si tampoco hay copia, desaparece. El fallo queda registrado y visible en `/panel/tareas` (RF-15) |
 | **Bandeja del panel vacía** | «No hay solicitudes de este tipo todavía». Distinto de «no hay resultados con estos filtros», que además ofrece limpiar los filtros | Mensaje explícito. Nunca una lista vacía que parezca normal |
-| **Página no encontrada (404)** | Explica que la página no existe o fue archivada, y ofrece: Inicio, las siete líneas, `/noticias` y `/contacto`. Devuelve código 404 de verdad, no 200 | — |
+| **Página no encontrada (404)** | Explica que la página no existe o fue archivada, y ofrece: Inicio, el catálogo, `/noticias` y `/contacto`. Devuelve código 404 de verdad, no 200 | — |
 | **Error del servidor (500)** | Mensaje corto y humano, más los canales que no dependen del sitio: WhatsApp, correo y la banda de crisis. Si el sitio se cae, el 911 y el 147 siguen impresos en esa página | — |
 | **Envío de formulario fallido** | El texto que la persona escribió **no se pierde**: el formulario se vuelve a mostrar completo, con el error arriba, junto al botón, y con la alternativa por WhatsApp | Si la solicitud se guardó pero el correo falló, al visitante se le confirma igual —su solicitud existe— y el reintento queda encolado (RF-02, RF-15). Nunca se le dice a alguien que falló algo que en realidad se guardó |
 
@@ -662,7 +671,7 @@ largos y lo primero que se pierde es el final.
 | Tipo de página | Fórmula | Ejemplo |
 |---|---|---|
 | Inicio | `Fundación REFUVA \| {lema}` | 🔴 **Pendiente**. Propuesta 🟡: `Fundación REFUVA \| Salud mental, alimentación y Navidad en Panamá`. Depende de O-08 (misión, visión y valores oficiales). Lo aprueba Edwin |
-| Índice de proyectos | `{Sección} \| Fundación REFUVA` | `Nuestros siete proyectos \| Fundación REFUVA` |
+| Índice de proyectos | `{Sección} \| Fundación REFUVA` | `Nuestros proyectos \| Fundación REFUVA` |
 | Proyecto | `{Nombre del proyecto} \| Fundación REFUVA` | `Historias que Sanan \| Fundación REFUVA` |
 | Noticia | `{Titular} \| Fundación REFUVA` | `Tercer año de la campaña de prevención \| Fundación REFUVA` |
 | Evento | `{Nombre del evento} {año} \| Fundación REFUVA` | `Fiesta navideña 2026 \| Fundación REFUVA` |
@@ -700,7 +709,7 @@ varias semanas y ve el pendiente desde la pestaña del navegador, sin abrir nada
 | AI-05 | Si `/contacto` lleva mapa: depende de si hay dirección publicable | 🔴 | **Edwin** (S-05) |
 | AI-06 | Si `/nosotros` publica los documentos de personería jurídica | 🔴 | **Edwin** (O-09) |
 | AI-07 | Si `/proyectos/psicoeducativo` lista las más de 30 escuelas o las mantiene privadas | 🔴 | **Edwin** |
-| AI-08 | Si los padrinos se listan públicamente o quedan anónimos: define si existe una sección de reconocimiento en `/proyectos/navidad` | 🔴 | **Edwin** |
+| AI-08 | Si los padrinos se listan públicamente o quedan anónimos: define si existe una sección de reconocimiento en `/proyectos/una-estrella-otiliana` | 🔴 | **Edwin** |
 | AI-09 | Fechas de apertura y cierre de la convocatoria navideña 2026, para los estados de §9 | 🔴 | **Edwin** (RF-13) |
 | AI-10 | Verificación telefónica de la 169 del MINSA y de los números del INSAM antes de considerarlos para `/ayuda-en-crisis` | 🔴 | **El equipo** — hay que llamar y anotar qué contesta |
 | AI-11 | Cuota de tráfico móvil real, para revisar §8 | 🔴 | Se mide después del lanzamiento |

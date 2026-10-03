@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { BloqueCrisis } from "@/components/banda-crisis";
 import { Boton, Dato, Marco, Nota, Placa } from "@/components/ui";
 import { CAMPANAS, PROYECTOS, rutaDe, type Entrada } from "@/lib/catalogo";
@@ -10,10 +11,15 @@ import { CAMPANAS, PROYECTOS, rutaDe, type Entrada } from "@/lib/catalogo";
  * lucido que las otras, el sitio estaría diciendo que esa importa más, que es lo
  * contrario del requisito raíz (O-04).
  *
- * El color propio de la entrada aparece exactamente dos veces aquí —el filo
- * superior y la viñeta de los requisitos—, más una en el índice. Esas son las
- * tres del presupuesto. Ni una más: diez colores incompatibles compitiendo en
- * rellenos grandes es justo el collage que hay que evitar.
+ * El color propio de la entrada se usa aquí solo en trazos finos: el filo
+ * superior, el numeral, la barra de «en honor a» y las viñetas de requisitos.
+ * Ninguno es un relleno grande, que es la regla que importa — diez colores
+ * incompatibles compitiendo en bloques sólidos es justo el collage que hay que
+ * evitar.
+ *
+ * Las dos variantes del color llegan como variables en línea en el envoltorio
+ * `.tinte` y el tema resuelve cuál se pinta (ver globals.css). Con una sola, el
+ * numeral daba 2.36:1 sobre el papel oscuro y no se veía.
  *
  * El bloque completo de crisis lo decide `bloqueCrisis`, que es un dato. Meterlo
  * en la página de alimentación de animales sería ruido, y el ruido gasta la
@@ -26,13 +32,17 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
   const esCampana = entrada.tipo === "campana";
 
   return (
-    <>
-      {/* Filo de color: la segunda de las tres apariciones. */}
-      <div
-        aria-hidden
-        className="h-1 w-full"
-        style={{ backgroundColor: entrada.colorAcento }}
-      />
+    <div
+      className="tinte"
+      style={
+        {
+          "--tinte-claro": entrada.colorAcento,
+          "--tinte-oscuro": entrada.colorAcentoOscuro,
+        } as CSSProperties
+      }
+    >
+      {/* Filo de color. */}
+      <div aria-hidden className="h-1 w-full bg-[var(--tinte)]" />
 
       <header className="border-b border-borde">
         <div className="mx-auto max-w-6xl px-4 pt-8 pb-12 sm:px-6 sm:pt-10 sm:pb-16">
@@ -57,10 +67,7 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
                     fondo={entrada.logo.fondo}
                   />
                 )}
-                <p
-                  className="cifras-alineadas font-display text-3xl font-semibold"
-                  style={{ color: entrada.colorAcento }}
-                >
+                <p className="cifras-alineadas font-display text-3xl font-semibold text-[var(--tinte)]">
                   {String(i + 1).padStart(2, "0")}
                 </p>
               </div>
@@ -89,7 +96,7 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
           </div>
 
           {entrada.enHonorA && (
-            <p className="mt-9 max-w-[62ch] border-l-2 pl-5 text-lg leading-relaxed text-tinta-suave" style={{ borderColor: entrada.colorAcento }}>
+            <p className="mt-9 max-w-[62ch] border-l-2 border-[var(--tinte)] pl-5 text-lg leading-relaxed text-tinta-suave">
               <span className="font-semibold text-tinta">En honor a </span>
               {entrada.enHonorA}.
             </p>
@@ -107,11 +114,9 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
               <ul className="mt-6 space-y-4">
                 {entrada.requisitos.map((r) => (
                   <li key={r} className="flex gap-3.5">
-                    {/* La tercera y última aparición del color propio. */}
                     <span
                       aria-hidden
-                      className="mt-2.5 size-1.5 shrink-0 rounded-full"
-                      style={{ backgroundColor: entrada.colorAcento }}
+                      className="mt-2.5 size-1.5 shrink-0 rounded-full bg-[var(--tinte)]"
                     />
                     <span>{r}</span>
                   </li>
@@ -186,6 +191,6 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
           </Link>
         </aside>
       </div>
-    </>
+    </div>
   );
 }

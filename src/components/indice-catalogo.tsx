@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { rutaDe, type Entrada } from "@/lib/catalogo";
 
 /**
@@ -27,21 +28,25 @@ export function IndiceCatalogo({ entradas }: { entradas: Entrada[] }) {
         <li key={e.codigo} className="border-b border-borde">
           <Link
             href={rutaDe(e)}
-            className="group grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-1 px-1 py-6 transition-colors hover:bg-papel-alto sm:gap-x-7 sm:px-3 sm:py-8 lg:grid-cols-[4.5rem_1fr_11rem_2rem]"
+            className="tinte group grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-1 px-1 py-6 transition-colors hover:bg-papel-alto sm:gap-x-7 sm:px-3 sm:py-8 lg:grid-cols-[4.5rem_1fr_11rem_2rem]"
+            style={
+              {
+                "--tinte-claro": e.colorAcento,
+                "--tinte-oscuro": e.colorAcentoOscuro,
+              } as CSSProperties
+            }
           >
             <span className="lg:row-span-2 lg:self-start">
               <span
                 aria-hidden
-                className="cifras-alineadas block font-display text-2xl leading-none font-semibold sm:text-3xl lg:text-4xl"
-                style={{ color: e.colorAcento }}
+                className="cifras-alineadas block font-display text-2xl leading-none font-semibold text-[var(--tinte)] sm:text-3xl lg:text-4xl"
               >
                 {String(i + 1).padStart(2, "0")}
               </span>
               {/* La primera de las tres apariciones del color propio. */}
               <span
                 aria-hidden
-                className="mt-2 block h-[3px] w-7 rounded-full"
-                style={{ backgroundColor: e.colorAcento }}
+                className="mt-2 block h-[3px] w-7 rounded-full bg-[var(--tinte)]"
               />
             </span>
 

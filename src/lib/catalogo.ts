@@ -80,6 +80,12 @@ export type Entrada = {
    * requisitos. Nunca como relleno grande, nunca en el armazón.
    */
   colorAcento: string;
+  /**
+   * El mismo matiz para tema oscuro: aclarado y dessaturado hasta pasar 4.5:1
+   * sobre los tres fondos oscuros. No es opcional — el valor claro sobre
+   * `#12100c` da 2.36:1 y el numeral se vuelve invisible.
+   */
+  colorAcentoOscuro: string;
   colorMarca?: string;
   /** Si lleva el bloque completo de crisis. Lo decide el dato, no quien publica. */
   bloqueCrisis: boolean;
@@ -108,6 +114,7 @@ export const CATALOGO: Entrada[] = [
     accion: { etiqueta: "Solicitar una alianza", href: "/alianzas" },
     // Sin logo propio: no vino en el material. Usa el acento institucional.
     colorAcento: "#903000",
+    colorAcentoOscuro: "#d5794b",
     bloqueCrisis: true,
     fotosPendientes: [
       "Una jornada dentro de una escuela",
@@ -131,6 +138,7 @@ export const CATALOGO: Entrada[] = [
     ],
     accion: { etiqueta: "Solicitar una alianza", href: "/alianzas" },
     colorAcento: "#903000",
+    colorAcentoOscuro: "#d5794b",
     bloqueCrisis: false,
     fotosPendientes: ["Una sesión de formación o taller"],
   },
@@ -156,6 +164,7 @@ export const CATALOGO: Entrada[] = [
       alt: "Insignia circular dorada sobre negro con un árbol de raíces visibles y el círculo roto en un costado",
     },
     colorAcento: "#846000",
+    colorAcentoOscuro: "#b18c29",
     colorMarca: "#c09000",
     bloqueCrisis: true,
     fotosPendientes: ["Trabajo en comunidad"],
@@ -182,6 +191,7 @@ export const CATALOGO: Entrada[] = [
       alt: "Emblema de Historias que Sanan sobre fondo claro",
     },
     colorAcento: "#9a3246",
+    colorAcentoOscuro: "#d37688",
     colorMarca: "#f0d8d8",
     bloqueCrisis: true,
     fotosPendientes: ["Un taller de escritura"],
@@ -209,6 +219,7 @@ export const CATALOGO: Entrada[] = [
       alt: "Dos manos de distinto tono sosteniendo un corazón rojo, con el lema «Todo se puede lograr siempre que estemos unidos»",
     },
     colorAcento: "#b81c00",
+    colorAcentoOscuro: "#da7360",
     colorMarca: "#d80000",
     bloqueCrisis: false,
     fotosPendientes: ["Entrega de bolsas de comida a una familia"],
@@ -238,6 +249,7 @@ export const CATALOGO: Entrada[] = [
     // Lo que llegó es un afiche vertical 1080×1350, no un emblema: va como
     // imagen de la sección de evidencia, no dentro de una placa cuadrada.
     colorAcento: "#806300",
+    colorAcentoOscuro: "#ac8e28",
     colorMarca: "#f0c000",
     bloqueCrisis: false,
     fotosPendientes: [
@@ -268,6 +280,7 @@ export const CATALOGO: Entrada[] = [
       alt: "Emblema de Comida en la Calle, Esperanza en el Corazón",
     },
     colorAcento: "#903000",
+    colorAcentoOscuro: "#d5794b",
     bloqueCrisis: false,
     fotosPendientes: ["Una jornada de reparto en la calle"],
   },
@@ -295,6 +308,7 @@ export const CATALOGO: Entrada[] = [
       alt: "Corazón rojo con alas y una aureola sobre un comedero, en un círculo turquesa, con el nombre Angelitos de la Calle",
     },
     colorAcento: "#006b6b",
+    colorAcentoOscuro: "#27a5a5",
     colorMarca: "#90c0c0",
     bloqueCrisis: false,
     fotosPendientes: ["Alimentación de animales durante una jornada"],
@@ -327,6 +341,7 @@ export const CATALOGO: Entrada[] = [
     // El ámbar es el lazo internacional de prevención del suicidio. El matiz se
     // respeta; solo se baja la luminancia para que pase contraste.
     colorAcento: "#8a6000",
+    colorAcentoOscuro: "#b48a2a",
     colorMarca: "#f0a800",
     bloqueCrisis: true,
     fotosPendientes: ["La jornada en la calle, con la gente esperando para hablar"],
@@ -355,6 +370,7 @@ export const CATALOGO: Entrada[] = [
     },
     // El verde es el lazo internacional de salud mental.
     colorAcento: "#006018",
+    colorAcentoOscuro: "#27a747",
     colorMarca: "#006018",
     bloqueCrisis: true,
     fotosPendientes: ["Una actividad de la campaña"],
