@@ -8,8 +8,9 @@ import { Boton, Dato, Marco, Nota, Placa } from "@/components/ui";
  *
  * Tiene un solo trabajo, y es el requisito raíz (O-04 / RF-06): que en diez
  * segundos se entienda que REFUVA son muchos frentes y no uno. De ahí salen dos
- * decisiones que no se negocian: el titular nombra comida y Navidad ANTES que
- * salud mental (HU-01), y los proyectos aparecen como índice numerado —
+ * decisiones que no se negocian: el SUBTÍTULO nombra al menos dos frentes
+ * ajenos a salud mental (HU-01 lo exige del subtítulo, no del titular), y los
+ * proyectos aparecen como índice numerado —
  * todas al mismo nivel, ninguna «la principal».
  *
  * Los cuatro CTA de HU-02 van juntos y por encima del pliegue, verificado a
@@ -279,7 +280,7 @@ export default function Inicio() {
               </Boton>
               <Link
                 href="/participar"
-                className="inline-flex items-center rounded-lg px-6 py-3.5 font-semibold ring-1 ring-inset ring-papel/35 transition-colors hover:bg-papel/10"
+                className="inline-flex items-center rounded-lg px-6 py-3.5 font-semibold ring-1 ring-inset ring-papel/60 transition-colors hover:bg-papel/10"
               >
                 Otras formas de ayudar
               </Link>

@@ -13,7 +13,7 @@
  *   3.0:1  texto grande y bordes   (1.4.3 y 1.4.11)
  */
 
-import { readFileSync } from "node:fs";
+import { globSync, readFileSync } from "node:fs";
 
 const CSS = readFileSync(new URL("../src/app/globals.css", import.meta.url), "utf8");
 const CATALOGO = readFileSync(new URL("../src/lib/catalogo.ts", import.meta.url), "utf8");
@@ -152,11 +152,113 @@ for (const { codigo, claro, oscuro } of coloresDelCatalogo()) {
   }
 }
 
+/**
+ * OPACIDADES — el punto ciego que tenía esta auditoría.
+ *
+ * Comprobaba tokens sólidos y nada más, así que todo lo que el sitio pinta con
+ * alfa (`opacity-70`, `ring-papel/35`, `placeholder:text-tinta-suave/60`) le
+ * era invisible. Tres de esos valores NO pasaban AA, y uno estaba en el bloque
+ * de crisis: la etiqueta «LÍNEA 147 (MIDES)» daba 4.39:1.
+ *
+ * Un color con alfa no es el token: es la mezcla con lo que tiene detrás. Aquí
+ * se declara esa mezcla y se comprueba como cualquier otra pareja.
+ */
+function mezcla(frente, fondo, alfa) {
+  const canal = (i) =>
+    Math.round(
+      parseInt(frente.slice(i, i + 2), 16) * alfa +
+        parseInt(fondo.slice(i, i + 2), 16) * (1 - alfa),
+    );
+  const hex = (v) => v.toString(16).padStart(2, "0");
+  return "#" + hex(canal(1)) + hex(canal(3)) + hex(canal(5));
+}
+
+/** [etiqueta, token de frente, token de fondo, alfa, umbral] */
+const OPACIDADES = [
+  ["Texto de la banda de crisis", "papel", "fuerte", 0.9, 4.5],
+  ["Entrada del bloque de crisis", "papel", "fuerte", 0.85, 4.5],
+  ["Etiqueta del recurso de crisis", "papel", "fuerte", 0.75, 4.5],
+  ["Disponibilidad 24/7 del recurso", "papel", "fuerte", 0.75, 4.5],
+  ["Fecha de verificación en el pie", "papel", "fuerte", 0.75, 4.5],
+  ["Etiquetas de la caja del pie", "papel", "fuerte", 0.8, 4.5],
+  ["Texto del cierre del Inicio", "papel", "fuerte", 0.85, 4.5],
+  ["Anillo del botón sobre el cierre", "papel", "fuerte", 0.6, 3],
+  ["Marcador de posición en formularios", "tinta-suave", "superficie", 0.8, 4.5],
+];
+
+/**
+ * Valores con alfa que SÍ son decorativos y por eso no se comprueban. Si
+ * aparece uno nuevo que no esté aquí ni arriba, esto falla: obliga a decidir
+ * si es decorativo o si hay que medirlo.
+ */
+const DECORATIVOS = new Map([
+  ["opacity-100", "estado hover, vuelve a opacidad plena"],
+  ["opacity-50", "el separador · entre dos teléfonos"],
+  ["opacity-60", "botón deshabilitado mientras se envía"],
+  ["decoration-papel/30", "subrayado del número; el número va a contraste pleno"],
+  ["text-valiente/25", "la comilla gigante, aria-hidden"],
+  ["ring-valiente/30", "halo del campo con error; el borde sólido es el límite"],
+  ["border-valiente/40", "borde del resumen de errores; lo delimita su relleno"],
+  ["border-valiente/35", "borde de la nota; lo delimita su relleno"],
+  ["border-fuerte/30", "borde de la tarjeta destacada; lo delimita su relleno"],
+  ["bg-papel/92", "fondo del encabezado fijo, con desenfoque detrás"],
+  ["bg-papel/15", "rejilla de 1px entre los recursos de crisis"],
+  ["bg-papel/10", "relleno del botón al pasar el ratón"],
+]);
+
+/** Alfas ya cubiertas por OPACIDADES, en el formato que usa Tailwind. */
+const MEDIDAS = new Set([
+  "opacity-90", "opacity-85", "opacity-80", "opacity-75",
+  "ring-papel/60", "text-tinta-suave/80",
+]);
+
+console.log(`
+${RAYA}
+  COLORES CON OPACIDAD
+${RAYA}`);
+for (const [etiqueta, frente, fondo, alfa, minimo] of OPACIDADES) {
+  for (const [tema, paleta] of TEMAS) {
+    const c = mezcla(paleta[frente], paleta[fondo], alfa);
+    const r = razon(c, paleta[fondo]);
+    const pasa = r >= minimo;
+    if (!pasa) fallos++;
+    console.log(
+      `  ${pasa ? "ok" : "NO"}  ${r.toFixed(2).padStart(6)}:1  (min ${minimo})  ` +
+        `${tema.padEnd(6)} ${etiqueta} al ${Math.round(alfa * 100)}%  ${c} sobre ${paleta[fondo]}`,
+    );
+  }
+}
+
+const FUENTE = globSync("src/**/*.tsx", { cwd: new URL("..", import.meta.url) })
+  .map((f) => readFileSync(new URL("../" + f, import.meta.url), "utf8"))
+  .join("\n");
+
+const sinDeclarar = new Set();
+for (const re of [
+  new RegExp("opacity-([0-9]+)", "g"),
+  new RegExp("(?:text|ring|border|bg|decoration)-[a-z-]+/([0-9]+)", "g"),
+]) {
+  for (const m of FUENTE.matchAll(re)) {
+    const uso = m[0].replace(/^(?:hover|disabled|focus|placeholder):/, "");
+    if (!MEDIDAS.has(uso) && !DECORATIVOS.has(uso)) sinDeclarar.add(uso);
+  }
+}
+if (sinDeclarar.size > 0) {
+  fallos += sinDeclarar.size;
+  console.log("");
+  for (const uso of [...sinDeclarar].sort()) {
+    console.log(
+      `  NO  ${uso} aparece en src/ y no está declarado. Decide si es decorativo` +
+        ` (añádelo a DECORATIVOS con su motivo) o mídelo (añádelo a OPACIDADES).`,
+    );
+  }
+}
+
 console.log(`
 ${RAYA}`);
 if (fallos === 0) {
   console.log(
-    `  Las ${TEMAS.length * PAREJAS.length + parejasCatalogo} comprobaciones pasan en los dos temas.`,
+    `  Las ${TEMAS.length * (PAREJAS.length + OPACIDADES.length) + parejasCatalogo} comprobaciones pasan en los dos temas.`,
   );
 } else {
   console.log(`  ${fallos} comprobaciones POR DEBAJO del umbral.`);

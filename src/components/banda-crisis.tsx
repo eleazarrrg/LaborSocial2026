@@ -83,7 +83,7 @@ export function BloqueCrisis({
       <ul className="grid gap-px bg-papel/15 sm:grid-cols-2">
         {RECURSOS_CRISIS.map((r) => (
           <li key={r.numero} className="bg-fuerte px-6 py-6 sm:px-8">
-            <p className="text-sm font-semibold tracking-wide uppercase opacity-70">
+            <p className="text-sm font-semibold tracking-wide uppercase opacity-75">
               {r.nombre}
             </p>
             <a

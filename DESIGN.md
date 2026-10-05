@@ -6,7 +6,7 @@
 | **Fecha** | 2 de octubre de 2026 |
 | **Estado** | Paleta **derivada de la marca real**, medida sobre los archivos de la fundación. |
 | **Fuente de verdad** | [`src/app/globals.css`](./src/app/globals.css). Este documento explica; el CSS manda. |
-| **Verificación** | `npm run contraste` — **84 de 84 en los dos temas** |
+| **Verificación** | `npm run contraste` — **102 de 102 en los dos temas** |
 
 > **Qué cambió desde la v1.0.** La v1.0 admitía que su paleta «no son los colores de REFUVA»: era una
 > propuesta derivada del significado del nombre, porque no había logo ni colores publicados en ninguna
@@ -179,8 +179,30 @@ color de superficie. Ni un componente cambia.
 razón de WCAG 2.2 de cada pareja que el sitio usa de verdad. Si alguien cambia un color y baja del
 umbral, el script falla.
 
-**84 de 84 comprobaciones pasan en los dos temas:** 44 de los tokens del sistema, leídas de
-`globals.css`, y 40 de los colores del catálogo, leídas de `catalogo.ts`. Ninguna sale de una copia.
+**102 de 102 comprobaciones pasan en los dos temas:** 44 de los tokens del sistema, leídas de
+`globals.css`; 40 de los colores del catálogo, leídas de `catalogo.ts`; y 18 de los colores con
+opacidad. Ninguna sale de una copia.
+
+### El punto ciego: los colores con alfa
+
+La auditoría comprobaba tokens sólidos y nada más. Todo lo que el sitio pinta con transparencia le
+era invisible, y **tres de esos valores no pasaban AA**:
+
+| Dónde | Era | Daba | Ahora | Da |
+|---|---|---|---|---|
+| Etiqueta del recurso en el bloque de crisis | `opacity-70` | **4.39:1** | `opacity-75` | 4.81:1 |
+| Fecha de verificación en el pie | `opacity-65` | **3.99:1** | `opacity-75` | 4.81:1 |
+| Anillo del botón «Otras formas de ayudar» | `ring-papel/35` | **2.15:1** | `ring-papel/60` | 3.63:1 |
+| Marcador de posición en formularios | `.../60` | **2.92:1** | `.../80` | 4.63:1 |
+
+El primero estaba en el bloque de crisis: la etiqueta que dice **«Línea 147 (MIDES)»**, encima del
+número al que llama alguien en riesgo. El del anillo era peor de lo que parece — ese anillo es el
+**único** límite visible del botón, que es justo el caso que WCAG 1.4.11 cubre.
+
+**Un color con alfa no es su token: es la mezcla con lo que tenga detrás.** El script ahora declara
+esa mezcla y la mide como cualquier otra pareja. Y rastrea `src/` en busca de utilidades con alfa:
+si aparece una que no esté medida ni declarada como decorativa **con su motivo escrito**, falla. Se
+comprobó al revés —introduciendo un `opacity-45`— y el script sale con código 1.
 
 | Pareja | Claro | Oscuro | Mínimo |
 |---|---|---|---|
@@ -281,6 +303,7 @@ Revisión contra los patrones prohibidos de
 | Fuentes por defecto sin motivo | Fraunces con sus ejes variables puestos a trabajar. |
 | Modo oscuro a medias | Los dos temas están diseñados y los dos están auditados. |
 | Animación gratuita | Solo transiciones de estado, todas por debajo de 200 ms, todas anuladas bajo `prefers-reduced-motion`. |
+| Paleta de plantilla de SaaS | Se consultó `ui-ux-pro-max` y propuso azul de confianza `#2563EB` con naranja de CTA, Outfit/Work Sans y el patrón «Hero + Features + CTA». Se descartó: el azul institucional está vetado en §1 por leerse clínico, y la tipografía y el color ya salen de la marca medida. La skill sirvió para auditar, no para elegir. |
 
 ---
 

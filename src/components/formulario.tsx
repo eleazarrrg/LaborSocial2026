@@ -19,7 +19,7 @@ import type { EstadoFormulario } from "@/lib/estado-formulario";
  */
 
 const BASE_CONTROL =
-  "w-full rounded-lg border bg-superficie px-3.5 py-3 text-tinta placeholder:text-tinta-suave/60 transition-colors";
+  "w-full rounded-lg border bg-superficie px-3.5 py-3 text-tinta placeholder:text-tinta-suave/80 transition-colors";
 
 function clasesControl(error?: string) {
   return `${BASE_CONTROL} ${

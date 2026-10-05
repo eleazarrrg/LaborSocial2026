@@ -110,7 +110,7 @@ export function Pie() {
             >
               Todos los recursos →
             </Link>
-            <p className="mt-4 text-xs opacity-65">
+            <p className="mt-4 text-xs opacity-75">
               Verificados el {VERIFICADO_EL}.
             </p>
           </div>
