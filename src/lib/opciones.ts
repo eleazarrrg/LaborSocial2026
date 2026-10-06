@@ -19,15 +19,22 @@ export const MODALIDADES = [
   { valor: "presencial", etiqueta: "Presencial" },
 ] as const;
 
+// Los valores son los mismos slugs que admite el CHECK de inscripciones_voluntariado.
 export const AREAS_VOLUNTARIADO = [
-  "Redes sociales",
-  "Diseño",
-  "Logística",
-  "Psicología",
-  "Escritura",
-  "Transporte",
-  "Cocina",
-  "Otra",
+  { valor: "redes-sociales", etiqueta: "Redes sociales" },
+  { valor: "diseno", etiqueta: "Diseño" },
+  { valor: "logistica", etiqueta: "Logística" },
+  { valor: "psicologia", etiqueta: "Psicología" },
+  { valor: "escritura", etiqueta: "Escritura" },
+  { valor: "transporte", etiqueta: "Transporte" },
+  { valor: "cocina", etiqueta: "Cocina" },
+  { valor: "otra", etiqueta: "Otra" },
+] as const;
+
+export const CONTACTO_PREFERIDO = [
+  { valor: "whatsapp", etiqueta: "WhatsApp" },
+  { valor: "telefono", etiqueta: "Llamada" },
+  { valor: "correo", etiqueta: "Correo" },
 ] as const;
 
 export const FORMAS_ENTREGA = [
@@ -38,3 +45,8 @@ export const FORMAS_ENTREGA = [
 
 export const MODALIDADES_VALORES = ["cualquiera", "virtual", "presencial"] as const;
 export const ENTREGA_VALORES = ["llevo", "coordinar", "asisto"] as const;
+export const AREAS_VALORES = [
+  "redes-sociales", "diseno", "logistica", "psicologia",
+  "escritura", "transporte", "cocina", "otra",
+] as const;
+export const CONTACTO_VALORES = ["whatsapp", "telefono", "correo"] as const;

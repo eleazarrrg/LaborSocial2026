@@ -41,3 +41,9 @@ export const DONACIONES = {
 
 /** Precio de la atención psicológica, confirmado en la reunión (S-01). */
 export const PRECIO_CONSULTA = "B/.15.00";
+
+/**
+ * Versión de /privacidad que cada persona aceptó al enviar un formulario. Se guarda con la
+ * fila (`politica_version`). Cambia este texto cada vez que cambie la política.
+ */
+export const POLITICA_VERSION = "borrador-2026-10";

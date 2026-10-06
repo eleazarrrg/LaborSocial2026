@@ -4,7 +4,14 @@ import { useActionState } from "react";
 import { accionContacto } from "@/app/actions";
 import { ESTADO_INICIAL } from "@/lib/estado-formulario";
 import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
-import { Area, Campo, Casilla, Enviar, Resultado } from "@/components/formulario";
+import {
+  Area,
+  Campo,
+  Casilla,
+  Enviar,
+  Formulario,
+  Resultado,
+} from "@/components/formulario";
 
 /** Contacto general (RF-10, HU-20). */
 export function FormularioContacto() {
@@ -12,7 +19,7 @@ export function FormularioContacto() {
   const e = estado.errores ?? {};
 
   return (
-    <form action={accion} className="space-y-7" noValidate>
+    <Formulario estado={estado} accion={accion}>
       <Campo
         nombre="nombre"
         etiqueta="¿Cómo te llamas?"
@@ -58,9 +65,11 @@ export function FormularioContacto() {
       <Resultado
         estado={estado}
         alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />}
-      />
+      >
+        <p>Te responderemos por el correo o el teléfono que dejaste.</p>
+      </Resultado>
 
       <Enviar>Enviar mensaje</Enviar>
-    </form>
+    </Formulario>
   );
 }

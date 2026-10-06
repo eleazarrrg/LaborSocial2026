@@ -8,9 +8,15 @@
  */
 
 export type EstadoFormulario = {
-  estado: "inicial" | "error" | "prototipo";
+  /** error: hay algo que corregir · fallo: falló nuestro lado · enviado: está guardado. */
+  estado: "inicial" | "error" | "fallo" | "enviado";
   errores?: Record<string, string>;
   mensaje?: string;
+  /** Lo que la persona escribió, para no hacérselo escribir otra vez. */
+  valores?: Record<string, string | string[]>;
 };
 
 export const ESTADO_INICIAL: EstadoFormulario = { estado: "inicial" };
+
+/** Campo oculto que solo llena un bot. Nombre poco obvio a propósito. */
+export const CAMPO_TRAMPA = "ref_interna_7";

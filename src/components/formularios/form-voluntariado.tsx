@@ -11,6 +11,7 @@ import {
   Casilla,
   Casillas,
   Enviar,
+  Formulario,
   Resultado,
 } from "@/components/formulario";
 
@@ -20,7 +21,7 @@ export function FormularioVoluntariado() {
   const e = estado.errores ?? {};
 
   return (
-    <form action={accion} className="space-y-7" noValidate>
+    <Formulario estado={estado} accion={accion}>
       <Campo
         nombre="nombre"
         etiqueta="¿Cómo te llamas?"
@@ -33,7 +34,6 @@ export function FormularioVoluntariado() {
           nombre="correo"
           etiqueta="Correo"
           tipo="email"
-          opcional
           autoComplete="email"
           error={e.correo}
         />
@@ -46,7 +46,9 @@ export function FormularioVoluntariado() {
           error={e.telefono}
         />
       </div>
-      <p className="-mt-4 text-sm text-tinta-suave">Con uno de los dos basta.</p>
+      <p className="-mt-4 text-sm text-tinta-suave">
+        El correo sí hace falta: por ahí coordinamos cada jornada.
+      </p>
 
       <Casillas
         nombre="areas"
@@ -54,6 +56,13 @@ export function FormularioVoluntariado() {
         opciones={AREAS_VOLUNTARIADO}
         ayuda="Marca todas las que quieras. Sirve para avisarte solo de lo que te interesa."
         error={e.areas}
+      />
+
+      <Campo
+        nombre="otraArea"
+        etiqueta="Si marcaste «Otra», ¿cuál?"
+        opcional
+        error={e.otraArea}
       />
 
       <Campo
@@ -69,7 +78,7 @@ export function FormularioVoluntariado() {
         etiqueta="¿Algo que debamos saber?"
         opcional
         filas={3}
-        maxLength={600}
+        maxLength={500}
         ayuda="Experiencia previa, un oficio, un vehículo. Lo que se te ocurra."
         error={e.experiencia}
       />
@@ -83,9 +92,14 @@ export function FormularioVoluntariado() {
       <Resultado
         estado={estado}
         alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />}
-      />
+      >
+        <p>
+          Te escribiremos al correo que dejaste cuando haya una actividad en las áreas que
+          marcaste.
+        </p>
+      </Resultado>
 
       <Enviar>Quiero ser voluntario</Enviar>
-    </form>
+    </Formulario>
   );
 }

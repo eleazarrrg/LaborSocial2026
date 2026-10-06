@@ -10,6 +10,7 @@ import {
   Campo,
   Casilla,
   Enviar,
+  Formulario,
   Opciones,
   Resultado,
 } from "@/components/formulario";
@@ -30,7 +31,7 @@ export function FormularioPadrino() {
   const e = estado.errores ?? {};
 
   return (
-    <form action={accion} className="space-y-7" noValidate>
+    <Formulario estado={estado} accion={accion}>
       <Campo
         nombre="nombre"
         etiqueta="¿Cómo te llamas?"
@@ -43,7 +44,6 @@ export function FormularioPadrino() {
           nombre="correo"
           etiqueta="Correo"
           tipo="email"
-          opcional
           autoComplete="email"
           error={e.correo}
         />
@@ -51,20 +51,28 @@ export function FormularioPadrino() {
           nombre="telefono"
           etiqueta="Teléfono"
           tipo="tel"
-          opcional
           autoComplete="tel"
           error={e.telefono}
         />
       </div>
-      <p className="-mt-4 text-sm text-tinta-suave">Con uno de los dos basta.</p>
+      <p className="-mt-4 text-sm text-tinta-suave">
+        Los dos, porque la entrega del regalo se coordina con fecha fija.
+      </p>
+
+      <Campo
+        nombre="cantidadNinos"
+        etiqueta="¿A cuántos niños o niñas quieres apadrinar?"
+        tipo="number"
+        min={1}
+        max={10}
+        porDefecto="1"
+        error={e.cantidadNinos}
+      />
 
       <Opciones
         nombre="formaEntrega"
         etiqueta="¿Cómo prefieres hacer llegar el regalo?"
-        opciones={FORMAS_ENTREGA.map((f) => ({
-          valor: f.valor,
-          etiqueta: f.etiqueta,
-        }))}
+        opciones={FORMAS_ENTREGA}
         error={e.formaEntrega}
       />
 
@@ -85,9 +93,14 @@ export function FormularioPadrino() {
       <Resultado
         estado={estado}
         alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />}
-      />
+      >
+        <p>
+          Gracias por sumarte a Una Estrella Otiliana. Te contactaremos antes de la fiesta para
+          coordinar la entrega.
+        </p>
+      </Resultado>
 
       <Enviar>Quiero apadrinar</Enviar>
-    </form>
+    </Formulario>
   );
 }

@@ -3,13 +3,15 @@
 import { useActionState } from "react";
 import { accionCita } from "@/app/actions";
 import { ESTADO_INICIAL } from "@/lib/estado-formulario";
-import { MODALIDADES } from "@/lib/opciones";
+import { CONTACTO_PREFERIDO, MODALIDADES } from "@/lib/opciones";
+import { RECURSOS_CRISIS } from "@/lib/crisis";
 import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 import {
   Area,
   Campo,
   Casilla,
   Enviar,
+  Formulario,
   Opciones,
   Resultado,
 } from "@/components/formulario";
@@ -29,12 +31,14 @@ import {
  * - «Necesito atención pronto» existe (HU-37) y solo marca el aviso interno;
  *   no promete nada que la fundación no pueda cumplir.
  */
+const [emergencia, linea] = RECURSOS_CRISIS;
+
 export function FormularioCita() {
   const [estado, accion] = useActionState(accionCita, ESTADO_INICIAL);
   const e = estado.errores ?? {};
 
   return (
-    <form action={accion} className="space-y-7" noValidate>
+    <Formulario estado={estado} accion={accion}>
       <Campo
         nombre="nombre"
         etiqueta="¿Cómo te llamas?"
@@ -65,12 +69,16 @@ export function FormularioCita() {
       </p>
 
       <Opciones
+        nombre="contactoPreferido"
+        etiqueta="¿Por dónde prefieres que te escribamos?"
+        opciones={CONTACTO_PREFERIDO}
+        error={e.contactoPreferido}
+      />
+
+      <Opciones
         nombre="modalidad"
         etiqueta="¿Cómo prefieres la sesión?"
-        opciones={MODALIDADES.map((m) => ({
-          valor: m.valor,
-          etiqueta: m.etiqueta,
-        }))}
+        opciones={MODALIDADES}
         porDefecto="cualquiera"
         error={e.modalidad}
       />
@@ -105,14 +113,23 @@ export function FormularioCita() {
       <Resultado
         estado={estado}
         alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />}
-      />
+      >
+        <p>Te escribiremos por el medio que elegiste.</p>
+        <p>
+          Si mientras esperas sientes que no puedes más, no esperes: llama a la{" "}
+          <strong className="text-tinta">{linea.nombre}</strong> ({linea.disponibilidad.toLowerCase()})
+          {linea.whatsapp && <> o escribe al {linea.whatsapp.visible} por WhatsApp</>}. Si hay
+          riesgo para la vida ahora mismo, llama al{" "}
+          <strong className="text-tinta">{emergencia.numero}</strong>.
+        </p>
+      </Resultado>
 
       <div className="flex flex-wrap items-center gap-4">
         <Enviar>Enviar solicitud</Enviar>
         <p className="text-sm text-tinta-suave">
-          Te responderemos por el medio que dejaste.
+          Te responderemos por el medio que elijas.
         </p>
       </div>
-    </form>
+    </Formulario>
   );
 }
