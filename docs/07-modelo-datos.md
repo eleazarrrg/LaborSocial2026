@@ -362,8 +362,6 @@ create table public.proyectos (
   logo_fondo               text        check (logo_fondo ~ '^#[0-9a-f]{6}$'),
   imagen_portada_url       text,
   imagen_portada_alt       text,
-  color_acento             text        check (color_acento ~ '^#[0-9a-f]{6}$'),
-  color_marca              text        check (color_marca ~ '^#[0-9a-f]{6}$'),
   accion_etiqueta          text,
   accion_url               text,
   bloque_crisis            boolean     not null default false,
@@ -401,10 +399,10 @@ alter table public.proyectos enable row level security;
   distinto cada uno. La placa que los enmarca usa este color, de modo que el borde del PNG desaparece
   contra ella. Cuando lleguen los logos vectoriales o con alfa (pendiente con Edwin), la columna
   queda en `null` y la placa cae al color de superficie.
-- `color_marca` es el color **real** del logo, para mostrarlo tal cual. `color_acento` es el mismo
-  matiz ya **oscurecido hasta pasar 4.5:1** sobre los dos papeles, y es el único que se usa para
-  texto o para trazos. Separarlos evita la tentación recurrente de usar el color de marca crudo: el
-  turquesa `#007878` se queda en 4,32:1 y el naranja `#f07800` en 2,59:1. Ninguno llega a AA.
+- **Las entradas no tienen columnas de color.** Las tuvieron (`color_acento`, `color_marca`), pero tras
+  el rediseño de octubre solo pintaban las viñetas de requisitos, y una sola entrada tiene requisitos.
+  La auditoría ponytail las quitó del código y aquí se quitan del esquema: el color de cada proyecto
+  vive en su emblema. Ver DESIGN.md, «Las entradas no tienen color propio».
 - `bloque_crisis` en `true` obliga a que la página cierre con el bloque completo de recursos
   (RF-11, CLAUDE.md §5.1). Hoy lo llevan `psicoeducativo`, `rompiendo-el-circulo`,
   `historias-que-sanan` y las dos campañas. Es un control de seguridad, no una preferencia: el panel
@@ -2588,50 +2586,50 @@ poder intercalar sin renumerar; Edwin lo reordena desde el panel cuando quiera (
 ```sql
 insert into public.proyectos
   (slug, tipo, nombre, nombre_corto, resumen, en_honor_a,
-   color_acento, color_marca, logo_fondo, bloque_crisis, orden, activo) values
+   logo_fondo, bloque_crisis, orden, activo) values
 
   -- ── Proyectos ───────────────────────────────────────────────────────
   ('psicoeducativo', 'proyecto',
    'Proyecto Psicoeducativo REFUVA', 'Psicoeducativo',
    'Orientación y acompañamiento para toda la comunidad educativa, no solo para los estudiantes.',
-   null, '#903000', null, null, true, 10, true),
+   null, null, true, 10, true),
 
   ('psicoempresarial', 'proyecto',
    'Proyecto Psicoempresarial REFUVA', 'Psicoempresarial',
    'Formación y acompañamiento para convertir ideas en oportunidades y sueños en proyectos sostenibles.',
-   null, '#903000', null, null, false, 20, true),
+   null, null, false, 20, true),
 
   ('rompiendo-el-circulo', 'proyecto',
    'Rompiendo el Círculo', 'Rompiendo el Círculo',
    'Acompañamiento a personas en riesgo social. Ninguna persona queda definida por sus circunstancias.',
-   null, '#846000', '#c09000', '#ffffff', true, 30, true),
+   null, '#ffffff', true, 30, true),
 
   ('historias-que-sanan', 'proyecto',
    'Historias que Sanan', 'Historias que Sanan',
    'Escritura terapéutica. Algunas historias necesitan ser contadas para comenzar a sanar.',
-   null, '#9a3246', '#f0d8d8', '#ffffff', true, 40, true),
+   null, '#ffffff', true, 40, true),
 
   ('grupo-un-solo-corazon', 'proyecto',
    'Grupo Un Solo Corazón', 'Un Solo Corazón',
    'Nació en la pandemia llevando bolsas de comida a familias. Sigue hasta hoy.',
    'Las familias que sostuvieron la pandemia sin soltarse',
-   '#b81c00', '#d80000', '#cdcdcb', false, 50, true),
+   '#cdcdcb', false, 50, true),
 
   ('una-estrella-otiliana', 'proyecto',
    'Una Estrella Otiliana', 'Una Estrella Otiliana',
    'El proyecto navideño. Nace en honor a Otilia, la abuela de Edwin.',
    'Otilia, la abuela de Edwin',
-   '#806300', '#f0c000', '#ffffff', false, 60, true),
+   '#ffffff', false, 60, true),
 
   ('comida-en-la-calle', 'proyecto',
    'Comida en la Calle, Esperanza en el Corazón', 'Comida en la Calle',
    'Alimento al cuerpo y esperanza al corazón, para personas en situación de calle.',
-   null, '#903000', null, '#f6f6f6', false, 70, true),
+   null, '#f6f6f6', false, 70, true),
 
   ('angelitos-de-la-calle', 'proyecto',
    'Angelitos de la Calle', 'Angelitos de la Calle',
    'Alimento para perritos y gatitos sin hogar. Ayudar a un animalito también transforma una vida.',
-   null, '#006b6b', '#90c0c0', '#f5f5f5', false, 80, true),
+   null, '#f5f5f5', false, 80, true),
 
   -- ── Campañas ────────────────────────────────────────────────────────
   -- Los colores de marca NO se tocan: el ámbar es el lazo internacional de
@@ -2639,12 +2637,12 @@ insert into public.proyectos
   ('hablame-panama', 'campana',
    'Háblame Panamá', 'Háblame Panamá',
    'Campaña de prevención del suicidio. Nace en honor a Jessica.',
-   'Jessica', '#8a6000', '#f0a800', '#fdfdfd', true, 10, true),
+   'Jessica', '#fdfdfd', true, 10, true),
 
   ('escuchame-panama', 'campana',
    '#EscúchamePanamá', '#EscúchamePanamá',
    'Campaña de sensibilización en salud mental. Pedir ayuda es un acto de fortaleza.',
-   null, '#006018', '#006018', '#fefefe', true, 20, true)
+   null, '#fefefe', true, 20, true)
 
 on conflict (slug) do nothing;
 ```

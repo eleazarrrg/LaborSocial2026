@@ -65,8 +65,9 @@ export default function Inicio() {
             <h1 className="max-w-[19ch] text-[length:var(--paso-display)] leading-[1.06] font-extrabold">
               Damos terapia en la calle.{" "}
               <span className="whitespace-nowrap">Y comida.</span>{" "}
-              <span className="whitespace-nowrap">Y una Navidad</span> a quien
-              nunca ha tenido una.
+              <span className="whitespace-nowrap">Y una Navidad</span>{" "}
+              <span className="whitespace-nowrap">a quien</span> nunca ha
+              tenido una.
             </h1>
             <p className="mt-6 max-w-[46ch] text-lg leading-relaxed text-tinta-suave sm:text-xl">
               Sostenemos{" "}

@@ -34,6 +34,9 @@ levantamiento.
 - Un **panel administrativo** en español para que Edwin publique, edite, oculte y archive contenido,
   y consulte las solicitudes recibidas.
 - Integración de **correo transaccional** y de un **feed de Instagram**.
+- **Andamiaje bilingüe español/inglés** (M-13: la fundación lo pidió por escrito en octubre, «con la
+  posibilidad de sumar otros idiomas»). La v1 se **publica solo en español**; el inglés queda
+  preparado y vacío hasta que alguien de la fundación entregue las traducciones.
 - **Capacitación y traspaso** documentados.
 
 **Está fuera (y se dice explícitamente porque se conversó en la reunión):**
@@ -717,4 +720,4 @@ Registrado para que exista, no para hacerse ahora.
 | V2-04 | Portal privado para padrinos con seguimiento de su apadrinamiento. | Solo con una política escrita de datos de menores. |
 | V2-05 | Sección de transparencia con estados financieros. | Cuando la fundación los publique. |
 | V2-06 | Boletín por correo. | Cuando haya quien lo escriba con regularidad. |
-| V2-07 | Versión en inglés para patrocinadores internacionales. | Si aparece la necesidad real. |
+| V2-07 | ~~Versión en inglés.~~ **Pasó al alcance de v1 como andamiaje** (M-13, octubre de 2026): ver §1.2. Lo que sigue fuera es la *traducción*, que depende de la fundación. | Cuando la fundación entregue los textos en inglés. |
