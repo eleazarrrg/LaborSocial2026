@@ -246,10 +246,15 @@ otp_expiry = 3600
 # admin_email = "admin@email.com"
 # sender_name = "Admin"
 
-# Uncomment to customize email template
-# [auth.email.template.invite]
-# subject = "You have been invited"
-# content_path = "./supabase/templates/invite.html"
+# Plantillas con token_hash: el enlace lo canjea el servidor en /panel/auth/confirmar.
+# En el proyecto en la nube se pegan a mano en Authentication → Email Templates (docs/09).
+[auth.email.template.invite]
+subject = "Tu acceso al panel de la Fundación REFUVA"
+content_path = "./supabase/templates/invitacion.html"
+
+[auth.email.template.recovery]
+subject = "Crea una contraseña nueva para el panel de REFUVA"
+content_path = "./supabase/templates/recuperacion.html"
 
 # Uncomment to customize notification email template
 # [auth.email.notification.password_changed]

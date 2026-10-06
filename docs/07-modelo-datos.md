@@ -15,6 +15,37 @@
 > Estado de cada afirmación, igual que en `hechos-verificados.md`:
 > ✅ **Confirmado** · 🟡 **Inferido** (se deduce, hay que confirmarlo) · 🔴 **Pendiente** (falta el dato).
 
+> **Estado de implementación — 6 de octubre de 2026.** La primera fase ya está en
+> `supabase/migrations/`, y **ahí manda el SQL, no este documento**. Al implementarla, contrastada con la
+> documentación vigente de Supabase y de Next 16, se corrigió lo siguiente:
+>
+> - **Esquema `privado`.** Las funciones SECURITY DEFINER (`es_admin`, el alta de perfiles, el cambio
+>   de estado) viven en un esquema que la API no expone. En `public`, cualquiera podría llamarlas.
+> - **`es_admin()` se crea después de `perfiles`** (antes estaba declarada primero y no compilaba) y
+>   **exige `aal2`** en el token: sin el segundo factor, la base no entrega ninguna solicitud.
+> - **Permisos explícitos.** Desde el 30-10-2026 las tablas nuevas no se exponen solas. Se revoca
+>   todo a `anon`, `authenticated` y `service_role`, y se concede solo lo necesario:
+>   - **`service_role`** (la clave secreta del servidor) solo puede **insertar** en las tablas de
+>     formularios y en la cuarentena; no puede leerlas.
+>   - **`authenticated`** puede leer (filtrado por RLS) y **cambiar únicamente la columna `estado`**.
+> - **Bitácora.** `actor_id` y `actor_correo` los pone la base. Cada cambio de estado se registra en
+>   la misma transacción, con un disparador. El panel solo puede insertar `ver_solicitud`.
+> - **Zod y SQL alineados** (`src/lib/esquemas.ts`):
+>   - **Cita:** `motivo` de 5 a 280 caracteres si se llena; `disponibilidad` opcional; nueva columna
+>     `contacto_preferido`.
+>   - **Voluntariado:** correo obligatorio; áreas como slugs y `otra_area`.
+>   - **Padrinos:** teléfono obligatorio y `cantidad_ninos` de 1 a 10.
+>   - **Todos:** correos en minúscula.
+> - **`convocatorias.proyecto_slug`** en lugar de la clave foránea a `proyectos`, que todavía no
+>   existe en la base.
+> - **Fuera de esta fase:**
+>   - `proyectos`, `notificaciones_pendientes`, `notas_internas`, `postulaciones_comunidad`,
+>     `solicitudes_alianza`, `ajustes` y `tareas_programadas`;
+>   - la purga de retención, que espera los plazos de Edwin.
+>
+>   **Ojo con `registrar_tarea()` (§ más abajo):** tal como está escrita aquí, queda en `public`
+>   con EXECUTE para cualquiera. Cuando se cree, va en `privado` y solo para `service_role`.
+
 ---
 
 # 1. Principios del modelo

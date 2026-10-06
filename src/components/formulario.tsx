@@ -134,7 +134,7 @@ export function Campo({
 }: {
   nombre: string;
   etiqueta: string;
-  tipo?: "text" | "email" | "tel" | "number";
+  tipo?: "text" | "email" | "tel" | "number" | "password";
   opcional?: boolean;
   ayuda?: string;
   error?: string;

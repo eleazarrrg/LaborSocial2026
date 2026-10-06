@@ -272,6 +272,9 @@ en el Drive.
 
 ## 4.2 Segundo factor: qué se activa y qué se guarda
 
+> En el **panel**, Supabase no da códigos de respaldo: ver §5.0.3. Lo de abajo vale para las cuentas
+> de servicio (Google, GitHub, Vercel, Supabase).
+
 Segundo factor **obligatorio** en las dos cuentas de administrador del panel (RF-04) y en todas las
 cuentas de servicio del inventario de §2.2.
 
@@ -357,6 +360,108 @@ que entra cada dos semanas y no recuerda dónde estaba nada (X-03).
 
 > Todos empiezan igual: entrar a `refuva.org/panel`, iniciar sesión con el correo institucional y
 > aprobar el segundo factor en el teléfono.
+
+## 5.0 Lo que el panel ya hace hoy (octubre de 2026)
+
+> Los procedimientos 5.1 a 5.12 describen el panel **completo**. Hoy existe solo la primera fase:
+> entrar con segundo factor, leer las solicitudes de los cuatro formularios y cambiarles el estado.
+> Lo demás (usuarios, convocatorias, noticias) todavía se hace como dice esta sección. Responsable de
+> esta sección hasta la entrega: **Rafael Gómez**. Después: la persona administradora de sistemas.
+
+### 5.0.1 Antes de publicar: lo que se configura una sola vez
+
+1. **Variables de entorno** en el hosting (ver `.env.example`):
+   - `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`;
+   - `SUPABASE_SECRET_KEY` **solo** en el servidor. Nunca en el chat, nunca en el repositorio.
+2. **Migraciones:** `npx supabase link --project-ref …` y después `npx supabase db push`. Los dos
+   comandos piden la contraseña de la base: la escribe quien los corre, nadie más.
+3. **Probar la RLS** y no publicar si algo falla:
+   - pegar `supabase/tests/rls.sql` en el SQL Editor. Si todo está bien, responde «Success. No rows
+     returned»; si algo está mal, da un error que empieza con «FALLA»;
+   - correr `npm run probar-rls`, que prueba la API real con la clave pública.
+
+   Se repiten **después de cada migración nueva**.
+4. **Authentication → URL Configuration:** *Site URL* = `https://refuva.org`.
+5. **Authentication → Email Templates:** pegar en *Invite user* y en *Reset password* el contenido de
+   `supabase/templates/invitacion.html` y `recuperacion.html`, con sus asuntos (`supabase/config.toml`).
+   Los enlaces van a `/panel/auth/confirmar` con `token_hash`. Sin este paso, los enlaces de los
+   correos no funcionan.
+6. **Correo de salida.** El correo integrado de Supabase **solo entrega a los miembros del equipo del
+   proyecto** y tiene un tope bajo por hora. Para producción, configurar el SMTP de Resend en
+   *Authentication → SMTP Settings* con la cuenta de la fundación.
+7. **El latido.** Programar `GET https://refuva.org/api/latido` **una vez al día**, en *Vercel Cron*
+   (en `vercel.json`) o en una tarea programada de Coolify. Responde `{"ok":true}`. Con eso el plan
+   Free no pausa el proyecto (§5.7). **Nunca en GitHub Actions** (§3.4).
+
+### 5.0.2 Dar acceso a una administradora
+
+1. Supabase → *Authentication → Users* → **Invite user** → su correo.
+2. Ella abre el enlace, elige su contraseña (12 caracteres, con mayúscula, minúscula y número) y
+   configura el código en su teléfono.
+3. Toda cuenta nace **inactiva** y sin permisos. Para activarla, en el SQL Editor:
+
+   ```sql
+   update public.perfiles set activo = true, rol = 'administrador', nombre = 'Nombre Apellido'
+    where correo = 'correo@refuva.org';
+   ```
+
+4. Para quitarle el acceso: `update public.perfiles set activo = false where correo = '…';`. **Corta
+   el acceso a las solicitudes en la siguiente consulta**, porque la base lo comprueba cada vez.
+   Para cerrar además sus sesiones, *Authentication → Users* → la persona → **Sign out user**.
+
+### 5.0.3 El segundo factor en Supabase: sin códigos de respaldo
+
+Corrige §4.2 para el panel: **Supabase no entrega códigos de respaldo** para el código del teléfono.
+Lo que hace sus veces:
+
+- **Escanear el QR con dos teléfonos** en el mismo momento, el suyo y el de la otra administradora,
+  antes de escribir el primer código. El QR se queda en pantalla hasta que se verifica.
+- **Si pierde el teléfono:** otra persona con acceso al proyecto borra su factor y ella vuelve a
+  configurarlo al entrar:
+
+  ```sql
+  delete from auth.mfa_factors
+   where user_id = (select id from public.perfiles where correo = 'correo@refuva.org');
+  ```
+
+  Antes de hacerlo, confirmar por teléfono que es ella quien lo pide.
+
+**El token del segundo factor dura una hora** (`jwt_expiry = 3600`). Si se borra un factor, la
+sesión que ya estaba abierta sigue en `aal2` hasta que el token se renueve. Para cortarla antes, usar
+**Sign out user**.
+
+### 5.0.4 Abrir y cerrar una convocatoria (mientras no esté en el panel)
+
+La de padrinos de Una Estrella Otiliana 2026 ya está abierta: del 6 de octubre al 15 de diciembre,
+hora de Panamá. Para otras, en el SQL Editor:
+
+```sql
+-- Cerrarla ya:
+update public.convocatorias set cerrada_manualmente = true, cerrada_en = now()
+ where proyecto_slug = 'una-estrella-otiliana' and tipo = 'padrinos'
+   and cierra_en > now();
+
+-- Abrir la del año siguiente (cierra al terminar el 15 de diciembre en Panamá):
+insert into public.convocatorias (proyecto_slug, tipo, titulo, descripcion, texto_si_cerrada, abre_en, cierra_en)
+values ('una-estrella-otiliana', 'padrinos', 'Padrinos y madrinas · Navidad 2027',
+        '…', 'La convocatoria de padrinos y madrinas no está abierta en este momento.',
+        '2027-10-01 00:00-05', '2027-12-16 00:00-05');
+```
+
+La base no deja que dos convocatorias del mismo proyecto y tipo se solapen en fechas.
+
+### 5.0.5 La cuarentena
+
+Lo que un robot envía (llena el campo oculto que una persona no ve) no entra a la bandeja: va a
+`envios_en_cuarentena`. La bandeja muestra cuántos hay. Para revisarlos:
+
+```sql
+select creado_en, formulario, carga from public.envios_en_cuarentena
+ where not revisado order by creado_en;
+```
+
+Si alguno era una persona de verdad, se le contacta a mano. **Todavía no hay purga**: esos datos no
+tienen fecha de borrado hasta que Edwin apruebe los plazos de retención (§5.12). 🔴
 
 ## 5.1 Publicar una noticia
 

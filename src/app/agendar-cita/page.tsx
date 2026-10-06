@@ -71,9 +71,9 @@ export default function AgendarCita() {
             <h2 className="font-display text-lg font-semibold">Qué pasa después</h2>
             <ol className="mt-4 space-y-4 text-sm">
               {[
-                "Recibimos tu solicitud y queda registrada.",
-                "Te llega un correo confirmando que llegó.",
-                "Te escribimos para acordar día y hora.",
+                "Recibimos tu solicitud y queda registrada. Lo ves en pantalla al enviarla.",
+                // El correo de confirmación llega con n8n/Resend; hasta entonces no se promete.
+                "Te escribimos por el medio que elegiste para acordar día y hora.",
               ].map((paso, i) => (
                 <li key={paso} className="flex gap-3.5">
                   <span

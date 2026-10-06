@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "contraste": "node scripts/auditar-contraste.mjs"
+    "contraste": "node scripts/auditar-contraste.mjs",
+    "probar-rls": "node scripts/probar-rls.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",
