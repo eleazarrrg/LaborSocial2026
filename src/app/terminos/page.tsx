@@ -49,7 +49,6 @@ export default function Terminos() {
   return (
     <>
       <TituloPagina
-        sobretitulo="Legales"
         titulo="Términos de uso"
         entrada="Qué es este sitio, qué no es, y qué puedes esperar de él."
       />

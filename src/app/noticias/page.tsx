@@ -23,7 +23,6 @@ export default function Noticias() {
   return (
     <>
       <TituloPagina
-        sobretitulo="Noticias y eventos"
         titulo="Lo que va pasando."
         entrada="Jornadas, convocatorias y contenido psicoeducativo. Todo lo publica la fundación desde su panel, sin depender de nadie."
       />

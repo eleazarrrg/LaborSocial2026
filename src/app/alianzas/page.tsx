@@ -23,7 +23,6 @@ export default function Alianzas() {
   return (
     <>
       <TituloPagina
-        sobretitulo="Para instituciones"
         titulo="Abrir una puerta también es ayudar."
         entrada="Hay más de treinta escuelas esperando el programa psicoeducativo. Si tu institución quiere trabajar con alguno de nuestros proyectos, escríbenos."
       />

@@ -1,325 +1,556 @@
-# Sistema de diseño — Portal Fundación REFUVA
+---
+name: Portal Fundación REFUVA
+description: El estándar del sector, ejecutado sin ironía, con Mind (mind.org.uk) como vara de acabado y los colores medidos del árbol Ψ.
+colors:
+  papel: "#ffffff"
+  papel-alto: "#e9f3f2"
+  superficie: "#ffffff"
+  tinta: "#101a19"
+  tinta-suave: "#43504e"
+  marca: "#005557"
+  sobre-marca: "#ffffff"
+  fuerte: "#005c5c"
+  fuerte-tenue: "#d3ebe8"
+  valiente: "#a34700"
+  valiente-tenue: "#fde6d2"
+  tronco: "#7d2b00"
+  vivo: "#d46a00"
+  alerta: "#b3261e"
+  borde: "#d5e4e2"
+  borde-fuerte: "#a9c3c0"
+  borde-control: "#6d8582"
+  papel-oscuro: "#0c1413"
+  papel-alto-oscuro: "#13201f"
+  superficie-oscuro: "#101b1a"
+  tinta-oscuro: "#e7f0ee"
+  tinta-suave-oscuro: "#a2b4b1"
+  marca-oscuro: "#0f3836"
+  sobre-marca-oscuro: "#e7f0ee"
+  fuerte-oscuro: "#72d0cb"
+  fuerte-tenue-oscuro: "#103634"
+  valiente-oscuro: "#f2a466"
+  valiente-tenue-oscuro: "#3b2412"
+  tronco-oscuro: "#e39a72"
+  vivo-oscuro: "#f0a060"
+  alerta-oscuro: "#ff9e8a"
+  borde-oscuro: "#233331"
+  borde-fuerte-oscuro: "#36504d"
+  borde-control-oscuro: "#5f7a77"
+typography:
+  display:
+    fontFamily: "Atkinson Hyperlegible Next, system-ui, sans-serif"
+    fontSize: "clamp(2.25rem, 1.5rem + 2.2vw, 3.25rem)"
+    fontWeight: 800
+    lineHeight: 1.06
+    letterSpacing: "-0.02em"
+  headline:
+    fontFamily: "Atkinson Hyperlegible Next, system-ui, sans-serif"
+    fontSize: "clamp(2.25rem, 5vw, 3.5rem)"
+    fontWeight: 800
+    lineHeight: 1.08
+    letterSpacing: "-0.02em"
+  title:
+    fontFamily: "Atkinson Hyperlegible Next, system-ui, sans-serif"
+    fontSize: "2.25rem"
+    fontWeight: 800
+    lineHeight: 1.15
+    letterSpacing: "-0.02em"
+  subtitle:
+    fontFamily: "Atkinson Hyperlegible Next, system-ui, sans-serif"
+    fontSize: "1.5rem"
+    fontWeight: 800
+    lineHeight: 1.25
+    letterSpacing: "-0.02em"
+  lead:
+    fontFamily: "Atkinson Hyperlegible Next, system-ui, sans-serif"
+    fontSize: "1.25rem"
+    fontWeight: 400
+    lineHeight: 1.625
+  body:
+    fontFamily: "Atkinson Hyperlegible Next, system-ui, sans-serif"
+    fontSize: "1.1875rem"
+    fontWeight: 400
+    lineHeight: 1.55
+  label:
+    fontFamily: "Atkinson Hyperlegible Next, system-ui, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 700
+    lineHeight: 1.25
+rounded:
+  foco: "3px"
+  control: "8px"
+  tarjeta: "12px"
+  campo: "16px"
+spacing:
+  canal-movil: "16px"
+  canal: "24px"
+  hueco: "16px"
+  seccion-movil: "56px"
+  seccion: "80px"
+  contenedor: "72rem"
+components:
+  button-primario:
+    backgroundColor: "{colors.fuerte}"
+    textColor: "{colors.papel}"
+    rounded: "{rounded.control}"
+    typography: "{typography.body}"
+    padding: "12px 24px"
+    height: "48px"
+  button-primario-hover:
+    backgroundColor: "{colors.marca}"
+    textColor: "{colors.papel}"
+  button-secundario:
+    backgroundColor: "{colors.papel}"
+    textColor: "{colors.tinta}"
+    rounded: "{rounded.control}"
+    padding: "12px 24px"
+    height: "48px"
+  button-secundario-hover:
+    backgroundColor: "{colors.papel-alto}"
+  button-sobre-fuerte:
+    backgroundColor: "{colors.papel}"
+    textColor: "{colors.fuerte}"
+    rounded: "{rounded.control}"
+    padding: "12px 24px"
+    height: "48px"
+  button-cabecera-ayuda:
+    backgroundColor: "{colors.valiente-tenue}"
+    textColor: "{colors.tinta}"
+    rounded: "{rounded.control}"
+    padding: "0 16px"
+    height: "44px"
+  button-cabecera-ayuda-hover:
+    backgroundColor: "{colors.valiente}"
+    textColor: "{colors.papel}"
+  button-cabecera-donar:
+    backgroundColor: "{colors.fuerte-tenue}"
+    textColor: "{colors.tinta}"
+    rounded: "{rounded.control}"
+    padding: "0 16px"
+    height: "44px"
+  button-cabecera-donar-hover:
+    backgroundColor: "{colors.fuerte}"
+    textColor: "{colors.papel}"
+  franja-navegacion:
+    backgroundColor: "{colors.marca}"
+    textColor: "{colors.sobre-marca}"
+    padding: "16px 24px"
+  banda-crisis:
+    backgroundColor: "{colors.tronco}"
+    textColor: "{colors.papel}"
+    typography: "{typography.label}"
+    padding: "10px 24px"
+  tarjeta-ayuda:
+    backgroundColor: "{colors.valiente-tenue}"
+    textColor: "{colors.tinta}"
+    rounded: "{rounded.tarjeta}"
+    padding: "24px 24px 80px"
+  placa:
+    backgroundColor: "{colors.superficie}"
+    rounded: "{rounded.tarjeta}"
+    size: "112px"
+  titulo-pagina:
+    backgroundColor: "{colors.papel-alto}"
+    textColor: "{colors.tinta}"
+    typography: "{typography.headline}"
+    padding: "64px 24px 56px"
+---
+
+# Design System: Portal Fundación REFUVA
 
 | | |
 |---|---|
-| **Versión** | 2.0 |
-| **Fecha** | 2 de octubre de 2026 |
-| **Estado** | Paleta **derivada de la marca real**, medida sobre los archivos de la fundación. |
-| **Fuente de verdad** | [`src/app/globals.css`](./src/app/globals.css). Este documento explica; el CSS manda. |
-| **Verificación** | `npm run contraste` — **102 de 102 en los dos temas** |
+| **Versión** | 3.0 |
+| **Fecha** | 5 de octubre de 2026 |
+| **Dirección** | El estándar del sector, con **Mind** (mind.org.uk) como vara de acabado. Elegida por el equipo el 5 de octubre de 2026 (contrato en `.impeccable/surfaces/src-app-page-tsx.md`, semilla 32049929). |
+| **Fuente de verdad** | [`src/app/globals.css`](./src/app/globals.css). Este documento explica; el CSS manda. Los tokens de arriba son la copia legible por máquina del tema claro y del oscuro. |
+| **Verificación** | `npm run contraste` — **104 de 104 en los dos temas** |
+| **Complemento** | `.impeccable/design.json`: rampas tonales, movimiento, sombras, fragmentos de componente y la narrativa. |
 
-> **Qué cambió desde la v1.0.** La v1.0 admitía que su paleta «no son los colores de REFUVA»: era una
-> propuesta derivada del significado del nombre, porque no había logo ni colores publicados en ninguna
-> parte. El 1 de octubre la fundación entregó **once logos**. Esta versión sustituye la propuesta por
-> la marca medida. El punto **O-08** queda cerrado.
+> **Qué cambió desde la v2.0.** La v2 tenía fondo crema con grano de papel, Fraunces + Inter, el marrón
+> del tronco como `fuerte` y un índice numerado 01–08. Sus colores salían del logo y aun así el sitio
+> se leía **genérico**: crema + serif de alto contraste + acento terracota es, hoy, la estética que
+> más repite la IA. El compromiso de marca son los colores del árbol Ψ, no el crema ni el serif. La
+> v3 conserva los colores medidos y cambia el mundo que los rodea.
 
----
+## Overview
 
-## 1. La marca, medida sobre los archivos
+**Creative North Star: "La fundación seria y cálida que atiende primero a quien llega mal"**
+
+El sitio juega el estándar del sector **sin ironía**: blanco limpio, una sola familia tipográfica muy
+legible, franjas enteras de turquesa profundo y botones grandes con borde. No intenta ser original en
+la forma; intenta tener el acabado de Mind, que es la referencia de cómo se ve una organización de
+salud mental en la que se puede confiar. Lo propio de REFUVA no está en la plantilla: está en los
+**ocho emblemas reales**, en el árbol Ψ y en las historias de cada proyecto.
+
+El orden de la pantalla es el orden de las prioridades. Primero la banda de crisis, en el marrón del
+tronco. Después «Necesito ayuda», antes que «Donar». Después, en la primera pantalla, la prueba de
+amplitud: ocho emblemas junto al titular, para que en diez segundos se vea que REFUVA no es solo
+salud mental.
+
+La densidad es baja y el cuerpo es grande (19 px). El público lee en la calle, con el sol de frente,
+en teléfonos viejos y a veces en crisis. La legibilidad es un requisito de seguridad, no de estilo.
+
+**Key Characteristics:**
+- Blanco limpio de fondo; el tinte turquesa claro (`papel-alto`) hace de suelo de sección.
+- El turquesa profundo es dueño de franjas enteras: navegación, declaración y pie.
+- El naranja del árbol marca la acción de ayuda y el anillo de foco. El marrón del tronco, solo la crisis.
+- Una sola familia: Atkinson Hyperlegible Next, titulares en 800.
+- Botones con borde de 2 px y relleno; tarjetas tintadas sin sombra; iconos SVG de trazo único.
+- Cero fotos fingidas: lo que no existe todavía no se pinta.
+
+## Colors
+
+Una paleta fría y limpia, anclada en el turquesa de las hojas del árbol Ψ, con el naranja de las hojas
+como voz de la ayuda y el marrón del tronco reservado a la crisis.
+
+### La marca, medida sobre el archivo
 
 El logo institucional es **un árbol cuyo tronco es la letra Ψ**, con un cerebro y un corazón entre las
-ramas. Es la única imagen del paquete con canal alfa. Los colores no se eligieron: se contaron,
-píxel a píxel, sobre el archivo.
+ramas. Los colores no se eligieron: se contaron, píxel a píxel, sobre el archivo.
 
-| | Hex | Peso en el logo | Qué es |
+| | Hex crudo | Peso en el logo | Qué es |
 |---|---|---|---|
 | Marrón | `#903000` | 37 % | El tronco. Lo que sostiene |
 | Naranja | `#f07800` | 15 % | Las hojas cálidas |
 | Turquesa | `#007878` | 12 % | Las hojas frías |
 | Rojo | `#d80000` | 11 % | El corazón |
 
-**El marrón ancla y el turquesa acentúa.** Es el reparto que el propio logo propone: el color
-dominante hace de voz y el complementario de contrapunto. El rojo del corazón **no entra como color
-de interfaz** — vive dentro del logo y en el token de error, donde el rojo significa algo.
+**Ningún hex crudo toca texto.** El turquesa crudo da 4.32:1 sobre un tinte claro y el naranja crudo
+2.59:1: ninguno pasa AA. Se conserva el matiz y se baja la luminancia. El color crudo se queda en los
+logos; la variante ajustada es la que llega a la interfaz. Un color corporativo ilegible no es
+fidelidad de marca: es una barrera.
 
-Esto, además, resuelve lo que la v1.0 llamaba el encargo doble. A Edwin lo describen como «fortaleza y
-vulnerabilidad al mismo tiempo»: el marrón de tronco hace la fuerza, el papel cálido con grano hace la
-vulnerabilidad. Un sistema que solo transmitiera fuerza fallaría la mitad del trabajo.
+En la v2 el marrón era la voz (por ser el 37 % del logo). En la v3 la voz es el turquesa, como el azul
+de Mind: un color frío y sereno que puede ocupar franjas enteras sin gritar. El marrón pasa a hacer una
+sola cosa, y por eso se nota.
 
-### Lo que la marca obligó a cambiar
+### Primary
+- **Turquesa de franja** (`marca`): fondo de las franjas a lo ancho — navegación de escritorio, menú
+  móvil desplegado, la declaración «Resiliente. Fuerte. Valiente.» y el pie. Lleva encima `sobre-marca`.
+- **Turquesa de acción** (`fuerte`): enlaces, el botón primario sólido, flechas, el hover de los
+  títulos del catálogo. Es el mismo matiz que `marca`, un punto más claro.
+- **Turquesa tenue** (`fuerte-tenue`): relleno del botón «Donar» y de las tarjetas de ayuda que no son
+  crisis; también el color de selección de texto.
 
-Ninguno de los dos colores crudos pasa WCAG AA para texto:
+### Secondary
+- **Naranja de ayuda** (`valiente`): el anillo de foco de todo el sitio y el hover del botón
+  «Necesito ayuda». Es el naranja de las hojas oscurecido hasta poder ser texto (6.07:1).
+- **Naranja tenue** (`valiente-tenue`): relleno de «Necesito ayuda» y de la tarjeta «Estoy pasando
+  por un momento difícil». Donde está este tinte, está la ayuda.
 
-| Color de marca | Sobre `papel-alto` | ¿AA? | Token derivado | Resultado |
-|---|---|---|---|---|
-| Turquesa `#007878` | **4.32:1** | ❌ | `valiente` `#006b6b` | 5.16:1 ✅ |
-| Naranja `#f07800` | **2.59:1** | ❌ | `vivo` `#c05e00` | 3.96:1 ✅ (umbral 3:1, no es texto) |
+### Tertiary
+- **Marrón del tronco** (`tronco`): **solo** la banda de crisis y el bloque completo de crisis. No es
+  rojo de alarma: un rojo permanente en todas las páginas se vuelve invisible por costumbre y asusta a
+  quien no lo necesita. Tampoco es el turquesa de la navegación: la banda tiene que leerse como algo
+  aparte del sitio, no como su primera barra.
+- **Naranja vivo** (`vivo`): acento no textual. **Nunca texto** (3.58:1, pasa solo el umbral de 3:1).
+- **Rojo de error** (`alerta`): el rojo del corazón, oscurecido. Solo errores de formulario, donde el
+  rojo significa algo.
 
-**Se conserva el matiz, se baja la luminancia.** Un color corporativo ilegible no es fidelidad de
-marca: es una barrera. El color crudo se queda donde pertenece —en los logos, en superficies
-grandes— y la variante ajustada es la que toca texto.
+### Neutral
+- **Papel** (`papel`): blanco puro de fondo. En la v2 estaba vetado por deslumbrar; se aceptó al
+  pasar a la dirección de Mind, y el deslumbramiento se compensa con el tema oscuro y con los suelos
+  tintados.
+- **Papel alto** (`papel-alto`): el tinte turquesa claro. Suelo del héroe, de las secciones alternas y
+  de la cabecera de cada página.
+- **Superficie** (`superficie`): tarjetas y campos sobre el suelo tintado.
+- **Tinta / tinta suave** (`tinta`, `tinta-suave`): texto principal y secundario, con un punto de
+  verde para no ser el negro de una plantilla.
+- **Bordes** (`borde`, `borde-fuerte`, `borde-control`): filetes finos, anillo de las placas, y borde
+  de campos de formulario.
 
-Esto obligó a **dos tokens nuevos** que la v1.0 no tenía: `vivo` (el naranja, para acentos no
-textuales) y `alerta` (el rojo, para errores de formulario).
+**Por qué existe `borde-control`.** El fondo de un campo y el de la página se diferencian en casi
+nada, así que **el borde es lo único que identifica el control**, y WCAG 1.4.11 pide 3:1 para eso. Es
+la pareja más ajustada del sistema (3.94:1 en claro, 3.80:1 en oscuro sobre superficie) y es más
+oscura de lo que pediría el gusto. A propósito.
 
-### Lo que se descartó, y sigue descartado
+### Tema oscuro
 
-| Descartado | Motivo |
-|---|---|
-| Azul institucional | Es el color por defecto de todo el sector salud. Lee como clínico y frío justo donde no debe. |
-| Morado o violeta | Es el color de la salud mental en marketing genérico, y refuerza exactamente el malentendido que el sitio existe para desmentir. |
-| Rojo de alarma en la banda de crisis | Un rojo permanente en todas las páginas se vuelve invisible por costumbre y alarma a quien no lo necesita — el sitio también lo abren patrocinadores. La contención en crisis funciona con calma, no con urgencia gritada. |
-| Blanco puro de fondo | Deslumbra en la calle con el brillo al máximo y se siente a hospital. |
+No es el claro invertido. El blanco se vuelve un **verde petróleo casi negro**, tinte del mismo
+turquesa, y los colores suben de luminosidad lo justo para pasar contraste sin brillar. Los valores
+están en los tokens `*-oscuro` de arriba. En oscuro la banda de crisis se vuelve un salmón claro con
+texto oscuro; sigue siendo el marrón del tronco, ahora como superficie clara.
 
----
+**Tres estados, no dos: claro, oscuro y sistema** (por defecto). Forzar el tema claro a las dos de la
+mañana en la página de crisis es justo el momento en que peor sienta.
 
-## 2. Tokens
+1. Sin elección no hay atributo en `<html>` y manda `prefers-color-scheme`.
+2. Al elegir se escribe `data-tema="claro"` u `"oscuro"` y se guarda en `localStorage` (`refuva-tema`).
+   **Sin cookie**: así no hace falta banner de consentimiento.
+3. El bloque del sistema va negado con `:root:not([data-tema="claro"])`; el bloque
+   `[data-tema="oscuro"]` va después. La elección explícita gana siempre, en los dos sentidos.
+4. Un guion en el `<head>` aplica el atributo antes del primer pintado, sin fogonazo blanco.
+5. `color-scheme` acompaña al tema, para que los controles nativos no se queden claros.
+6. El selector de tema vive en el pie, no en la cabecera, donde sumaba tres botones a la primera pantalla.
 
-Definidos en [`src/app/globals.css`](./src/app/globals.css) y exportados en
-[`design-tokens.json`](./design-tokens.json). **Ningún componente conoce un color literal**: todos
-usan estos nombres.
+> **Los dos bloques oscuros de `globals.css` están duplicados a propósito.** Al editar uno **hay que
+> editar el otro**. Ya pasó una vez que solo se actualizó el primero y la elección explícita de tema
+> oscuro servía la paleta vieja.
 
-| Token | Claro | Oscuro | Para qué |
-|---|---|---|---|
-| `papel` | `#f8f4ed` | `#12100c` | Fondo de la página |
-| `papel-alto` | `#efe7d9` | `#1c1915` | Bandas y secciones alternas |
-| `superficie` | `#fffdf9` | `#1a1713` | Tarjetas, campos de formulario |
-| `tinta` | `#16140f` | `#f3eee4` | Texto principal |
-| `tinta-suave` | `#565049` | `#aba396` | Texto secundario |
-| `fuerte` | `#903000` | `#ec9a6e` | Enlaces, botones, banda de crisis |
-| `fuerte-tenue` | `#f6e3d8` | `#33190c` | Fondos de apoyo del marrón |
-| `valiente` | `#006b6b` | `#5fc4c4` | Acentos, numerales, anillo de foco |
-| `valiente-tenue` | `#dceceb` | `#0e2a2a` | Fondo de avisos |
-| `vivo` | `#c05e00` | `#f0a060` | Acento no textual. **Nunca para texto normal** |
-| `alerta` | `#b81c00` | `#ff9e8a` | Errores de formulario |
-| `borde` | `#dfd6c6` | `#2d2822` | Separadores finos |
-| `borde-fuerte` | `#c2b7a3` | `#4a4238` | Bordes visibles, anillo de las placas |
-| `borde-control` | `#8e8471` | `#6e6558` | Bordes de campos — el único que debe pasar 3:1 |
+### Un color por entrada del catálogo
 
-El tema oscuro **no es el claro invertido**. Se diseñó aparte: el papel se vuelve tinta cálida —nunca
-el gris azulado de una terminal— y el marrón y el turquesa suben de luminosidad lo justo para seguir
-pasando contraste sin brillar.
+Cada proyecto y campaña tiene su color, con **dos variantes** (claro y oscuro), en
+`src/lib/catalogo.ts` (`colorAcento`, `colorAcentoOscuro`). Es dato de la entrada, no del sistema.
 
-> **Los dos bloques oscuros están duplicados a propósito**: uno dentro de
-> `@media (prefers-color-scheme: dark)` negado con `:root:not([data-tema="claro"])`, y otro en
-> `[data-tema="oscuro"]`. Al editar uno **hay que editar el otro**. Ya pasó una vez que solo se
-> actualizó el primero, y la elección explícita de tema oscuro servía la paleta vieja.
+| Entrada | Claro | Oscuro |
+|---|---|---|
+| Psicoeducativo · Psicoempresarial · Comida en la Calle | `#903000` | `#d5794b` |
+| Rompiendo el Círculo | `#846000` | `#b18c29` |
+| Historias que Sanan | `#9a3246` | `#d37688` |
+| Grupo Un Solo Corazón | `#b81c00` | `#da7360` |
+| Una Estrella Otiliana | `#806300` | `#ac8e28` |
+| Angelitos de la Calle | `#006b6b` | `#27a5a5` |
+| Háblame Panamá | `#8a6000` | `#b48a2a` |
+| #EscúchamePanamá | `#006018` | `#27a747` |
 
----
+Un envoltorio `.tinte` recibe las dos variantes como variables en línea (`--tinte-claro`,
+`--tinte-oscuro`) y `globals.css` resuelve `--tinte` con los mismos tres estados del tema. Sin
+JavaScript y sin que ningún componente conozca un hex.
 
-## 3. Un color por entrada, y la regla que impide el collage
+**Los colores de las dos campañas no se tocan.** El ámbar es el lazo de prevención del suicidio y el
+verde el de salud mental: son códigos que su público reconoce.
 
-Cada proyecto y cada campaña tiene **su** color, derivado de su propio logo y verificado sobre los dos
-papeles. Vive en `src/lib/catalogo.ts`, no en el CSS: es dato del catálogo, no del sistema.
+### Contraste, verificado
 
-**Cada entrada tiene dos colores, no uno.** Es lo mismo que se hace con los tokens del tema: mismo
-matiz, luminancia distinta. Sin la variante oscura el numeral del índice daba **2.36:1** sobre el
-papel oscuro — invisible. Era un fallo real del sitio, no un detalle del documento.
+`npm run contraste` (`scripts/auditar-contraste.mjs`) lee los valores **directamente** de
+`globals.css` y `catalogo.ts` —no de una copia— y falla si alguna pareja baja del umbral.
 
-| Entrada | Claro | Sobre `papel` | Sobre `papel-alto` | Oscuro | Sobre papel osc. | Sobre alto osc. |
-|---|---|---|---|---|---|---|
-| Psicoeducativo · Psicoempresarial · Comida en la Calle | `#903000` | 7.34:1 | 6.56:1 | `#d5794b` | 6.03:1 | 5.56:1 |
-| Rompiendo el Círculo | `#846000` | 5.24:1 | 4.68:1 | `#b18c29` | 6.02:1 | 5.55:1 |
-| Historias que Sanan | `#9a3246` | 6.56:1 | 5.86:1 | `#d37688` | 6.08:1 | 5.60:1 |
-| Grupo Un Solo Corazón | `#b81c00` | 5.98:1 | 5.34:1 | `#da7360` | 5.97:1 | 5.51:1 |
-| Una Estrella Otiliana | `#806300` | 5.17:1 | 4.62:1 | `#ac8e28` | 6.02:1 | 5.55:1 |
-| Angelitos de la Calle | `#006b6b` | 5.78:1 | 5.16:1 | `#27a5a5` | 6.34:1 | 5.85:1 |
-| Háblame Panamá | `#8a6000` | 5.10:1 | 4.56:1 | `#b48a2a` | 5.98:1 | 5.51:1 |
-| #EscúchamePanamá | `#006018` | 7.13:1 | 6.37:1 | `#27a747` | 6.07:1 | 5.59:1 |
+**104 de 104 pasan:** 50 parejas de tokens del sistema (25 por tema), 40 de los colores del catálogo
+(cada entrada, claro y oscuro, sobre `papel` y `papel-alto`) y 14 de colores con opacidad.
 
-Los dos más ajustados —Háblame Panamá y Una Estrella Otiliana sobre `papel-alto`— pasan por seis
-centésimas. **`npm run contraste` lee las veinte parejas directamente de `catalogo.ts`**, así que un
-retoque de color que las baje de 4.5:1, o una entrada nueva con un solo color, rompe el script antes
-de llegar a producción.
-
-**Cómo llega el color al pixel.** El componente pone las dos variantes como variables en línea sobre
-un envoltorio con la clase `.tinte`, y `globals.css` resuelve cuál se pinta con los mismos tres
-estados del tema. Sin JavaScript, sin fogonazo y sin que ningún componente conozca un hex:
-
-```tsx
-<div className="tinte" style={{ "--tinte-claro": e.colorAcento,
-                                "--tinte-oscuro": e.colorAcentoOscuro }}>
-  <span className="text-[var(--tinte)]">01</span>
-```
-
-**Los colores de las dos campañas no se tocan.** El ámbar es el lazo internacional de prevención del
-suicidio y el verde el de salud mental. Son códigos que su público reconoce; cambiarlos por gusto
-estético sería borrar información.
-
-### La regla de las tres apariciones
-
-> **El color de una entrada aparece exactamente tres veces en su página, y nunca toca el armazón.**
->
-> 1. La regla de 3 px bajo su numeral en el índice.
-> 2. El filo de 1 px en el borde superior de su ficha.
-> 3. Las viñetas de sus requisitos de participación.
->
-> Ni botones, ni fondos grandes, ni encabezado, ni pie. El armazón es siempre `fuerte` y `valiente`.
-
-Diez colores compitiendo en bloques sólidos es un collage, y un collage dice «esto lo armó alguien
-con prisa» — exactamente lo contrario de lo que el sitio tiene que demostrar.
-
-**El índice no lleva logos, y es deliberado.** Nueve emblemas de paletas incompatibles apilados en una
-columna *son* el collage. El índice es numerado y tipográfico; los logos aparecen uno por uno, en su
-propia ficha, donde no compiten con nadie.
-
----
-
-## 4. El componente `Placa`
-
-De los once logos, **solo el institucional tiene transparencia**. Los otros diez son PNG con el fondo
-horneado, y distinto cada uno: blanco, `#cdcdcb`, `#f6f6f6`, `#f5f5f5`…
-
-La solución no es recortarlos. Uno tiene un degradado de 81 colores en el borde, y además son activos
-de marca de un tercero: recortar a ojo el emblema de una fundación es deformarlo.
-
-**`Placa` usa como color de fondo el fondo medido del propio archivo.** El borde del PNG desaparece
-contra ella y el rectángulo deja de ser un accidente para pasar a ser el objeto: una placa con su
-anillo de `borde-fuerte` y su radio. Es lo mismo que hacen las webs serias con las rejillas de logos
-de aliados, y sería la decisión correcta aunque los logos llegaran con alfa.
-
-Cuando lleguen los vectoriales —pendiente con Edwin—, `logo.fondo` queda sin valor y la placa cae al
-color de superficie. Ni un componente cambia.
-
----
-
-## 5. Contraste, verificado
-
-`npm run contraste` lee los tokens **directamente de `globals.css`** —no de una copia— y calcula la
-razón de WCAG 2.2 de cada pareja que el sitio usa de verdad. Si alguien cambia un color y baja del
-umbral, el script falla.
-
-**102 de 102 comprobaciones pasan en los dos temas:** 44 de los tokens del sistema, leídas de
-`globals.css`; 40 de los colores del catálogo, leídas de `catalogo.ts`; y 18 de los colores con
-opacidad. Ninguna sale de una copia.
-
-### El punto ciego: los colores con alfa
-
-La auditoría comprobaba tokens sólidos y nada más. Todo lo que el sitio pinta con transparencia le
-era invisible, y **tres de esos valores no pasaban AA**:
-
-| Dónde | Era | Daba | Ahora | Da |
-|---|---|---|---|---|
-| Etiqueta del recurso en el bloque de crisis | `opacity-70` | **4.39:1** | `opacity-75` | 4.81:1 |
-| Fecha de verificación en el pie | `opacity-65` | **3.99:1** | `opacity-75` | 4.81:1 |
-| Anillo del botón «Otras formas de ayudar» | `ring-papel/35` | **2.15:1** | `ring-papel/60` | 3.63:1 |
-| Marcador de posición en formularios | `.../60` | **2.92:1** | `.../80` | 4.63:1 |
-
-El primero estaba en el bloque de crisis: la etiqueta que dice **«Línea 147 (MIDES)»**, encima del
-número al que llama alguien en riesgo. El del anillo era peor de lo que parece — ese anillo es el
-**único** límite visible del botón, que es justo el caso que WCAG 1.4.11 cubre.
-
-**Un color con alfa no es su token: es la mezcla con lo que tenga detrás.** El script ahora declara
-esa mezcla y la mide como cualquier otra pareja. Y rastrea `src/` en busca de utilidades con alfa:
-si aparece una que no esté medida ni declarada como decorativa **con su motivo escrito**, falla. Se
-comprobó al revés —introduciendo un `opacity-45`— y el script sale con código 1.
+**Un color con alfa no es su token: es la mezcla con lo que tenga detrás.** El script mide esas
+mezclas y rastrea `src/` en busca de utilidades con alfa (`opacity-*`, `/NN`). Una que no esté medida
+ni declarada decorativa **con su motivo escrito** hace salir al script con código 1; se comprobó con
+una prueba negativa.
 
 | Pareja | Claro | Oscuro | Mínimo |
 |---|---|---|---|
-| Texto normal sobre papel | 16.79:1 | 16.43:1 | 4.5 |
-| Texto secundario sobre papel | 7.26:1 | 7.61:1 | 4.5 |
-| Enlaces y botones sobre papel | 7.34:1 | 8.52:1 | 4.5 |
-| Acentos y numerales sobre papel | 5.78:1 | 9.21:1 | 4.5 |
-| Texto normal sobre superficie | 18.11:1 | 15.44:1 | 4.5 |
-| Enlaces sobre superficie | 7.92:1 | 8.01:1 | 4.5 |
-| Enlaces sobre papel alto | 6.56:1 | 7.85:1 | 4.5 |
-| Papel sobre la banda de crisis | 7.34:1 | 8.52:1 | 4.5 |
-| Texto sobre fondo tenue de acento | 15.11:1 | 13.13:1 | 4.5 |
-| Error de formulario sobre papel | 5.98:1 | 9.51:1 | 4.5 |
-| Acento vivo sobre papel | 3.96:1 | 8.96:1 | 3.0 |
-| **Borde de control sobre papel** | **3.37:1** | **3.32:1** | **3.0** |
-| Anillo de foco sobre papel | 5.78:1 | 9.21:1 | 3.0 |
+| Texto sobre papel | 17.74:1 | 16.08:1 | 4.5 |
+| Texto secundario sobre papel alto | 7.44:1 | 7.73:1 | 4.5 |
+| Enlaces sobre papel alto | 6.91:1 | 9.25:1 | 4.5 |
+| Texto sobre la franja de marca | 8.62:1 | 11.04:1 | 4.5 |
+| Texto sobre la banda de crisis | 9.47:1 | 8.12:1 | 4.5 |
+| Etiqueta de recurso de crisis al 75 % | 6.01:1 | 5.09:1 | 4.5 |
+| Anillo de foco sobre papel | 6.07:1 | 9.13:1 | 3.0 |
+| **Borde de control sobre superficie** | **3.94:1** | **3.80:1** | **3.0** |
 
-El más ajustado sigue siendo el borde de los campos de formulario. No es casualidad: el fondo del
-campo y el de la página se diferencian en 1.03:1, así que **el borde es lo único que identifica el
-control**, y WCAG 1.4.11 pide 3:1 para eso. Por eso `borde-control` existe como token aparte y es más
-oscuro de lo que pediría el gusto.
-
-La pareja que destapó el problema de la marca fue **turquesa sobre `papel-alto`**: con el valor crudo
-se quedaba en 4.32:1. Se añadió al script precisamente porque faltaba, y con el token ajustado da
-5.16:1.
-
----
-
-## 6. Cambio de tema
-
-Tres estados, no dos: **claro**, **oscuro** y **sistema**, que es el valor por defecto.
-
-«Sistema» tiene que existir. Mucha gente ya tiene el teléfono en oscuro de noche, y forzarle un tema
-claro a las dos de la mañana en la página de crisis es exactamente el momento en que peor sienta.
-
-1. Sin elección del usuario no hay atributo en `<html>` y manda `prefers-color-scheme`.
-2. Al elegir, se escribe `data-tema="claro"` u `"oscuro"` y se guarda en `localStorage`.
-3. El bloque del sistema está negado con `:root:not([data-tema="claro"])`, así que elegir «claro» gana
-   sobre un sistema en oscuro. El bloque `[data-tema="oscuro"]` va después y gana en la otra
-   dirección. **La elección explícita gana siempre, en los dos sentidos.**
-4. Un guion de una línea en el `<head>` aplica el atributo **antes del primer pintado**. Sin él, quien
-   elige oscuro ve un fogonazo blanco en cada carga.
-5. `color-scheme` acompaña al tema, para que los controles nativos y la barra de desplazamiento no se
-   queden claros dentro de una página oscura.
-
-**Sin cookie.** Solo `localStorage`. El sitio no pone ni una cookie, y así se evita el banner de
-consentimiento.
-
-El selector se lee con `useSyncExternalStore` en vez de con un efecto: es el patrón correcto para
-estado externo con renderizado concurrente, y sale gratis la sincronización entre pestañas.
-
----
-
-## 7. Tipografía
-
-| | Familia | Uso |
-|---|---|---|
-| Display | **Fraunces**, ejes `SOFT 28`, `WONK 1`, `opsz 100` | Titulares, numerales, cifras |
-| Cuerpo | **Inter** | Todo lo demás, a 17 px |
-
-No es «poner dos fuentes de Google». Fraunces con `WONK` activado tiene terminaciones raras y curvas
-blandas — cálida, con carácter, algo torcida a propósito. La tensión entre ese serif con personalidad
-y el grotesco neutro de Inter es lo que sostiene la jerarquía **sin recurrir al color**, que importa
-porque aquí el color es escaso y semántico.
-
-Cuerpo a **17 px**, no 16. El público incluye a gente mayor y a gente leyendo en la calle con el sol
-de frente.
-
-Escala del display: `clamp(2.5rem, 1.2rem + 5.2vw, 5.5rem)`. Crece con el ancho, nunca por debajo de
-lo legible ni por encima de lo cómodo.
-
----
-
-## 8. Textura y profundidad
-
-**Grano de papel.** Un SVG de ~200 bytes en línea con `feTurbulence`, a 3.8 % de opacidad en claro y
-5.5 % en oscuro. Cero peticiones de red, que importa cuando el público navega con datos caros. Es lo
-que evita que el fondo se lea como una pantalla en blanco y lo acerca a un documento impreso.
-
-**Profundidad sin sombras genéricas.** La jerarquía se hace con tres planos de fondo —`papel`,
-`papel-alto`, `superficie`— y con bordes, no con `box-shadow` en todo. Las sombras se reservan al menú
-desplegable y al desplazamiento de un botón al pasar el ratón.
-
----
-
-## 9. Lo que se evitó a propósito
-
-Revisión contra los patrones prohibidos de
-[`.claude/rules/web/design-quality.md`](./.claude/rules/web/design-quality.md):
-
-| Patrón prohibido | Qué se hizo en su lugar |
-|---|---|
-| Cuadrícula de tarjetas uniforme | El catálogo es un **índice numerado**. Además de tener carácter, evita el problema de la rejilla: con ocho entradas cualquier cuadrícula de tres columnas deja huecos impares que sugieren que alguna sobra, y el número va a crecer. |
-| Rejilla de logos | Los emblemas no se apilan: cada uno aparece solo, en su ficha, dentro de su `Placa`. Ver §3. |
-| Hero centrado con degradado y CTA genérico | Titular alineado a la izquierda, a `19ch`, con las cuatro acciones en fila. Cero degradados en todo el sitio. |
-| Radios, espaciados y sombras uniformes | El ritmo vertical cambia por sección: `py-14` en las densas, `py-24` en las que respiran. Los radios van de `rounded-md` a `rounded-2xl` según el peso del elemento. |
-| Gris sobre blanco con un acento decorativo | Tres planos de papel cálido, y el color **solo** cuando significa algo. |
-| Fuentes por defecto sin motivo | Fraunces con sus ejes variables puestos a trabajar. |
-| Modo oscuro a medias | Los dos temas están diseñados y los dos están auditados. |
-| Animación gratuita | Solo transiciones de estado, todas por debajo de 200 ms, todas anuladas bajo `prefers-reduced-motion`. |
-| Paleta de plantilla de SaaS | Se consultó `ui-ux-pro-max` y propuso azul de confianza `#2563EB` con naranja de CTA, Outfit/Work Sans y el patrón «Hero + Features + CTA». Se descartó: el azul institucional está vetado en §1 por leerse clínico, y la tipografía y el color ya salen de la marca medida. La skill sirvió para auditar, no para elegir. |
-
----
-
-## 10. Cómo se cambia un color sin romper nada
+### Cómo se cambia un color sin romper nada
 
 1. Editar el bloque `:root` de `src/app/globals.css`.
-2. Editar **los dos** bloques oscuros. Son dos a propósito; ver el aviso del §2.
-3. Correr `npm run contraste`. Si algo baja del umbral, ajustar la luminancia **antes** de seguir —no
-   después, y no «lo vemos luego».
-4. Si el color nuevo es de una entrada del catálogo, va en `src/lib/catalogo.ts`, no en el CSS, y hay
-   que añadir su pareja al script de contraste.
-5. Correr `npm run tokens`. **`design-tokens.json` no se edita a mano**: se genera de
-   `globals.css` y `catalogo.ts`. Ya se quedó obsoleto una vez por editarlo aparte.
-6. Actualizar las tablas del §2, §3 y §5 de este documento — eso sí es a mano, porque lleva el
-   porqué, y el porqué no se deriva de un hex.
+2. Editar **los dos** bloques oscuros.
+3. Correr `npm run contraste`. Si algo baja del umbral, ajustar la luminancia **antes** de seguir.
+4. Un color de entrada del catálogo va en `src/lib/catalogo.ts`, con sus dos variantes; el script ya
+   lo lee de ahí.
+5. Correr `npm run tokens`. **`design-tokens.json` no se edita a mano**: se genera.
+6. Actualizar los tokens del frontmatter de este documento y, si cambia el porqué, la prosa.
 
-La regla cuando un color de marca no pasa contraste —pasa a menudo con marcas pensadas para
-impresión— es la del §1: **el color de marca se conserva en logos y superficies grandes, y se ajusta
-la variante que toca texto.**
+### Named Rules
+
+**The Raw Brand Rule.** Ningún hex crudo del logo toca texto. Se conserva el matiz, se baja la luminancia.
+
+**The One Job Brown Rule.** El marrón del tronco es la crisis y nada más. Si aparece en otro sitio, la banda deja de leerse aparte.
+
+**The Help Is Orange Rule.** El naranja (`valiente`, `valiente-tenue`) marca la acción de ayuda y el foco. No se usa para decorar.
+
+**The Requirement Bullets Rule.** El color propio de una entrada aparece solo en las viñetas de sus requisitos de participación, en su ficha. Ni rellenos, ni filos, ni numerales, ni armazón: diez colores incompatibles en bloques sólidos son un collage.
+
+## Typography
+
+**Display Font:** Atkinson Hyperlegible Next (con `system-ui, sans-serif`)
+**Body Font:** la misma. Una sola familia, como Mind.
+
+**Character:** Una grotesca humanista diseñada por el **Braille Institute** para lectores con baja
+visión: las letras que se confunden (I, l, 1; O, 0) están separadas a propósito. La jerarquía la
+hacen el peso (400 / 700 / 800) y el tamaño, no un segundo tipo.
+
+La razón es de producto, no de gusto: el público incluye gente en crisis, con teléfonos viejos y sol
+de frente. Sustituye a Fraunces + Inter, la pareja más reconocible de lo que genera la IA.
+
+Se carga con `next/font/google`, subconjunto latino, `display: swap` y
+**`adjustFontFallback: false`**: Next no trae las métricas de esta familia y avisaba en cada build.
+Con `swap` el texto se ve desde el primer pintado; el salto al cambiar de fuente es de unos píxeles en
+el titular. Ver «Decisiones abiertas».
+
+### Hierarchy
+- **Display** (800, `clamp(2.25rem, 1.5rem + 2.2vw, 3.25rem)`, 1.06): solo el titular del Inicio, a
+  19ch. Tope en 3.25rem: a 88 px el titular ocupaba el 29 % de la pantalla, y a 64 px empujaba el
+  botón principal fuera de la primera pantalla a 1440×900. Las frases cortas («Y comida.») no se parten.
+- **Headline** (800, 2.25rem → 3rem → 3.5rem, 1.08): el `h1` de cada página interior y de cada ficha.
+- **Title** (800, 1.875rem → 2.25rem): títulos de sección (`h2`).
+- **Subtitle** (800, 1.25rem → 1.5rem): nombres del catálogo, títulos de tarjeta.
+- **Lead** (400, 1.125rem → 1.25rem, 1.625): entrada bajo un titular, en `tinta-suave`, a ~46ch.
+- **Body** (400, 19 px, 1.55): todo lo demás. Mind usa 21. Párrafos largos a 62ch.
+- **Label** (700, 14 px): nombres bajo los emblemas, la banda de crisis, metadatos de la ficha.
+
+Los titulares llevan `letter-spacing: -0.02em` y `text-wrap: balance`; el cuerpo, `text-wrap:
+pretty`. Las cifras alineadas usan numerales tabulares (`.cifras-alineadas`).
+
+### Named Rules
+
+**The One Family Rule.** Una sola familia. Si hace falta más jerarquía, se sube el peso o el tamaño; no se añade un serif.
+
+**The Legibility Is Safety Rule.** Nada de cuerpo por debajo de 19 px ni de texto secundario por debajo de 4.5:1. Este público lee en la calle.
+
+## Layout
+
+- **Contenedor:** `max-width: 72rem`, centrado, con canal de 16 px en móvil y 24 px desde `sm`.
+- **Ritmo de sección:** 56 px arriba y abajo en móvil, 80 px desde `sm`. Las secciones alternan
+  `papel` y `papel-alto` a sangre para separarse sin líneas.
+- **Héroe:** campo `papel-alto` a sangre. A la izquierda, una tarjeta blanca de radio 16 px con el
+  titular, la entrada y «Pedir una cita»; a la derecha (desde `lg`, columnas 0.95fr / 1.05fr), una
+  retícula de **4×2 placas** con los ocho emblemas, enlazadas, alineada al borde superior de la
+  tarjeta. En móvil la retícula sigue siendo de 4 columnas y los nombres pasan a ser solo para lector
+  de pantalla.
+- **¿Cómo te podemos ayudar?:** tres tarjetas tintadas en fila desde `md`, con «Estoy pasando por un
+  momento difícil» **primero**.
+- **Catálogo:** filas a dos columnas desde `md`, separadas por filetes, sin contenedor de tarjeta.
+  Todas iguales: ninguna entrada se presenta como subordinada.
+- **Ficha:** cuerpo + columna lateral de 20rem desde `lg`, con la columna pegajosa (`top: 7rem`).
+- **Cabecera:** no es fija. La banda de crisis ya está arriba y una cabecera fija de dos pisos se come
+  media pantalla de un teléfono pequeño.
+- **Área táctil:** 44 px mínimo en cabecera y enlaces de acción, 48 px en botones.
+
+## Elevation & Depth
+
+Plano. La profundidad la hacen **suelos tintados** —`papel` blanco, `papel-alto` turquesa claro y
+`superficie` encima— y la tarjeta blanca sobre el campo tintado del héroe. No hay sombras en
+tarjetas, botones ni placas.
+
+### Shadow Vocabulary
+- **Menú desplegado** (`box-shadow` de Tailwind `shadow-xl` al 20 % de negro): el único elemento que
+  flota de verdad sobre el contenido, el menú móvil.
+
+### Named Rules
+
+**The Flat By Default Rule.** Ninguna superficie lleva sombra en reposo. El estado se nota en el relleno o en un anillo de 2 px en tinta, nunca en una sombra que aparece ni en un salto.
+
+## Shapes
+
+Esquinas suaves, en cuatro pasos según el peso del elemento: 3 px el anillo de foco, 8 px botones y
+controles, 12 px tarjetas y placas, 16 px la tarjeta del héroe y la cita. Los bordes son de 2 px en
+tinta en botones y de 1 px en filetes y anillos. La tarjeta de ayuda lleva una pestaña de flecha en la
+esquina inferior derecha, de 56 px, que recorta las dos esquinas de la tarjeta (radio 12 px arriba a
+la izquierda y abajo a la derecha): es la única silueta propia del sistema.
+
+Los iconos son **SVG de trazo único**: 2 px, extremos redondeados, `currentColor`, siempre
+`aria-hidden`. Son cuatro (`Flecha`, `Telefono`, `Menu`, `Corazon`, en `src/components/iconos.tsx`)
+y no justifican una dependencia más que tenga que heredar el próximo equipo.
+
+## Components
+
+### Buttons
+Grandes, con borde, sin trucos. El estado se nota en el relleno, no en un desplazamiento.
+
+- **Shape:** radio suave (8 px), borde de 2 px, alto mínimo 48 px, relleno 12 px × 24 px, texto en 700.
+- **Primario:** relleno sólido `fuerte` con texto `papel`; al pasar, `marca`. **Es la única
+  excepción al relleno tintado**, y es deliberada: es la acción principal de la página («Pedir una
+  cita») y tiene que ser lo más fuerte de la pantalla. Uno por pantalla.
+- **Secundario:** `papel` con borde de `tinta`; al pasar, `papel-alto`.
+- **Sobre fuerte:** para fondos turquesa: `papel` con texto `fuerte`; al pasar, transparente con texto `papel`.
+- **Enlace de acción:** «Ver los proyectos →»: texto `fuerte` en 700, subrayado de 2 px que engorda a
+  3 px al pasar, con la flecha SVG.
+- **Foco:** anillo de 3 px en `valiente`, separado 3 px. En todo el sitio, sin excepción.
+- **Transición:** solo `color`/`background-color`, 150 ms.
+
+### Cabecera
+Dos pisos, con el patrón de Mind. Arriba, en blanco: el árbol Ψ (52–56 px de alto) con «Fundación
+REFUVA» y «Resiliente · Fuerte · Valiente» debajo; a la derecha, **«Necesito ayuda» primero y «Donar»
+después, del mismo tamaño** (44 px, borde de 2 px en tinta). «Necesito ayuda» va en `valiente-tenue`
+y se llena de `valiente` al pasar; «Donar» en `fuerte-tenue` con un corazón, y se llena de `fuerte`.
+El orden es una decisión del equipo: quien llega mal desde WhatsApp tiene que sentirse reconocido
+antes de que se le pida dinero. En el teléfono los dos botones ocupan su propia fila, a lo ancho.
+
+Abajo, la **franja de navegación** en `marca` con texto `sobre-marca` en 600 y subrayado de 2 px al
+pasar. En móvil, un `<details>` nativo («Menú», cero JavaScript) despliega la misma lista sobre `marca`.
+
+### Banda de crisis
+Una línea, en todas las páginas, lo primero del documento: «¿Necesitas ayuda ahora?», **911** y
+**147** como enlaces `tel:` y «Más recursos». Fondo `tronco`, texto `papel`, 14 px. No es fija: taparía
+contenido en pantallas pequeñas (WCAG 2.4.11). El **bloque de crisis** completo (formulario de cita,
+`/ayuda-en-crisis` y fichas de salud mental) usa el mismo `tronco`, radio 12 px y los números a 60 px.
+Solo 911 y Línea 147 (WhatsApp 6694-2747); nada sin verificar.
+
+### Tarjeta de ayuda
+Tintada, sin sombra, radio 12 px, mínimo 192 px de alto. Título en 800, una línea en `tinta-suave` y
+una pestaña de flecha sólida en la esquina (`valiente` para la crisis, `fuerte` para cita y ayudar).
+Al pasar, un anillo de 2 px en `tinta`. La tarjeta entera es el enlace.
+
+### Placa
+El contenedor de un logo. De los once logos de la fundación, **solo el institucional tiene
+transparencia**; los otros diez son PNG con el fondo horneado, distinto cada uno (blanco, `#cdcdcb`,
+`#f6f6f6`, `#f5f5f5`…). **`Placa` usa como fondo el fondo medido del propio archivo**: el borde del PNG
+desaparece contra ella y el rectángulo pasa a ser el objeto, con su radio de 12 px y su anillo de 1 px
+en `borde-fuerte`. No se recortan: uno tiene un degradado de 81 colores en el borde, y son activos de
+marca de un tercero. Tamaños cerrados (56, 72, 96, 112 px) y uno fluido, cuadrado, para la retícula
+del héroe. Al pasar, la placa del héroe sube 4 px (200 ms).
+
+### Marca (árbol Ψ)
+La cabecera y el pie usan `public/marca/institucional-recortado.png`: el original deja un 53 % de
+margen transparente y en una caja de 48 px el árbol medía 23 px. **Solo se quitó transparencia; el
+dibujo es el mismo.** En el pie va sobre una ficha `papel` de radio 12 px, porque el árbol no se lee
+sobre turquesa.
+
+### Fila del catálogo
+Emblema de 72 px, nombre en 800 (`subtitle`), resumen en una línea y, si existe, «En honor a
+**Otilia**» con un solo tratamiento para todas las entradas. Flecha `fuerte` que se desplaza 4 px al
+pasar. La fila entera es un solo destino de foco.
+
+### Ficha de entrada
+Las diez usan la misma plantilla: si una fuera más lucida, el sitio diría que importa más. Cabecera
+en `papel-alto` con miga de pan, placa de 112 px y `h1`; la dedicatoria «En honor a…» con peso de
+titular; requisitos con viñetas en el color de la entrada; columna lateral con «Cómo participar» en
+`superficie` y el botón primario. Las cifras van **en una línea de texto**, no como número gigante.
+
+### Título de página
+Suelo `papel-alto` con filete inferior, `h1` en 800 a 36→48→56 px y entrada en `tinta-suave`. **Sin
+etiqueta encima.**
+
+### Pie
+Franja entera en `marca`: marca, cuatro columnas (descripción, proyectos uno por uno y campañas,
+participar, ayuda inmediata con 911 y 147 a 30 px), legales y el selector de tema en una ficha clara.
+Los proyectos van uno por uno porque un solo enlace «Proyectos» escondería justo lo que el sitio existe
+para demostrar.
+
+### Nota
+Aviso honesto de lo que el prototipo todavía no hace: borde discontinuo, `papel-alto` o
+`valiente-tenue`, texto de 14 px en `tinta-suave`.
+
+## Do's and Don'ts
+
+### Do:
+- **Do** poner la banda de crisis primero en todas las páginas, en `tronco`, con solo 911 y Línea 147.
+- **Do** ordenar «Necesito ayuda» antes que «Donar», del mismo tamaño.
+- **Do** usar `marca` para franjas enteras y `fuerte` para enlaces y el botón primario.
+- **Do** mostrar los ocho emblemas reales dentro de `Placa`, con el fondo medido de cada archivo.
+- **Do** derivar todo conteo de `catalogo.ts`; nunca «ocho» escrito a mano.
+- **Do** correr `npm run contraste` después de tocar cualquier color, y editar los dos bloques oscuros.
+- **Do** declarar con su motivo, o medir, toda utilidad con alfa nueva.
+- **Do** dibujar los iconos nuevos como SVG de trazo de 2 px con `currentColor`, `aria-hidden`.
+- **Do** incrustar la procedencia en todo ráster nuevo bajo `public/marca` y verificar con
+  `impeccable embed-prompt --scan public/marca` (hoy: 0 sin procedencia).
+
+### Don't:
+- **Don't** poner un hex crudo del logo en texto.
+- **Don't** usar el marrón del tronco fuera de la crisis, ni rojo de alarma en la banda.
+- **Don't** usar el color de una entrada fuera de las viñetas de sus requisitos.
+- **Don't** poner una etiqueta en mayúsculas («eyebrow») encima de un titular.
+- **Don't** numerar secciones ni entradas (nada de 01–08).
+- **Don't** montar una franja de cifras grandes en el héroe; las cifras van en prosa.
+- **Don't** usar grano con `feTurbulence` ni texturas de ruido.
+- **Don't** fingir fotos con cajas vacías ni rayas repetidas: un hueco de foto no se pinta hasta que
+  la foto real exista.
+- **Don't** usar glifos Unicode (→, ▾, ✎) como iconos.
+- **Don't** añadir un segundo tipo de letra, ni volver al crema con serif de alto contraste.
+- **Don't** poner sombra a tarjetas, botones o placas, ni desplazamientos de botón al pasar.
+- **Don't** recortar ni recolorear los logos de los proyectos; solo se puede quitar transparencia al institucional.
+- **Don't** editar `design-tokens.json` a mano.
+
+## Decisiones abiertas
+
+- **Fotografías reales (P-08).** La sección de evidencia de cada ficha volverá cuando existan; la lista
+  de las que faltan sigue en `fotosPendientes`. Hasta entonces no se pinta ningún hueco.
+- **Emblemas propios para Psicoeducativo y Psicoempresarial.** Hoy usan el árbol institucional porque
+  su nombre lleva «REFUVA». Si la fundación entrega emblemas, entran por `catalogo.ts` sin tocar componentes.
+- **`adjustFontFallback: false`.** Puesto porque Next no trae métricas de Atkinson Hyperlegible Next.
+  Revisar el CLS en campo (objetivo ≤ 0.1 en p75) cuando haya datos reales.

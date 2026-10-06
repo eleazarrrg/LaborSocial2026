@@ -1,40 +1,31 @@
 @import "tailwindcss";
 
 /* ===========================================================================
-   SISTEMA DE COLOR — Fundación REFUVA
+   SISTEMA DE COLOR — Fundación REFUVA · v3 (octubre de 2026)
 
-   ORIGEN DE LA PALETA — ahora sí, la marca real.
+   Dirección: el estándar del sector, con Mind (mind.org.uk) como vara de
+   acabado. Elegida por el equipo el 5 de octubre. Ver DESIGN.md y PRODUCT.md.
 
-   Los colores salen del logo institucional: un árbol cuyo tronco es la Ψ de
-   psicología, con un cerebro y un corazón en la base. Se midieron sobre el
-   archivo, no se eligieron a ojo. Y el nombre de la fundación les da su papel:
-   REFUVA = REsiliente, FUerte, VAliente.
+   LO QUE SE DEJÓ ATRÁS. La v2 tenía fondo crema, serif de alto contraste y un
+   acento terracota: exactamente la estética que más repite la IA, y la razón
+   de que el sitio se leyera «genérico» aunque sus colores salieran del logo.
+   El compromiso de marca son los colores del árbol Ψ, no el crema ni el serif.
 
-     RESILIENTE  →  papel        Lo que sostiene y aguanta. Cálido, con grano.
-                                 Nunca el blanco clínico de un consultorio.
-     FUERTE      →  fuerte       El marrón del tronco, 37 % del logo. Enlaces,
-                                 botones, banda de crisis, cifras.
-     VALIENTE    →  valiente     El turquesa de las hojas, 12 %. El acto de
-                                 hablar: numerales, foco, acentos.
+   LOS COLORES SIGUEN SALIENDO DEL ÁRBOL Ψ, medidos sobre el archivo:
 
-   Y dos tokens que la marca real obligó a añadir, porque sus colores crudos no
-   pasan contraste y no pueden tocar texto:
+     marca      El turquesa de las hojas, profundo. Dueño de FRANJAS enteras:
+                navegación, declaración y pie. Como el azul de Mind.
+     fuerte     El mismo turquesa para enlaces y botones primarios.
+     valiente   El naranja de las hojas, oscurecido hasta texto. La acción de
+                ayuda y el anillo de foco.
+     tronco     El marrón del tronco: lo que sostiene. Solo la banda de crisis.
+     vivo       Naranja decorativo. Nunca texto (3.58:1).
+     alerta     El rojo del corazón, oscurecido. Solo error de formulario.
 
-     vivo        El naranja de las hojas (15 %), oscurecido. 3,96:1 — nunca
-                 texto. Reglas, subrayados, rellenos.
-     alerta      El rojo del corazón (11 %), oscurecido. Solo error.
+   Cada proyecto y campaña tiene además su color propio en src/lib/catalogo.ts.
 
-   LO QUE NO ENTRA. El naranja crudo #f07800 se queda en 2,59:1 y el turquesa
-   crudo #007878 en 4,32:1 sobre papel-alto: ninguno llega a AA. Se conserva el
-   matiz y se baja la luminancia. Esa es la regla de DESIGN.md §9, aplicada.
-
-   Cada proyecto y cada campaña tiene además su propio color, derivado de su
-   logo y verificado igual. Viven en src/lib/catalogo.ts, no aquí, y la regla
-   anti-collage que los gobierna está en ese archivo.
-
-   CONTRASTE. Verificado con `npm run contraste` en los dos temas. La tabla
-   completa está en DESIGN.md. Ninguna pareja de texto baja de 4,5:1 y ningún
-   borde de control baja de 3:1.
+   CONTRASTE. `npm run contraste` lee estos valores de aquí y falla si alguno
+   baja del umbral. Al editar un tema oscuro hay que editar LOS DOS bloques.
 =========================================================================== */
 
 @theme inline {
@@ -52,136 +43,125 @@
   --color-borde-control: var(--borde-control);
   --color-vivo: var(--vivo);
   --color-alerta: var(--alerta);
+  --color-marca: var(--marca);
+  --color-sobre-marca: var(--sobre-marca);
+  --color-tronco: var(--tronco);
 
-  --font-display: var(--fuente-display), Georgia, "Times New Roman", serif;
-  --font-sans: var(--fuente-sans), system-ui, sans-serif;
+  /* Una sola familia, como Mind. Atkinson Hyperlegible Next la diseñó el
+     Braille Institute para lectores con baja visión: el público de este sitio
+     incluye gente en crisis, con teléfonos viejos y sol de frente. */
+  --font-display: var(--fuente), system-ui, sans-serif;
+  --font-sans: var(--fuente), system-ui, sans-serif;
 }
 
-/* --------------------------------------------------------------- TEMA CLARO
-   Es el tema por defecto y el que se diseñó primero. El sitio se lee de día,
-   en la calle y en teléfonos con el brillo al máximo. */
+/* --------------------------------------------------------------- TEMA CLARO */
 :root {
   color-scheme: light;
 
-  --papel: #f8f4ed;
-  --papel-alto: #efe7d9;
-  --superficie: #fffdf9;
-  --tinta: #16140f;
-  --tinta-suave: #565049;
-  /* El tronco del árbol: el color que más pesa en el logo (37 %). */
-  --fuerte: #903000;
-  --fuerte-tenue: #f6e3d8;
-  /* Las hojas turquesa (12 %), oscurecidas desde #007878 — el crudo se queda
-     en 4,32:1 sobre papel-alto y no llega a AA. */
-  --valiente: #006b6b;
-  --valiente-tenue: #dceceb;
-  --borde: #dfd6c6;
-  --borde-fuerte: #c2b7a3;
-  --borde-control: #8e8471;
-  /* El naranja de las hojas (15 %), oscurecido. NUNCA texto: 3,96:1.
-     Reglas, subrayados y rellenos decorativos. */
-  --vivo: #c05e00;
-  /* El rojo del corazón (11 %), oscurecido. Solo error de formulario. */
-  --alerta: #b81c00;
-
-  --grano: 0.038;
+  --papel: #ffffff;
+  --papel-alto: #e9f3f2;
+  --superficie: #ffffff;
+  --tinta: #101a19;
+  --tinta-suave: #43504e;
+  --fuerte: #005c5c;
+  --fuerte-tenue: #d3ebe8;
+  --valiente: #a34700;
+  --valiente-tenue: #fde6d2;
+  --borde: #d5e4e2;
+  --borde-fuerte: #a9c3c0;
+  --borde-control: #6d8582;
+  --vivo: #d46a00;
+  --alerta: #b3261e;
+  --marca: #005557;
+  --sobre-marca: #ffffff;
+  --tronco: #7d2b00;
 }
 
 /* --------------------------------------------------------------- TEMA OSCURO
-   No es el claro invertido. Se diseñó aparte: el papel se vuelve tinta cálida
-   —nunca el gris azulado de una terminal— y el verde y la terracota suben de
-   luminosidad lo justo para seguir pasando contraste sin brillar.
+   No es el claro invertido: el blanco se vuelve un verde petróleo casi negro,
+   tinte del mismo turquesa, y los colores suben de luminosidad lo justo.
 
-   Esta regla cubre a quien tiene el sistema en oscuro y NO ha elegido tema en
-   el sitio. La negación es la que hace que elegir «claro» gane sobre el
-   sistema. */
+   Cubre a quien tiene el sistema en oscuro y NO eligió tema en el sitio. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="claro"]) {
     color-scheme: dark;
 
-    --papel: #12100c;
-    --papel-alto: #1c1915;
-    --superficie: #1a1713;
-    --tinta: #f3eee4;
-    --tinta-suave: #aba396;
-    --fuerte: #ec9a6e;
-    --fuerte-tenue: #33190c;
-    --valiente: #5fc4c4;
-    --valiente-tenue: #0e2a2a;
-    --borde: #2d2822;
-    --borde-fuerte: #4a4238;
-    --borde-control: #6e6558;
+    --papel: #0c1413;
+    --papel-alto: #13201f;
+    --superficie: #101b1a;
+    --tinta: #e7f0ee;
+    --tinta-suave: #a2b4b1;
+    --fuerte: #72d0cb;
+    --fuerte-tenue: #103634;
+    --valiente: #f2a466;
+    --valiente-tenue: #3b2412;
+    --borde: #233331;
+    --borde-fuerte: #36504d;
+    --borde-control: #5f7a77;
     --vivo: #f0a060;
     --alerta: #ff9e8a;
-
-    --grano: 0.055;
+    --marca: #0f3836;
+    --sobre-marca: #e7f0ee;
+    --tronco: #e39a72;
   }
 }
 
-/* Elección explícita del usuario. Va después para ganarle al sistema, y
-   duplica los valores a propósito: si un día el tema oscuro deja de ser el
-   claro invertido en algún token, este bloque es el que manda. */
+/* Elección explícita. Va después para ganarle al sistema. DUPLICA el bloque
+   de arriba a propósito: si editas uno, edita el otro. */
 :root[data-tema="oscuro"] {
   color-scheme: dark;
 
-  --papel: #12100c;
-  --papel-alto: #1c1915;
-  --superficie: #1a1713;
-  --tinta: #f3eee4;
-  --tinta-suave: #aba396;
-  --fuerte: #ec9a6e;
-  --fuerte-tenue: #33190c;
-  --valiente: #5fc4c4;
-  --valiente-tenue: #0e2a2a;
-  --borde: #2d2822;
-  --borde-fuerte: #4a4238;
-  --borde-control: #6e6558;
+  --papel: #0c1413;
+  --papel-alto: #13201f;
+  --superficie: #101b1a;
+  --tinta: #e7f0ee;
+  --tinta-suave: #a2b4b1;
+  --fuerte: #72d0cb;
+  --fuerte-tenue: #103634;
+  --valiente: #f2a466;
+  --valiente-tenue: #3b2412;
+  --borde: #233331;
+  --borde-fuerte: #36504d;
+  --borde-control: #5f7a77;
   --vivo: #f0a060;
   --alerta: #ff9e8a;
-
-  --grano: 0.055;
+  --marca: #0f3836;
+  --sobre-marca: #e7f0ee;
+  --tronco: #e39a72;
 }
 
 html {
   scroll-behavior: smooth;
-  /* La escala del display crece con el ancho, pero nunca por debajo de lo
-     legible ni por encima de lo cómodo. */
-  --paso-display: clamp(2.5rem, 1.2rem + 5.2vw, 5.5rem);
+  /* Tope de 3.25rem. A 88 px el titular de 79 caracteres ocupaba el 29 % de
+     la pantalla (lo marcó el detector de impeccable), y a 64 px empujaba el
+     botón principal fuera de la primera pantalla a 1440×900. */
+  --paso-display: clamp(2.25rem, 1.5rem + 2.2vw, 3.25rem);
 }
 
 body {
   background-color: var(--papel);
   color: var(--tinta);
   font-family: var(--font-sans);
-  font-size: 1.0625rem;
-  line-height: 1.6;
+  /* 19 px. Mind usa 21. El público lee en la calle y con teléfonos viejos. */
+  font-size: 1.1875rem;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-wrap: pretty;
 }
 
-/* Grano de papel. Un SVG de ~200 bytes en línea: da atmósfera sin pedir una
-   sola petición de red, que importa cuando el público navega con datos caros. */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: var(--grano);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* Fraunces con sus ejes puestos a trabajar: WONK activa las terminaciones
-   raras y SOFT redondea. Es la diferencia entre usar una tipografía y
-   diseñar con ella. */
 .font-display,
 h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 28, "WONK" 1, "opsz" 100;
-  letter-spacing: -0.021em;
+  letter-spacing: -0.02em;
   text-wrap: balance;
+}
+
+/* Lo que el navegador pinta por su cuenta también lleva la marca. */
+::selection {
+  background-color: var(--fuerte-tenue);
+  color: var(--tinta);
 }
 
 /* Numerales tabulares donde hay cifras alineadas: evita el baile de columnas. */
@@ -196,8 +176,9 @@ h3 {
    del sistema. El componente pone las DOS variantes como variables en línea y
    este bloque decide cuál se resuelve, igual que los tokens del tema.
 
-   Hace falta porque el valor claro sobre el papel oscuro da 2.36:1 y el
-   numeral desaparece. Con una sola variante el índice es ilegible de noche.
+   Hace falta porque el valor claro de varias entradas sobre el papel oscuro
+   baja de 3:1: con una sola variante, la marca de la entrada desaparece de
+   noche. Hoy pinta las viñetas de requisitos de la ficha.
 
    Uso:  <div className="tinte" style={{ "--tinte-claro": …, "--tinte-oscuro": … }}>
            <span className="text-[var(--tinte)]">01</span>

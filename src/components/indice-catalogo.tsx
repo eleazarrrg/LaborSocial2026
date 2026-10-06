@@ -1,81 +1,64 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
+import { Flecha } from "@/components/iconos";
+import { Placa } from "@/components/ui";
 import { rutaDe, type Entrada } from "@/lib/catalogo";
 
 /**
- * El índice del catálogo, numerado y tipográfico.
+ * El catálogo como lista de filas, a dos columnas, sin contenedor de tarjeta.
  *
- * DECISIÓN DE DISEÑO, y es la que define el sitio. Se mantiene sin logos **a
- * propósito**, incluso ahora que cada entrada tiene el suyo.
+ * QUÉ CAMBIÓ Y POR QUÉ. Primero fue un índice numerado 01–08 sin logos (lo
+ * más genérico del sitio, según la crítica de octubre). Después, ocho tarjetas
+ * tintadas iguales: la revisión final de impeccable las rechazó por ser el
+ * andamio de «tarjetas de icono, título y texto» que su piso de calidad
+ * prohíbe, y porque repetían en grande los emblemas que el héroe ya enseña.
  *
- * Los diez logos vienen de nueve paletas que chocan: una insignia dorada sobre
- * negro, un círculo turquesa pastel, una caricatura navideña multicolor, dos
- * lazos planos. Apilados en una columna *son* el collage. El índice numerado
- * nunca los pone juntos: el logo aparece una sola vez por entrada, en su propia
- * página, dentro de su placa.
+ * Ahora: filas separadas por un filete, el emblema pequeño, el nombre con peso
+ * de titular y una línea. La dedicatoria «En honor a» lleva un solo
+ * tratamiento en todas las entradas: con el color de cada una, el rojo de Un
+ * Solo Corazón se leía como un error.
  *
- * Lo que sí entra del color propio es una regla de 3 px bajo el numeral. Es una
- * de las tres apariciones que el presupuesto de color permite por entrada — ver
- * la regla anti-collage en src/lib/catalogo.ts.
- *
- * Y una cuadrícula de tarjetas seguiría siendo mala idea: ocho proyectos en tres
- * columnas dejan un hueco impar que siempre acaba sugiriendo que uno sobra.
+ * Todas las filas iguales a propósito (HU-01): ninguna se presenta como
+ * subordinada a otra. La fila entera es el enlace: un solo destino de foco.
  */
-export function IndiceCatalogo({ entradas }: { entradas: Entrada[] }) {
+export function IndiceCatalogo({
+  entradas,
+  encabezado = "h2",
+}: {
+  entradas: Entrada[];
+  /** h2 en las páginas de índice; h3 cuando va dentro de una sección. */
+  encabezado?: "h2" | "h3";
+}) {
+  const Titulo = encabezado;
+
   return (
-    <ol className="border-t border-borde-fuerte">
-      {entradas.map((e, i) => (
+    <ul className="grid gap-x-12 border-t border-borde md:grid-cols-2">
+      {entradas.map((e) => (
         <li key={e.codigo} className="border-b border-borde">
           <Link
             href={rutaDe(e)}
-            className="tinte group grid grid-cols-[auto_1fr] items-baseline gap-x-4 gap-y-1 px-1 py-6 transition-colors hover:bg-papel-alto sm:gap-x-7 sm:px-3 sm:py-8 lg:grid-cols-[4.5rem_1fr_11rem_2rem]"
-            style={
-              {
-                "--tinte-claro": e.colorAcento,
-                "--tinte-oscuro": e.colorAcentoOscuro,
-              } as CSSProperties
-            }
+            className="group flex h-full items-start gap-5 py-6 sm:gap-6"
           >
-            <span className="lg:row-span-2 lg:self-start">
-              <span
-                aria-hidden
-                className="cifras-alineadas block font-display text-2xl leading-none font-semibold text-[var(--tinte)] sm:text-3xl lg:text-4xl"
-              >
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              {/* La primera de las tres apariciones del color propio. */}
-              <span
-                aria-hidden
-                className="mt-2 block h-[3px] w-7 rounded-full bg-[var(--tinte)]"
-              />
-            </span>
+            {e.logo && (
+              <Placa src={e.logo.src} alt="" fondo={e.logo.fondo} tamano="fila" />
+            )}
 
-            <span className="font-display text-2xl leading-tight font-semibold tracking-tight transition-colors group-hover:text-fuerte sm:text-3xl lg:text-[2.125rem]">
-              {e.nombreCorto}
-            </span>
+            <div className="min-w-0 flex-1">
+              <Titulo className="text-xl leading-tight font-extrabold underline-offset-4 group-hover:text-fuerte group-hover:underline sm:text-2xl">
+                {e.nombreCorto}
+              </Titulo>
+              <p className="mt-2 leading-snug text-tinta-suave">{e.resumen}</p>
+              {e.enHonorA && (
+                <p className="mt-2 font-bold">
+                  <span className="font-normal text-tinta-suave">En honor a </span>
+                  {e.enHonorA}
+                </p>
+              )}
+            </div>
 
-            <span className="col-start-2 max-w-xl text-tinta-suave lg:col-start-2 lg:row-start-2 lg:mt-1">
-              {e.resumen}
-            </span>
-
-            <span className="col-start-2 mt-3 flex items-baseline gap-2 lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:flex-col lg:items-start lg:gap-0 lg:self-center">
-              <span className="cifras-alineadas font-display text-2xl leading-none font-semibold text-fuerte lg:text-3xl">
-                {e.dato}
-              </span>
-              <span className="text-sm leading-snug text-tinta-suave lg:mt-1.5">
-                {e.datoPie}
-              </span>
-            </span>
-
-            <span
-              aria-hidden
-              className="hidden text-xl text-borde-fuerte transition-all duration-200 group-hover:translate-x-1 group-hover:text-fuerte lg:col-start-4 lg:row-span-2 lg:row-start-1 lg:block lg:self-center lg:justify-self-end"
-            >
-              →
-            </span>
+            <Flecha className="mt-1 size-6 shrink-0 text-fuerte transition-transform group-hover:translate-x-1" />
           </Link>
         </li>
       ))}
-    </ol>
+    </ul>
   );
 }

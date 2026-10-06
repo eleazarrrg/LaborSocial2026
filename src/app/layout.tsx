@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Atkinson_Hyperlegible_Next } from "next/font/google";
 import { BandaCrisis } from "@/components/banda-crisis";
 import { Encabezado } from "@/components/encabezado";
 import { Pie } from "@/components/pie";
@@ -7,25 +7,25 @@ import { guionAntiParpadeo } from "@/components/tema";
 import "./globals.css";
 
 /**
- * Pareja tipográfica: Fraunces con sus ejes activados contra Inter.
+ * Una sola familia, como Mind: Atkinson Hyperlegible Next.
  *
- * Fraunces con WONK y SOFT tiene terminaciones raras y curvas blandas — cálida
- * y con carácter, que es exactamente el registro de REFUVA. Inter para el
- * cuerpo, que a 17 px se lee bien en pantallas malas. Es una pareja, no dos
- * fuentes puestas juntas: la tensión entre el serif con personalidad y el
- * grotesco neutro es lo que sostiene la jerarquía sin recurrir al color.
+ * La diseñó el Braille Institute para lectores con baja visión: letras que no
+ * se confunden entre sí (I, l, 1; O, 0). Es la razón de producto, no de gusto:
+ * el público incluye gente en crisis, con teléfonos viejos y sol de frente.
+ *
+ * Sustituye a Fraunces + Inter, la pareja más reconocible de lo que genera la
+ * IA, y una de las razones de que el sitio se leyera genérico.
  */
-const display = Fraunces({
+const fuente = Atkinson_Hyperlegible_Next({
   subsets: ["latin"],
-  axes: ["SOFT", "WONK", "opsz"],
-  variable: "--fuente-display",
+  variable: "--fuente",
   display: "swap",
-});
-
-const sans = Inter({
-  subsets: ["latin"],
-  variable: "--fuente-sans",
-  display: "swap",
+  // Next no trae las métricas de esta familia para ajustar la de respaldo y
+  // avisa en cada build. Se desactiva a propósito: con `swap` el texto se ve
+  // desde el primer pintado, y el salto al cambiar de fuente es de unos
+  // píxeles en el titular. Revisar el CLS en campo cuando haya datos reales.
+  adjustFontFallback: false,
+  fallback: ["system-ui", "sans-serif"],
 });
 
 export const metadata: Metadata = {
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8f4ed" },
-    { media: "(prefers-color-scheme: dark)", color: "#12100c" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c1413" },
   ],
 };
 
@@ -50,7 +50,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es-PA" className={`${display.variable} ${sans.variable}`}>
+    <html lang="es-PA" className={fuente.variable}>
       <head>
         {/* Corre antes del primer pintado para que quien eligió tema oscuro no
             vea un fogonazo blanco en cada carga. Ver components/tema.tsx. */}

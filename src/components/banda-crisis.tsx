@@ -8,7 +8,10 @@ import { RECURSOS_CRISIS } from "@/lib/crisis";
  * promocional: es la ruta más corta entre alguien que está mal y un teléfono
  * que contesta. Por eso es lo primero del documento y lo primero en pantalla.
  *
- * DECISIÓN DE DISEÑO: verde profundo, no rojo de alarma. Dos razones. Una, un
+ * DECISIÓN DE DISEÑO: el marrón del tronco del árbol Ψ —lo que sostiene—, no
+ * rojo de alarma. Tampoco el turquesa de la navegación: la banda tiene que
+ * leerse como algo aparte del sitio, no como su primera barra. Dos razones
+ * más para no usar rojo. Una, un
  * rojo permanente en todas las páginas se vuelve invisible por costumbre y
  * alarma a quien no lo necesita — y este sitio también lo abren patrocinadores.
  * Dos, la comunicación en crisis funciona mejor con calma que con urgencia
@@ -23,7 +26,7 @@ export function BandaCrisis() {
   const [emergencia, linea] = RECURSOS_CRISIS;
 
   return (
-    <div className="bg-fuerte text-papel">
+    <div className="bg-tronco text-papel">
       <div className="mx-auto flex max-w-6xl flex-wrap items-baseline gap-x-3 gap-y-1 px-4 py-2.5 text-sm sm:px-6">
         <span className="font-semibold">¿Necesitas ayuda ahora?</span>
         <span className="opacity-90">
@@ -71,7 +74,7 @@ export function BloqueCrisis({
   return (
     <section
       aria-labelledby="bloque-crisis"
-      className="overflow-hidden rounded-xl bg-fuerte text-papel"
+      className="overflow-hidden rounded-xl bg-tronco text-papel"
     >
       <div className="px-6 pt-7 pb-6 sm:px-8 sm:pt-8">
         <h2 id="bloque-crisis" className="text-2xl font-semibold sm:text-3xl">
@@ -82,7 +85,7 @@ export function BloqueCrisis({
 
       <ul className="grid gap-px bg-papel/15 sm:grid-cols-2">
         {RECURSOS_CRISIS.map((r) => (
-          <li key={r.numero} className="bg-fuerte px-6 py-6 sm:px-8">
+          <li key={r.numero} className="bg-tronco px-6 py-6 sm:px-8">
             <p className="text-sm font-semibold tracking-wide uppercase opacity-75">
               {r.nombre}
             </p>

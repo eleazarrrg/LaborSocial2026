@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FormularioPadrino } from "@/components/formularios/form-padrino";
-import { Marco } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Ser padrino o madrina",
@@ -32,10 +31,7 @@ export default function Apadrinar() {
       </nav>
 
       <header className="mt-8 max-w-3xl">
-        <p className="text-sm font-semibold tracking-wide text-valiente uppercase">
-          Fiesta navideña · 3.er año
-        </p>
-        <h1 className="mt-3 text-4xl leading-[1.06] font-semibold sm:text-5xl lg:text-6xl">
+        <h1 className="text-4xl leading-[1.06] font-semibold sm:text-5xl lg:text-6xl">
           Un niño, un regalo, una Navidad que nunca tuvo.
         </h1>
         <p className="mt-6 text-lg leading-relaxed text-tinta-suave sm:text-xl">
@@ -81,7 +77,6 @@ export default function Apadrinar() {
             </ol>
           </section>
 
-          <Marco proporcion="4/3" pie="La fiesta navideña del año pasado" />
         </aside>
       </div>
     </div>

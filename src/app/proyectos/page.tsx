@@ -13,7 +13,6 @@ export default function Proyectos() {
   return (
     <>
       <TituloPagina
-        sobretitulo="Proyectos"
         titulo="Todo lo que hace REFUVA, en un solo lugar."
         entrada="No es una fundación de salud mental que además hace otras cosas. Son varios frentes que se sostienen a la vez, con el mismo equipo y la misma gente."
       />

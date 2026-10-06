@@ -55,29 +55,23 @@ function catalogo() {
 /** Lo que no se deriva de ningún archivo: criterio escrito. */
 const PERSISTENTE = {
   tipografia: {
+    familia: "Atkinson Hyperlegible Next",
+    razon:
+      "Una sola familia, como Mind. La diseñó el Braille Institute para lectores con baja visión; el público incluye gente en crisis, con teléfonos viejos y sol de frente.",
     display: {
-      familia: "Fraunces",
-      ejes: { SOFT: 28, WONK: 1, opsz: 100 },
-      escala: "clamp(2.5rem, 1.2rem + 5.2vw, 5.5rem)",
+      pesos: [700, 800],
+      escala: "clamp(2.25rem, 1.5rem + 2.2vw, 3.25rem)",
     },
     cuerpo: {
-      familia: "Inter",
-      tamano: "17px",
-      comentario:
-        "17 px y no 16: el público incluye a gente mayor y a gente leyendo en la calle con el sol de frente.",
+      tamano: "19px",
+      interlineado: 1.55,
+      comentario: "19 px. Mind usa 21. El público lee en la calle y con teléfonos viejos.",
     },
   },
   espacio: {
     contenedor: "72rem",
     areaTactilMinima: "44px",
     comentario: "44px supera los 24×24 que exige WCAG 2.2 (2.5.8).",
-  },
-  textura: {
-    grano: {
-      claro: 0.038,
-      oscuro: 0.055,
-      tecnica: "SVG feTurbulence en línea, ~200 bytes, cero peticiones de red",
-    },
   },
   movimiento: {
     duracion: "150ms",
@@ -109,7 +103,7 @@ const salida = {
     "GENERADO POR scripts/generar-tokens.mjs — no editar a mano. Los colores salen de src/app/globals.css y src/lib/catalogo.ts; si quieres cambiarlos, edítalos ahí y corre `npm run tokens`. Ver DESIGN.md.",
   meta: {
     proyecto: "Portal Fundación REFUVA",
-    version: "2.0",
+    version: "3.0",
     // CLAUDE.md §6: las fechas del proyecto son de America/Panama, no UTC.
     generado: new Intl.DateTimeFormat("en-CA", { timeZone: "America/Panama" }).format(new Date()),
     estado: "derivado de la marca real",

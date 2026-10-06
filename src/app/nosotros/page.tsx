@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Boton, Marco, Nota, TituloPagina } from "@/components/ui";
+import Image from "next/image";
+import { Boton, Nota, TituloPagina } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "Nosotros",
@@ -11,7 +12,6 @@ export default function Nosotros() {
   return (
     <>
       <TituloPagina
-        sobretitulo="La fundación"
         titulo="Empezó atendiendo gratis."
         entrada="REFUVA nació del trabajo de un psicólogo que salía a atender sin cobrar. Hoy son varios proyectos y dos campañas, y cada uno nació de una historia."
       />
@@ -96,8 +96,19 @@ export default function Nosotros() {
         </div>
 
         <aside className="space-y-5 lg:sticky lg:top-28 lg:self-start">
-          <Marco proporcion="4/3" pie="El equipo en una jornada" />
-          <Marco proporcion="1/1" pie="Logo oficial de la fundación" />
+          {/* El logo que antes era un hueco «pendiente»: llegó en octubre. */}
+          <figure className="rounded-2xl bg-papel-alto p-8">
+            <Image
+              src="/marca/institucional.png"
+              alt="Árbol de la Fundación REFUVA: su tronco es la letra Ψ, con un cerebro y un corazón"
+              width={495}
+              height={496}
+              className="mx-auto w-full max-w-64"
+            />
+            <figcaption className="mt-5 text-center font-bold">
+              Resiliente · Fuerte · Valiente
+            </figcaption>
+          </figure>
         </aside>
       </div>
     </>

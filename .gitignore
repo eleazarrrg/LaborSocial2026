@@ -66,3 +66,12 @@ npm-debug.log*
 # El ZIP suelto en la raíz: su contenido ya vive descomprimido en
 # docs/00-fuentes/material-fundacion-2026-10/ y en public/marca/.
 /Refuva.zip
+
+# impeccable: se versionan la crítica (.impeccable/critique/), el contrato de
+# dirección (.impeccable/surfaces/) y .impeccable/design.json. Lo de abajo son
+# capturas y estado de trabajo que se regeneran en cada ronda.
+.impeccable/review/
+.impeccable/live/
+.impeccable/build/
+.impeccable/mocks/
+.impeccable/config.local.json

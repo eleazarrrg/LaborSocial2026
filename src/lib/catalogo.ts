@@ -58,9 +58,12 @@ export type Entrada = {
   nombreCorto: string;
   /** Una línea. Es lo que se lee en el índice. */
   resumen: string;
-  /** El dato concreto que demuestra que esto pasa de verdad. */
-  dato: string;
-  datoPie: string;
+  /**
+   * Una cifra REAL que demuestra que esto pasa, o nada. Opcional a propósito:
+   * cuando era obligatoria, seis entradas la rellenaban con signos (→, ✎, —,
+   * = 1, #) que se leían como estadísticas falsas.
+   */
+  cifra?: { valor: string; pie: string };
   poblacion: string;
   /** Texto oficial de la fundación. */
   parrafos: string[];
@@ -101,8 +104,7 @@ export const CATALOGO: Entrada[] = [
     nombreCorto: "Psicoeducativo",
     resumen:
       "Orientación y acompañamiento para toda la comunidad educativa, no solo para los estudiantes.",
-    dato: "+30",
-    datoPie: "escuelas en lista de espera",
+    cifra: { valor: "+30", pie: "escuelas en lista de espera" },
     poblacion:
       "Comunidad educativa: administrativos, docentes, padres de familia y estudiantes",
     parrafos: [
@@ -112,7 +114,13 @@ export const CATALOGO: Entrada[] = [
     ],
     cuando: "Durante todo el año escolar",
     accion: { etiqueta: "Solicitar una alianza", href: "/alianzas" },
-    // Sin logo propio: no vino en el material. Usa el acento institucional.
+    // Sin emblema propio en el material de octubre. Usa el árbol Ψ
+    // institucional, y es honesto: su nombre oficial lleva «REFUVA».
+    logo: {
+      src: "/marca/institucional-recortado.png",
+      fondo: "#ffffff",
+      alt: "Árbol de la Fundación REFUVA, cuyo tronco es la letra Ψ",
+    },
     colorAcento: "#903000",
     colorAcentoOscuro: "#d5794b",
     bloqueCrisis: true,
@@ -128,8 +136,6 @@ export const CATALOGO: Entrada[] = [
     nombreCorto: "Psicoempresarial",
     resumen:
       "Formación y acompañamiento para convertir ideas en oportunidades y sueños en proyectos sostenibles.",
-    dato: "—",
-    datoPie: "proyecto recién incorporado",
     poblacion: "Personas emprendedoras y equipos de trabajo",
     parrafos: [
       "Es un proyecto que busca brindar herramientas y conocimientos para fortalecer el desarrollo personal, profesional y empresarial de las personas.",
@@ -137,6 +143,13 @@ export const CATALOGO: Entrada[] = [
       "Nuestro propósito es impulsar personas con iniciativa, confianza y visión, capaces de generar cambios positivos tanto en su vida como en su entorno. Porque cuando fortalecemos nuestras capacidades, también creamos nuevas oportunidades para crecer y avanzar.",
     ],
     accion: { etiqueta: "Solicitar una alianza", href: "/alianzas" },
+    // Sin emblema propio en el material de octubre. Usa el árbol Ψ
+    // institucional, y es honesto: su nombre oficial lleva «REFUVA».
+    logo: {
+      src: "/marca/institucional-recortado.png",
+      fondo: "#ffffff",
+      alt: "Árbol de la Fundación REFUVA, cuyo tronco es la letra Ψ",
+    },
     colorAcento: "#903000",
     colorAcentoOscuro: "#d5794b",
     bloqueCrisis: false,
@@ -149,8 +162,6 @@ export const CATALOGO: Entrada[] = [
     nombreCorto: "Rompiendo el Círculo",
     resumen:
       "Acompañamiento a personas en riesgo social. Ninguna persona queda definida por sus circunstancias.",
-    dato: "→",
-    datoPie: "abre caminos donde parecían cerrados",
     poblacion: "Personas en situación de riesgo social",
     parrafos: [
       "Es un proyecto enfocado en acompañar y brindar apoyo a personas en situación de riesgo social, creando espacios de orientación, escucha y oportunidades para superar las circunstancias que pueden limitar su desarrollo y bienestar.",
@@ -176,8 +187,6 @@ export const CATALOGO: Entrada[] = [
     nombreCorto: "Historias que Sanan",
     resumen:
       "Escritura terapéutica. Algunas historias necesitan ser contadas para comenzar a sanar.",
-    dato: "✎",
-    datoPie: "escritura como herramienta de bienestar",
     poblacion: "Quien quiera poner en palabras lo vivido",
     parrafos: [
       "Es un proyecto que utiliza la escritura como una herramienta de expresión, reflexión y bienestar emocional. A través de la escritura terapéutica, buscamos brindar un espacio seguro donde las personas puedan expresar sus pensamientos, emociones y experiencias, permitiéndoles darle voz a aquello que muchas veces resulta difícil comunicar.",
@@ -203,15 +212,14 @@ export const CATALOGO: Entrada[] = [
     nombreCorto: "Un Solo Corazón",
     resumen:
       "Nació en la pandemia llevando bolsas de comida a familias. Sigue hasta hoy.",
-    dato: "2020",
-    datoPie: "desde la pandemia, sin parar",
+    cifra: { valor: "2020", pie: "desde la pandemia, sin parar" },
     poblacion: "Familias en dificultad",
     parrafos: [
       "Grupo Un Solo Corazón nace durante la pandemia, en un momento en el que muchas familias atravesaban grandes dificultades y necesitaban apoyo para salir adelante. Desde entonces, nos unimos con un mismo propósito: ayudar y acompañar a quienes más lo necesitan.",
       "Durante ese tiempo, llevamos bolsas de comida a numerosas familias, compartiendo no solo alimentos, sino también esperanza, solidaridad y el mensaje de que no estaban solas.",
       "Lo que comenzó como una respuesta ante una situación de necesidad se convirtió en un compromiso que continúa hasta hoy. Grupo Un Solo Corazón representa la unión de personas que creen que, cuando trabajamos juntos y ponemos el corazón en servir, podemos transformar vidas y llevar esperanza a nuestra comunidad.",
     ],
-    enHonorA: "Las familias que sostuvieron la pandemia sin soltarse",
+    enHonorA: "las familias que sostuvieron la pandemia sin soltarse",
     accion: { etiqueta: "Ser voluntario", href: "/participar/voluntariado" },
     logo: {
       src: "/marca/proyectos/grupo-un-solo-corazon.png",
@@ -231,8 +239,7 @@ export const CATALOGO: Entrada[] = [
     nombreCorto: "Una Estrella Otiliana",
     resumen:
       "El proyecto navideño. Nace en honor a Otilia, la abuela de Edwin.",
-    dato: "3.er",
-    datoPie: "año consecutivo",
+    cifra: { valor: "3.er", pie: "año consecutivo" },
     poblacion: "Niños de comunidades en situación de vulnerabilidad",
     parrafos: [
       "Una Estrella Otiliana es un proyecto navideño que nace en honor a alguien muy especial, mi abuela Otilia, con el propósito de llevar la magia, la alegría y el espíritu de la Navidad a una comunidad. A través de esta iniciativa, buscamos compartir momentos especiales, brindar sonrisas y crear experiencias llenas de amor, esperanza y solidaridad.",
@@ -246,8 +253,13 @@ export const CATALOGO: Entrada[] = [
     ],
     cuando: "Convocatoria a mitad de año · celebración en diciembre",
     accion: { etiqueta: "Ser padrino o madrina", href: "/participar/apadrinar" },
-    // Lo que llegó es un afiche vertical 1080×1350, no un emblema: va como
-    // imagen de la sección de evidencia, no dentro de una placa cuadrada.
+    // Afiche vertical 1080×1350 sobre blanco: una ilustración, sin ningún
+    // niño real, así que no pide consentimiento (CLAUDE.md §5.2).
+    logo: {
+      src: "/marca/proyectos/una-estrella-otiliana.png",
+      fondo: "#ffffff",
+      alt: "Estrella dorada con una pila de regalos y Papá y Mamá Noel asomándose",
+    },
     colorAcento: "#806300",
     colorAcentoOscuro: "#ac8e28",
     colorMarca: "#f0c000",
@@ -264,8 +276,7 @@ export const CATALOGO: Entrada[] = [
     nombreCorto: "Comida en la Calle",
     resumen:
       "Alimento al cuerpo y esperanza al corazón, para personas en situación de calle.",
-    dato: "+100",
-    datoPie: "raciones por jornada",
+    cifra: { valor: "+100", pie: "raciones por jornada" },
     poblacion: "Personas en situación de calle",
     parrafos: [
       "Comida en la Calle, Esperanza en el Corazón es un proyecto que nace con el propósito de brindar alimentación y acompañamiento a personas en situación de calle.",
@@ -291,8 +302,6 @@ export const CATALOGO: Entrada[] = [
     nombreCorto: "Angelitos de la Calle",
     resumen:
       "Alimento para perritos y gatitos sin hogar. Ayudar a un animalito también transforma una vida.",
-    dato: "= 1",
-    datoPie: "misma jornada que la alimentación",
     poblacion: "Perros y gatos en situación de calle",
     parrafos: [
       "Angelitos de la Calle es un proyecto que nace del amor y la preocupación por aquellos animalitos que viven en las calles y que muchas veces no tienen un hogar ni alimento.",
@@ -322,8 +331,6 @@ export const CATALOGO: Entrada[] = [
     nombreCorto: "Háblame Panamá",
     resumen:
       "Campaña de prevención del suicidio. Nace en honor a Jessica.",
-    dato: "#",
-    datoPie: "hablemos · escuchemos · acompañemos",
     poblacion: "Toda persona que atraviese un momento difícil, y quien la acompaña",
     parrafos: [
       "Háblame Panamá es una campaña de prevención del suicidio que nace en honor a Jessica, transformando su historia en un llamado a la empatía, la escucha y la esperanza.",
@@ -353,8 +360,6 @@ export const CATALOGO: Entrada[] = [
     nombreCorto: "#EscúchamePanamá",
     resumen:
       "Campaña de sensibilización en salud mental. Pedir ayuda es un acto de fortaleza.",
-    dato: "#",
-    datoPie: "escuchar también es cuidar",
     poblacion: "La sociedad panameña",
     parrafos: [
       "#EscúchamePanamá es una campaña de sensibilización y promoción de la salud mental, creada para generar espacios donde las personas puedan expresarse, ser escuchadas y sentirse acompañadas sin miedo a ser juzgadas.",

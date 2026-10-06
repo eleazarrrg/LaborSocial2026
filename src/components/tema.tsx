@@ -112,7 +112,7 @@ export function SelectorTema() {
     <div
       role="group"
       aria-label="Tema del sitio"
-      className="flex items-center gap-0.5 rounded-lg border border-borde p-0.5"
+      className="flex items-center gap-1 rounded-lg border border-borde p-1"
     >
       {OPCIONES.map((o) => {
         const activo = tema === o.valor;

@@ -1,0 +1,848 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-06T01:15:22.770Z",
+  "title": "Design System: Portal Fundación REFUVA",
+  "extensions": {
+    "colorMeta": {
+      "papel": {
+        "role": "neutral",
+        "displayName": "Papel blanco",
+        "purpose": "Fondo de página.",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "papel-alto": {
+        "role": "neutral",
+        "displayName": "Tinte turquesa claro",
+        "purpose": "Suelo de sección, héroe y cabecera de página.",
+        "canonical": "oklch(95.6% 0.011 189.8)",
+        "tonalRamp": [
+          "#080c0c",
+          "#1f2726",
+          "#3c4443",
+          "#5b6362",
+          "#7b8484",
+          "#9ea7a6",
+          "#c2cbca",
+          "#eaf0ef"
+        ]
+      },
+      "superficie": {
+        "role": "neutral",
+        "displayName": "Superficie",
+        "purpose": "Tarjetas y campos sobre suelo tintado.",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "tinta": {
+        "role": "neutral",
+        "displayName": "Tinta verdinegra",
+        "purpose": "Texto principal.",
+        "canonical": "oklch(20.8% 0.015 188.4)",
+        "tonalRamp": [
+          "#070c0c",
+          "#1d2726",
+          "#394543",
+          "#586463",
+          "#798584",
+          "#9ba8a7",
+          "#bfcccb",
+          "#e8f0ef"
+        ]
+      },
+      "tinta-suave": {
+        "role": "neutral",
+        "displayName": "Tinta suave",
+        "purpose": "Texto secundario y entradas.",
+        "canonical": "oklch(41.9% 0.017 185.3)",
+        "tonalRamp": [
+          "#070d0c",
+          "#1c2826",
+          "#384543",
+          "#576462",
+          "#788684",
+          "#9aa9a6",
+          "#becdca",
+          "#e7f1ef"
+        ]
+      },
+      "marca": {
+        "role": "primary",
+        "displayName": "Turquesa de franja",
+        "purpose": "Franjas enteras: navegación, declaración, pie.",
+        "canonical": "oklch(40.8% 0.069 197.5)",
+        "tonalRamp": [
+          "#001011",
+          "#002e31",
+          "#004d4f",
+          "#266d6f",
+          "#4b8f91",
+          "#6eb3b4",
+          "#92d8d9",
+          "#cff8f8"
+        ]
+      },
+      "sobre-marca": {
+        "role": "neutral",
+        "displayName": "Sobre marca",
+        "purpose": "Texto sobre las franjas de marca.",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "fuerte": {
+        "role": "primary",
+        "displayName": "Turquesa de acción",
+        "purpose": "Enlaces y botón primario sólido.",
+        "canonical": "oklch(43.0% 0.073 194.8)",
+        "tonalRamp": [
+          "#001011",
+          "#002f30",
+          "#004e4e",
+          "#206e6e",
+          "#479090",
+          "#6bb4b3",
+          "#8fd9d8",
+          "#cdf8f7"
+        ]
+      },
+      "fuerte-tenue": {
+        "role": "primary",
+        "displayName": "Turquesa tenue",
+        "purpose": "Relleno de Donar y de tarjetas de ayuda que no son crisis.",
+        "canonical": "oklch(92.2% 0.026 187.6)",
+        "tonalRamp": [
+          "#040d0c",
+          "#162927",
+          "#324744",
+          "#516664",
+          "#728885",
+          "#94aba8",
+          "#b7cfcc",
+          "#e4f2f0"
+        ]
+      },
+      "valiente": {
+        "role": "secondary",
+        "displayName": "Naranja de ayuda",
+        "purpose": "Anillo de foco y hover de Necesito ayuda.",
+        "canonical": "oklch(51.0% 0.139 48.0)",
+        "tonalRamp": [
+          "#230000",
+          "#540000",
+          "#781e00",
+          "#9d4200",
+          "#c3642d",
+          "#ea8852",
+          "#ffac76",
+          "#ffdebe"
+        ]
+      },
+      "valiente-tenue": {
+        "role": "secondary",
+        "displayName": "Naranja tenue",
+        "purpose": "Relleno de Necesito ayuda y de la tarjeta de crisis.",
+        "canonical": "oklch(93.8% 0.037 63.4)",
+        "tonalRamp": [
+          "#120903",
+          "#322111",
+          "#503e2e",
+          "#715d4c",
+          "#937e6c",
+          "#b6a18e",
+          "#dbc5b1",
+          "#faece0"
+        ]
+      },
+      "tronco": {
+        "role": "tertiary",
+        "displayName": "Marrón del tronco",
+        "purpose": "Solo la banda y el bloque de crisis.",
+        "canonical": "oklch(40.6% 0.123 41.8)",
+        "tonalRamp": [
+          "#210000",
+          "#500000",
+          "#742300",
+          "#994521",
+          "#bf6744",
+          "#e58a66",
+          "#ffae89",
+          "#ffdfc8"
+        ]
+      },
+      "vivo": {
+        "role": "tertiary",
+        "displayName": "Naranja vivo",
+        "purpose": "Acento no textual. Nunca texto.",
+        "canonical": "oklch(63.8% 0.161 53.3)",
+        "tonalRamp": [
+          "#260000",
+          "#580000",
+          "#7d1500",
+          "#a33d00",
+          "#ca6000",
+          "#f18431",
+          "#ffa95b",
+          "#ffddb2"
+        ]
+      },
+      "alerta": {
+        "role": "tertiary",
+        "displayName": "Rojo del corazón",
+        "purpose": "Solo errores de formulario.",
+        "canonical": "oklch(50.1% 0.178 28.7)",
+        "tonalRamp": [
+          "#2a0000",
+          "#610000",
+          "#880000",
+          "#b0221b",
+          "#d84c3f",
+          "#ff7161",
+          "#ff9784",
+          "#ffd4c6"
+        ]
+      },
+      "borde": {
+        "role": "neutral",
+        "displayName": "Filete",
+        "purpose": "Separadores finos.",
+        "canonical": "oklch(90.7% 0.016 187.3)",
+        "tonalRamp": [
+          "#070d0c",
+          "#1c2826",
+          "#394543",
+          "#576463",
+          "#788684",
+          "#9aa9a7",
+          "#becdcb",
+          "#e8f1ef"
+        ]
+      },
+      "borde-fuerte": {
+        "role": "neutral",
+        "displayName": "Borde fuerte",
+        "purpose": "Anillo de las placas.",
+        "canonical": "oklch(79.7% 0.028 188.1)",
+        "tonalRamp": [
+          "#040d0c",
+          "#132a28",
+          "#304745",
+          "#4f6764",
+          "#708885",
+          "#92aba8",
+          "#b5d0cc",
+          "#e2f2f0"
+        ]
+      },
+      "borde-control": {
+        "role": "neutral",
+        "displayName": "Borde de control",
+        "purpose": "Borde de campos; debe pasar 3:1.",
+        "canonical": "oklch(59.7% 0.028 187.2)",
+        "tonalRamp": [
+          "#040d0c",
+          "#142a27",
+          "#314744",
+          "#4f6764",
+          "#708885",
+          "#92aba8",
+          "#b6cfcc",
+          "#e3f2f0"
+        ]
+      },
+      "papel-oscuro": {
+        "role": "neutral",
+        "displayName": "Papel blanco (oscuro)",
+        "purpose": "Fondo de página.",
+        "canonical": "oklch(18.3% 0.012 186.6)",
+        "tonalRamp": [
+          "#080c0c",
+          "#1f2726",
+          "#3b4443",
+          "#5a6462",
+          "#7b8583",
+          "#9da8a6",
+          "#c1ccca",
+          "#e9f0ef"
+        ]
+      },
+      "papel-alto-oscuro": {
+        "role": "neutral",
+        "displayName": "Tinte turquesa claro (oscuro)",
+        "purpose": "Suelo de sección, héroe y cabecera de página.",
+        "canonical": "oklch(23.1% 0.018 189.9)",
+        "tonalRamp": [
+          "#060d0c",
+          "#1b2827",
+          "#374544",
+          "#566563",
+          "#778685",
+          "#99a9a7",
+          "#bccdcc",
+          "#e7f1f0"
+        ]
+      },
+      "superficie-oscuro": {
+        "role": "neutral",
+        "displayName": "Superficie (oscuro)",
+        "purpose": "Tarjetas y campos sobre suelo tintado.",
+        "canonical": "oklch(21.1% 0.016 189.0)",
+        "tonalRamp": [
+          "#070c0c",
+          "#1c2827",
+          "#394544",
+          "#576463",
+          "#788684",
+          "#9aa8a7",
+          "#becdcb",
+          "#e8f1f0"
+        ]
+      },
+      "tinta-oscuro": {
+        "role": "neutral",
+        "displayName": "Tinta verdinegra (oscuro)",
+        "purpose": "Texto principal.",
+        "canonical": "oklch(94.8% 0.010 181.4)",
+        "tonalRamp": [
+          "#090c0b",
+          "#202725",
+          "#3d4442",
+          "#5b6361",
+          "#7c8483",
+          "#9fa7a5",
+          "#c3cbc9",
+          "#eaf0ef"
+        ]
+      },
+      "tinta-suave-oscuro": {
+        "role": "neutral",
+        "displayName": "Tinta suave (oscuro)",
+        "purpose": "Texto secundario y entradas.",
+        "canonical": "oklch(75.5% 0.020 184.7)",
+        "tonalRamp": [
+          "#060d0c",
+          "#1a2826",
+          "#364643",
+          "#556563",
+          "#758784",
+          "#98a9a6",
+          "#bbcecb",
+          "#e6f1ef"
+        ]
+      },
+      "marca-oscuro": {
+        "role": "primary",
+        "displayName": "Turquesa de franja (oscuro)",
+        "purpose": "Franjas enteras: navegación, declaración, pie.",
+        "canonical": "oklch(31.2% 0.045 190.5)",
+        "tonalRamp": [
+          "#000f0e",
+          "#012c2a",
+          "#224a47",
+          "#426a67",
+          "#638b88",
+          "#85aeab",
+          "#a8d3d0",
+          "#dbf5f3"
+        ]
+      },
+      "sobre-marca-oscuro": {
+        "role": "neutral",
+        "displayName": "Sobre marca (oscuro)",
+        "purpose": "Texto sobre las franjas de marca.",
+        "canonical": "oklch(94.8% 0.010 181.4)",
+        "tonalRamp": [
+          "#090c0b",
+          "#202725",
+          "#3d4442",
+          "#5b6361",
+          "#7c8483",
+          "#9fa7a5",
+          "#c3cbc9",
+          "#eaf0ef"
+        ]
+      },
+      "fuerte-oscuro": {
+        "role": "primary",
+        "displayName": "Turquesa de acción (oscuro)",
+        "purpose": "Enlaces y botón primario sólido.",
+        "canonical": "oklch(79.8% 0.090 191.0)",
+        "tonalRamp": [
+          "#001111",
+          "#00312f",
+          "#00504d",
+          "#00716d",
+          "#30938f",
+          "#58b7b2",
+          "#7edcd7",
+          "#c6fbf7"
+        ]
+      },
+      "fuerte-tenue-oscuro": {
+        "role": "primary",
+        "displayName": "Turquesa tenue (oscuro)",
+        "purpose": "Relleno de Donar y de tarjetas de ayuda que no son crisis.",
+        "canonical": "oklch(30.5% 0.043 190.3)",
+        "tonalRamp": [
+          "#000e0e",
+          "#042c2a",
+          "#254947",
+          "#446967",
+          "#658b88",
+          "#87aeab",
+          "#aad3cf",
+          "#dcf4f2"
+        ]
+      },
+      "valiente-oscuro": {
+        "role": "secondary",
+        "displayName": "Naranja de ayuda (oscuro)",
+        "purpose": "Anillo de foco y hover de Necesito ayuda.",
+        "canonical": "oklch(78.3% 0.121 58.2)",
+        "tonalRamp": [
+          "#1f0100",
+          "#4c0700",
+          "#6f2b00",
+          "#924c00",
+          "#b76e2e",
+          "#dd9153",
+          "#ffb577",
+          "#ffe3bf"
+        ]
+      },
+      "valiente-tenue-oscuro": {
+        "role": "secondary",
+        "displayName": "Naranja tenue (oscuro)",
+        "purpose": "Relleno de Necesito ayuda y de la tarjeta de crisis.",
+        "canonical": "oklch(28.5% 0.046 57.6)",
+        "tonalRamp": [
+          "#140802",
+          "#361f0d",
+          "#553c29",
+          "#755b48",
+          "#987c68",
+          "#bc9e89",
+          "#e1c2ad",
+          "#fdeadd"
+        ]
+      },
+      "tronco-oscuro": {
+        "role": "tertiary",
+        "displayName": "Marrón del tronco (oscuro)",
+        "purpose": "Solo la banda y el bloque de crisis.",
+        "canonical": "oklch(74.9% 0.103 49.4)",
+        "tonalRamp": [
+          "#1e0100",
+          "#490c00",
+          "#6b2d00",
+          "#8f4d26",
+          "#b46f48",
+          "#da916a",
+          "#ffb58d",
+          "#ffe3ca"
+        ]
+      },
+      "vivo-oscuro": {
+        "role": "tertiary",
+        "displayName": "Naranja vivo (oscuro)",
+        "purpose": "Acento no textual. Nunca texto.",
+        "canonical": "oklch(77.2% 0.125 58.1)",
+        "tonalRamp": [
+          "#200000",
+          "#4d0500",
+          "#702a00",
+          "#944b00",
+          "#b96d2a",
+          "#df9050",
+          "#ffb474",
+          "#ffe3bd"
+        ]
+      },
+      "alerta-oscuro": {
+        "role": "tertiary",
+        "displayName": "Rojo del corazón (oscuro)",
+        "purpose": "Solo errores de formulario.",
+        "canonical": "oklch(79.3% 0.120 32.4)",
+        "tonalRamp": [
+          "#220000",
+          "#510000",
+          "#752112",
+          "#994332",
+          "#bf6553",
+          "#e68774",
+          "#ffab97",
+          "#ffded0"
+        ]
+      },
+      "borde-oscuro": {
+        "role": "neutral",
+        "displayName": "Filete (oscuro)",
+        "purpose": "Separadores finos.",
+        "canonical": "oklch(30.6% 0.021 186.5)",
+        "tonalRamp": [
+          "#060d0c",
+          "#192927",
+          "#354644",
+          "#546563",
+          "#758784",
+          "#97aaa7",
+          "#bacecb",
+          "#e5f1f0"
+        ]
+      },
+      "borde-fuerte-oscuro": {
+        "role": "neutral",
+        "displayName": "Borde fuerte (oscuro)",
+        "purpose": "Anillo de las placas.",
+        "canonical": "oklch(40.9% 0.032 187.0)",
+        "tonalRamp": [
+          "#030e0c",
+          "#112a28",
+          "#2e4845",
+          "#4d6764",
+          "#6d8985",
+          "#8faca8",
+          "#b3d0cc",
+          "#e1f3f0"
+        ]
+      },
+      "borde-control-oscuro": {
+        "role": "neutral",
+        "displayName": "Borde de control (oscuro)",
+        "purpose": "Borde de campos; debe pasar 3:1.",
+        "canonical": "oklch(55.7% 0.032 187.9)",
+        "tonalRamp": [
+          "#030e0d",
+          "#112a28",
+          "#2e4845",
+          "#4d6764",
+          "#6d8986",
+          "#8faca9",
+          "#b3d0cd",
+          "#e1f3f1"
+        ]
+      }
+    },
+    "brandRaw": {
+      "purpose": "Hex crudos del árbol Ψ, medidos sobre el archivo. Solo logos; ninguno toca texto.",
+      "marron": "#903000",
+      "naranja": "#f07800",
+      "turquesa": "#007878",
+      "rojo": "#d80000"
+    },
+    "catalogAccents": {
+      "source": "src/lib/catalogo.ts (colorAcento / colorAcentoOscuro)",
+      "usage": "Solo viñetas de requisitos en la ficha, vía .tinte → --tinte.",
+      "entries": {
+        "psicoeducativo": [
+          "#903000",
+          "#d5794b"
+        ],
+        "psicoempresarial": [
+          "#903000",
+          "#d5794b"
+        ],
+        "rompiendo-el-circulo": [
+          "#846000",
+          "#b18c29"
+        ],
+        "historias-que-sanan": [
+          "#9a3246",
+          "#d37688"
+        ],
+        "grupo-un-solo-corazon": [
+          "#b81c00",
+          "#da7360"
+        ],
+        "una-estrella-otiliana": [
+          "#806300",
+          "#ac8e28"
+        ],
+        "comida-en-la-calle": [
+          "#903000",
+          "#d5794b"
+        ],
+        "angelitos-de-la-calle": [
+          "#006b6b",
+          "#27a5a5"
+        ],
+        "hablame-panama": [
+          "#8a6000",
+          "#b48a2a"
+        ],
+        "escuchame-panama": [
+          "#006018",
+          "#27a747"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Solo el titular del Inicio, a 19ch."
+      },
+      "headline": {
+        "displayName": "Titular de página",
+        "purpose": "h1 de páginas interiores y fichas (36 → 48 → 56 px)."
+      },
+      "title": {
+        "displayName": "Título de sección",
+        "purpose": "h2 de sección (30 → 36 px)."
+      },
+      "subtitle": {
+        "displayName": "Subtítulo",
+        "purpose": "Nombres del catálogo y títulos de tarjeta (20 → 24 px)."
+      },
+      "lead": {
+        "displayName": "Entrada",
+        "purpose": "Entrada bajo un titular, en tinta suave (18 → 20 px)."
+      },
+      "body": {
+        "displayName": "Cuerpo",
+        "purpose": "19 px. Párrafos largos a 62ch."
+      },
+      "label": {
+        "displayName": "Etiqueta",
+        "purpose": "Nombres bajo emblemas, banda de crisis, metadatos."
+      }
+    },
+    "shadows": [
+      {
+        "name": "menu-desplegado",
+        "value": "0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.2)",
+        "purpose": "Solo el menú móvil desplegado. Nada más lleva sombra."
+      }
+    ],
+    "focus": {
+      "value": "outline: 3px solid var(--valiente); outline-offset: 3px; border-radius: 3px",
+      "purpose": "Foco visible en todo el sitio, WCAG 2.2 AA. No se quita nunca."
+    },
+    "motion": [
+      {
+        "name": "estado",
+        "value": "150ms",
+        "purpose": "Cambios de color y relleno en botones y enlaces."
+      },
+      {
+        "name": "placa-hover",
+        "value": "transform 200ms, translateY(-4px)",
+        "purpose": "La placa del héroe sube al pasar."
+      },
+      {
+        "name": "flecha-hover",
+        "value": "translateX(4px)",
+        "purpose": "La flecha de filas y fichas avanza al pasar."
+      },
+      {
+        "name": "reducir-movimiento",
+        "value": "prefers-reduced-motion: reduce → 0.01ms",
+        "purpose": "Todo se anula; scroll-behavior vuelve a auto."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ],
+    "theme": {
+      "states": [
+        "sistema",
+        "claro",
+        "oscuro"
+      ],
+      "default": "sistema",
+      "attribute": "data-tema en <html>",
+      "storage": "localStorage refuva-tema, sin cookies",
+      "warning": "Los dos bloques oscuros de globals.css están duplicados a propósito: editar los dos."
+    },
+    "verification": {
+      "command": "npm run contraste",
+      "result": "104/104 en los dos temas",
+      "tokensFile": "design-tokens.json, generado con npm run tokens; no se edita a mano"
+    }
+  },
+  "components": [
+    {
+      "name": "Botón primario",
+      "kind": "button",
+      "refersTo": "button-primario",
+      "description": "La acción principal de la página («Pedir una cita»). Única excepción sólida al relleno tintado; uno por pantalla.",
+      "html": "<a class=\"ds-btn-primario\" href=\"#\">Pedir una cita</a>",
+      "css": ".ds-btn-primario { font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 12px 24px; border: 2px solid; border-radius: 8px; font-weight: 700; font-size: 19px; text-decoration: none; transition: background-color 150ms, color 150ms, border-color 150ms; background: var(--fuerte, #005c5c); border-color: var(--fuerte, #005c5c); color: var(--papel, #fff); } .ds-btn-primario:hover { background: var(--marca, #005557); border-color: var(--marca, #005557); } .ds-btn-primario:focus-visible { outline: 3px solid var(--valiente, #a34700); outline-offset: 3px; }"
+    },
+    {
+      "name": "Botón secundario",
+      "kind": "button",
+      "refersTo": "button-secundario",
+      "description": "Acciones secundarias: papel con borde de tinta.",
+      "html": "<a class=\"ds-btn-secundario\" href=\"#\">Otras formas de ayudar</a>",
+      "css": ".ds-btn-secundario { font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 12px 24px; border: 2px solid; border-radius: 8px; font-weight: 700; font-size: 19px; text-decoration: none; transition: background-color 150ms, color 150ms, border-color 150ms; background: var(--papel, #fff); border-color: var(--tinta, #101a19); color: var(--tinta, #101a19); } .ds-btn-secundario:hover { background: var(--papel-alto, #e9f3f2); } .ds-btn-secundario:focus-visible { outline: 3px solid var(--valiente, #a34700); outline-offset: 3px; }"
+    },
+    {
+      "name": "Botones de cabecera",
+      "kind": "button",
+      "refersTo": "button-cabecera-ayuda",
+      "description": "«Necesito ayuda» primero, «Donar» después, del mismo tamaño.",
+      "html": "<div class=\"ds-cab\"><a class=\"ds-cab-ayuda\" href=\"#\">Necesito ayuda</a><a class=\"ds-cab-donar\" href=\"#\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z\"/></svg>Donar</a></div>",
+      "css": ".ds-cab { display: flex; gap: 12px; } .ds-cab-ayuda, .ds-cab-donar { font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 2px solid var(--tinta, #101a19); border-radius: 8px; font-weight: 700; font-size: 19px; color: var(--tinta, #101a19); text-decoration: none; transition: background-color 150ms, color 150ms; } .ds-cab-ayuda { background: var(--valiente-tenue, #fde6d2); } .ds-cab-ayuda:hover { background: var(--valiente, #a34700); color: var(--papel, #fff); } .ds-cab-donar { background: var(--fuerte-tenue, #d3ebe8); } .ds-cab-donar:hover { background: var(--fuerte, #005c5c); color: var(--papel, #fff); } .ds-cab-ayuda:focus-visible, .ds-cab-donar:focus-visible { outline: 3px solid var(--valiente, #a34700); outline-offset: 3px; }"
+    },
+    {
+      "name": "Franja de navegación",
+      "kind": "nav",
+      "refersTo": "franja-navegacion",
+      "description": "Franja entera en el turquesa de marca con los enlaces principales.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Principal\"><a href=\"#\">Proyectos</a><a href=\"#\">Campañas</a><a href=\"#\">Participar</a><a href=\"#\">Nosotros</a><a href=\"#\">Contacto</a></nav>",
+      "css": ".ds-nav { font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; display: flex; gap: 32px; padding: 0 24px; background: var(--marca, #005557); } .ds-nav a { display: block; padding: 16px 0; color: var(--sobre-marca, #fff); font-weight: 600; font-size: 19px; text-decoration: none; text-underline-offset: 6px; text-decoration-thickness: 2px; } .ds-nav a:hover { text-decoration-line: underline; } .ds-nav a:focus-visible { outline: 3px solid var(--valiente, #a34700); outline-offset: 3px; }"
+    },
+    {
+      "name": "Banda de crisis",
+      "kind": "custom",
+      "refersTo": "banda-crisis",
+      "description": "Una línea, primera en todas las páginas, en el marrón del tronco. Solo 911 y 147.",
+      "html": "<div class=\"ds-crisis\"><strong>¿Necesitas ayuda ahora?</strong><span class=\"ds-crisis-n\">Emergencia <a href=\"tel:911\">911</a> · Hablar con alguien <a href=\"tel:147\">147</a></span><a class=\"ds-crisis-mas\" href=\"#\">Más recursos</a></div>",
+      "css": ".ds-crisis { font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 10px 24px; background: var(--tronco, #7d2b00); color: var(--papel, #fff); font-size: 14px; } .ds-crisis-n { opacity: 0.9; } .ds-crisis a { color: inherit; font-weight: 600; } .ds-crisis-n a { font-size: 16px; text-decoration-thickness: 2px; text-underline-offset: 3px; font-variant-numeric: tabular-nums; } .ds-crisis-n a:hover { text-decoration: none; } .ds-crisis-mas { margin-left: auto; } .ds-crisis a:focus-visible { outline: 3px solid var(--valiente, #a34700); outline-offset: 3px; }"
+    },
+    {
+      "name": "Tarjeta de ayuda",
+      "kind": "card",
+      "refersTo": "tarjeta-ayuda",
+      "description": "Tintada, sin sombra, con pestaña de flecha en la esquina. La de crisis va primero, en naranja tenue.",
+      "html": "<a class=\"ds-ayuda\" href=\"#\"><span class=\"ds-ayuda-t\">Estoy pasando por un momento difícil</span><span class=\"ds-ayuda-x\">Números que contestan ahora mismo.</span><span class=\"ds-ayuda-f\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m13 6 6 6-6 6\"/></svg></span></a>",
+      "css": ".ds-ayuda { font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; position: relative; display: flex; flex-direction: column; min-height: 192px; max-width: 340px; padding: 24px 24px 80px; border-radius: 12px; background: var(--valiente-tenue, #fde6d2); color: var(--tinta, #101a19); text-decoration: none; transition: box-shadow 150ms; } .ds-ayuda:hover { box-shadow: 0 0 0 2px var(--tinta, #101a19); } .ds-ayuda:focus-visible { outline: 3px solid var(--valiente, #a34700); outline-offset: 3px; } .ds-ayuda-t { font-size: 24px; font-weight: 800; line-height: 1.3; } .ds-ayuda-x { margin-top: 12px; color: var(--tinta-suave, #43504e); font-size: 19px; } .ds-ayuda-f { position: absolute; right: 0; bottom: 0; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 12px 0 12px 0; background: var(--valiente, #a34700); color: var(--papel, #fff); }"
+    },
+    {
+      "name": "Placa de emblema",
+      "kind": "custom",
+      "refersTo": "placa",
+      "description": "Contenedor de logo con el fondo medido del propio PNG, radio 12 px y anillo de borde fuerte. El emblema de la muestra es un marcador, no un logo real.",
+      "html": "<div class=\"ds-placa\" style=\"background:#f5f5f5\"><svg viewBox=\"0 0 64 64\" width=\"72\" height=\"72\" aria-hidden=\"true\"><circle cx=\"32\" cy=\"32\" r=\"22\" fill=\"#8fc9c6\"/><path d=\"M32 44c-8-6-12-10-12-15a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 5-4 9-12 15z\" fill=\"#d80000\"/></svg></div>",
+      "css": ".ds-placa { display: grid; place-items: center; width: 112px; height: 112px; overflow: hidden; border-radius: 12px; box-shadow: 0 0 0 1px var(--borde-fuerte, #a9c3c0); }"
+    },
+    {
+      "name": "Fila del catálogo",
+      "kind": "custom",
+      "refersTo": "placa",
+      "description": "Emblema, nombre en 800, resumen y dedicatoria; filas separadas por filete, sin contenedor de tarjeta.",
+      "html": "<a class=\"ds-fila\" href=\"#\"><span class=\"ds-fila-p\"></span><span class=\"ds-fila-c\"><span class=\"ds-fila-n\">Una Estrella Otiliana</span><span class=\"ds-fila-r\">Navidad para niños que nunca la han vivido.</span><span class=\"ds-fila-h\"><span>En honor a </span>Otilia</span></span><span class=\"ds-fila-f\"><svg aria-hidden=\"true\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m13 6 6 6-6 6\"/></svg></span></a>",
+      "css": ".ds-fila { font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; display: flex; align-items: flex-start; gap: 24px; padding: 24px 0; border-top: 1px solid var(--borde, #d5e4e2); border-bottom: 1px solid var(--borde, #d5e4e2); color: var(--tinta, #101a19); text-decoration: none; max-width: 520px; } .ds-fila:focus-visible { outline: 3px solid var(--valiente, #a34700); outline-offset: 3px; } .ds-fila-p { flex: none; width: 72px; height: 72px; border-radius: 12px; background: #fff; box-shadow: 0 0 0 1px var(--borde-fuerte, #a9c3c0); } .ds-fila-c { display: flex; flex-direction: column; gap: 8px; flex: 1; } .ds-fila-n { font-size: 24px; font-weight: 800; line-height: 1.2; text-underline-offset: 4px; } .ds-fila:hover .ds-fila-n { color: var(--fuerte, #005c5c); text-decoration: underline; } .ds-fila-r { color: var(--tinta-suave, #43504e); font-size: 19px; line-height: 1.375; } .ds-fila-h { font-weight: 700; } .ds-fila-h span { font-weight: 400; color: var(--tinta-suave, #43504e); } .ds-fila-f { color: var(--fuerte, #005c5c); margin-top: 4px; transition: transform 150ms; } .ds-fila:hover .ds-fila-f { transform: translateX(4px); }"
+    },
+    {
+      "name": "Título de página",
+      "kind": "custom",
+      "refersTo": "titulo-pagina",
+      "description": "Suelo tintado, h1 en 800, entrada en tinta suave. Sin etiqueta encima.",
+      "html": "<header class=\"ds-titulo\"><h1>Participar</h1><p>Ser padrino o madrina en Navidad, dar tu tiempo como voluntario o donar.</p></header>",
+      "css": ".ds-titulo { font-family: 'Atkinson Hyperlegible Next', system-ui, sans-serif; padding: 64px 24px 56px; background: var(--papel-alto, #e9f3f2); border-bottom: 1px solid var(--borde, #d5e4e2); color: var(--tinta, #101a19); } .ds-titulo h1 { margin: 0; font-size: 48px; font-weight: 800; line-height: 1.08; letter-spacing: -0.02em; } .ds-titulo p { margin: 20px 0 0; max-width: 42rem; font-size: 20px; line-height: 1.625; color: var(--tinta-suave, #43504e); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "La fundación seria y cálida que atiende primero a quien llega mal",
+    "overview": "El sitio juega el estándar del sector **sin ironía**: blanco limpio, una sola familia tipográfica muy legible, franjas enteras de turquesa profundo y botones grandes con borde. No intenta ser original en la forma; intenta tener el acabado de Mind, que es la referencia de cómo se ve una organización de salud mental en la que se puede confiar. Lo propio de REFUVA no está en la plantilla: está en los **ocho emblemas reales**, en el árbol Ψ y en las historias de cada proyecto.\n\nEl orden de la pantalla es el orden de las prioridades. Primero la banda de crisis, en el marrón del tronco. Después «Necesito ayuda», antes que «Donar». Después, en la primera pantalla, la prueba de amplitud: ocho emblemas junto al titular, para que en diez segundos se vea que REFUVA no es solo salud mental.\n\nLa densidad es baja y el cuerpo es grande (19 px). El público lee en la calle, con el sol de frente, en teléfonos viejos y a veces en crisis. La legibilidad es un requisito de seguridad, no de estilo.",
+    "keyCharacteristics": [
+      "Blanco limpio de fondo; el tinte turquesa claro (`papel-alto`) hace de suelo de sección.",
+      "El turquesa profundo es dueño de franjas enteras: navegación, declaración y pie.",
+      "El naranja del árbol marca la acción de ayuda y el anillo de foco. El marrón del tronco, solo la crisis.",
+      "Una sola familia: Atkinson Hyperlegible Next, titulares en 800.",
+      "Botones con borde de 2 px y relleno; tarjetas tintadas sin sombra; iconos SVG de trazo único.",
+      "Cero fotos fingidas: lo que no existe todavía no se pinta."
+    ],
+    "rules": [
+      {
+        "name": "The Raw Brand Rule",
+        "body": "Ningún hex crudo del logo toca texto. Se conserva el matiz, se baja la luminancia.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Job Brown Rule",
+        "body": "El marrón del tronco es la crisis y nada más. Si aparece en otro sitio, la banda deja de leerse aparte.",
+        "section": "colors"
+      },
+      {
+        "name": "The Help Is Orange Rule",
+        "body": "El naranja (`valiente`, `valiente-tenue`) marca la acción de ayuda y el foco. No se usa para decorar.",
+        "section": "colors"
+      },
+      {
+        "name": "The Requirement Bullets Rule",
+        "body": "El color propio de una entrada aparece solo en las viñetas de sus requisitos de participación, en su ficha. Ni rellenos, ni filos, ni numerales, ni armazón: diez colores incompatibles en bloques sólidos son un collage.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Una sola familia. Si hace falta más jerarquía, se sube el peso o el tamaño; no se añade un serif.",
+        "section": "typography"
+      },
+      {
+        "name": "The Legibility Is Safety Rule",
+        "body": "Nada de cuerpo por debajo de 19 px ni de texto secundario por debajo de 4.5:1. Este público lee en la calle.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat By Default Rule",
+        "body": "Ninguna superficie lleva sombra en reposo. El estado se nota en el relleno o en un anillo de 2 px en tinta, nunca en una sombra que aparece ni en un salto.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** poner la banda de crisis primero en todas las páginas, en `tronco`, con solo 911 y Línea 147.",
+      "**Do** ordenar «Necesito ayuda» antes que «Donar», del mismo tamaño.",
+      "**Do** usar `marca` para franjas enteras y `fuerte` para enlaces y el botón primario.",
+      "**Do** mostrar los ocho emblemas reales dentro de `Placa`, con el fondo medido de cada archivo.",
+      "**Do** derivar todo conteo de `catalogo.ts`; nunca «ocho» escrito a mano.",
+      "**Do** correr `npm run contraste` después de tocar cualquier color, y editar los dos bloques oscuros.",
+      "**Do** declarar con su motivo, o medir, toda utilidad con alfa nueva.",
+      "**Do** dibujar los iconos nuevos como SVG de trazo de 2 px con `currentColor`, `aria-hidden`.",
+      "**Do** incrustar la procedencia en todo ráster nuevo bajo `public/marca` y verificar con `impeccable embed-prompt --scan public/marca` (hoy: 0 sin procedencia)."
+    ],
+    "donts": [
+      "**Don't** poner un hex crudo del logo en texto.",
+      "**Don't** usar el marrón del tronco fuera de la crisis, ni rojo de alarma en la banda.",
+      "**Don't** usar el color de una entrada fuera de las viñetas de sus requisitos.",
+      "**Don't** poner una etiqueta en mayúsculas («eyebrow») encima de un titular.",
+      "**Don't** numerar secciones ni entradas (nada de 01–08).",
+      "**Don't** montar una franja de cifras grandes en el héroe; las cifras van en prosa.",
+      "**Don't** usar grano con `feTurbulence` ni texturas de ruido.",
+      "**Don't** fingir fotos con cajas vacías ni rayas repetidas: un hueco de foto no se pinta hasta que la foto real exista.",
+      "**Don't** usar glifos Unicode (→, ▾, ✎) como iconos.",
+      "**Don't** añadir un segundo tipo de letra, ni volver al crema con serif de alto contraste.",
+      "**Don't** poner sombra a tarjetas, botones o placas, ni desplazamientos de botón al pasar.",
+      "**Don't** recortar ni recolorear los logos de los proyectos; solo se puede quitar transparencia al institucional.",
+      "**Don't** editar `design-tokens.json` a mano."
+    ]
+  }
+}

@@ -40,10 +40,7 @@ export default function Voluntariado() {
       </nav>
 
       <header className="mt-8 max-w-3xl">
-        <p className="text-sm font-semibold tracking-wide text-valiente uppercase">
-          Voluntariado
-        </p>
-        <h1 className="mt-3 text-4xl leading-[1.06] font-semibold sm:text-5xl lg:text-6xl">
+        <h1 className="text-4xl leading-[1.06] font-semibold sm:text-5xl lg:text-6xl">
           Muchos proyectos, muy poca gente.
         </h1>
         <p className="mt-6 text-lg leading-relaxed text-tinta-suave sm:text-xl">

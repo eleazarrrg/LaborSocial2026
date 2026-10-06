@@ -35,19 +35,26 @@ export function Placa({
   src: string;
   alt: string;
   fondo: string;
-  tamano?: "ficha" | "listado";
+  /** `fluida` ocupa el ancho de su columna, cuadrada; las demás son fijas. */
+  tamano?: "ficha" | "tarjeta" | "fila" | "listado" | "fluida";
 }) {
-  const px = tamano === "ficha" ? 112 : 56;
+  const px = { ficha: 112, tarjeta: 96, fila: 72, listado: 56, fluida: 160 }[tamano];
+  const fluida = tamano === "fluida";
   return (
     <div
-      className="grid shrink-0 place-items-center overflow-hidden rounded-2xl ring-1 ring-borde-fuerte"
-      style={{ backgroundColor: fondo, width: px, height: px }}
+      className={`grid shrink-0 place-items-center overflow-hidden rounded-xl ring-1 ring-borde-fuerte ${fluida ? "aspect-square w-full" : ""}`}
+      style={
+        fluida
+          ? { backgroundColor: fondo }
+          : { backgroundColor: fondo, width: px, height: px }
+      }
     >
       <Image
         src={src}
         alt={alt}
         width={px}
         height={px}
+        sizes={fluida ? "(min-width: 1024px) 140px, 22vw" : undefined}
         className="size-full object-contain"
       />
     </div>
@@ -63,13 +70,18 @@ type BotonProps = {
   className?: string;
 };
 
+/* Botones con el patrón de Mind: borde de 2 px y relleno, sin sombras duras
+   ni desplazamientos. El estado se nota en el relleno, no en un salto.
+
+   El primario es SÓLIDO a propósito y es la única excepción al relleno
+   tintado: es la acción principal de la página («Pedir una cita») y tiene que
+   ser lo más fuerte de la pantalla. Los secundarios y los de la cabecera van
+   con relleno tintado y borde de tinta. */
 const VARIANTES = {
-  primario:
-    "bg-fuerte text-papel hover:-translate-y-px hover:shadow-[0_6px_0_-2px_var(--color-borde-fuerte)]",
-  secundario:
-    "bg-superficie text-tinta ring-1 ring-inset ring-borde-fuerte hover:bg-papel-alto hover:-translate-y-px",
+  primario: "border-fuerte bg-fuerte text-papel hover:border-marca hover:bg-marca",
+  secundario: "border-tinta bg-papel text-tinta hover:bg-papel-alto",
   "sobre-fuerte":
-    "bg-papel text-fuerte hover:-translate-y-px hover:shadow-[0_6px_0_-2px_rgba(0,0,0,.25)]",
+    "border-papel bg-papel text-fuerte hover:bg-transparent hover:text-papel",
 } as const;
 
 export function Boton({
@@ -81,90 +93,10 @@ export function Boton({
   return (
     <Link
       href={href}
-      className={`inline-flex items-center justify-center rounded-lg px-6 py-3.5 font-semibold transition-all duration-150 ${VARIANTES[variante]} ${className}`}
+      className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border-2 px-6 py-3 font-bold transition-colors duration-150 ${VARIANTES[variante]} ${className}`}
     >
       {children}
     </Link>
-  );
-}
-
-/* ------------------------------------------------------------------ Dato
-   El motivo recurrente del sitio. La credibilidad de REFUVA está en cifras
-   concretas — 50 raciones que hoy son 100, más de 30 escuelas, tres años —
-   así que las cifras se tratan como un elemento de diseño, no como texto. */
-
-export function Dato({
-  valor,
-  pie,
-  tamano = "normal",
-}: {
-  valor: string;
-  pie: string;
-  tamano?: "normal" | "grande";
-}) {
-  return (
-    <div>
-      <span
-        className={`cifras-alineadas block font-display font-semibold leading-none tracking-tight text-fuerte ${
-          tamano === "grande"
-            ? "text-5xl sm:text-6xl"
-            : "text-4xl sm:text-[2.75rem]"
-        }`}
-      >
-        {valor}
-      </span>
-      <span className="mt-2.5 block text-sm leading-snug text-tinta-suave">
-        {pie}
-      </span>
-    </div>
-  );
-}
-
-/* ----------------------------------------------------------------- Marco
-   Hueco de fotografía, diseñado a propósito.
-
-   Todavía no hay fotos (pendiente P-08). En vez de un rectángulo gris roto o
-   una imagen de banco, el hueco dice qué fotografía va ahí. Así el prototipo
-   le sirve a Edwin como encargo visual: ve el sitio y ve qué tiene que
-   mandar. Cuando lleguen las fotos, se reemplaza este componente por
-   <Image> y la maqueta no se mueve. */
-
-export function Marco({
-  pie,
-  proporcion = "4/3",
-  className = "",
-}: {
-  pie: string;
-  proporcion?: "4/3" | "16/9" | "1/1" | "3/4";
-  className?: string;
-}) {
-  const clases = {
-    "4/3": "aspect-4/3",
-    "16/9": "aspect-video",
-    "1/1": "aspect-square",
-    "3/4": "aspect-3/4",
-  }[proporcion];
-
-  return (
-    <figure className={className}>
-      <div
-        className={`relative grid ${clases} place-items-center overflow-hidden rounded-lg bg-papel-alto ring-1 ring-inset ring-borde`}
-      >
-        {/* Trama diagonal: se lee como «hueco reservado», no como error. */}
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-[0.14]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(45deg, var(--color-borde-fuerte) 0 1px, transparent 1px 11px)",
-          }}
-        />
-        <span className="relative rounded-full bg-superficie px-3 py-1 text-xs font-semibold tracking-wide text-tinta-suave uppercase ring-1 ring-borde">
-          Foto pendiente
-        </span>
-      </div>
-      <figcaption className="mt-2.5 text-sm text-tinta-suave">{pie}</figcaption>
-    </figure>
   );
 }
 
@@ -192,24 +124,19 @@ export function Nota({
 
 /* ------------------------------------------------------- Título de página */
 
+/* Sin etiqueta sobre el titular: el titular se sostiene solo. La etiqueta en
+   mayúsculas encima es la marca más reconocible de una plantilla. */
 export function TituloPagina({
-  sobretitulo,
   titulo,
   entrada,
 }: {
-  sobretitulo?: string;
   titulo: string;
   entrada?: string;
 }) {
   return (
-    <header className="border-b border-borde">
+    <header className="border-b border-borde bg-papel-alto">
       <div className="mx-auto max-w-6xl px-4 pt-12 pb-10 sm:px-6 sm:pt-16 sm:pb-14">
-        {sobretitulo && (
-          <p className="text-sm font-semibold tracking-wide text-valiente uppercase">
-            {sobretitulo}
-          </p>
-        )}
-        <h1 className="mt-3 max-w-3xl text-4xl leading-[1.08] font-semibold sm:text-5xl lg:text-6xl">
+        <h1 className="max-w-3xl text-4xl leading-[1.08] font-extrabold sm:text-5xl lg:text-[3.5rem]">
           {titulo}
         </h1>
         {entrada && (

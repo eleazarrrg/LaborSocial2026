@@ -1,60 +1,87 @@
+import Image from "next/image";
 import Link from "next/link";
+import { Flecha, Telefono } from "@/components/iconos";
+import { SelectorTema } from "@/components/tema";
 import { CAMPANAS, PROYECTOS, rutaDe } from "@/lib/catalogo";
-import { VERIFICADO_EL } from "@/lib/crisis";
+import { RECURSOS_CRISIS, VERIFICADO_EL } from "@/lib/crisis";
+
+/**
+ * Pie, con el patrón de Mind: una franja entera en el turquesa de marca.
+ *
+ * Lista los proyectos uno por uno (docs/03 §5): un solo enlace «Proyectos»
+ * escondería justo lo que el sitio existe para demostrar. La ayuda inmediata
+ * es una columna más, no una caja dentro de otra, y el selector de tema vive
+ * aquí y no en la cabecera, donde sumaba tres botones a la primera pantalla.
+ */
 
 const PARTICIPAR = [
-  { href: "/donar", texto: "Donar" },
-  { href: "/agendar-cita", texto: "Agendar una cita" },
+  { href: "/agendar-cita", texto: "Pedir una cita" },
   { href: "/participar/apadrinar", texto: "Ser padrino o madrina" },
   { href: "/participar/voluntariado", texto: "Ser voluntario" },
-  { href: "/alianzas", texto: "Solicitar una alianza" },
+  { href: "/donar", texto: "Donar" },
+  { href: "/alianzas", texto: "Proponer una alianza" },
   { href: "/contacto", texto: "Contacto" },
 ];
 
+const ENLACE = "underline-offset-4 hover:underline";
+
+function Columna({
+  titulo,
+  children,
+}: {
+  titulo: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <h2 className="text-lg font-extrabold">{titulo}</h2>
+      <div className="mt-4">{children}</div>
+    </div>
+  );
+}
+
 export function Pie() {
   return (
-    <footer className="border-t border-borde-fuerte bg-papel-alto">
+    <footer className="bg-marca text-sobre-marca">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
-        <div className="grid gap-x-8 gap-y-11 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
+        <div className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.1fr]">
           <div>
-            <p className="font-display text-xl font-semibold tracking-tight">
-              Fundación REFUVA
-            </p>
-            <p className="mt-3 max-w-xs leading-relaxed text-tinta-suave">
-              Resiliente, Fuerte, Valiente. Varios proyectos y dos campañas en
-              Panamá — la salud mental es una parte, no el todo.
+            <Link href="/" className="inline-flex items-center gap-3 rounded-lg">
+              <span className="grid size-14 place-items-center rounded-xl bg-papel">
+                <Image
+                  src="/marca/institucional-recortado.png"
+                  alt=""
+                  width={243}
+                  height={349}
+                  className="h-11 w-auto"
+                />
+              </span>
+              <span className="text-xl font-extrabold">Fundación REFUVA</span>
+            </Link>
+            <p className="mt-5 max-w-xs leading-relaxed">
+              Resiliente, Fuerte, Valiente. {PROYECTOS.length} proyectos y{" "}
+              {CAMPANAS.length} campañas en Panamá: la salud mental es una parte,
+              no el todo.
             </p>
           </div>
 
           <nav aria-label="Proyectos y campañas">
-            <p className="text-sm font-semibold tracking-wide uppercase">
-              Proyectos
-            </p>
-            <ul className="mt-4 space-y-2.5">
-              {PROYECTOS.map((p) => (
-                <li key={p.codigo}>
-                  <Link
-                    href={rutaDe(p)}
-                    className="text-tinta-suave transition-colors hover:text-tinta"
-                  >
-                    {p.nombreCorto}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            {/* Las campañas repiten aquí el argumento de O-04, y con mejor
-                proporción: ocho proyectos arriba, dos campañas debajo. */}
-            <p className="mt-7 text-sm font-semibold tracking-wide uppercase">
-              Campañas
-            </p>
+            <Columna titulo="Proyectos">
+              <ul className="space-y-2.5">
+                {PROYECTOS.map((p) => (
+                  <li key={p.codigo}>
+                    <Link href={rutaDe(p)} className={ENLACE}>
+                      {p.nombreCorto}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Columna>
+            <h2 className="mt-8 text-lg font-extrabold">Campañas</h2>
             <ul className="mt-4 space-y-2.5">
               {CAMPANAS.map((c) => (
                 <li key={c.codigo}>
-                  <Link
-                    href={rutaDe(c)}
-                    className="text-tinta-suave transition-colors hover:text-tinta"
-                  >
+                  <Link href={rutaDe(c)} className={ENLACE}>
                     {c.nombreCorto}
                   </Link>
                 </li>
@@ -63,82 +90,72 @@ export function Pie() {
           </nav>
 
           <nav aria-label="Participar">
-            <p className="text-sm font-semibold tracking-wide uppercase">
-              Participar
-            </p>
-            <ul className="mt-4 space-y-2.5">
-              {PARTICIPAR.map((e) => (
-                <li key={e.href}>
-                  <Link
-                    href={e.href}
-                    className="text-tinta-suave transition-colors hover:text-tinta"
+            <Columna titulo="Participar">
+              <ul className="space-y-2.5">
+                {PARTICIPAR.map((e) => (
+                  <li key={e.href}>
+                    <Link href={e.href} className={ENLACE}>
+                      {e.texto}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Columna>
+          </nav>
+
+          <Columna titulo="Ayuda inmediata">
+            <ul className="space-y-4">
+              {RECURSOS_CRISIS.map((r) => (
+                <li key={r.numero}>
+                  <a
+                    href={`tel:${r.marcar}`}
+                    className="inline-flex items-center gap-2.5 text-3xl leading-none font-extrabold underline-offset-4 hover:underline"
                   >
-                    {e.texto}
-                  </Link>
+                    <Telefono className="size-6" />
+                    <span className="cifras-alineadas">{r.numero}</span>
+                  </a>
+                  <p className="mt-1.5">{r.nombre}</p>
                 </li>
               ))}
             </ul>
-          </nav>
-
-          <div className="rounded-xl bg-fuerte px-5 py-5 text-papel">
-            <p className="text-sm font-semibold tracking-wide uppercase opacity-75">
-              Ayuda inmediata
-            </p>
-            <ul className="mt-4 space-y-3">
-              <li className="flex items-baseline gap-3">
-                <a
-                  href="tel:911"
-                  className="cifras-alineadas font-display text-2xl font-semibold underline decoration-papel/30 decoration-2 underline-offset-4"
-                >
-                  911
-                </a>
-                <span className="text-sm opacity-80">Emergencias</span>
-              </li>
-              <li className="flex items-baseline gap-3">
-                <a
-                  href="tel:147"
-                  className="cifras-alineadas font-display text-2xl font-semibold underline decoration-papel/30 decoration-2 underline-offset-4"
-                >
-                  147
-                </a>
-                <span className="text-sm opacity-80">MIDES · 24/7, gratuita</span>
-              </li>
-            </ul>
             <Link
               href="/ayuda-en-crisis"
-              className="mt-4 inline-block text-sm font-medium underline underline-offset-2 opacity-90 hover:opacity-100"
+              className="mt-5 inline-flex items-center gap-2 font-bold underline decoration-2 underline-offset-4"
             >
-              Todos los recursos →
+              Todos los recursos
+              <Flecha className="size-5" />
             </Link>
-            <p className="mt-4 text-xs opacity-75">
-              Verificados el {VERIFICADO_EL}.
-            </p>
-          </div>
+            <p className="mt-3 text-sm">Verificados el {VERIFICADO_EL}.</p>
+          </Columna>
         </div>
 
-        <div className="mt-12 flex flex-col gap-3 border-t border-borde pt-7 text-sm text-tinta-suave sm:flex-row sm:items-center sm:justify-between">
-          <p>Fundación REFUVA · Panamá</p>
+        <div className="mt-14 flex flex-col gap-5 border-t border-sobre-marca/30 pt-8 sm:flex-row sm:items-center sm:justify-between">
           <nav aria-label="Legales">
             <ul className="flex flex-wrap gap-x-6 gap-y-2">
               <li>
-                <Link href="/privacidad" className="hover:text-tinta">
+                <Link href="/privacidad" className={ENLACE}>
                   Privacidad
                 </Link>
               </li>
               <li>
-                <Link href="/terminos" className="hover:text-tinta">
+                <Link href="/terminos" className={ENLACE}>
                   Términos
                 </Link>
               </li>
             </ul>
           </nav>
+          {/* Sobre el turquesa, el selector va en una ficha clara: sus botones
+              inactivos están pensados para fondo claro. */}
+          <div className="flex items-center gap-3 self-start rounded-xl bg-papel py-1.5 pr-1.5 pl-4 text-tinta sm:self-auto">
+            <span className="text-sm font-bold">Tema</span>
+            <SelectorTema />
+          </div>
         </div>
 
-        <p className="mt-7 rounded-lg border border-dashed border-valiente/35 bg-valiente-tenue px-4 py-3.5 text-sm leading-relaxed text-tinta-suave">
-          <strong className="text-tinta">Prototipo en revisión.</strong> Los
-          textos definitivos y las fotografías están pendientes de entrega. Lo
-          que se muestra proviene de la reunión de levantamiento del 20 de agosto
-          de 2026 y sirve para validar la dirección, no para publicarse.
+        <p className="mt-8 max-w-3xl text-sm leading-relaxed">
+          <strong>Prototipo en revisión.</strong> Los textos definitivos y las
+          fotografías están pendientes de entrega; lo que se muestra sirve para
+          validar la dirección con la fundación, no para publicarse.
         </p>
       </div>
     </footer>

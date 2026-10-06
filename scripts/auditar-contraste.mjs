@@ -76,7 +76,12 @@ const PAREJAS = [
   ["Texto normal sobre papel alto", "tinta", "papel-alto", 4.5],
   ["Texto secundario sobre papel alto", "tinta-suave", "papel-alto", 4.5],
   ["Enlaces sobre papel alto", "fuerte", "papel-alto", 4.5],
-  ["Papel sobre la banda de crisis", "papel", "fuerte", 4.5],
+  ["Papel sobre la banda de crisis", "papel", "tronco", 4.5],
+  ["Texto del botón primario", "papel", "fuerte", 4.5],
+  // Franjas de marca (navegación, declaración, pie) — patrón de Mind.
+  ["Texto sobre la franja de marca", "sobre-marca", "marca", 4.5],
+  // El botón «Necesito ayuda» al pasar el ratón: blanco sobre el naranja.
+  ["Texto del botón de ayuda al pasar", "papel", "valiente", 4.5],
   ["Texto sobre el fondo tenue de acento", "tinta", "valiente-tenue", 4.5],
   ["Texto sobre el fondo tenue fuerte", "tinta", "fuerte-tenue", 4.5],
   ["Enlaces sobre el fondo tenue fuerte", "fuerte", "fuerte-tenue", 4.5],
@@ -175,14 +180,12 @@ function mezcla(frente, fondo, alfa) {
 
 /** [etiqueta, token de frente, token de fondo, alfa, umbral] */
 const OPACIDADES = [
-  ["Texto de la banda de crisis", "papel", "fuerte", 0.9, 4.5],
-  ["Entrada del bloque de crisis", "papel", "fuerte", 0.85, 4.5],
-  ["Etiqueta del recurso de crisis", "papel", "fuerte", 0.75, 4.5],
-  ["Disponibilidad 24/7 del recurso", "papel", "fuerte", 0.75, 4.5],
-  ["Fecha de verificación en el pie", "papel", "fuerte", 0.75, 4.5],
-  ["Etiquetas de la caja del pie", "papel", "fuerte", 0.8, 4.5],
-  ["Texto del cierre del Inicio", "papel", "fuerte", 0.85, 4.5],
-  ["Anillo del botón sobre el cierre", "papel", "fuerte", 0.6, 3],
+  ["Texto de la banda de crisis", "papel", "tronco", 0.9, 4.5],
+  ["Entrada del bloque de crisis", "papel", "tronco", 0.85, 4.5],
+  ["Etiqueta del recurso de crisis", "papel", "tronco", 0.75, 4.5],
+  ["Disponibilidad 24/7 del recurso", "papel", "tronco", 0.75, 4.5],
+  ["Texto de la caja de Contacto", "papel", "fuerte", 0.85, 4.5],
+  ["Texto de la caja de Privacidad", "papel", "fuerte", 0.9, 4.5],
   ["Marcador de posición en formularios", "tinta-suave", "superficie", 0.8, 4.5],
 ];
 
@@ -203,13 +206,12 @@ const DECORATIVOS = new Map([
   ["border-fuerte/30", "borde de la tarjeta destacada; lo delimita su relleno"],
   ["bg-papel/92", "fondo del encabezado fijo, con desenfoque detrás"],
   ["bg-papel/15", "rejilla de 1px entre los recursos de crisis"],
-  ["bg-papel/10", "relleno del botón al pasar el ratón"],
+  ["border-sobre-marca/30", "filete divisorio dentro del pie"],
 ]);
 
 /** Alfas ya cubiertas por OPACIDADES, en el formato que usa Tailwind. */
 const MEDIDAS = new Set([
-  "opacity-90", "opacity-85", "opacity-80", "opacity-75",
-  "ring-papel/60", "text-tinta-suave/80",
+  "opacity-90", "opacity-85", "opacity-75", "text-tinta-suave/80",
 ]);
 
 console.log(`

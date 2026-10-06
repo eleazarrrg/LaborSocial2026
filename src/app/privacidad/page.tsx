@@ -69,7 +69,6 @@ export default function Privacidad() {
   return (
     <>
       <TituloPagina
-        sobretitulo="Legales"
         titulo="Privacidad"
         entrada="Qué datos recogemos, para qué, quién los ve y cuánto duran. En lenguaje llano, porque una política que nadie entiende no informa a nadie."
       />

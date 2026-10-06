@@ -44,7 +44,6 @@ export default function Participar() {
   return (
     <>
       <TituloPagina
-        sobretitulo="Participar"
         titulo="Cuatro formas de sostener esto."
         entrada="Sosteniendo todo esto hay muy poca gente. Cualquiera de estas cuatro cosas suma, y ninguna exige más de lo que puedas dar."
       />
@@ -61,12 +60,10 @@ export default function Participar() {
                     : "border-borde bg-superficie hover:bg-papel-alto"
                 }`}
               >
-                <p className="text-sm font-semibold tracking-wide text-valiente uppercase">
-                  {f.tiempo}
-                </p>
-                <h2 className="mt-3 font-display text-2xl font-semibold group-hover:text-fuerte sm:text-[1.75rem]">
+                <h2 className="font-display text-2xl font-extrabold group-hover:text-fuerte sm:text-[1.75rem]">
                   {f.titulo}
                 </h2>
+                <p className="mt-2 font-semibold text-valiente">{f.tiempo}</p>
                 <p className="mt-3 grow leading-relaxed text-tinta-suave">
                   {f.texto}
                 </p>

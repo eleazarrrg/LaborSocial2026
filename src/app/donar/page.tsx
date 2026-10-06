@@ -46,7 +46,6 @@ export default function Donar() {
   return (
     <>
       <TituloPagina
-        sobretitulo="Donar"
         titulo="Sin formularios. Sin registro."
         entrada="Dos formas de dar, las dos directas a la cuenta de la fundación. No pedimos datos y no guardamos nada tuyo."
       />

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { BloqueCrisis } from "@/components/banda-crisis";
-import { Boton, Dato, Marco, Nota, Placa } from "@/components/ui";
+import { Flecha } from "@/components/iconos";
+import { Boton, Placa } from "@/components/ui";
 import { CAMPANAS, PROYECTOS, rutaDe, type Entrada } from "@/lib/catalogo";
 
 /**
@@ -11,15 +12,14 @@ import { CAMPANAS, PROYECTOS, rutaDe, type Entrada } from "@/lib/catalogo";
  * lucido que las otras, el sitio estaría diciendo que esa importa más, que es lo
  * contrario del requisito raíz (O-04).
  *
- * El color propio de la entrada se usa aquí solo en trazos finos: el filo
- * superior, el numeral, la barra de «en honor a» y las viñetas de requisitos.
- * Ninguno es un relleno grande, que es la regla que importa — diez colores
- * incompatibles compitiendo en bloques sólidos es justo el collage que hay que
- * evitar.
+ * El color propio de la entrada se usa en un solo lugar: las viñetas de los
+ * requisitos. Nunca como relleno grande —diez colores incompatibles en bloques
+ * sólidos son el collage que hay que evitar—, y la dedicatoria «En honor a» va
+ * en el turquesa de marca para todas, porque el rojo de una entrada se leía
+ * como un error.
  *
  * Las dos variantes del color llegan como variables en línea en el envoltorio
- * `.tinte` y el tema resuelve cuál se pinta (ver globals.css). Con una sola, el
- * numeral daba 2.36:1 sobre el papel oscuro y no se veía.
+ * `.tinte` y el tema resuelve cuál se pinta (ver globals.css).
  *
  * El bloque completo de crisis lo decide `bloqueCrisis`, que es un dato. Meterlo
  * en la página de alimentación de animales sería ruido, y el ruido gasta la
@@ -41,10 +41,7 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
         } as CSSProperties
       }
     >
-      {/* Filo de color. */}
-      <div aria-hidden className="h-1 w-full bg-[var(--tinte)]" />
-
-      <header className="border-b border-borde">
+      <header className="border-b border-borde bg-papel-alto">
         <div className="mx-auto max-w-6xl px-4 pt-8 pb-12 sm:px-6 sm:pt-10 sm:pb-16">
           <nav aria-label="Miga de pan" className="text-sm text-tinta-suave">
             <Link
@@ -59,30 +56,32 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
 
           <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
-              <div className="flex items-center gap-5">
-                {entrada.logo && (
-                  <Placa
-                    src={entrada.logo.src}
-                    alt={entrada.logo.alt}
-                    fondo={entrada.logo.fondo}
-                  />
-                )}
-                <p className="cifras-alineadas font-display text-3xl font-semibold text-[var(--tinte)]">
-                  {String(i + 1).padStart(2, "0")}
-                </p>
-              </div>
+              {entrada.logo && (
+                <Placa
+                  src={entrada.logo.src}
+                  alt={entrada.logo.alt}
+                  fondo={entrada.logo.fondo}
+                />
+              )}
 
-              <h1 className="mt-6 max-w-[18ch] text-4xl leading-[1.05] font-semibold sm:text-5xl lg:text-6xl">
+              <h1 className="mt-6 max-w-[18ch] text-4xl leading-[1.05] font-extrabold sm:text-5xl lg:text-[3.5rem]">
                 {entrada.nombre}
               </h1>
               <p className="mt-6 max-w-2xl text-lg leading-relaxed text-tinta-suave sm:text-xl">
                 {entrada.resumen}
               </p>
+              {/* La cifra real va en una línea de texto, no como número gigante. */}
+              {entrada.cifra && (
+                <p className="mt-3 text-lg sm:text-xl">
+                  <strong className="font-extrabold text-fuerte">
+                    {entrada.cifra.valor}
+                  </strong>{" "}
+                  {entrada.cifra.pie}
+                </p>
+              )}
             </div>
 
-            <div className="lg:pb-2 lg:text-right">
-              <Dato valor={entrada.dato} pie={entrada.datoPie} tamano="grande" />
-            </div>
+
           </div>
         </div>
       </header>
@@ -96,9 +95,11 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
           </div>
 
           {entrada.enHonorA && (
-            <p className="mt-9 max-w-[62ch] border-l-2 border-[var(--tinte)] pl-5 text-lg leading-relaxed text-tinta-suave">
-              <span className="font-semibold text-tinta">En honor a </span>
-              {entrada.enHonorA}.
+            /* La dedicatoria es el gancho narrativo de REFUVA: va con el peso de
+               un titular, no como una nota al margen con barra de color. */
+            <p className="mt-10 max-w-[30ch] text-2xl leading-snug font-extrabold sm:text-3xl">
+              <span className="text-tinta-suave">En honor a </span>
+              <span className="text-fuerte">{entrada.enHonorA}</span>.
             </p>
           )}
 
@@ -125,18 +126,9 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
             </section>
           )}
 
-          <section className="mt-14">
-            <h2 className="text-2xl font-semibold sm:text-3xl">Evidencia</h2>
-            <p className="mt-3 max-w-[62ch] text-tinta-suave">
-              Las fotografías de este {esCampana ? "trabajo" : "proyecto"}. Es lo
-              que la fundación enseña cuando busca patrocinio.
-            </p>
-            <div className="mt-7 grid gap-5 sm:grid-cols-2">
-              {entrada.fotosPendientes.map((pie) => (
-                <Marco key={pie} pie={pie} />
-              ))}
-            </div>
-          </section>
+          {/* La sección de evidencia vuelve cuando lleguen fotografías reales
+              (P-08). La lista de las que faltan sigue en `fotosPendientes`, y
+              es el encargo para Edwin; no se pinta como cajas vacías. */}
 
           {entrada.bloqueCrisis && (
             <div className="mt-14">
@@ -168,26 +160,13 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
             </dl>
           </div>
 
-          {!entrada.logo && (
-            <div className="mt-6">
-              <Nota tono="atencion">
-                <strong className="text-tinta">Sin logo todavía.</strong> Este{" "}
-                {esCampana ? "campaña" : "proyecto"} no tiene imagen propia en el
-                material entregado. Está pedido en el inventario de contenido.
-              </Nota>
-            </div>
-          )}
-
           <Link
             href={rutaDe(siguiente)}
-            className="group mt-6 block rounded-xl border border-borde bg-papel-alto p-6 transition-colors hover:bg-fuerte-tenue"
+            className="group mt-6 flex items-center gap-2 rounded-xl bg-papel-alto p-6 font-extrabold transition-colors hover:bg-fuerte-tenue"
           >
-            <span className="text-sm text-tinta-suave">
-              {esCampana ? "Siguiente campaña" : "Siguiente proyecto"}
-            </span>
-            <span className="mt-1.5 block font-display text-xl font-semibold group-hover:text-fuerte">
-              {siguiente.nombreCorto} →
-            </span>
+            <span className="font-normal text-tinta-suave">Siguiente:</span>
+            <span className="group-hover:text-fuerte">{siguiente.nombreCorto}</span>
+            <Flecha className="size-5 shrink-0 transition-transform group-hover:translate-x-1" />
           </Link>
         </aside>
       </div>

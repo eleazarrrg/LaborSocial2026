@@ -2,7 +2,7 @@
   "$comentario": "GENERADO POR scripts/generar-tokens.mjs — no editar a mano. Los colores salen de src/app/globals.css y src/lib/catalogo.ts; si quieres cambiarlos, edítalos ahí y corre `npm run tokens`. Ver DESIGN.md.",
   "meta": {
     "proyecto": "Portal Fundación REFUVA",
-    "version": "2.0",
+    "version": "3.0",
     "generado": "2026-10-05",
     "estado": "derivado de la marca real",
     "verificacion": "npm run contraste"
@@ -16,36 +16,42 @@
   },
   "color": {
     "claro": {
-      "papel": "#f8f4ed",
-      "papel-alto": "#efe7d9",
-      "superficie": "#fffdf9",
-      "tinta": "#16140f",
-      "tinta-suave": "#565049",
-      "fuerte": "#903000",
-      "fuerte-tenue": "#f6e3d8",
-      "valiente": "#006b6b",
-      "valiente-tenue": "#dceceb",
-      "borde": "#dfd6c6",
-      "borde-fuerte": "#c2b7a3",
-      "borde-control": "#8e8471",
-      "vivo": "#c05e00",
-      "alerta": "#b81c00"
+      "papel": "#ffffff",
+      "papel-alto": "#e9f3f2",
+      "superficie": "#ffffff",
+      "tinta": "#101a19",
+      "tinta-suave": "#43504e",
+      "fuerte": "#005c5c",
+      "fuerte-tenue": "#d3ebe8",
+      "valiente": "#a34700",
+      "valiente-tenue": "#fde6d2",
+      "borde": "#d5e4e2",
+      "borde-fuerte": "#a9c3c0",
+      "borde-control": "#6d8582",
+      "vivo": "#d46a00",
+      "alerta": "#b3261e",
+      "marca": "#005557",
+      "sobre-marca": "#ffffff",
+      "tronco": "#7d2b00"
     },
     "oscuro": {
-      "papel": "#12100c",
-      "papel-alto": "#1c1915",
-      "superficie": "#1a1713",
-      "tinta": "#f3eee4",
-      "tinta-suave": "#aba396",
-      "fuerte": "#ec9a6e",
-      "fuerte-tenue": "#33190c",
-      "valiente": "#5fc4c4",
-      "valiente-tenue": "#0e2a2a",
-      "borde": "#2d2822",
-      "borde-fuerte": "#4a4238",
-      "borde-control": "#6e6558",
+      "papel": "#0c1413",
+      "papel-alto": "#13201f",
+      "superficie": "#101b1a",
+      "tinta": "#e7f0ee",
+      "tinta-suave": "#a2b4b1",
+      "fuerte": "#72d0cb",
+      "fuerte-tenue": "#103634",
+      "valiente": "#f2a466",
+      "valiente-tenue": "#3b2412",
+      "borde": "#233331",
+      "borde-fuerte": "#36504d",
+      "borde-control": "#5f7a77",
       "vivo": "#f0a060",
-      "alerta": "#ff9e8a"
+      "alerta": "#ff9e8a",
+      "marca": "#0f3836",
+      "sobre-marca": "#e7f0ee",
+      "tronco": "#e39a72"
     },
     "catalogo": {
       "psicoeducativo": {
@@ -91,32 +97,25 @@
     }
   },
   "tipografia": {
+    "familia": "Atkinson Hyperlegible Next",
+    "razon": "Una sola familia, como Mind. La diseñó el Braille Institute para lectores con baja visión; el público incluye gente en crisis, con teléfonos viejos y sol de frente.",
     "display": {
-      "familia": "Fraunces",
-      "ejes": {
-        "SOFT": 28,
-        "WONK": 1,
-        "opsz": 100
-      },
-      "escala": "clamp(2.5rem, 1.2rem + 5.2vw, 5.5rem)"
+      "pesos": [
+        700,
+        800
+      ],
+      "escala": "clamp(2.25rem, 1.5rem + 2.2vw, 3.25rem)"
     },
     "cuerpo": {
-      "familia": "Inter",
-      "tamano": "17px",
-      "comentario": "17 px y no 16: el público incluye a gente mayor y a gente leyendo en la calle con el sol de frente."
+      "tamano": "19px",
+      "interlineado": 1.55,
+      "comentario": "19 px. Mind usa 21. El público lee en la calle y con teléfonos viejos."
     }
   },
   "espacio": {
     "contenedor": "72rem",
     "areaTactilMinima": "44px",
     "comentario": "44px supera los 24×24 que exige WCAG 2.2 (2.5.8)."
-  },
-  "textura": {
-    "grano": {
-      "claro": 0.038,
-      "oscuro": 0.055,
-      "tecnica": "SVG feTurbulence en línea, ~200 bytes, cero peticiones de red"
-    }
   },
   "movimiento": {
     "duracion": "150ms",

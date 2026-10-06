@@ -13,7 +13,6 @@ export default function Contacto() {
   return (
     <>
       <TituloPagina
-        sobretitulo="Contacto"
         titulo="Escríbenos."
         entrada="Para cualquier cosa que no sea pedir una cita ni inscribirse a algo. Si necesitas ayuda ahora, usa los números de crisis."
       />

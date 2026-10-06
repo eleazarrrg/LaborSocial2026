@@ -27,10 +27,7 @@ export default function AgendarCita() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
       <header className="max-w-3xl">
-        <p className="text-sm font-semibold tracking-wide text-valiente uppercase">
-          Atención psicológica
-        </p>
-        <h1 className="mt-3 text-4xl leading-[1.08] font-semibold sm:text-5xl">
+        <h1 className="text-4xl leading-[1.08] font-semibold sm:text-5xl">
           Pedir una cita
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-tinta-suave sm:text-xl">
