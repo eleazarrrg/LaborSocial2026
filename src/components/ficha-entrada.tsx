@@ -1,5 +1,4 @@
 import Link from "next/link";
-import type { CSSProperties } from "react";
 import { BloqueCrisis } from "@/components/banda-crisis";
 import { Flecha } from "@/components/iconos";
 import { Boton, Placa } from "@/components/ui";
@@ -12,14 +11,9 @@ import { CAMPANAS, PROYECTOS, rutaDe, type Entrada } from "@/lib/catalogo";
  * lucido que las otras, el sitio estaría diciendo que esa importa más, que es lo
  * contrario del requisito raíz (O-04).
  *
- * El color propio de la entrada se usa en un solo lugar: las viñetas de los
- * requisitos. Nunca como relleno grande —diez colores incompatibles en bloques
- * sólidos son el collage que hay que evitar—, y la dedicatoria «En honor a» va
- * en el turquesa de marca para todas, porque el rojo de una entrada se leía
- * como un error.
- *
- * Las dos variantes del color llegan como variables en línea en el envoltorio
- * `.tinte` y el tema resuelve cuál se pinta (ver globals.css).
+ * Las entradas no tienen color propio: todo va en los colores de marca. Lo
+ * tuvieron, pero tras el rediseño de octubre solo pintaba las viñetas de
+ * requisitos, y una sola entrada tiene requisitos.
  *
  * El bloque completo de crisis lo decide `bloqueCrisis`, que es un dato. Meterlo
  * en la página de alimentación de animales sería ruido, y el ruido gasta la
@@ -32,15 +26,7 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
   const esCampana = entrada.tipo === "campana";
 
   return (
-    <div
-      className="tinte"
-      style={
-        {
-          "--tinte-claro": entrada.colorAcento,
-          "--tinte-oscuro": entrada.colorAcentoOscuro,
-        } as CSSProperties
-      }
-    >
+    <>
       <header className="border-b border-borde bg-papel-alto">
         <div className="mx-auto max-w-6xl px-4 pt-8 pb-12 sm:px-6 sm:pt-10 sm:pb-16">
           <nav aria-label="Miga de pan" className="text-sm text-tinta-suave">
@@ -117,7 +103,7 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
                   <li key={r} className="flex gap-3.5">
                     <span
                       aria-hidden
-                      className="mt-2.5 size-1.5 shrink-0 rounded-full bg-[var(--tinte)]"
+                      className="mt-2.5 size-1.5 shrink-0 rounded-full bg-fuerte"
                     />
                     <span>{r}</span>
                   </li>
@@ -127,8 +113,8 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
           )}
 
           {/* La sección de evidencia vuelve cuando lleguen fotografías reales
-              (P-08). La lista de las que faltan sigue en `fotosPendientes`, y
-              es el encargo para Edwin; no se pinta como cajas vacías. */}
+              (P-08). Las tomas que pide cada entrada están en
+              docs/06-inventario-contenido.md §3; no se pintan cajas vacías. */}
 
           {entrada.bloqueCrisis && (
             <div className="mt-14">
@@ -170,6 +156,6 @@ export function FichaEntrada({ entrada }: { entrada: Entrada }) {
           </Link>
         </aside>
       </div>
-    </div>
+    </>
   );
 }

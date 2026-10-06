@@ -36,9 +36,9 @@ export function Placa({
   alt: string;
   fondo: string;
   /** `fluida` ocupa el ancho de su columna, cuadrada; las demás son fijas. */
-  tamano?: "ficha" | "tarjeta" | "fila" | "listado" | "fluida";
+  tamano?: "ficha" | "fila" | "fluida";
 }) {
-  const px = { ficha: 112, tarjeta: 96, fila: 72, listado: 56, fluida: 160 }[tamano];
+  const px = { ficha: 112, fila: 72, fluida: 160 }[tamano];
   const fluida = tamano === "fluida";
   return (
     <div

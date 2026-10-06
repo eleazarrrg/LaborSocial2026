@@ -127,8 +127,3 @@ export const esquemaContacto = z
     consentimiento,
   })
   .superRefine(exigirContacto);
-
-export type DatosCita = z.infer<typeof esquemaCita>;
-export type DatosVoluntariado = z.infer<typeof esquemaVoluntariado>;
-export type DatosPadrino = z.infer<typeof esquemaPadrino>;
-export type DatosContacto = z.infer<typeof esquemaContacto>;

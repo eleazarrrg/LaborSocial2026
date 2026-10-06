@@ -556,52 +556,6 @@
       "turquesa": "#007878",
       "rojo": "#d80000"
     },
-    "catalogAccents": {
-      "source": "src/lib/catalogo.ts (colorAcento / colorAcentoOscuro)",
-      "usage": "Solo viñetas de requisitos en la ficha, vía .tinte → --tinte.",
-      "entries": {
-        "psicoeducativo": [
-          "#903000",
-          "#d5794b"
-        ],
-        "psicoempresarial": [
-          "#903000",
-          "#d5794b"
-        ],
-        "rompiendo-el-circulo": [
-          "#846000",
-          "#b18c29"
-        ],
-        "historias-que-sanan": [
-          "#9a3246",
-          "#d37688"
-        ],
-        "grupo-un-solo-corazon": [
-          "#b81c00",
-          "#da7360"
-        ],
-        "una-estrella-otiliana": [
-          "#806300",
-          "#ac8e28"
-        ],
-        "comida-en-la-calle": [
-          "#903000",
-          "#d5794b"
-        ],
-        "angelitos-de-la-calle": [
-          "#006b6b",
-          "#27a5a5"
-        ],
-        "hablame-panama": [
-          "#8a6000",
-          "#b48a2a"
-        ],
-        "escuchame-panama": [
-          "#006018",
-          "#27a747"
-        ]
-      }
-    },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
@@ -692,8 +646,7 @@
     },
     "verification": {
       "command": "npm run contraste",
-      "result": "104/104 en los dos temas",
-      "tokensFile": "design-tokens.json, generado con npm run tokens; no se edita a mano"
+      "result": "64/64 en los dos temas"
     }
   },
   "components": [
@@ -798,11 +751,6 @@
         "section": "colors"
       },
       {
-        "name": "The Requirement Bullets Rule",
-        "body": "El color propio de una entrada aparece solo en las viñetas de sus requisitos de participación, en su ficha. Ni rellenos, ni filos, ni numerales, ni armazón: diez colores incompatibles en bloques sólidos son un collage.",
-        "section": "colors"
-      },
-      {
         "name": "The One Family Rule",
         "body": "Una sola familia. Si hace falta más jerarquía, se sube el peso o el tamaño; no se añade un serif.",
         "section": "typography"
@@ -832,7 +780,6 @@
     "donts": [
       "**Don't** poner un hex crudo del logo en texto.",
       "**Don't** usar el marrón del tronco fuera de la crisis, ni rojo de alarma en la banda.",
-      "**Don't** usar el color de una entrada fuera de las viñetas de sus requisitos.",
       "**Don't** poner una etiqueta en mayúsculas («eyebrow») encima de un titular.",
       "**Don't** numerar secciones ni entradas (nada de 01–08).",
       "**Don't** montar una franja de cifras grandes en el héroe; las cifras van en prosa.",
@@ -841,8 +788,7 @@
       "**Don't** usar glifos Unicode (→, ▾, ✎) como iconos.",
       "**Don't** añadir un segundo tipo de letra, ni volver al crema con serif de alto contraste.",
       "**Don't** poner sombra a tarjetas, botones o placas, ni desplazamientos de botón al pasar.",
-      "**Don't** recortar ni recolorear los logos de los proyectos; solo se puede quitar transparencia al institucional.",
-      "**Don't** editar `design-tokens.json` a mano."
+      "**Don't** recortar ni recolorear los logos de los proyectos; solo se puede quitar transparencia al institucional."
     ]
   }
 }

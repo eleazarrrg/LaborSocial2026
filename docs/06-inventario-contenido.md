@@ -338,6 +338,23 @@ hace que alguien sienta que quiere estar ahí (C-02). Vale la pena hacerlas bien
 - Si tiene fotos del **antes y el después** de una actividad, mándelas juntas y dígalo. Cuentan una
   historia sin necesidad de texto.
 
+**Las tomas concretas que pide cada uno.** Además del mínimo de cuatro, cada página
+necesita al menos estas. Antes vivían como dato en el código del sitio, donde nadie las leía;
+este es su lugar, porque es el encargo para Edwin.
+
+| Entrada | Tipo | Tomas que necesita | Estado |
+|---|---|---|---|
+| Proyecto Psicoeducativo REFUVA | Proyecto | Una jornada dentro de una escuela · Trabajo con docentes o con padres de familia | 🔴 |
+| Proyecto Psicoempresarial REFUVA | Proyecto | Una sesión de formación o taller | 🔴 |
+| Rompiendo el Círculo | Proyecto | Trabajo en comunidad | 🔴 |
+| Historias que Sanan | Proyecto | Un taller de escritura | 🔴 |
+| Grupo Un Solo Corazón | Proyecto | Entrega de bolsas de comida a una familia | 🔴 |
+| Una Estrella Otiliana | Proyecto | La celebración del año pasado, con los niños · Entrega de regalos | 🔴 |
+| Comida en la Calle, Esperanza en el Corazón | Proyecto | Una jornada de reparto en la calle | 🔴 |
+| Angelitos de la Calle | Proyecto | Alimentación de animales durante una jornada | 🔴 |
+| Háblame Panamá | Campaña | La jornada en la calle, con la gente esperando para hablar | 🔴 |
+| #EscúchamePanamá | Campaña | Una actividad de la campaña | 🔴 |
+
 ### 3.2 Requisitos técnicos
 
 | Requisito | Valor | Por qué |

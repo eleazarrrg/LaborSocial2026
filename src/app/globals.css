@@ -169,34 +169,6 @@ h3 {
   font-variant-numeric: tabular-nums;
 }
 
-/* ──────────────────────────────────────────────────────────────────────────
-   Color propio de cada entrada del catálogo.
-
-   El color vive en `src/lib/catalogo.ts`, no aquí: es dato de la entrada, no
-   del sistema. El componente pone las DOS variantes como variables en línea y
-   este bloque decide cuál se resuelve, igual que los tokens del tema.
-
-   Hace falta porque el valor claro de varias entradas sobre el papel oscuro
-   baja de 3:1: con una sola variante, la marca de la entrada desaparece de
-   noche. Hoy pinta las viñetas de requisitos de la ficha.
-
-   Uso:  <div className="tinte" style={{ "--tinte-claro": …, "--tinte-oscuro": … }}>
-           <span className="text-[var(--tinte)]">01</span>
-   ────────────────────────────────────────────────────────────────────────── */
-.tinte {
-  --tinte: var(--tinte-claro);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-tema="claro"]) .tinte {
-    --tinte: var(--tinte-oscuro);
-  }
-}
-
-:root[data-tema="oscuro"] .tinte {
-  --tinte: var(--tinte-oscuro);
-}
-
 /* El foco visible es requisito de accesibilidad (WCAG 2.2 AA), no preferencia
    estética. No se quita nunca. */
 :focus-visible {

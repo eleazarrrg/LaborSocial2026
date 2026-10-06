@@ -164,7 +164,7 @@ components:
 | **Fecha** | 5 de octubre de 2026 |
 | **Dirección** | El estándar del sector, con **Mind** (mind.org.uk) como vara de acabado. Elegida por el equipo el 5 de octubre de 2026 (contrato en `.impeccable/surfaces/src-app-page-tsx.md`, semilla 32049929). |
 | **Fuente de verdad** | [`src/app/globals.css`](./src/app/globals.css). Este documento explica; el CSS manda. Los tokens de arriba son la copia legible por máquina del tema claro y del oscuro. |
-| **Verificación** | `npm run contraste` — **104 de 104 en los dos temas** |
+| **Verificación** | `npm run contraste` — **64 de 64 en los dos temas** |
 | **Complemento** | `.impeccable/design.json`: rampas tonales, movimiento, sombras, fragmentos de componente y la narrativa. |
 
 > **Qué cambió desde la v2.0.** La v2 tenía fondo crema con grano de papel, Fraunces + Inter, el marrón
@@ -288,36 +288,21 @@ mañana en la página de crisis es justo el momento en que peor sienta.
 > editar el otro**. Ya pasó una vez que solo se actualizó el primero y la elección explícita de tema
 > oscuro servía la paleta vieja.
 
-### Un color por entrada del catálogo
+### Las entradas no tienen color propio
 
-Cada proyecto y campaña tiene su color, con **dos variantes** (claro y oscuro), en
-`src/lib/catalogo.ts` (`colorAcento`, `colorAcentoOscuro`). Es dato de la entrada, no del sistema.
-
-| Entrada | Claro | Oscuro |
-|---|---|---|
-| Psicoeducativo · Psicoempresarial · Comida en la Calle | `#903000` | `#d5794b` |
-| Rompiendo el Círculo | `#846000` | `#b18c29` |
-| Historias que Sanan | `#9a3246` | `#d37688` |
-| Grupo Un Solo Corazón | `#b81c00` | `#da7360` |
-| Una Estrella Otiliana | `#806300` | `#ac8e28` |
-| Angelitos de la Calle | `#006b6b` | `#27a5a5` |
-| Háblame Panamá | `#8a6000` | `#b48a2a` |
-| #EscúchamePanamá | `#006018` | `#27a747` |
-
-Un envoltorio `.tinte` recibe las dos variantes como variables en línea (`--tinte-claro`,
-`--tinte-oscuro`) y `globals.css` resuelve `--tinte` con los mismos tres estados del tema. Sin
-JavaScript y sin que ningún componente conozca un hex.
-
-**Los colores de las dos campañas no se tocan.** El ámbar es el lazo de prevención del suicidio y el
-verde el de salud mental: son códigos que su público reconoce.
+Lo tuvieron: un par de colores por proyecto, claro y oscuro, derivados de su logo. Tras el rediseño de
+octubre solo pintaban las viñetas de requisitos, y **una sola entrada tiene requisitos**, así que la
+auditoría ponytail los quitó: diez pares verificados en dos temas, un bloque CSS y 40 comprobaciones
+de contraste para tres puntos de 6 px. Las viñetas usan `fuerte`. El color de cada proyecto vive en
+su emblema, que es donde la gente lo reconoce, y los de las campañas —ámbar de prevención del
+suicidio, verde de salud mental— siguen intactos en sus logos.
 
 ### Contraste, verificado
 
 `npm run contraste` (`scripts/auditar-contraste.mjs`) lee los valores **directamente** de
-`globals.css` y `catalogo.ts` —no de una copia— y falla si alguna pareja baja del umbral.
+`globals.css` —no de una copia— y falla si alguna pareja baja del umbral.
 
-**104 de 104 pasan:** 50 parejas de tokens del sistema (25 por tema), 40 de los colores del catálogo
-(cada entrada, claro y oscuro, sobre `papel` y `papel-alto`) y 14 de colores con opacidad.
+**64 de 64 pasan:** 50 parejas de tokens del sistema (25 por tema) y 14 de colores con opacidad.
 
 **Un color con alfa no es su token: es la mezcla con lo que tenga detrás.** El script mide esas
 mezclas y rastrea `src/` en busca de utilidades con alfa (`opacity-*`, `/NN`). Una que no esté medida
@@ -340,10 +325,8 @@ una prueba negativa.
 1. Editar el bloque `:root` de `src/app/globals.css`.
 2. Editar **los dos** bloques oscuros.
 3. Correr `npm run contraste`. Si algo baja del umbral, ajustar la luminancia **antes** de seguir.
-4. Un color de entrada del catálogo va en `src/lib/catalogo.ts`, con sus dos variantes; el script ya
-   lo lee de ahí.
-5. Correr `npm run tokens`. **`design-tokens.json` no se edita a mano**: se genera.
-6. Actualizar los tokens del frontmatter de este documento y, si cambia el porqué, la prosa.
+4. Actualizar los tokens del frontmatter de este documento y `.impeccable/design.json`, que es el
+   traspaso de tokens a herramientas de diseño; si cambia el porqué, también la prosa.
 
 ### Named Rules
 
@@ -352,8 +335,6 @@ una prueba negativa.
 **The One Job Brown Rule.** El marrón del tronco es la crisis y nada más. Si aparece en otro sitio, la banda deja de leerse aparte.
 
 **The Help Is Orange Rule.** El naranja (`valiente`, `valiente-tenue`) marca la acción de ayuda y el foco. No se usa para decorar.
-
-**The Requirement Bullets Rule.** El color propio de una entrada aparece solo en las viñetas de sus requisitos de participación, en su ficha. Ni rellenos, ni filos, ni numerales, ni armazón: diez colores incompatibles en bloques sólidos son un collage.
 
 ## Typography
 
@@ -499,7 +480,7 @@ pasar. La fila entera es un solo destino de foco.
 ### Ficha de entrada
 Las diez usan la misma plantilla: si una fuera más lucida, el sitio diría que importa más. Cabecera
 en `papel-alto` con miga de pan, placa de 112 px y `h1`; la dedicatoria «En honor a…» con peso de
-titular; requisitos con viñetas en el color de la entrada; columna lateral con «Cómo participar» en
+titular; requisitos con viñetas en `fuerte`; columna lateral con «Cómo participar» en
 `superficie` y el botón primario. Las cifras van **en una línea de texto**, no como número gigante.
 
 ### Título de página
@@ -533,7 +514,6 @@ Aviso honesto de lo que el prototipo todavía no hace: borde discontinuo, `papel
 ### Don't:
 - **Don't** poner un hex crudo del logo en texto.
 - **Don't** usar el marrón del tronco fuera de la crisis, ni rojo de alarma en la banda.
-- **Don't** usar el color de una entrada fuera de las viñetas de sus requisitos.
 - **Don't** poner una etiqueta en mayúsculas («eyebrow») encima de un titular.
 - **Don't** numerar secciones ni entradas (nada de 01–08).
 - **Don't** montar una franja de cifras grandes en el héroe; las cifras van en prosa.
@@ -544,12 +524,12 @@ Aviso honesto de lo que el prototipo todavía no hace: borde discontinuo, `papel
 - **Don't** añadir un segundo tipo de letra, ni volver al crema con serif de alto contraste.
 - **Don't** poner sombra a tarjetas, botones o placas, ni desplazamientos de botón al pasar.
 - **Don't** recortar ni recolorear los logos de los proyectos; solo se puede quitar transparencia al institucional.
-- **Don't** editar `design-tokens.json` a mano.
 
 ## Decisiones abiertas
 
-- **Fotografías reales (P-08).** La sección de evidencia de cada ficha volverá cuando existan; la lista
-  de las que faltan sigue en `fotosPendientes`. Hasta entonces no se pinta ningún hueco.
+- **Fotografías reales (P-08).** La sección de evidencia de cada ficha volverá cuando existan; las tomas
+  que pide cada entrada están en `docs/06-inventario-contenido.md` §3. Hasta entonces no se pinta
+  ningún hueco.
 - **Emblemas propios para Psicoeducativo y Psicoempresarial.** Hoy usan el árbol institucional porque
   su nombre lleva «REFUVA». Si la fundación entrega emblemas, entran por `catalogo.ts` sin tocar componentes.
 - **`adjustFontFallback: false`.** Puesto porque Next no trae métricas de Atkinson Hyperlegible Next.
