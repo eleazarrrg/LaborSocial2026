@@ -8,6 +8,12 @@
 | **Responde a** | R-04 (capacitación), R-06 (almacenamiento), R-08 (redes), C-08 (prueba piloto), C-10 (dos personas), X-01 (el equipo se retira) |
 | **Documentos relacionados** | [`04-requisitos-no-funcionales.md`](./04-requisitos-no-funcionales.md) (umbrales: RNF-16, RNF-38, RNF-44, RNF-48), [`05-stack-y-presupuesto.md`](./05-stack-y-presupuesto.md) (precios), [`07-modelo-datos.md`](./07-modelo-datos.md) (esquema y retención), [`08-plan-de-trabajo.md`](./08-plan-de-trabajo.md) (fechas) |
 
+> **Actualizado el 8 de octubre de 2026 — cambio de stack.** Supabase, Vercel y n8n salieron; el
+> sitio usa **Payload CMS en DigitalOcean** ([ADR-0007](./adr/0007-payload-y-digitalocean.md)). La
+> operación vigente del panel está en **§5.0**. Donde el resto del documento nombre Supabase, Vercel o
+> n8n, lo que vale es: la base y el panel → DigitalOcean + Payload; los avisos → la propia app con
+> Resend; el «ping» que evitaba la pausa → ya no hace falta (DigitalOcean no pausa).
+
 > **Estados usados en este documento**, iguales a los de [`00-fuentes/hechos-verificados.md`](./00-fuentes/hechos-verificados.md):
 > ✅ **Confirmado** · 🟡 **Inferido** (se deduce, hay que confirmarlo) · 🔴 **Pendiente** (nos falta el dato).
 
@@ -141,10 +147,9 @@ mapa: qué es cada secreto, para qué sirve, de quién es, dónde vive y si cadu
 
 | Secreto | Para qué sirve | Propietario | Dónde se guarda | ¿Caduca? |
 |---|---|---|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Identifican el proyecto de Supabase desde el navegador. Son públicas por diseño: lo que protege el dato es RLS, no el secreto. | Fundación REFUVA | Variables de entorno del hosting | **No** |
-| `SUPABASE_SERVICE_ROLE_KEY` | Se salta RLS. La usan los Route Handlers, las Server Actions y las automatizaciones. Es la llave maestra de la base. | Fundación REFUVA | Variables de entorno del hosting y bóveda del equipo técnico. **Nunca en el cliente ni en la bóveda de Edwin** (§4.1) | **No.** Se rota a mano solo si se filtra |
+| `PAYLOAD_SECRET` | Firma las sesiones del panel y cifra lo que Payload guarda. **Si se filtra, se puede suplantar a cualquiera.** | Fundación REFUVA | Variables cifradas de la app en DigitalOcean y bóveda del equipo técnico. **Nunca en el cliente ni en el repositorio** | **No.** Cambiarlo cierra todas las sesiones e invalida los segundos factores: solo si se filtra |
+| `DATABASE_URL` y `DATABASE_CA_CERT` | Conexión de la app a la base, por red privada y con SSL verificado. | Fundación REFUVA | Las pone DigitalOcean solo, al vincular la base (`.do/app.yaml`) | **No** |
 | Clave de la API de **Resend** | Enviar los correos que salen del sitio. | Fundación REFUVA | Variables de entorno del hosting | **No** |
-| **URL del webhook de n8n** y la cabecera con que se autentica | Que la base de datos despierte a la automatización cuando se guarda una solicitud. | Fundación REFUVA | Configuración de Supabase y de n8n | **No** 🟡. Cambia si n8n se muda de servidor (§2.4) |
 | **Identificador del feed de Behold** | Leer el Instagram sin que el sitio guarde ningún token de Meta. | Fundación REFUVA | Variables de entorno del hosting | **No.** El token de Meta, que sí caduca a los 60 días, lo renueva Behold en su infraestructura ✅ |
 | **Credencial de escritura del repositorio privado de respaldos** | Que el volcado semanal llegue a un repositorio de la fundación (RF-15, [`07-modelo-datos.md`](./07-modelo-datos.md) §8). | Fundación REFUVA | Configuración de n8n | 🔴 **La única fila que hoy puede incumplir RNF-44**: los tokens de GitHub se emiten con fecha de vencimiento. Hay que emitirla sin caducidad o con renovación automática, y dejarlo escrito aquí. **Lo debe Rafael Gómez, antes de la entrega** |
 | **Contraseñas y segundos factores** de las cuentas de §2.2 | Entrar a cada servicio. | Fundación REFUVA | Bóveda compartida (§4.1) y códigos de respaldo impresos (§4.2) | **No.** Ninguna cuenta se configura con caducidad obligatoria de contraseña |
@@ -272,7 +277,7 @@ en el Drive.
 
 ## 4.2 Segundo factor: qué se activa y qué se guarda
 
-> En el **panel**, Supabase no da códigos de respaldo: ver §5.0.3. Lo de abajo vale para las cuentas
+> En el **panel**, el segundo factor no trae códigos de respaldo: ver §5.0.3. Lo de abajo vale para las cuentas
 > de servicio (Google, GitHub, Vercel, Supabase).
 
 Segundo factor **obligatorio** en las dos cuentas de administrador del panel (RF-04) y en todas las
@@ -363,105 +368,133 @@ que entra cada dos semanas y no recuerda dónde estaba nada (X-03).
 
 ## 5.0 Lo que el panel ya hace hoy (octubre de 2026)
 
-> Los procedimientos 5.1 a 5.12 describen el panel **completo**. Hoy existe solo la primera fase:
-> entrar con segundo factor, leer las solicitudes de los cuatro formularios y cambiarles el estado.
-> Lo demás (usuarios, convocatorias, noticias) todavía se hace como dice esta sección. Responsable de
-> esta sección hasta la entrega: **Rafael Gómez**. Después: la persona administradora de sistemas.
+> Los procedimientos 5.1 a 5.12 describen el panel **completo** (fase 2, el CMS). Hoy existe la
+> fase 1: entrar con segundo factor, leer las solicitudes de los cuatro formularios, cambiarles el
+> estado, dejar notas internas y abrir o cerrar convocatorias. Stack: Payload CMS dentro de la app,
+> en DigitalOcean (ver `docs/adr/0007-payload-y-digitalocean.md`). Responsable de esta sección hasta
+> la entrega: **Rafael Gómez**. Después: la persona administradora de sistemas de la fundación.
 
-### 5.0.1 Antes de publicar: lo que se configura una sola vez
+### 5.0.1 Puesta en marcha: lo que se hace una sola vez
 
-1. **Variables de entorno** en el hosting (ver `.env.example`):
-   - `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`;
-   - `SUPABASE_SECRET_KEY` **solo** en el servidor. Nunca en el chat, nunca en el repositorio.
-2. **Migraciones:** `npx supabase link --project-ref …` y después `npx supabase db push`. Los dos
-   comandos piden la contraseña de la base: la escribe quien los corre, nadie más.
-3. **Probar la RLS** y no publicar si algo falla:
-   - pegar `supabase/tests/rls.sql` en el SQL Editor. Si todo está bien, responde «Success. No rows
-     returned»; si algo está mal, da un error que empieza con «FALLA»;
-   - correr `npm run probar-rls`, que prueba la API real con la clave pública.
+1. **Cuentas a nombre de la fundación** (nunca el correo de un estudiante, §5.3):
+   - DigitalOcean, con segundo factor en el teléfono, la tarjeta de la fundación y una **alerta de
+     facturación** (Billing → Alerts) por el monto del presupuesto (`docs/12`);
+   - Cloudflare, con el dominio `refuva.org`;
+   - Resend, con el dominio verificado (registros SPF y DKIM en Cloudflare).
+2. **Solicitar los créditos para ONG** de DigitalOcean. 🟡 Pendiente de confirmar si Panamá califica.
+3. **Base de datos:** Databases → Create → PostgreSQL, región **NYC1**, plan básico (B/.15.15),
+   nombre `refuva-db`.
+4. **La app:** Apps → Create → importar `.do/app.yaml` del repositorio. Luego, en Settings → la app
+   → Environment Variables, escribir los dos secretos (**nunca por chat**):
+   - `PAYLOAD_SECRET`: un texto largo y aleatorio. Se genera con
+     `node -e "console.log(crypto.randomBytes(48).toString('base64url'))"`. **No se cambia nunca**:
+     cambiarlo cierra todas las sesiones e invalida los segundos factores.
+   - `RESEND_API_KEY`: la clave de Resend.
+   - Cambiar `AVISOS_CORREO` por el buzón real de la fundación.
+5. **Solo la app entra a la base:** Databases → `refuva-db` → Settings → Trusted Sources → dejar
+   únicamente la app `refuva`.
+6. **Respaldos:** vienen activos (diarios, y recuperación a cualquier punto de los últimos 7 días).
+   Antes de entregar, **probar una restauración** en una base nueva y anotar la fecha aquí.
+7. **Dominio:** en la app, Settings → Domains → `refuva.org`. En Cloudflare, el registro que indique
+   DigitalOcean, con el proxy activo (nube naranja), SSL «Full (strict)».
+8. **Cloudflare — seguridad:**
+   - Security → WAF → reglas administradas activas.
+   - Security → WAF → Rate limiting (**obligatorio antes de publicar**):
+     - `POST` a `/api/usuarios/login`, `/api/usuarios/forgot-password` y `/api/*totp*`: 10 por minuto
+       por IP. Sin esto, cualquiera puede bloquear la cuenta de Edwin 5 minutos una y otra vez.
+     - `POST` a `/agendar-cita`, `/participar/*` y `/contacto` (ahí llegan los formularios): 10 por
+       hora por IP.
+   - El arranque de la app **falla a propósito** si falta `PAYLOAD_SECRET`, el CA de la base, la URL
+     `https`, `RESEND_API_KEY` o un `AVISOS_CORREO` real: mejor un despliegue rojo que avisos perdidos.
+   - Security → Bots → Bot Fight Mode activo.
+9. **Monitoreo:** en DigitalOcean, la app → Insights → alertas por reinicios, CPU y memoria al correo
+   de la fundación. Si avisa de reinicios por memoria, subir el tamaño a `apps-s-1vcpu-1gb`.
+10. **Primera cuenta — desde la consola, nunca desde la web.** Con la base vacía, la web **no** deja
+    crear cuentas (si lo dejara, quien llegara primero a `/admin` sería administrador). En
+    DigitalOcean: la app → **Console**, y ahí:
 
-   Se repiten **después de cada migración nueva**.
-4. **Authentication → URL Configuration:** *Site URL* = `https://refuva.org`.
-5. **Authentication → Email Templates:** pegar en *Invite user* y en *Reset password* el contenido de
-   `supabase/templates/invitacion.html` y `recuperacion.html`, con sus asuntos (`supabase/config.toml`).
-   Los enlaces van a `/panel/auth/confirmar` con `token_hash`. Sin este paso, los enlaces de los
-   correos no funcionan.
-6. **Correo de salida.** El correo integrado de Supabase **solo entrega a los miembros del equipo del
-   proyecto** y tiene un tope bajo por hora. Para producción, configurar el SMTP de Resend en
-   *Authentication → SMTP Settings* con la cuenta de la fundación.
-7. **El latido.** Programar `GET https://refuva.org/api/latido` **una vez al día**, en *Vercel Cron*
-   (en `vercel.json`) o en una tarea programada de Coolify. Responde `{"ok":true}`. Con eso el plan
-   Free no pausa el proyecto (§5.7). **Nunca en GitHub Actions** (§3.4).
+    ```bash
+    CORREO=edwin@refuva.org NOMBRE="Edwin Quintero" npx payload run scripts/crear-primera-admin.ts
+    ```
 
-### 5.0.2 Dar acceso a una administradora
+    Imprime una contraseña temporal **una sola vez**: se le dicta a Edwin en el momento. Al entrar,
+    configura el código del teléfono y cambia la contraseña en «Cuenta».
+11. **MCP de Claude:** el de DigitalOcean (`@digitalocean/mcp`) con un token de **alcance limitado**
+    (lectura, despliegues y logs; sin borrar recursos), creado por la cuenta de la fundación y
+    guardado en la bóveda (§2.5). Nunca un token con acceso total.
 
-1. Supabase → *Authentication → Users* → **Invite user** → su correo.
-2. Ella abre el enlace, elige su contraseña (12 caracteres, con mayúscula, minúscula y número) y
-   configura el código en su teléfono.
-3. Toda cuenta nace **inactiva** y sin permisos. Para activarla, en el SQL Editor:
+### 5.0.2 Dar acceso a otra persona
 
-   ```sql
-   update public.perfiles set activo = true, rol = 'administrador', nombre = 'Nombre Apellido'
-    where correo = 'correo@refuva.org';
-   ```
+1. Panel → Sistema → Usuarios → **Crear**. Correo, nombre, contraseña temporal; el rol
+   (**Administración** ve las solicitudes; **Edición** solo el contenido, en la fase 2) y la casilla
+   **Activo**.
+2. Darle la contraseña temporal en persona o por teléfono, nunca por el mismo canal que el correo.
+3. Al entrar, el panel le obliga a configurar el código del teléfono antes de ver nada.
+4. **Quitar el acceso:** desmarcar **Activo**. No puede volver a entrar. Su sesión abierta caduca como
+   máximo en 2 horas; para cortarla ya, borrar la cuenta (la bitácora conserva lo que hizo).
+5. **Nunca menos de dos administradoras activas.** Si una pierde el teléfono, la otra la rescata (§5.0.3).
 
-4. Para quitarle el acceso: `update public.perfiles set activo = false where correo = '…';`. **Corta
-   el acceso a las solicitudes en la siguiente consulta**, porque la base lo comprueba cada vez.
-   Para cerrar además sus sesiones, *Authentication → Users* → la persona → **Sign out user**.
+Cada cuenta nueva nace **inactiva y como Edición**: nadie se da acceso a sí mismo, y nadie se sube el
+rol a sí mismo (probado el 8-10-2026).
 
-### 5.0.3 El segundo factor en Supabase: sin códigos de respaldo
+### 5.0.3 El segundo factor: el teléfono perdido
 
-Corrige §4.2 para el panel: **Supabase no entrega códigos de respaldo** para el código del teléfono.
-Lo que hace sus veces:
+El código del teléfono es **obligatorio** y no trae códigos de respaldo. Lo que hace sus veces:
 
-- **Escanear el QR con dos teléfonos** en el mismo momento, el suyo y el de la otra administradora,
-  antes de escribir el primer código. El QR se queda en pantalla hasta que se verifica.
-- **Si pierde el teléfono:** otra persona con acceso al proyecto borra su factor y ella vuelve a
-  configurarlo al entrar:
+- **Al configurarlo, escanear el QR con dos teléfonos** (el propio y el de la otra administradora, o
+  uno de la fundación guardado bajo llave). El QR solo se ve en ese momento.
+- **Si aun así se pierde:** hoy no hay botón en el panel para reiniciarlo (🔴 pendiente de la fase 2).
+  Mientras tanto, una persona técnica, por la consola de la base:
 
   ```sql
-  delete from auth.mfa_factors
-   where user_id = (select id from public.perfiles where correo = 'correo@refuva.org');
+  update usuarios set totp_secret = null where email = 'correo@refuva.org';
   ```
 
-  Antes de hacerlo, confirmar por teléfono que es ella quien lo pide.
+  Para conectarse hay que agregar **temporalmente** su IP en Trusted Sources y quitarla al terminar.
+  Antes, confirmar por teléfono que es ella quien lo pide.
 
-**El token del segundo factor dura una hora** (`jwt_expiry = 3600`). Si se borra un factor, la
-sesión que ya estaba abierta sigue en `aal2` hasta que el token se renueve. Para cortarla antes, usar
-**Sign out user**.
+### 5.0.4 Las solicitudes
 
-### 5.0.4 Abrir y cerrar una convocatoria (mientras no esté en el panel)
+- **Panel → inicio:** lo pendiente de los cuatro formularios en una lista. Primero quien marcó
+  «Necesito atención pronto», luego la espera más larga. Arriba, el recordatorio de crisis.
+- **Abrir una solicitud** queda registrado en la **bitácora** (quién y cuándo).
+- **Lo que escribió la persona no se puede cambiar**, ni por el panel ni por la API.
+- **Estado:** Pendiente → En gestión → Atendida o Cerrada sin atender. Cada cambio queda en la bitácora
+  con su autora; al cerrarla se guarda la fecha.
+- **Notas internas:** se agregan al final de la solicitud con autora y fecha. No se pueden editar ni
+  borrar después (es intencional: son el historial del caso).
+- **«Aviso por correo enviado» sin marcar** significa que el correo a la fundación no salió. La
+  solicitud está guardada igual, y el inicio del panel cuenta cuántas están así. Causas posibles:
+  Resend (cuota de 100 por día, dominio verificado), `AVISOS_CORREO` mal escrito, o **más de 15 envíos
+  en una hora** en ese formulario: pasado ese tope el sitio deja de mandar avisos para no agotar la
+  cuota (casi siempre es un ataque de robots; revisar la cuarentena y Cloudflare).
+- **La confirmación a quien escribe** sale una sola vez por correo y por día: así nadie puede usar los
+  formularios para mandar correos de la fundación a un tercero.
+- **Cada consulta de una lista** de solicitudes por la API también queda en la bitácora, con cuántas
+  filas devolvió.
 
-La de padrinos de Una Estrella Otiliana 2026 ya está abierta: del 6 de octubre al 15 de diciembre,
-hora de Panamá. Para otras, en el SQL Editor:
+### 5.0.5 Abrir y cerrar una convocatoria
 
-```sql
--- Cerrarla ya:
-update public.convocatorias set cerrada_manualmente = true, cerrada_en = now()
- where proyecto_slug = 'una-estrella-otiliana' and tipo = 'padrinos'
-   and cierra_en > now();
+Panel → Contenido → **Convocatorias**. La de padrinos de Una Estrella Otiliana 2026 ya está creada:
+del 6 de octubre al final del 15 de diciembre, hora de Panamá.
 
--- Abrir la del año siguiente (cierra al terminar el 15 de diciembre en Panamá):
-insert into public.convocatorias (proyecto_slug, tipo, titulo, descripcion, texto_si_cerrada, abre_en, cierra_en)
-values ('una-estrella-otiliana', 'padrinos', 'Padrinos y madrinas · Navidad 2027',
-        '…', 'La convocatoria de padrinos y madrinas no está abierta en este momento.',
-        '2027-10-01 00:00-05', '2027-12-16 00:00-05');
-```
+- **Cerrarla antes:** marcar «Cerrarla ya, antes de la fecha».
+- **Abrir la del año siguiente:** Crear → título, fechas y texto de cuando está cerrada. El panel no
+  deja que dos convocatorias del mismo proyecto y tipo se solapen en fechas.
+- El formulario deja de aceptar inscripciones **por la fecha**: no hace falta ninguna tarea programada.
 
-La base no deja que dos convocatorias del mismo proyecto y tipo se solapen en fechas.
+### 5.0.6 La cuarentena
 
-### 5.0.5 La cuarentena
+Lo que llena un campo invisible para las personas (casi siempre un robot) no entra a la bandeja: va a
+Solicitudes → **Cuarentena**, con lo que envió ya validado. Revisarla de vez en cuando: si alguno era
+una persona, contactarla a mano y marcar el veredicto. **Todavía no hay purga automática**: esos datos
+no tienen fecha de borrado hasta que Edwin apruebe los plazos de retención (§5.12). 🔴
 
-Lo que un robot envía (llena el campo oculto que una persona no ve) no entra a la bandeja: va a
-`envios_en_cuarentena`. La bandeja muestra cuántos hay. Para revisarlos:
+### 5.0.7 Actualizar el sitio
 
-```sql
-select creado_en, formulario, carga from public.envios_en_cuarentena
- where not revisado order by creado_en;
-```
-
-Si alguno era una persona de verdad, se le contacta a mano. **Todavía no hay purga**: esos datos no
-tienen fecha de borrado hasta que Edwin apruebe los plazos de retención (§5.12). 🔴
+Cada `push` a `main` en GitHub despliega solo. Si un despliegue sale mal: la app → Activity → el
+despliegue anterior → **Rollback**. Las migraciones de base corren solas al arrancar
+(`src/migrations`); una migración aplicada no se edita nunca.
 
 ## 5.1 Publicar una noticia
 
@@ -602,6 +635,10 @@ aparecen símbolos raros en vez de tildes, es que se abrió mal, no que se expor
 quedaría uno, primero se invita al reemplazo.
 
 ## 5.7 Reactivar el proyecto de Supabase si se pausó
+
+> **Ya no aplica** desde el cambio a DigitalOcean (8-10-2026): la base gestionada no se pausa. Se deja
+> el texto como historia. Si el sitio carga pero los formularios fallan, ver §5.8 y el registro de la
+> app en DigitalOcean (la app → Runtime Logs).
 
 **El síntoma:** el sitio carga, pero las noticias no aparecen, los formularios dan error al enviar o
 el panel no deja iniciar sesión.
@@ -1007,20 +1044,22 @@ lee de corrido.
 
 ## 8.2 Levantar el proyecto en local
 
-Necesitan Node y **Docker corriendo** antes de empezar; sin Docker, `supabase start` falla.
+Solo hace falta Node 22. **No hace falta Docker**: `npm run db:local` descarga y levanta un Postgres
+real.
 
 ```bash
 git clone <repositorio de la organización de la fundación>
 cd refuva-portal
 npm install
 
-cp .env.example .env.local   # pedir los valores a quien custodie la bóveda del equipo
-
-npx supabase start           # PostgreSQL + Auth + Storage locales (requiere Docker)
-npx supabase db reset        # aplica supabase/migrations/ y las semillas
-
-npm run dev                  # http://localhost:3000
+npm run db:local             # en otra terminal: Postgres en el puerto 5433
+# .env.local: DATABASE_URL=postgres://postgres:local@127.0.0.1:5433/refuva
+#             PAYLOAD_SECRET=<cualquier texto largo>  NEXT_PUBLIC_SERVER_URL=http://localhost:3000
+npm run dev                  # sitio en http://localhost:3000, panel en /admin
 ```
+
+En local, Payload crea las tablas solo. Para producción, cada cambio de esquema se acompaña de una
+migración: `npx payload migrate:create <nombre>`.
 
 Antes de dar cualquier cosa por terminada:
 

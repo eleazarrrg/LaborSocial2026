@@ -65,75 +65,67 @@ de una ONG genérica.
 
 ## 3. El stack, y por qué
 
-Decidido el 6 de septiembre de 2026. La justificación larga, con precios y fuentes, está en
-`docs/05-stack-y-presupuesto.md`. Aquí va lo corto.
+Decidido el 6 de septiembre de 2026 y **cambiado el 8 de octubre de 2026**: Supabase, Vercel y n8n
+salieron; entraron Payload CMS y DigitalOcean. El porqué está en `docs/adr/0007-payload-y-digitalocean.md`
+y el costo en `docs/12-presupuesto-hosting.md`. `docs/05` queda como historia del primer presupuesto.
 
 | Capa | Elección | Razón de una línea |
 |---|---|---|
 | Framework | **Next.js 16 (App Router) + TypeScript** | Un solo framework para el sitio público, el panel y los endpoints de servidor. El equipo ya sabe React. |
 | Estilos | **Tailwind CSS + shadcn/ui** | Rápido de mover y accesible por defecto. Los componentes viven en el repo, no en un paquete que caduque. |
-| Base de datos, Auth, Storage | **Supabase** (Postgres) | Lo pidió el equipo y encaja. Postgres de verdad, RLS, y auth resuelto para 2–3 administradores. |
-| Automatizaciones | **n8n** | Correos, avisos y trabajos programados. **No es el backend del sitio** — ver §4. |
-| Correo transaccional | **Resend** | 3.000/mes gratis, tope de **100/día**. Ese tope muerde en la campaña navideña: ver §7. |
-| Hosting | **Vercel** (Hobby para empezar) | Alternativa real: autohospedar en el Coolify que el equipo ya opera. Comparadas en `docs/05`. |
+| CMS, panel y auth | **Payload CMS 3**, dentro de la misma app Next.js | Panel en `/admin`, en español, con **segundo factor obligatorio** (`payload-totp`). El sitio público vive en `src/app/(sitio)`. |
+| Base de datos | **DigitalOcean Managed PostgreSQL** | En red privada: solo la app se conecta, con SSL verificado. Respaldos diarios y recuperación de 7 días. Sin API pública. |
+| Hosting | **DigitalOcean App Platform**, con **Cloudflare** delante | Servidor gestionado (lo parcha DigitalOcean), todo en una cuenta y una factura. Spec en `.do/app.yaml`. |
+| Imágenes (CMS, fase 2) | **DigitalOcean Spaces** | Compatible con S3 y con CDN. |
+| Correo transaccional | **Resend**, desde los ganchos de Payload | 3.000/mes gratis, tope de **100/día**. Ese tope muerde en la campaña navideña: ver §7. |
 | Analítica | **Cloudflare Web Analytics** | Sin cookies ⇒ sin banner de consentimiento. GA4 solo si se aprueba Google Ad Grants. |
 | Dominio | **refuva.org** (~USD 12/año) | El `.org.pa` cuesta el doble, obliga a 2 años por adelantado y exige revisión documental. |
 | Feed de Instagram | **Behold.so** (gratis), leído desde el servidor | Behold renueva el token de Meta. Nosotros no dejamos ningún secreto que caduque. |
 
-**Correr el proyecto en local** — sí, es Node, y sí, es `npm run dev`:
+**Correr el proyecto en local** — sí, es Node, y no necesita Docker:
 
 ```bash
 npm install
-npm run dev            # Next.js en http://localhost:3000
-npx supabase start     # Postgres + Auth + Storage locales (necesita Docker)
-npx supabase db reset  # aplica supabase/migrations/ y las semillas
+npm run db:local       # Postgres real en el puerto 5433 (embedded-postgres), en otra terminal
+npm run dev            # sitio en http://localhost:3000 y panel en /admin
 ```
 
-## 4. Dónde va n8n, y dónde no
+Variables en `.env.local`: `DATABASE_URL=postgres://postgres:local@127.0.0.1:5433/refuva`,
+`PAYLOAD_SECRET` (cualquier texto largo en local), `NEXT_PUBLIC_SERVER_URL` y, para ver los avisos,
+`AVISOS_CORREO`. Sin `RESEND_API_KEY` los correos se escriben en la consola.
 
-Esta es la regla de arquitectura más importante del proyecto. **n8n es la capa de automatización,
-no el backend de petición-respuesta.**
+## 4. La escritura primero; los avisos después
+
+Esta es la regla de arquitectura más importante del proyecto: **lo único crítico es guardar la
+solicitud en Postgres. Todo lo demás reacciona después.**
 
 ```
 Navegador
-   │  POST (Server Action / Route Handler)
+   │  POST (Server Action: src/app/actions.ts)
    ▼
-Next.js ──── valida con Zod ────► Supabase (Postgres)   ◄── la escritura ocurre AQUÍ, y es lo único crítico
-   │                                    │
-   │                                    │ Database Webhook (pg_net, con reintentos)
-   │                                    ▼
-   │                                  n8n ──► Resend (confirmación al solicitante)
-   │                                      ──► aviso a la administración: tipo, programa,
-   │                                          fecha y enlace al panel — nunca el contenido
-   ▼
-Next.js lee Supabase directamente para renderizar las páginas (SSR/ISR)
+Next.js ── valida con Zod ── campo trampa ──► Payload (API local) ──► Postgres  ◄── AQUÍ, y es lo único crítico
+                                                   │
+                                                   │ gancho afterChange
+                                                   ▼
+                                                 Resend ──► confirmación a quien escribió
+                                                        ──► aviso a la fundación: tipo, fecha y
+                                                            enlace al panel — nunca el contenido
 ```
 
-**Por qué así, y no con el formulario apuntando directo a un webhook de n8n:** el formulario de
-cita lo llena alguien pidiendo ayuda psicológica. Si n8n está caído, pausado o el webhook cambió
-de URL, ese mensaje **se pierde en silencio**. Con este orden, el dato queda guardado en Postgres
-antes de que ninguna automatización corra; si n8n falla, la solicitud sigue ahí y se puede reprocesar.
+**Por qué así:** el formulario de cita lo llena alguien pidiendo ayuda psicológica. Si el correo
+falla, la solicitud **ya está guardada**, queda marcada con `avisoEnviado = false` a la vista del
+panel, y el error va al registro del servidor. Si falla el guardado, la persona lo ve en pantalla con
+la alternativa de WhatsApp. Nunca un «recibido» sin haber recibido.
 
-**n8n sí se encarga de:**
-- Correo de confirmación al solicitante y aviso a Edwin (RF-02). El aviso lleva tipo, programa, fecha
-  y un enlace al panel autenticado — **nunca el contenido del formulario**. Los datos se leen dentro
-  del panel, no en un buzón de Gmail.
-- Clasificar voluntarios y padrinos por programa (RF-03). **Nada de hojas de cálculo compartidas**:
-  la exportación es a CSV, bajo demanda y desde el panel.
-- **Ping programado a Supabase** para que el proyecto Free no se pause a los 7 días.
-- Refresco diario del feed de Instagram hacia la caché en Supabase.
-- Aviso de convocatorias vencidas (RF-13). Ojo: un evento vencido deja de listarse porque **la
-  consulta filtra por fecha**, no porque un trabajo programado lo apague. La tarea solo avisa.
-- Respaldo semanal de la base y recordatorio semestral de revalidar los números de crisis.
+**Nunca:**
+- Un `<form>` que apunte a un servicio externo (webhook, n8n, Zapier).
+- Un aviso por correo con el contenido de la solicitud. Los datos se leen dentro del panel.
+- Crear solicitudes por la API de Payload: la colección no lo permite a nadie. El único camino es la
+  Server Action, después de Zod.
 
-**n8n nunca:**
-- Sirve contenido de páginas públicas. Eso mata el SEO y agrega un punto de fallo donde no hace falta.
-- Es el destino directo de un `<form>`.
-- Guarda el registro de verdad. Postgres es la fuente de verdad; n8n solo reacciona.
-- Autentica a nadie. Eso es Supabase Auth.
-
-Si n8n no está disponible cuando toque implementar, un Route Handler de Next.js + Resend cubre lo
-mismo. La arquitectura no depende de n8n; n8n es una comodidad de mantenimiento.
+**Tareas programadas** (recordatorio semestral de los números de crisis, aviso de convocatorias): en
+DigitalOcean, nunca en GitHub Actions (§5.3). Un evento o convocatoria vencida deja de aceptarse
+**por su fecha**, no porque un trabajo programado la apague.
 
 ## 5. Reglas que no se negocian
 
@@ -167,8 +159,9 @@ No es contenido neutro y **no se escribe a ojo**.
 - Consentimiento con casilla **activa, nunca premarcada**, en lenguaje llano y con enlace a una
   política de privacidad legible.
 - Retención definida por tabla, y borrado real cuando vence.
-- Nadie más que los administradores autenticados ve una solicitud. RLS activo en toda tabla con
-  datos de personas — sin excepción y sin «lo arreglamos después».
+- Nadie más que administración, con el segundo factor verificado, ve una solicitud. Lo hacen cumplir
+  los permisos de Payload; RLS queda activo en toda tabla como segunda defensa — sin excepción y sin
+  «lo arreglamos después».
 
 ### 5.3 Nada que dependa de nosotros después de la entrega
 
@@ -210,9 +203,14 @@ El equipo entrega y se retira. Por lo tanto:
   con `z.infer`; no se escriben dos veces.
 - **Server Components por defecto.** `'use client'` solo cuando hay estado o eventos, y lo más abajo
   posible en el árbol.
-- **Nunca `SUPABASE_SERVICE_ROLE_KEY` en el cliente.** Solo en Route Handlers y Server Actions.
-- **Migraciones en `supabase/migrations/`**, numeradas, hacia adelante, nunca editadas después de
-  aplicarse. Toda tabla nueva nace con RLS habilitado.
+- **Nunca `PAYLOAD_SECRET`, `DATABASE_URL` ni `RESEND_API_KEY` en el cliente.** Ninguna lleva el
+  prefijo `NEXT_PUBLIC_`; viven como secretos cifrados en DigitalOcean.
+- **Permisos en `src/payload/acceso.ts`**, y cada colección con datos de personas define los cuatro
+  (`read`, `create`, `update`, `delete`). `overrideAccess: true` solo en el servidor y solo después de
+  validar (formularios, semillas, avisos).
+- **Migraciones en `src/migrations/`**, generadas con `npx payload migrate:create <nombre>`, hacia
+  adelante, nunca editadas después de aplicarse. Toda migración que cree tablas repite el bloque que
+  activa RLS (ver la inicial).
 - **Contenido en español de Panamá.** Moneda escrita a mano como `B/.15.00`; no confíes en `Intl`
   para el balboa. Fechas en `America/Panama`.
 - **Sin fallos silenciosos.** Un `catch` que solo hace `console.error` y sigue es un bug. Si algo
@@ -248,7 +246,7 @@ mayor valor y menor esfuerzo del proyecto — y no es código.
 | `docs/04-requisitos-no-funcionales.md` | Seguridad, privacidad, accesibilidad, rendimiento, contenido sensible. |
 | `docs/05-stack-y-presupuesto.md` | Decisiones técnicas con precios verificados y el presupuesto que Edwin pidió. |
 | `docs/06-inventario-contenido.md` | Qué le falta entregar a Edwin, con responsable y estado. |
-| `docs/07-modelo-datos.md` | Esquema de Postgres, políticas RLS y retención. |
+| `docs/07-modelo-datos.md` | Diseño original del esquema y la retención. **El esquema vigente son las colecciones de `src/payload/`.** |
 | `docs/08-plan-de-trabajo.md` | Fases, hitos y las fechas duras (10 de septiembre, Navidad). |
 | `docs/09-operacion-y-traspaso.md` | Capacitación, manual, calendario de renovaciones y responsables. |
 | `docs/adr/` | Decisiones de arquitectura, una por archivo, con su alternativa descartada. |
@@ -256,7 +254,8 @@ mayor valor y menor esfuerzo del proyecto — y no es código.
 ## 9. Antes de dar algo por terminado
 
 - ¿Corre `npm run build` sin errores ni advertencias de tipos?
-- ¿Toda tabla nueva tiene RLS y una política probada con un usuario que **no** debería ver el dato?
+- ¿Toda colección nueva con datos de personas tiene permisos probados con un usuario que **no**
+  debería ver el dato (anónimo, edición, administración sin segundo factor)?
 - ¿La pantalla funciona con teclado, tiene foco visible y pasa contraste AA?
 - ¿Hay algún `catch` que se traga un error en el camino de una solicitud de ayuda?
 - Si toca contenido de salud mental: ¿cumple §5.1?

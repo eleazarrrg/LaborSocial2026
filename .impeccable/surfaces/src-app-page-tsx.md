@@ -1,7 +1,7 @@
 ---
 version: 1
 slug: "src-app-page-tsx"
-primary_target: "src/app/page.tsx"
+primary_target: "src/app/(sitio)/page.tsx"
 related_targets: ["src/components/encabezado.tsx","src/components/pie.tsx","src/components/banda-crisis.tsx"]
 ---
 

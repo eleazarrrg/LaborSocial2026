@@ -19,6 +19,11 @@
 > El balboa está a la par con el dólar. Todo precio en USD de una fuente extranjera se escribe aquí
 > como `B/.` sin conversión.
 
+
+> **Actualizado el 8 de octubre de 2026:** el alojamiento cambió a DigitalOcean + Cloudflare y el
+> costo ya no es cero. El presupuesto vigente para la fundación está en
+> [`12-presupuesto-hosting.md`](./12-presupuesto-hosting.md), con el porqué del cambio.
+
 ---
 
 # PARTE 1 — Para Edwin

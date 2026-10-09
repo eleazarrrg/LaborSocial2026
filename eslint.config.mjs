@@ -17,6 +17,10 @@ const eslintConfig = defineConfig([
     ".claude/**",
     // Documentación: solo markdown, nada que lintear.
     "docs/**",
+    // Generados por Payload (migraciones, tipos e importMap): se regeneran, no se editan a mano.
+    "src/migrations/**",
+    "src/payload-types.ts",
+    "src/app/(payload)/admin/importMap.js",
   ]),
 ]);
 

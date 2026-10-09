@@ -2,7 +2,7 @@
 /**
  * Auditoría de contraste WCAG 2.2 de la paleta.
  *
- * Lee los tokens directamente de src/app/globals.css — no de una copia — para
+ * Lee los tokens directamente de src/app/(sitio)/globals.css — no de una copia — para
  * que sea imposible que la tabla de DESIGN.md diga una cosa y el sitio haga
  * otra. Si alguien cambia un color y baja del umbral, esto falla.
  *
@@ -15,7 +15,7 @@
 
 import { globSync, readFileSync } from "node:fs";
 
-const CSS = readFileSync(new URL("../src/app/globals.css", import.meta.url), "utf8");
+const CSS = readFileSync(new URL("../src/app/(sitio)/globals.css", import.meta.url), "utf8");
 
 /** Extrae el bloque de tokens de un selector concreto. */
 function tokens(selector) {

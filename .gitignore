@@ -75,3 +75,6 @@ npm-debug.log*
 .impeccable/build/
 .impeccable/mocks/
 .impeccable/config.local.json
+
+# Postgres local de desarrollo (scripts/db-local.mjs).
+/.db-local/

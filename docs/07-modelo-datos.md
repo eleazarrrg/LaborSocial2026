@@ -15,6 +15,11 @@
 > Estado de cada afirmación, igual que en `hechos-verificados.md`:
 > ✅ **Confirmado** · 🟡 **Inferido** (se deduce, hay que confirmarlo) · 🔴 **Pendiente** (falta el dato).
 
+> **Actualizado el 8 de octubre de 2026:** el esquema ya no vive en SQL de Supabase. Lo definen las
+> colecciones de Payload en `src/payload/colecciones/` y las migraciones de `src/migrations/`
+> ([ADR-0007](./adr/0007-payload-y-digitalocean.md)). Este documento sigue valiendo como diseño:
+> campos, reglas de minimización y retención. Lo de RLS y PostgREST queda como historia.
+
 > **Estado de implementación — 6 de octubre de 2026.** La primera fase ya está en
 > `supabase/migrations/`, y **ahí manda el SQL, no este documento**. Al implementarla, contrastada con la
 > documentación vigente de Supabase y de Next 16, se corrigió lo siguiente:

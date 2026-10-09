@@ -18,6 +18,7 @@ está en [`../01-srs.md`](../01-srs.md); las reglas que no se negocian, en
 | 0004 | [Agendamiento por solicitud](./0004-agendamiento-por-solicitud.md) | v1 recibe solicitudes de cita, no reservas: sin calendario de disponibilidad y sin bloqueo de doble reserva. | Aceptada |
 | 0005 | [Donaciones sin pasarela en v1](./0005-donaciones-sin-pasarela-en-v1.md) | Alias y QR de Yappy Comercial más datos de transferencia copiables; el sitio nunca toca datos de tarjeta. | Aceptada |
 | 0006 | [Contenido en base de datos](./0006-contenido-en-base-de-datos.md) | El contenido vive en PostgreSQL y se consulta en tiempo de ejecución, no en Markdown dentro del repositorio; a cambio, el respaldo periódico deja de ser opcional. | Aceptada |
+| 0007 | [Payload CMS y DigitalOcean](./0007-payload-y-digitalocean.md) | El CMS es Payload dentro de la misma app Next.js, con segundo factor obligatorio; el hosting, la base y las imágenes van en DigitalOcean, con Cloudflare delante. Reemplaza a Supabase, Vercel y el papel de n8n en los avisos. | Aceptada |
 
 ## Cómo se leen entre ellas
 

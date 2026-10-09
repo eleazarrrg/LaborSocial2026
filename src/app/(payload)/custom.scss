@@ -1,0 +1,99 @@
+/* Estilos propios del panel. Solo variables de tema de Payload: así funcionan en claro y oscuro
+   y heredan el contraste que Payload ya cuida. */
+
+.resumen-bandeja {
+  margin-bottom: 2.5rem;
+  max-width: 60rem;
+
+  h2 {
+    margin: 0 0 1rem;
+  }
+
+  a {
+    color: var(--theme-text);
+  }
+}
+
+.resumen-bandeja__conteos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+
+  a {
+    display: inline-block;
+    min-height: 2.75rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: 0.5rem;
+    background: var(--theme-elevation-50);
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus-visible {
+    border-color: var(--theme-elevation-400);
+  }
+}
+
+.resumen-bandeja__crisis {
+  margin: 0 0 1.5rem;
+  padding: 0.85rem 1rem;
+  border-left: 4px solid var(--theme-warning-500);
+  background: var(--theme-warning-100);
+  color: var(--theme-text);
+}
+
+.resumen-bandeja__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--theme-elevation-150);
+
+  li {
+    border-bottom: 1px solid var(--theme-elevation-150);
+  }
+
+  a {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 1rem;
+    padding: 0.85rem 0.5rem;
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus-visible {
+    background: var(--theme-elevation-50);
+  }
+}
+
+.resumen-bandeja__tipo {
+  width: 8rem;
+  color: var(--theme-elevation-650);
+}
+
+.resumen-bandeja__nombre {
+  font-weight: 600;
+}
+
+.resumen-bandeja__pronto {
+  padding: 0.1rem 0.5rem;
+  border-radius: 0.25rem;
+  background: var(--theme-warning-100);
+  color: var(--theme-text);
+  font-weight: 600;
+}
+
+.resumen-bandeja__fecha {
+  margin-left: auto;
+  color: var(--theme-elevation-650);
+}
+
+.resumen-bandeja__nota {
+  margin-top: 1.5rem;
+  color: var(--theme-elevation-650);
+}

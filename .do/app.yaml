@@ -1,0 +1,58 @@
+# Especificación de la app en DigitalOcean App Platform (docs/09 §5.0 explica cómo usarla).
+#
+# Se aplica una vez desde el panel de DigitalOcean («Create App» → «Import App Spec») o con
+#   doctl apps create --spec .do/app.yaml
+# Después, cada push a main despliega solo.
+#
+# AQUÍ NO HAY SECRETOS. Los valores marcados SECRET se escriben en el panel de DigitalOcean, que
+# los guarda cifrados. Nunca en este archivo ni en el chat.
+
+name: refuva
+region: nyc
+
+services:
+  - name: web
+    github:
+      repo: eleazarrrg/LaborSocial2026
+      branch: main
+      deploy_on_push: true
+    environment_slug: node-js
+    build_command: npm run build
+    run_command: npm start
+    http_port: 8080
+    # B/.5.00 al mes, 512 MB. En producción local medimos ~210 MB. Si DigitalOcean muestra
+    # reinicios por memoria, subir a apps-s-1vcpu-1gb (B/.12.00) desde el panel.
+    instance_size_slug: apps-s-1vcpu-0.5gb
+    instance_count: 1
+    health_check:
+      http_path: /
+    envs:
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: ${refuva-db.DATABASE_URL}
+      - key: DATABASE_CA_CERT
+        scope: RUN_TIME
+        value: ${refuva-db.CA_CERT}
+      - key: NEXT_PUBLIC_SERVER_URL
+        scope: RUN_AND_BUILD_TIME
+        value: https://refuva.org
+      - key: PAYLOAD_SECRET
+        scope: RUN_TIME
+        type: SECRET
+      - key: RESEND_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: CORREO_REMITENTE
+        scope: RUN_TIME
+        value: avisos@refuva.org
+      - key: AVISOS_CORREO
+        scope: RUN_TIME
+        value: CAMBIAR-por-el-buzon-de-la-fundacion@refuva.org
+
+# La base gestionada (B/.15.15 al mes) se crea aparte, en la misma región (nyc1), con el nombre
+# refuva-db. Al vincularla aquí, solo esta app queda como «trusted source»: nadie más se conecta.
+databases:
+  - name: refuva-db
+    engine: PG
+    production: true
+    cluster_name: refuva-db

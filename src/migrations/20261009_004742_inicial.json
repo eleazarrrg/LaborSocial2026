@@ -1,0 +1,2943 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.solicitudes_cita_notas": {
+      "name": "solicitudes_cita_notas",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "texto": {
+          "name": "texto",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "autor_id": {
+          "name": "autor_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha": {
+          "name": "fecha",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "solicitudes_cita_notas_order_idx": {
+          "name": "solicitudes_cita_notas_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "solicitudes_cita_notas_parent_id_idx": {
+          "name": "solicitudes_cita_notas_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "solicitudes_cita_notas_autor_idx": {
+          "name": "solicitudes_cita_notas_autor_idx",
+          "columns": [
+            {
+              "expression": "autor_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "solicitudes_cita_notas_autor_id_usuarios_id_fk": {
+          "name": "solicitudes_cita_notas_autor_id_usuarios_id_fk",
+          "tableFrom": "solicitudes_cita_notas",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "autor_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "solicitudes_cita_notas_parent_id_fk": {
+          "name": "solicitudes_cita_notas_parent_id_fk",
+          "tableFrom": "solicitudes_cita_notas",
+          "tableTo": "solicitudes_cita",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.solicitudes_cita": {
+      "name": "solicitudes_cita",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "correo": {
+          "name": "correo",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "telefono": {
+          "name": "telefono",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contacto_preferido": {
+          "name": "contacto_preferido",
+          "type": "enum_solicitudes_cita_contacto_preferido",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "motivo": {
+          "name": "motivo",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "modalidad": {
+          "name": "modalidad",
+          "type": "enum_solicitudes_cita_modalidad",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "disponibilidad": {
+          "name": "disponibilidad",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "atencion_pronto": {
+          "name": "atencion_pronto",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "consentimiento_en": {
+          "name": "consentimiento_en",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "politica_version": {
+          "name": "politica_version",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "estado": {
+          "name": "estado",
+          "type": "enum_solicitudes_cita_estado",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pendiente'"
+        },
+        "atendida_por_id": {
+          "name": "atendida_por_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "atendida_en": {
+          "name": "atendida_en",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "aviso_enviado": {
+          "name": "aviso_enviado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "solicitudes_cita_estado_idx": {
+          "name": "solicitudes_cita_estado_idx",
+          "columns": [
+            {
+              "expression": "estado",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "solicitudes_cita_atendida_por_idx": {
+          "name": "solicitudes_cita_atendida_por_idx",
+          "columns": [
+            {
+              "expression": "atendida_por_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "solicitudes_cita_updated_at_idx": {
+          "name": "solicitudes_cita_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "solicitudes_cita_created_at_idx": {
+          "name": "solicitudes_cita_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "solicitudes_cita_atendida_por_id_usuarios_id_fk": {
+          "name": "solicitudes_cita_atendida_por_id_usuarios_id_fk",
+          "tableFrom": "solicitudes_cita",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "atendida_por_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.inscripciones_voluntariado_areas_interes": {
+      "name": "inscripciones_voluntariado_areas_interes",
+      "schema": "",
+      "columns": {
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "enum_inscripciones_voluntariado_areas_interes",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "inscripciones_voluntariado_areas_interes_order_idx": {
+          "name": "inscripciones_voluntariado_areas_interes_order_idx",
+          "columns": [
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_voluntariado_areas_interes_parent_idx": {
+          "name": "inscripciones_voluntariado_areas_interes_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "inscripciones_voluntariado_areas_interes_parent_fk": {
+          "name": "inscripciones_voluntariado_areas_interes_parent_fk",
+          "tableFrom": "inscripciones_voluntariado_areas_interes",
+          "tableTo": "inscripciones_voluntariado",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.inscripciones_voluntariado_notas": {
+      "name": "inscripciones_voluntariado_notas",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "texto": {
+          "name": "texto",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "autor_id": {
+          "name": "autor_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha": {
+          "name": "fecha",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "inscripciones_voluntariado_notas_order_idx": {
+          "name": "inscripciones_voluntariado_notas_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_voluntariado_notas_parent_id_idx": {
+          "name": "inscripciones_voluntariado_notas_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_voluntariado_notas_autor_idx": {
+          "name": "inscripciones_voluntariado_notas_autor_idx",
+          "columns": [
+            {
+              "expression": "autor_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "inscripciones_voluntariado_notas_autor_id_usuarios_id_fk": {
+          "name": "inscripciones_voluntariado_notas_autor_id_usuarios_id_fk",
+          "tableFrom": "inscripciones_voluntariado_notas",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "autor_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "inscripciones_voluntariado_notas_parent_id_fk": {
+          "name": "inscripciones_voluntariado_notas_parent_id_fk",
+          "tableFrom": "inscripciones_voluntariado_notas",
+          "tableTo": "inscripciones_voluntariado",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.inscripciones_voluntariado": {
+      "name": "inscripciones_voluntariado",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "correo": {
+          "name": "correo",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telefono": {
+          "name": "telefono",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "otra_area": {
+          "name": "otra_area",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "disponibilidad": {
+          "name": "disponibilidad",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "experiencia": {
+          "name": "experiencia",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "consentimiento_en": {
+          "name": "consentimiento_en",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "politica_version": {
+          "name": "politica_version",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "estado": {
+          "name": "estado",
+          "type": "enum_inscripciones_voluntariado_estado",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pendiente'"
+        },
+        "atendida_por_id": {
+          "name": "atendida_por_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "atendida_en": {
+          "name": "atendida_en",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "aviso_enviado": {
+          "name": "aviso_enviado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "inscripciones_voluntariado_estado_idx": {
+          "name": "inscripciones_voluntariado_estado_idx",
+          "columns": [
+            {
+              "expression": "estado",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_voluntariado_atendida_por_idx": {
+          "name": "inscripciones_voluntariado_atendida_por_idx",
+          "columns": [
+            {
+              "expression": "atendida_por_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_voluntariado_updated_at_idx": {
+          "name": "inscripciones_voluntariado_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_voluntariado_created_at_idx": {
+          "name": "inscripciones_voluntariado_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "inscripciones_voluntariado_atendida_por_id_usuarios_id_fk": {
+          "name": "inscripciones_voluntariado_atendida_por_id_usuarios_id_fk",
+          "tableFrom": "inscripciones_voluntariado",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "atendida_por_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.inscripciones_padrinos_notas": {
+      "name": "inscripciones_padrinos_notas",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "texto": {
+          "name": "texto",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "autor_id": {
+          "name": "autor_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha": {
+          "name": "fecha",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "inscripciones_padrinos_notas_order_idx": {
+          "name": "inscripciones_padrinos_notas_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_padrinos_notas_parent_id_idx": {
+          "name": "inscripciones_padrinos_notas_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_padrinos_notas_autor_idx": {
+          "name": "inscripciones_padrinos_notas_autor_idx",
+          "columns": [
+            {
+              "expression": "autor_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "inscripciones_padrinos_notas_autor_id_usuarios_id_fk": {
+          "name": "inscripciones_padrinos_notas_autor_id_usuarios_id_fk",
+          "tableFrom": "inscripciones_padrinos_notas",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "autor_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "inscripciones_padrinos_notas_parent_id_fk": {
+          "name": "inscripciones_padrinos_notas_parent_id_fk",
+          "tableFrom": "inscripciones_padrinos_notas",
+          "tableTo": "inscripciones_padrinos",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.inscripciones_padrinos": {
+      "name": "inscripciones_padrinos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "convocatoria_id": {
+          "name": "convocatoria_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "correo": {
+          "name": "correo",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telefono": {
+          "name": "telefono",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cantidad_ninos": {
+          "name": "cantidad_ninos",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "forma_entrega": {
+          "name": "forma_entrega",
+          "type": "enum_inscripciones_padrinos_forma_entrega",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "comentario": {
+          "name": "comentario",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "consentimiento_en": {
+          "name": "consentimiento_en",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "politica_version": {
+          "name": "politica_version",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "estado": {
+          "name": "estado",
+          "type": "enum_inscripciones_padrinos_estado",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pendiente'"
+        },
+        "atendida_por_id": {
+          "name": "atendida_por_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "atendida_en": {
+          "name": "atendida_en",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "aviso_enviado": {
+          "name": "aviso_enviado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "inscripciones_padrinos_convocatoria_idx": {
+          "name": "inscripciones_padrinos_convocatoria_idx",
+          "columns": [
+            {
+              "expression": "convocatoria_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_padrinos_estado_idx": {
+          "name": "inscripciones_padrinos_estado_idx",
+          "columns": [
+            {
+              "expression": "estado",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_padrinos_atendida_por_idx": {
+          "name": "inscripciones_padrinos_atendida_por_idx",
+          "columns": [
+            {
+              "expression": "atendida_por_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_padrinos_updated_at_idx": {
+          "name": "inscripciones_padrinos_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "inscripciones_padrinos_created_at_idx": {
+          "name": "inscripciones_padrinos_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "convocatoria_correo_idx": {
+          "name": "convocatoria_correo_idx",
+          "columns": [
+            {
+              "expression": "convocatoria_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "correo",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "inscripciones_padrinos_convocatoria_id_convocatorias_id_fk": {
+          "name": "inscripciones_padrinos_convocatoria_id_convocatorias_id_fk",
+          "tableFrom": "inscripciones_padrinos",
+          "tableTo": "convocatorias",
+          "columnsFrom": [
+            "convocatoria_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "inscripciones_padrinos_atendida_por_id_usuarios_id_fk": {
+          "name": "inscripciones_padrinos_atendida_por_id_usuarios_id_fk",
+          "tableFrom": "inscripciones_padrinos",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "atendida_por_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.mensajes_contacto_notas": {
+      "name": "mensajes_contacto_notas",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "texto": {
+          "name": "texto",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "autor_id": {
+          "name": "autor_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha": {
+          "name": "fecha",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "mensajes_contacto_notas_order_idx": {
+          "name": "mensajes_contacto_notas_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "mensajes_contacto_notas_parent_id_idx": {
+          "name": "mensajes_contacto_notas_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "mensajes_contacto_notas_autor_idx": {
+          "name": "mensajes_contacto_notas_autor_idx",
+          "columns": [
+            {
+              "expression": "autor_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "mensajes_contacto_notas_autor_id_usuarios_id_fk": {
+          "name": "mensajes_contacto_notas_autor_id_usuarios_id_fk",
+          "tableFrom": "mensajes_contacto_notas",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "autor_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "mensajes_contacto_notas_parent_id_fk": {
+          "name": "mensajes_contacto_notas_parent_id_fk",
+          "tableFrom": "mensajes_contacto_notas",
+          "tableTo": "mensajes_contacto",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.mensajes_contacto": {
+      "name": "mensajes_contacto",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "correo": {
+          "name": "correo",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "telefono": {
+          "name": "telefono",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "asunto": {
+          "name": "asunto",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mensaje": {
+          "name": "mensaje",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "consentimiento_en": {
+          "name": "consentimiento_en",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "politica_version": {
+          "name": "politica_version",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "estado": {
+          "name": "estado",
+          "type": "enum_mensajes_contacto_estado",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pendiente'"
+        },
+        "atendida_por_id": {
+          "name": "atendida_por_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "atendida_en": {
+          "name": "atendida_en",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "aviso_enviado": {
+          "name": "aviso_enviado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "mensajes_contacto_estado_idx": {
+          "name": "mensajes_contacto_estado_idx",
+          "columns": [
+            {
+              "expression": "estado",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "mensajes_contacto_atendida_por_idx": {
+          "name": "mensajes_contacto_atendida_por_idx",
+          "columns": [
+            {
+              "expression": "atendida_por_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "mensajes_contacto_updated_at_idx": {
+          "name": "mensajes_contacto_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "mensajes_contacto_created_at_idx": {
+          "name": "mensajes_contacto_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "mensajes_contacto_atendida_por_id_usuarios_id_fk": {
+          "name": "mensajes_contacto_atendida_por_id_usuarios_id_fk",
+          "tableFrom": "mensajes_contacto",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "atendida_por_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.cuarentena": {
+      "name": "cuarentena",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "formulario": {
+          "name": "formulario",
+          "type": "enum_cuarentena_formulario",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "motivo": {
+          "name": "motivo",
+          "type": "enum_cuarentena_motivo",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'campo_trampa'"
+        },
+        "carga": {
+          "name": "carga",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "revisado": {
+          "name": "revisado",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "veredicto": {
+          "name": "veredicto",
+          "type": "enum_cuarentena_veredicto",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "cuarentena_updated_at_idx": {
+          "name": "cuarentena_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "cuarentena_created_at_idx": {
+          "name": "cuarentena_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.convocatorias": {
+      "name": "convocatorias",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "proyecto_slug": {
+          "name": "proyecto_slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'una-estrella-otiliana'"
+        },
+        "tipo": {
+          "name": "tipo",
+          "type": "enum_convocatorias_tipo",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'padrinos'"
+        },
+        "titulo": {
+          "name": "titulo",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "descripcion": {
+          "name": "descripcion",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "texto_si_cerrada": {
+          "name": "texto_si_cerrada",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "abre_en": {
+          "name": "abre_en",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cierra_en": {
+          "name": "cierra_en",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cerrada_manualmente": {
+          "name": "cerrada_manualmente",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "convocatorias_updated_at_idx": {
+          "name": "convocatorias_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "convocatorias_created_at_idx": {
+          "name": "convocatorias_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.usuarios_sessions": {
+      "name": "usuarios_sessions",
+      "schema": "",
+      "columns": {
+        "_order": {
+          "name": "_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "usuarios_sessions_order_idx": {
+          "name": "usuarios_sessions_order_idx",
+          "columns": [
+            {
+              "expression": "_order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "usuarios_sessions_parent_id_idx": {
+          "name": "usuarios_sessions_parent_id_idx",
+          "columns": [
+            {
+              "expression": "_parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "usuarios_sessions_parent_id_fk": {
+          "name": "usuarios_sessions_parent_id_fk",
+          "tableFrom": "usuarios_sessions",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.usuarios": {
+      "name": "usuarios",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rol": {
+          "name": "rol",
+          "type": "enum_usuarios_rol",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'editor'"
+        },
+        "activo": {
+          "name": "activo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "totp_secret": {
+          "name": "totp_secret",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reset_password_token": {
+          "name": "reset_password_token",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reset_password_expiration": {
+          "name": "reset_password_expiration",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "salt": {
+          "name": "salt",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hash": {
+          "name": "hash",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reset_password_requested_at": {
+          "name": "reset_password_requested_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "login_attempts": {
+          "name": "login_attempts",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "lock_until": {
+          "name": "lock_until",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "usuarios_updated_at_idx": {
+          "name": "usuarios_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "usuarios_created_at_idx": {
+          "name": "usuarios_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "usuarios_email_idx": {
+          "name": "usuarios_email_idx",
+          "columns": [
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.bitacora": {
+      "name": "bitacora",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "accion": {
+          "name": "accion",
+          "type": "enum_bitacora_accion",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "coleccion": {
+          "name": "coleccion",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "documento": {
+          "name": "documento",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "usuario_id": {
+          "name": "usuario_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "correo": {
+          "name": "correo",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "resumen": {
+          "name": "resumen",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "datos": {
+          "name": "datos",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "bitacora_usuario_idx": {
+          "name": "bitacora_usuario_idx",
+          "columns": [
+            {
+              "expression": "usuario_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "bitacora_updated_at_idx": {
+          "name": "bitacora_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "bitacora_created_at_idx": {
+          "name": "bitacora_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "bitacora_usuario_id_usuarios_id_fk": {
+          "name": "bitacora_usuario_id_usuarios_id_fk",
+          "tableFrom": "bitacora",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "usuario_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.totp_attempts": {
+      "name": "totp_attempts",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "attempts": {
+          "name": "attempts",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "lock_until": {
+          "name": "lock_until",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_kv": {
+      "name": "payload_kv",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "key": {
+          "name": "key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data": {
+          "name": "data",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "payload_kv_key_idx": {
+          "name": "payload_kv_key_idx",
+          "columns": [
+            {
+              "expression": "key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_locked_documents": {
+      "name": "payload_locked_documents",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "global_slug": {
+          "name": "global_slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "payload_locked_documents_global_slug_idx": {
+          "name": "payload_locked_documents_global_slug_idx",
+          "columns": [
+            {
+              "expression": "global_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_updated_at_idx": {
+          "name": "payload_locked_documents_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_created_at_idx": {
+          "name": "payload_locked_documents_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_locked_documents_rels": {
+      "name": "payload_locked_documents_rels",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "path": {
+          "name": "path",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "solicitudes_cita_id": {
+          "name": "solicitudes_cita_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "inscripciones_voluntariado_id": {
+          "name": "inscripciones_voluntariado_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "inscripciones_padrinos_id": {
+          "name": "inscripciones_padrinos_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mensajes_contacto_id": {
+          "name": "mensajes_contacto_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cuarentena_id": {
+          "name": "cuarentena_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "convocatorias_id": {
+          "name": "convocatorias_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "usuarios_id": {
+          "name": "usuarios_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bitacora_id": {
+          "name": "bitacora_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "payload_locked_documents_rels_order_idx": {
+          "name": "payload_locked_documents_rels_order_idx",
+          "columns": [
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_parent_idx": {
+          "name": "payload_locked_documents_rels_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_path_idx": {
+          "name": "payload_locked_documents_rels_path_idx",
+          "columns": [
+            {
+              "expression": "path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_solicitudes_cita_id_idx": {
+          "name": "payload_locked_documents_rels_solicitudes_cita_id_idx",
+          "columns": [
+            {
+              "expression": "solicitudes_cita_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_inscripciones_voluntariado_idx": {
+          "name": "payload_locked_documents_rels_inscripciones_voluntariado_idx",
+          "columns": [
+            {
+              "expression": "inscripciones_voluntariado_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_inscripciones_padrinos_id_idx": {
+          "name": "payload_locked_documents_rels_inscripciones_padrinos_id_idx",
+          "columns": [
+            {
+              "expression": "inscripciones_padrinos_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_mensajes_contacto_id_idx": {
+          "name": "payload_locked_documents_rels_mensajes_contacto_id_idx",
+          "columns": [
+            {
+              "expression": "mensajes_contacto_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_cuarentena_id_idx": {
+          "name": "payload_locked_documents_rels_cuarentena_id_idx",
+          "columns": [
+            {
+              "expression": "cuarentena_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_convocatorias_id_idx": {
+          "name": "payload_locked_documents_rels_convocatorias_id_idx",
+          "columns": [
+            {
+              "expression": "convocatorias_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_usuarios_id_idx": {
+          "name": "payload_locked_documents_rels_usuarios_id_idx",
+          "columns": [
+            {
+              "expression": "usuarios_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_locked_documents_rels_bitacora_id_idx": {
+          "name": "payload_locked_documents_rels_bitacora_id_idx",
+          "columns": [
+            {
+              "expression": "bitacora_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "payload_locked_documents_rels_parent_fk": {
+          "name": "payload_locked_documents_rels_parent_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "payload_locked_documents",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_solicitudes_cita_fk": {
+          "name": "payload_locked_documents_rels_solicitudes_cita_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "solicitudes_cita",
+          "columnsFrom": [
+            "solicitudes_cita_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_inscripciones_voluntariado_fk": {
+          "name": "payload_locked_documents_rels_inscripciones_voluntariado_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "inscripciones_voluntariado",
+          "columnsFrom": [
+            "inscripciones_voluntariado_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_inscripciones_padrinos_fk": {
+          "name": "payload_locked_documents_rels_inscripciones_padrinos_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "inscripciones_padrinos",
+          "columnsFrom": [
+            "inscripciones_padrinos_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_mensajes_contacto_fk": {
+          "name": "payload_locked_documents_rels_mensajes_contacto_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "mensajes_contacto",
+          "columnsFrom": [
+            "mensajes_contacto_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_cuarentena_fk": {
+          "name": "payload_locked_documents_rels_cuarentena_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "cuarentena",
+          "columnsFrom": [
+            "cuarentena_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_convocatorias_fk": {
+          "name": "payload_locked_documents_rels_convocatorias_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "convocatorias",
+          "columnsFrom": [
+            "convocatorias_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_usuarios_fk": {
+          "name": "payload_locked_documents_rels_usuarios_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "usuarios_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_bitacora_fk": {
+          "name": "payload_locked_documents_rels_bitacora_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "bitacora",
+          "columnsFrom": [
+            "bitacora_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_preferences": {
+      "name": "payload_preferences",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "key": {
+          "name": "key",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "value": {
+          "name": "value",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "payload_preferences_key_idx": {
+          "name": "payload_preferences_key_idx",
+          "columns": [
+            {
+              "expression": "key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_preferences_updated_at_idx": {
+          "name": "payload_preferences_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_preferences_created_at_idx": {
+          "name": "payload_preferences_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_preferences_rels": {
+      "name": "payload_preferences_rels",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "order": {
+          "name": "order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "parent_id": {
+          "name": "parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "path": {
+          "name": "path",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "usuarios_id": {
+          "name": "usuarios_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "payload_preferences_rels_order_idx": {
+          "name": "payload_preferences_rels_order_idx",
+          "columns": [
+            {
+              "expression": "order",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_preferences_rels_parent_idx": {
+          "name": "payload_preferences_rels_parent_idx",
+          "columns": [
+            {
+              "expression": "parent_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_preferences_rels_path_idx": {
+          "name": "payload_preferences_rels_path_idx",
+          "columns": [
+            {
+              "expression": "path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_preferences_rels_usuarios_id_idx": {
+          "name": "payload_preferences_rels_usuarios_id_idx",
+          "columns": [
+            {
+              "expression": "usuarios_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "payload_preferences_rels_parent_fk": {
+          "name": "payload_preferences_rels_parent_fk",
+          "tableFrom": "payload_preferences_rels",
+          "tableTo": "payload_preferences",
+          "columnsFrom": [
+            "parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_preferences_rels_usuarios_fk": {
+          "name": "payload_preferences_rels_usuarios_fk",
+          "tableFrom": "payload_preferences_rels",
+          "tableTo": "usuarios",
+          "columnsFrom": [
+            "usuarios_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.payload_migrations": {
+      "name": "payload_migrations",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "batch": {
+          "name": "batch",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "payload_migrations_updated_at_idx": {
+          "name": "payload_migrations_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "payload_migrations_created_at_idx": {
+          "name": "payload_migrations_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.enum_solicitudes_cita_contacto_preferido": {
+      "name": "enum_solicitudes_cita_contacto_preferido",
+      "schema": "public",
+      "values": [
+        "whatsapp",
+        "telefono",
+        "correo"
+      ]
+    },
+    "public.enum_solicitudes_cita_modalidad": {
+      "name": "enum_solicitudes_cita_modalidad",
+      "schema": "public",
+      "values": [
+        "cualquiera",
+        "virtual",
+        "presencial"
+      ]
+    },
+    "public.enum_solicitudes_cita_estado": {
+      "name": "enum_solicitudes_cita_estado",
+      "schema": "public",
+      "values": [
+        "pendiente",
+        "en_gestion",
+        "atendida",
+        "cerrada_sin_atender"
+      ]
+    },
+    "public.enum_inscripciones_voluntariado_areas_interes": {
+      "name": "enum_inscripciones_voluntariado_areas_interes",
+      "schema": "public",
+      "values": [
+        "redes-sociales",
+        "diseno",
+        "logistica",
+        "psicologia",
+        "escritura",
+        "transporte",
+        "cocina",
+        "otra"
+      ]
+    },
+    "public.enum_inscripciones_voluntariado_estado": {
+      "name": "enum_inscripciones_voluntariado_estado",
+      "schema": "public",
+      "values": [
+        "pendiente",
+        "en_gestion",
+        "atendida",
+        "cerrada_sin_atender"
+      ]
+    },
+    "public.enum_inscripciones_padrinos_forma_entrega": {
+      "name": "enum_inscripciones_padrinos_forma_entrega",
+      "schema": "public",
+      "values": [
+        "llevo",
+        "coordinar",
+        "asisto"
+      ]
+    },
+    "public.enum_inscripciones_padrinos_estado": {
+      "name": "enum_inscripciones_padrinos_estado",
+      "schema": "public",
+      "values": [
+        "pendiente",
+        "en_gestion",
+        "atendida",
+        "cerrada_sin_atender"
+      ]
+    },
+    "public.enum_mensajes_contacto_estado": {
+      "name": "enum_mensajes_contacto_estado",
+      "schema": "public",
+      "values": [
+        "pendiente",
+        "en_gestion",
+        "atendida",
+        "cerrada_sin_atender"
+      ]
+    },
+    "public.enum_cuarentena_formulario": {
+      "name": "enum_cuarentena_formulario",
+      "schema": "public",
+      "values": [
+        "solicitudes-cita",
+        "inscripciones-voluntariado",
+        "inscripciones-padrinos",
+        "mensajes-contacto"
+      ]
+    },
+    "public.enum_cuarentena_motivo": {
+      "name": "enum_cuarentena_motivo",
+      "schema": "public",
+      "values": [
+        "campo_trampa"
+      ]
+    },
+    "public.enum_cuarentena_veredicto": {
+      "name": "enum_cuarentena_veredicto",
+      "schema": "public",
+      "values": [
+        "robot",
+        "persona"
+      ]
+    },
+    "public.enum_convocatorias_tipo": {
+      "name": "enum_convocatorias_tipo",
+      "schema": "public",
+      "values": [
+        "padrinos"
+      ]
+    },
+    "public.enum_usuarios_rol": {
+      "name": "enum_usuarios_rol",
+      "schema": "public",
+      "values": [
+        "administrador",
+        "editor"
+      ]
+    },
+    "public.enum_bitacora_accion": {
+      "name": "enum_bitacora_accion",
+      "schema": "public",
+      "values": [
+        "ver_solicitud",
+        "ver_lista",
+        "cambiar_estado",
+        "borrar_solicitud"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "id": "f08ac749-235f-47c7-ab32-2e7cad8835b1",
+  "prevId": "00000000-0000-0000-0000-000000000000"
+}

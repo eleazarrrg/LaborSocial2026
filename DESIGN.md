@@ -163,7 +163,7 @@ components:
 | **Versión** | 3.0 |
 | **Fecha** | 5 de octubre de 2026 |
 | **Dirección** | El estándar del sector, con **Mind** (mind.org.uk) como vara de acabado. Elegida por el equipo el 5 de octubre de 2026 (contrato en `.impeccable/surfaces/src-app-page-tsx.md`, semilla 32049929). |
-| **Fuente de verdad** | [`src/app/globals.css`](./src/app/globals.css). Este documento explica; el CSS manda. Los tokens de arriba son la copia legible por máquina del tema claro y del oscuro. |
+| **Fuente de verdad** | [`src/app/(sitio)/globals.css`](./src/app/(sitio)/globals.css). Este documento explica; el CSS manda. Los tokens de arriba son la copia legible por máquina del tema claro y del oscuro. |
 | **Verificación** | `npm run contraste` — **64 de 64 en los dos temas** |
 | **Complemento** | `.impeccable/design.json`: rampas tonales, movimiento, sombras, fragmentos de componente y la narrativa. |
 
@@ -322,7 +322,7 @@ una prueba negativa.
 
 ### Cómo se cambia un color sin romper nada
 
-1. Editar el bloque `:root` de `src/app/globals.css`.
+1. Editar el bloque `:root` de `src/app/(sitio)/globals.css`.
 2. Editar **los dos** bloques oscuros.
 3. Correr `npm run contraste`. Si algo baja del umbral, ajustar la luminancia **antes** de seguir.
 4. Actualizar los tokens del frontmatter de este documento y `.impeccable/design.json`, que es el

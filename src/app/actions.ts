@@ -9,7 +9,9 @@ import {
   esquemaPadrino,
   esquemaVoluntariado,
 } from "@/lib/esquemas";
-import { clienteServicio } from "@/lib/supabase/servicio";
+import config from "@payload-config";
+import { getPayload, type Payload } from "payload";
+import { describirError } from "@/payload/errores";
 
 /**
  * Acciones de servidor de los formularios.
@@ -17,18 +19,18 @@ import { clienteServicio } from "@/lib/supabase/servicio";
  * El orden es el de CLAUDE.md §4 y no se altera:
  *   1. validar con Zod
  *   2. si el campo trampa viene lleno, el envío va a la cuarentena (nada se descarta)
- *   3. INSERT en Postgres  ← síncrono, y es lo único crítico
+ *   3. guardar en Postgres con la API local de Payload  ← síncrono, y es lo único crítico
  *   4. devolver éxito al usuario
- * Los correos (n8n/Resend) reaccionan después, desde la base. Si fallan, la solicitud ya está
+ * Los avisos por correo reaccionan después (ganchos de Payload). Si fallan, la solicitud ya está
  * guardada. Si falla el paso 3, se le dice a la persona con todas sus letras y se le da
  * WhatsApp: nunca un «recibido» sin haber recibido.
  */
 
 type Tabla =
-  | "solicitudes_cita"
-  | "inscripciones_voluntariado"
-  | "inscripciones_padrinos"
-  | "mensajes_contacto";
+  | "solicitudes-cita"
+  | "inscripciones-voluntariado"
+  | "inscripciones-padrinos"
+  | "mensajes-contacto";
 
 type Fila = Record<string, unknown>;
 
@@ -44,6 +46,12 @@ const CONVOCATORIA_CERRADA: EstadoFormulario = {
   estado: "error",
   mensaje:
     "La convocatoria de padrinos y madrinas no está abierta en este momento. Escríbenos y te avisamos cuando abra.",
+};
+
+const YA_INSCRITO: EstadoFormulario = {
+  estado: "error",
+  errores: { correo: "Este correo ya está inscrito en esta convocatoria." },
+  mensaje: "Ya tenemos tu inscripción. Si quieres cambiar algo, escríbenos y lo ajustamos.",
 };
 
 function aplanarErrores(error: z.ZodError): Record<string, string> {
@@ -72,13 +80,8 @@ function valoresDe(formData: FormData): Record<string, string | string[]> {
   return valores;
 }
 
-/** Sin el contenido: el `details` de Postgres trae la fila entera, con datos personales. */
 function registrar(donde: string, error: unknown) {
-  const { code, message } =
-    error && typeof error === "object" && "message" in error
-      ? (error as { code?: string; message: string })
-      : { code: undefined, message: String(error) };
-  console.error(`[formularios] ${donde}: ${code ?? "sin código"} ${message}`);
+  console.error(`[formularios] ${donde}: ${describirError(error)}`);
 }
 
 async function procesar<T extends z.ZodType>(
@@ -86,7 +89,7 @@ async function procesar<T extends z.ZodType>(
   esquema: T,
   formData: FormData,
   crudo: Record<string, unknown>,
-  aFila: (datos: z.output<T>) => Promise<Fila | EstadoFormulario> | Fila,
+  aFila: (datos: z.output<T>, payload: Payload) => Promise<Fila | EstadoFormulario> | Fila,
 ): Promise<EstadoFormulario> {
   const resultado = esquema.safeParse(crudo);
   if (!resultado.success) {
@@ -99,49 +102,33 @@ async function procesar<T extends z.ZodType>(
   }
 
   try {
-    const supabase = clienteServicio();
+    const payload = await getPayload({ config });
 
     // Un humano no ve el campo trampa; un bot lo llena. Se guarda aparte, ya validado y
     // recortado, por si era alguien de verdad (RNF-22). Al bot se le responde lo de siempre.
     if (formData.get(CAMPO_TRAMPA)) {
-      const { error } = await supabase.from("envios_en_cuarentena").insert({
-        formulario: tabla,
-        motivo_rechazo: "campo_trampa",
-        carga: resultado.data,
+      await payload.create({
+        collection: "cuarentena",
+        overrideAccess: true,
+        data: { formulario: tabla, motivo: "campo_trampa", carga: resultado.data as Record<string, unknown> },
       });
-      if (error) {
-        registrar(`cuarentena ${tabla}`, error);
-        return { ...FALLO, valores: valoresDe(formData) };
-      }
       return ENVIADO;
     }
 
-    const fila = await aFila(resultado.data);
+    const fila = await aFila(resultado.data, payload);
     if ("estado" in fila) return { ...(fila as EstadoFormulario), valores: valoresDe(formData) };
 
-    // Sin `.select()`: el rol del servidor no puede leer estas tablas (ver servicio.ts).
-    const { error } = await supabase.from(tabla).insert({
-      ...fila,
-      consentimiento_en: new Date().toISOString(),
-      politica_version: POLITICA_VERSION,
+    // overrideAccess: la colección no deja crear a nadie desde la API. Este es el único camino,
+    // y llega aquí solo después de Zod y de la trampa.
+    await payload.create({
+      collection: tabla,
+      overrideAccess: true,
+      data: {
+        ...fila,
+        consentimientoEn: new Date().toISOString(),
+        politicaVersion: POLITICA_VERSION,
+      } as never,
     });
-
-    if (error?.code === "23505" && tabla === "inscripciones_padrinos") {
-      return {
-        estado: "error",
-        errores: { correo: "Este correo ya está inscrito en esta convocatoria." },
-        mensaje: "Ya tenemos tu inscripción. Si quieres cambiar algo, escríbenos y lo ajustamos.",
-        valores: valoresDe(formData),
-      };
-    }
-    // El disparador de la base cerró la puerta entre la consulta y el INSERT.
-    if (error?.code === "23514" && tabla === "inscripciones_padrinos") {
-      return CONVOCATORIA_CERRADA;
-    }
-    if (error) {
-      registrar(`insertar ${tabla}`, error);
-      return { ...FALLO, valores: valoresDe(formData) };
-    }
     return ENVIADO;
   } catch (error) {
     registrar(`procesar ${tabla}`, error);
@@ -161,7 +148,7 @@ export async function accionCita(
   formData: FormData,
 ): Promise<EstadoFormulario> {
   return procesar(
-    "solicitudes_cita",
+    "solicitudes-cita",
     esquemaCita,
     formData,
     {
@@ -179,11 +166,11 @@ export async function accionCita(
       nombre: d.nombre,
       correo: d.correo ?? null,
       telefono: d.telefono ?? null,
-      contacto_preferido: d.contactoPreferido,
+      contactoPreferido: d.contactoPreferido,
       motivo: d.motivo ?? null,
       modalidad: d.modalidad,
       disponibilidad: d.disponibilidad ?? null,
-      atencion_pronto: d.atencionPronto === "on",
+      atencionPronto: d.atencionPronto === "on",
     }),
   );
 }
@@ -195,7 +182,7 @@ export async function accionVoluntariado(
   formData: FormData,
 ): Promise<EstadoFormulario> {
   return procesar(
-    "inscripciones_voluntariado",
+    "inscripciones-voluntariado",
     esquemaVoluntariado,
     formData,
     {
@@ -212,9 +199,9 @@ export async function accionVoluntariado(
       nombre: d.nombre,
       correo: d.correo,
       telefono: d.telefono ?? null,
-      areas_interes: [...new Set(d.areas)],
+      areasInteres: [...new Set(d.areas)],
       // Si no marcó «Otra», lo que haya escrito ahí no se guarda.
-      otra_area: d.areas.includes("otra") ? (d.otraArea ?? null) : null,
+      otraArea: d.areas.includes("otra") ? (d.otraArea ?? null) : null,
       disponibilidad: d.disponibilidad ?? null,
       experiencia: d.experiencia ?? null,
     }),
@@ -228,7 +215,7 @@ export async function accionPadrino(
   formData: FormData,
 ): Promise<EstadoFormulario> {
   return procesar(
-    "inscripciones_padrinos",
+    "inscripciones-padrinos",
     esquemaPadrino,
     formData,
     {
@@ -240,28 +227,48 @@ export async function accionPadrino(
       comentario: texto(formData, "comentario"),
       consentimiento: formData.get("consentimiento") ?? "",
     },
-    async (d) => {
+    async (d, payload) => {
       // La convocatoria la busca el servidor; nunca se confía en un id que mande el formulario.
       const ahora = new Date().toISOString();
-      const { data, error } = await clienteServicio()
-        .from("convocatorias")
-        .select("id")
-        .eq("proyecto_slug", "una-estrella-otiliana")
-        .eq("tipo", "padrinos")
-        .eq("cerrada_manualmente", false)
-        .lte("abre_en", ahora)
-        .gt("cierra_en", ahora)
-        .maybeSingle();
-      if (error) throw error;
-      if (!data) return CONVOCATORIA_CERRADA;
+      const { docs } = await payload.find({
+        collection: "convocatorias",
+        overrideAccess: true,
+        depth: 0,
+        limit: 1,
+        where: {
+          and: [
+            { proyectoSlug: { equals: "una-estrella-otiliana" } },
+            { tipo: { equals: "padrinos" } },
+            { cerradaManualmente: { equals: false } },
+            { abreEn: { less_than_equal: ahora } },
+            { cierraEn: { greater_than: ahora } },
+          ],
+        },
+      });
+      const convocatoria = docs[0];
+      if (!convocatoria) return CONVOCATORIA_CERRADA;
+
+      // Una inscripción por correo y convocatoria. El índice único de la colección es la red de
+      // seguridad; esta consulta es la que da el mensaje claro.
+      const { totalDocs } = await payload.count({
+        collection: "inscripciones-padrinos",
+        overrideAccess: true,
+        where: {
+          and: [
+            { convocatoria: { equals: convocatoria.id } },
+            { correo: { equals: d.correo } },
+          ],
+        },
+      });
+      if (totalDocs > 0) return YA_INSCRITO;
 
       return {
-        convocatoria_id: data.id,
+        convocatoria: convocatoria.id,
         nombre: d.nombre,
         correo: d.correo,
         telefono: d.telefono,
-        cantidad_ninos: d.cantidadNinos,
-        forma_entrega: d.formaEntrega,
+        cantidadNinos: d.cantidadNinos,
+        formaEntrega: d.formaEntrega,
         comentario: d.comentario ?? null,
       };
     },
@@ -275,7 +282,7 @@ export async function accionContacto(
   formData: FormData,
 ): Promise<EstadoFormulario> {
   return procesar(
-    "mensajes_contacto",
+    "mensajes-contacto",
     esquemaContacto,
     formData,
     {
