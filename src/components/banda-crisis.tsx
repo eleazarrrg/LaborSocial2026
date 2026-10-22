@@ -83,15 +83,16 @@ export function BloqueCrisis({
         <p className="mt-3 max-w-prose opacity-85">{entrada}</p>
       </div>
 
-      <ul className="grid gap-px bg-papel/15 sm:grid-cols-2">
+      {/* Dos columnas también en móvil: los dos números caben en una pantalla, sin empujar el formulario. */}
+      <ul className="grid grid-cols-2 gap-px bg-papel/15">
         {RECURSOS_CRISIS.map((r) => (
-          <li key={r.numero} className="bg-tronco px-6 py-6 sm:px-8">
+          <li key={r.numero} className="bg-tronco px-4 py-5 sm:px-8 sm:py-6">
             <p className="text-sm font-semibold tracking-wide uppercase opacity-75">
               {r.nombre}
             </p>
             <a
               href={`tel:${r.marcar}`}
-              className="cifras-alineadas mt-1.5 block font-display text-6xl leading-none font-semibold tracking-tight underline decoration-papel/30 decoration-4 underline-offset-8 hover:decoration-papel"
+              className="cifras-alineadas mt-1.5 block py-1 font-display text-5xl leading-none sm:text-6xl font-semibold tracking-tight underline decoration-papel/30 decoration-4 underline-offset-8 hover:decoration-papel"
             >
               {r.numero}
             </a>

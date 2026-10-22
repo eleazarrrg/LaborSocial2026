@@ -66,7 +66,7 @@ export default async function Inicio() {
           y los emblemas ocupan la otra mitad del mismo campo. */}
       <Fondo fondo={fondos.portada} como="section" prioridad>
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch lg:gap-12">
-          <div className="rounded-2xl bg-papel p-6 text-tinta sm:p-10">
+          <div className="rounded-2xl bg-papel p-6 text-tinta sm:p-8 lg:p-10">
             {/* Las frases cortas no se parten: sin esto, a 1440 quedaba una «Y»
                 sola al final de la tercera línea. */}
             <h1 className="max-w-[19ch] text-[length:var(--paso-display)] leading-[1.06] font-extrabold">
@@ -99,15 +99,17 @@ export default async function Inicio() {
 
           {/* Los emblemas reales: la prueba de amplitud en un vistazo. */}
           <nav aria-label="Los proyectos de un vistazo" className="lg:flex">
-            <ul className="grid w-full grid-cols-4 gap-3 sm:gap-x-4 sm:gap-y-6 lg:content-start">
+            {/* En móvil, dos columnas con logo y nombre legible (antes el nombre se ocultaba);
+                desde sm, el mosaico de cuatro con el nombre debajo. */}
+            <ul className="grid w-full grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-x-4 sm:gap-y-6 lg:content-start">
               {lista.map((p) => (
                 <li key={p.codigo}>
                   <Link
                     href={rutaDe(p)}
-                    className="group flex flex-col items-center gap-2 rounded-xl p-1 text-center"
+                    className="group flex min-h-14 items-center gap-3 rounded-xl p-1 sm:flex-col sm:gap-2 sm:text-center"
                   >
                     {p.logo && (
-                      <span className="block w-full transition-transform duration-200 group-hover:-translate-y-1">
+                      <span className="block w-14 shrink-0 transition-transform duration-200 group-hover:-translate-y-1 sm:w-full">
                         <Placa
                           src={p.logo.src}
                           alt=""
@@ -116,7 +118,7 @@ export default async function Inicio() {
                         />
                       </span>
                     )}
-                    <span className="text-sm leading-tight font-bold group-hover:underline max-sm:sr-only">
+                    <span className="text-sm leading-tight font-bold group-hover:underline">
                       {p.nombreCorto}
                     </span>
                   </Link>

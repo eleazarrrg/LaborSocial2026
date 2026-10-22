@@ -26,7 +26,8 @@ export function IndiceCatalogo({
   const Titulo = encabezado;
 
   return (
-    <ul className="grid gap-4 md:grid-cols-2">
+    // Con 4 o más entradas, 4 columnas en pantallas grandes: los ocho proyectos se ven en dos filas.
+    <ul className={`grid gap-4 md:grid-cols-2 ${entradas.length >= 4 ? "xl:grid-cols-4" : ""}`}>
       {entradas.map((e) => (
         <Fondo
           key={e.codigo}
@@ -37,12 +38,12 @@ export function IndiceCatalogo({
         >
           <Link
             href={rutaDe(e)}
-            className="group flex h-full min-h-72 flex-col gap-6 p-6 outline-none sm:p-8"
+            className="group flex h-full min-h-72 flex-col gap-6 p-6 outline-none sm:p-8 xl:min-h-80 xl:p-6"
           >
             {e.logo && <Placa src={e.logo.src} alt="" fondo={e.logo.fondo} tamano="fila" />}
 
             <div className="mt-auto pr-12">
-              <Titulo className="text-2xl leading-tight font-extrabold underline-offset-4 group-hover:underline sm:text-3xl">
+              <Titulo className="text-2xl leading-tight font-extrabold underline-offset-4 group-hover:underline sm:text-3xl xl:text-2xl">
                 {e.nombreCorto}
               </Titulo>
               <p className="mt-3 max-w-[46ch] leading-snug">{e.resumen}</p>
