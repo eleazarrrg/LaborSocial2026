@@ -37,6 +37,9 @@ export const Medios: CollectionConfig = {
     imageSizes: [
       { name: "miniatura", width: 480, formatOptions: { format: "webp", options: { quality: 80 } } },
       { name: "portada", width: 1280, formatOptions: { format: "webp", options: { quality: 82 } } },
+      // Para los fondos a todo el ancho de la pantalla. Más compresión: un fondo teñido y con texto
+      // encima no necesita la calidad de una foto sola, y así pesa menos en un teléfono con datos caros.
+      { name: "panoramica", width: 1920, formatOptions: { format: "webp", options: { quality: 74 } } },
     ],
     adminThumbnail: "miniatura",
     focalPoint: true,

@@ -245,6 +245,14 @@ export interface Medio {
       filesize?: number | null;
       filename?: string | null;
     };
+    panoramica?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
   };
 }
 /**
@@ -311,6 +319,19 @@ export interface Proyecto {
    * Su texto alternativo se pide al subirlo a la biblioteca.
    */
   logo?: (number | null) | Medio;
+  /**
+   * La foto principal del proyecto: se ve a todo el ancho arriba de su página y en su bloque del inicio.
+   */
+  fondo: {
+    /**
+     * Horizontal y de 2000 px de ancho como mínimo para que se vea nítida en pantallas grandes. Sin foto, el bloque queda en el color del tinte.
+     */
+    imagen?: (number | null) | Medio;
+    /**
+     * El color de la marca que viste la foto. Con cualquiera de los cuatro, el texto blanco se lee.
+     */
+    tinte: 'turquesa' | 'naranja' | 'marron' | 'noche';
+  };
   /**
    * Para los logos que traen fondo propio: el color de sus esquinas, para que el borde no se note.
    */
@@ -833,6 +854,12 @@ export interface ProyectosSelect<T extends boolean = true> {
   accionEtiqueta?: T;
   accionHref?: T;
   logo?: T;
+  fondo?:
+    | T
+    | {
+        imagen?: T;
+        tinte?: T;
+      };
   logoFondo?: T;
   bloqueCrisis?: T;
   orden?: T;
@@ -874,6 +901,16 @@ export interface MediosSelect<T extends boolean = true> {
               filename?: T;
             };
         portada?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        panoramica?:
           | T
           | {
               url?: T;

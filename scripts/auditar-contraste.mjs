@@ -85,6 +85,13 @@ const TEMAS = [
 
 const RAYA = "═".repeat(78);
 
+/**
+ * Los tintes de los fondos con foto. Se mide el PEOR caso: una foto blanca, que mezclada con el
+ * tinte da exactamente el color del tinte (multiplicar nunca aclara). Si el blanco pasa AA contra
+ * el tinte, pasa contra cualquier foto. Los tintes son iguales en los dos temas.
+ */
+const TINTES = ["turquesa", "naranja", "marron", "noche"];
+
 let fallos = 0;
 for (const [nombre, paleta] of TEMAS) {
   console.log(`\n${"═".repeat(78)}\n  TEMA ${nombre}\n${"═".repeat(78)}`);
@@ -104,6 +111,25 @@ for (const [nombre, paleta] of TEMAS) {
         `${etiqueta}  ${a} sobre ${b}`,
     );
   }
+}
+
+console.log(`
+${RAYA}
+  TINTES DE LOS FONDOS CON FOTO (peor caso: foto blanca)
+${RAYA}`);
+const claro = TEMAS[0][1];
+for (const t of TINTES) {
+  const tinte = claro[`tinte-${t}`];
+  const texto = claro["sobre-tinte"];
+  if (!tinte || !texto) {
+    console.log(`  ??  tinte ${t} — token ausente`);
+    fallos++;
+    continue;
+  }
+  const r = razon(texto, tinte);
+  const pasa = r >= 4.5;
+  if (!pasa) fallos++;
+  console.log(`  ${pasa ? "ok" : "NO"}  ${r.toFixed(2).padStart(6)}:1  (min 4.5)  Blanco sobre el tinte ${t}  ${texto} sobre ${tinte}`);
 }
 
 /**

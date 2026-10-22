@@ -534,3 +534,30 @@ Aviso honesto de lo que el prototipo todavía no hace: borde discontinuo, `papel
   su nombre lleva «REFUVA». Si la fundación entrega emblemas, entran por `catalogo.ts` sin tocar componentes.
 - **`adjustFontFallback: false`.** Puesto porque Next no trae métricas de Atkinson Hyperlegible Next.
   Revisar el CLS en campo (objetivo ≤ 0.1 en p75) cuando haya datos reales.
+
+## Fondos con foto
+
+Aprobado el 22 de octubre de 2026. El lenguaje es el de las fundaciones: una foto grande teñida con un
+color de la marca y el título en blanco encima, con un fondo claro y limpio entre bloques para que el
+texto largo se lea.
+
+- **Cómo se tiñe.** La foto pasa a blanco y negro y se mezcla con el tinte (`mix-blend-mode: multiply`).
+  Multiplicar nunca aclara: ningún punto de la foto queda más claro que el color del tinte. Por eso el
+  blanco sobre un fondo con foto pasa AA **con cualquier foto, incluso una blanca**, y no hace falta una
+  capa oscura que tape la foto.
+- **Solo cuatro tintes**, definidos como `--tinte-turquesa`, `--tinte-naranja`, `--tinte-marron` y
+  `--tinte-noche` en `globals.css`, iguales en los dos temas. El blanco sobre cada uno da 8.62:1, 6.07:1,
+  9.47:1 y 11.93:1. `npm run contraste` mide los cuatro y falla si uno baja de 4.5:1. El panel no ofrece un
+  color libre: es lo que garantiza el contraste y la identidad.
+- **Sin foto, el bloque queda en el color del tinte** con su emblema: nunca una caja vacía ni un
+  «foto pendiente».
+- **Dónde va foto:** la portada del inicio (con la tarjeta blanca del titular encima), los bloques de
+  «¿Cómo te podemos ayudar?» y de los proyectos, la franja «Resiliente. Fuerte. Valiente.» y la portada
+  de cada proyecto. Nosotros, Participar y Donar la tendrán cuando haya fotos del equipo.
+- **Fotos de salud mental:** la foto es del trabajo (manos, comida, animales, Navidad), no de personas en
+  su peor momento. Una foto de niños o de personas en situación de calle no se sube sin el consentimiento
+  registrado: la biblioteca de imágenes lo exige.
+- **Rendimiento:** la biblioteca guarda la foto en miniatura (480 px), portada (1280) y panorámica
+  (1920, webp). Solo la imagen de la portada se carga con prioridad; sin carruseles ni efectos de
+  desplazamiento.
+

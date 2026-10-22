@@ -6,6 +6,7 @@
  *
  * (Crea la base antes y córrele `npx payload migrate`.) Sale con código 1 si algo falla.
  */
+import sharp from "sharp";
 import { getPayload } from "payload";
 import config from "../src/payload.config";
 import { eventosProximos, noticiaPorSlug, noticiasPublicadas, proyectoPorCodigo, proyectosActivos } from "../src/payload/lecturaPublica";
@@ -42,6 +43,20 @@ ok(!!foto.id && !!foto.width, `imagen válida guardada (${foto.width}x${foto.hei
 await falla("editora no puede borrar imágenes", () => A.delete({ collection: "medios", id: foto.id, ...comoEditor }));
 ok((await A.find({ collection: "medios", overrideAccess: false })).docs.length === 1, "el público SÍ ve las imágenes");
 
+// Una foto grande de verdad: se reduce y se generan los tamaños, incluido el panorámico
+const grande = await sharp({ create: { width: 2400, height: 1400, channels: 3, background: "#888888" } }).jpeg().toBuffer();
+const fotoGrande = await A.create({
+  collection: "medios", ...comoEditor, data: { alt: "Jornada de prueba en la calle" },
+  file: { data: grande, mimetype: "image/jpeg", name: "jornada.jpg", size: grande.length },
+});
+ok(fotoGrande.width <= 2000, `el original grande se reduce: ${fotoGrande.width}x${fotoGrande.height}`);
+ok(fotoGrande.sizes?.panoramica?.width === 1920 && !!fotoGrande.sizes?.portada?.url && !!fotoGrande.sizes?.miniatura?.url,
+  `se generan miniatura, portada y panorámica (${fotoGrande.sizes?.panoramica?.width}px, ${fotoGrande.sizes?.panoramica?.mimeType})`);
+await falla("un SVG no se acepta como imagen", () => A.create({
+  collection: "medios", ...comoEditor, data: { alt: "Logo en vectores" },
+  file: { data: Buffer.from("<svg xmlns='http://www.w3.org/2000/svg'><script>alert(1)</script></svg>"), mimetype: "image/svg+xml", name: "logo.svg", size: 80 },
+}));
+
 // Noticias
 await falla("noticia con «cometió suicidio»", () => A.create({ collection: "noticias", ...comoEditor, draft: true, data: { titulo: "Alguien cometió suicidio ayer en la zona", resumen: "x".repeat(30) } }), "guía de salud mental");
 const n = await A.create({ collection: "noticias", ...comoEditor, draft: true, data: { titulo: "¡Se abre la convocatoria de Navidad 2026!" } });
@@ -72,6 +87,9 @@ ok(prox.docs.length === 1 && prox.docs[0].titulo === "Evento futuro de ejemplo",
 // Proyectos
 const p = await A.create({ collection: "proyectos", ...comoAdmin, data: { codigo: "historias-que-sanan", tipo: "proyecto", nombre: "Historias que Sanan", nombreCorto: "Historias", resumen: "Escritura terapéutica para personas que quieren contar lo que viven.", bloqueCrisis: true } });
 ok(p.bloqueCrisis === true, "proyecto creado con bloque de crisis");
+const conFondo = await A.update({ collection: "proyectos", id: p.id, ...comoEditor, data: { fondo: { imagen: fotoGrande.id, tinte: "naranja" } } });
+ok(conFondo.fondo?.tinte === "naranja" && (conFondo.fondo?.imagen?.id ?? conFondo.fondo?.imagen) === fotoGrande.id, "el proyecto guarda su fondo con foto y tinte");
+await falla("un tinte que no es de la marca no se acepta", () => A.update({ collection: "proyectos", id: p.id, ...comoEditor, data: { fondo: { imagen: fotoGrande.id, tinte: "rosa" } } }));
 const e2 = await A.update({ collection: "proyectos", id: p.id, ...comoEditor, data: { bloqueCrisis: false, nombreCorto: "Historias que Sanan" } });
 ok(e2.bloqueCrisis === true && e2.nombreCorto === "Historias que Sanan", `la edición cambia el texto pero NO quita el bloque de crisis (bloque=${e2.bloqueCrisis})`);
 ok((await proyectoPorCodigo(payload, "proyecto", "historias-que-sanan"))?.nombreCorto === "Historias que Sanan", "el sitio lo encuentra por su dirección web");

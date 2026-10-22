@@ -75,6 +75,16 @@
   --marca: #005557;
   --sobre-marca: #ffffff;
   --tronco: #7d2b00;
+
+  /* Tintes de los fondos con foto. NO cambian con el tema: el texto sobre ellos es siempre blanco.
+     La foto se pasa a blanco y negro y se mezcla con el tinte (mix-blend-mode: multiply), así que
+     ningún punto queda más claro que el color del tinte y el blanco pasa AA con cualquier foto,
+     incluso una blanca. Solo estos cuatro: el panel no ofrece un color libre. */
+  --tinte-turquesa: #005557;
+  --tinte-naranja: #a34700;
+  --tinte-marron: #7d2b00;
+  --tinte-noche: #243b39;
+  --sobre-tinte: #ffffff;
 }
 
 /* --------------------------------------------------------------- TEMA OSCURO

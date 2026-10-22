@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { esAdmin, esEquipo, soloAdmin, soloEquipo } from "../acceso";
+import { campoFondo } from "../campos/fondo";
 import { editorTexto } from "../editorTexto";
 import { lenguajeSeguro } from "../lenguaSeguro";
 import { SLUG_VALIDO } from "../slug";
@@ -148,6 +149,11 @@ export const Proyectos: CollectionConfig = {
       relationTo: "medios",
       admin: { description: "Su texto alternativo se pide al subirlo a la biblioteca." },
     },
+    campoFondo({
+      name: "fondo",
+      label: "Foto de fondo de la página",
+      ayuda: "La foto principal del proyecto: se ve a todo el ancho arriba de su página y en su bloque del inicio.",
+    }),
     {
       name: "logoFondo",
       label: "Color de fondo del logo",
