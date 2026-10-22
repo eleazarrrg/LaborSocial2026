@@ -2,6 +2,7 @@ import * as migration_20261009_004742_inicial from './20261009_004742_inicial';
 import * as migration_20261022_012359_bitacora_inalterable from './20261022_012359_bitacora_inalterable';
 import * as migration_20261022_014329_contenido_cms from './20261022_014329_contenido_cms';
 import * as migration_20261022_022909_fondos_con_foto from './20261022_022909_fondos_con_foto';
+import * as migration_20261022_025936_fotos_provisionales_y_fondos from './20261022_025936_fotos_provisionales_y_fondos';
 
 export const migrations = [
   {
@@ -22,6 +23,11 @@ export const migrations = [
   {
     up: migration_20261022_022909_fondos_con_foto.up,
     down: migration_20261022_022909_fondos_con_foto.down,
-    name: '20261022_022909_fondos_con_foto'
+    name: '20261022_022909_fondos_con_foto',
+  },
+  {
+    up: migration_20261022_025936_fotos_provisionales_y_fondos.up,
+    down: migration_20261022_025936_fotos_provisionales_y_fondos.down,
+    name: '20261022_025936_fotos_provisionales_y_fondos'
   },
 ];

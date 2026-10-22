@@ -15,7 +15,8 @@
     "generate:importmap": "payload generate:importmap",
     "generate:types": "payload generate:types",
     "crear-admin": "payload run scripts/crear-primera-admin.ts",
-    "probar-cms": "payload run scripts/probar-cms.ts"
+    "probar-cms": "payload run scripts/probar-cms.ts",
+    "sembrar": "payload run scripts/sembrar.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.90.2",

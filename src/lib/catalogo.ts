@@ -25,6 +25,8 @@
  * En producción esto vive en la tabla `proyectos` con su columna `tipo`.
  */
 
+import type { Fondo, Tinte } from "./fondo";
+
 export type TipoEntrada = "proyecto" | "campana";
 
 export type Accion = {
@@ -75,12 +77,25 @@ export type Entrada = {
   logo?: Logo;
   /** Si lleva el bloque completo de crisis. Lo decide el dato, no quien publica. */
   bloqueCrisis: boolean;
+  /**
+   * El tinte de su bloque y de su portada cuando no hay foto. Con foto, el que elige quien edita
+   * (`fondo.tinte`). Los cuatro son de la marca: ver src/lib/fondo.ts.
+   */
+  tinte: Tinte;
+  /** Su foto de fondo, si la fundación puso una. Viene de la base; el código no la trae. */
+  fondo?: Fondo;
+  /**
+   * El texto en texto enriquecido (Lexical), si viene de la base. Con él se renderiza el formato que
+   * puso quien editó; sin él, se usan `parrafos`.
+   */
+  historia?: unknown;
 };
 
 export const CATALOGO: Entrada[] = [
   /* ───────────────────────────────────────────────────────── PROYECTOS ── */
   {
     codigo: "psicoeducativo",
+    tinte: "turquesa",
     tipo: "proyecto",
     nombre: "Proyecto Psicoeducativo REFUVA",
     nombreCorto: "Psicoeducativo",
@@ -107,6 +122,7 @@ export const CATALOGO: Entrada[] = [
   },
   {
     codigo: "psicoempresarial",
+    tinte: "naranja",
     tipo: "proyecto",
     nombre: "Proyecto Psicoempresarial REFUVA",
     nombreCorto: "Psicoempresarial",
@@ -130,6 +146,7 @@ export const CATALOGO: Entrada[] = [
   },
   {
     codigo: "rompiendo-el-circulo",
+    tinte: "marron",
     tipo: "proyecto",
     nombre: "Rompiendo el Círculo",
     nombreCorto: "Rompiendo el Círculo",
@@ -151,6 +168,7 @@ export const CATALOGO: Entrada[] = [
   },
   {
     codigo: "historias-que-sanan",
+    tinte: "noche",
     tipo: "proyecto",
     nombre: "Historias que Sanan",
     nombreCorto: "Historias que Sanan",
@@ -172,6 +190,7 @@ export const CATALOGO: Entrada[] = [
   },
   {
     codigo: "grupo-un-solo-corazon",
+    tinte: "naranja",
     tipo: "proyecto",
     nombre: "Grupo Un Solo Corazón",
     nombreCorto: "Un Solo Corazón",
@@ -195,6 +214,7 @@ export const CATALOGO: Entrada[] = [
   },
   {
     codigo: "una-estrella-otiliana",
+    tinte: "turquesa",
     tipo: "proyecto",
     nombre: "Una Estrella Otiliana",
     nombreCorto: "Una Estrella Otiliana",
@@ -225,6 +245,7 @@ export const CATALOGO: Entrada[] = [
   },
   {
     codigo: "comida-en-la-calle",
+    tinte: "marron",
     tipo: "proyecto",
     nombre: "Comida en la Calle, Esperanza en el Corazón",
     nombreCorto: "Comida en la Calle",
@@ -248,6 +269,7 @@ export const CATALOGO: Entrada[] = [
   },
   {
     codigo: "angelitos-de-la-calle",
+    tinte: "noche",
     tipo: "proyecto",
     nombre: "Angelitos de la Calle",
     nombreCorto: "Angelitos de la Calle",
@@ -273,6 +295,7 @@ export const CATALOGO: Entrada[] = [
   /* ────────────────────────────────────────────────────────── CAMPAÑAS ── */
   {
     codigo: "hablame-panama",
+    tinte: "turquesa",
     tipo: "campana",
     nombre: "Háblame Panamá",
     nombreCorto: "Háblame Panamá",
@@ -298,6 +321,7 @@ export const CATALOGO: Entrada[] = [
   },
   {
     codigo: "escuchame-panama",
+    tinte: "naranja",
     tipo: "campana",
     nombre: "#EscúchamePanamá",
     nombreCorto: "#EscúchamePanamá",

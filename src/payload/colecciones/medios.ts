@@ -66,6 +66,26 @@ export const Medios: CollectionConfig = {
       admin: { description: "Opcional. Se ve debajo de la foto." },
     },
     {
+      name: "provisional",
+      label: "Foto de referencia (no es de la fundación)",
+      type: "checkbox",
+      defaultValue: false,
+      admin: {
+        position: "sidebar",
+        description:
+          "Foto de archivo puesta mientras llegan las de la fundación. El inicio del panel avisa cuántas quedan: reemplázalas antes de publicar el sitio.",
+      },
+    },
+    {
+      type: "row",
+      admin: { condition: (_, hermanos) => hermanos?.provisional === true },
+      fields: [
+        { name: "autor", label: "Autor", type: "text", admin: { description: "Quien tomó la foto." } },
+        { name: "fuente", label: "Enlace de origen", type: "text" },
+        { name: "licencia", label: "Licencia", type: "text", admin: { description: "Ejemplo: Licencia de Unsplash." } },
+      ],
+    },
+    {
       name: "requiereConsentimiento",
       label: "Salen niños o personas en situación de calle",
       type: "checkbox",

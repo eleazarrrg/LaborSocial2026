@@ -109,8 +109,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('es' | 'en') | ('es' | 'en')[];
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    fondos: Fondo;
+  };
+  globalsSelect: {
+    fondos: FondosSelect<false> | FondosSelect<true>;
+  };
   locale: 'es' | 'en';
   widgets: {
     collections: CollectionsWidget;
@@ -209,6 +213,19 @@ export interface Medio {
    * Opcional. Se ve debajo de la foto.
    */
   pie?: string | null;
+  /**
+   * Foto de archivo puesta mientras llegan las de la fundación. El inicio del panel avisa cuántas quedan: reemplázalas antes de publicar el sitio.
+   */
+  provisional?: boolean | null;
+  /**
+   * Quien tomó la foto.
+   */
+  autor?: string | null;
+  fuente?: string | null;
+  /**
+   * Ejemplo: Licencia de Unsplash.
+   */
+  licencia?: string | null;
   /**
    * Márcalo si en la foto se reconoce a un menor o a alguien en situación de calle.
    */
@@ -874,6 +891,10 @@ export interface ProyectosSelect<T extends boolean = true> {
 export interface MediosSelect<T extends boolean = true> {
   alt?: T;
   pie?: T;
+  provisional?: T;
+  autor?: T;
+  fuente?: T;
+  licencia?: T;
   requiereConsentimiento?: T;
   consentimientoRegistrado?: T;
   updatedAt?: T;
@@ -1157,6 +1178,109 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Cambia la foto de cada bloque del inicio y elige su tinte. Si quitas la foto, el bloque vuelve a su color.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fondos".
+ */
+export interface Fondo {
+  id: number;
+  /**
+   * La foto grande de arriba, detrás del titular.
+   */
+  portada: {
+    /**
+     * Horizontal y de 2000 px de ancho como mínimo para que se vea nítida en pantallas grandes. Sin foto, el bloque queda en el color del tinte.
+     */
+    imagen?: (number | null) | Medio;
+    /**
+     * El color de la marca que viste la foto. Con cualquiera de los cuatro, el texto blanco se lee.
+     */
+    tinte: 'turquesa' | 'naranja' | 'marron' | 'noche';
+  };
+  ayudaDificil: {
+    /**
+     * Horizontal y de 2000 px de ancho como mínimo para que se vea nítida en pantallas grandes. Sin foto, el bloque queda en el color del tinte.
+     */
+    imagen?: (number | null) | Medio;
+    /**
+     * El color de la marca que viste la foto. Con cualquiera de los cuatro, el texto blanco se lee.
+     */
+    tinte: 'turquesa' | 'naranja' | 'marron' | 'noche';
+  };
+  ayudaCita: {
+    /**
+     * Horizontal y de 2000 px de ancho como mínimo para que se vea nítida en pantallas grandes. Sin foto, el bloque queda en el color del tinte.
+     */
+    imagen?: (number | null) | Medio;
+    /**
+     * El color de la marca que viste la foto. Con cualquiera de los cuatro, el texto blanco se lee.
+     */
+    tinte: 'turquesa' | 'naranja' | 'marron' | 'noche';
+  };
+  ayudaParticipar: {
+    /**
+     * Horizontal y de 2000 px de ancho como mínimo para que se vea nítida en pantallas grandes. Sin foto, el bloque queda en el color del tinte.
+     */
+    imagen?: (number | null) | Medio;
+    /**
+     * El color de la marca que viste la foto. Con cualquiera de los cuatro, el texto blanco se lee.
+     */
+    tinte: 'turquesa' | 'naranja' | 'marron' | 'noche';
+  };
+  declaracion: {
+    /**
+     * Horizontal y de 2000 px de ancho como mínimo para que se vea nítida en pantallas grandes. Sin foto, el bloque queda en el color del tinte.
+     */
+    imagen?: (number | null) | Medio;
+    /**
+     * El color de la marca que viste la foto. Con cualquiera de los cuatro, el texto blanco se lee.
+     */
+    tinte: 'turquesa' | 'naranja' | 'marron' | 'noche';
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fondos_select".
+ */
+export interface FondosSelect<T extends boolean = true> {
+  portada?:
+    | T
+    | {
+        imagen?: T;
+        tinte?: T;
+      };
+  ayudaDificil?:
+    | T
+    | {
+        imagen?: T;
+        tinte?: T;
+      };
+  ayudaCita?:
+    | T
+    | {
+        imagen?: T;
+        tinte?: T;
+      };
+  ayudaParticipar?:
+    | T
+    | {
+        imagen?: T;
+        tinte?: T;
+      };
+  declaracion?:
+    | T
+    | {
+        imagen?: T;
+        tinte?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

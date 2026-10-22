@@ -1,0 +1,17 @@
+[
+  { "archivo": "inicio-portada.jpg", "origen": "rhHIEtBPD5A", "autor": "Jacqueline Brandwayn", "ranura": "inicio:portada", "alt": "Edificios altos frente al mar en Ciudad de Panamá" },
+  { "archivo": "inicio-ayuda-dificil.jpg", "origen": "ox9Y-Ad--_k", "autor": "Tijs van Leur", "ranura": "inicio:ayudaDificil", "alt": "Una banca de madera vacía en un terreno tranquilo" },
+  { "archivo": "inicio-ayuda-cita.jpg", "origen": "SqgSOjRyjzU", "autor": "Craig Lovelidge", "ranura": "inicio:ayudaCita", "alt": "Dos sillas y una planta en un cuarto tranquilo" },
+  { "archivo": "inicio-ayuda-participar.jpg", "origen": "Zyx1bK9mqmA", "autor": "Hannah Busing", "ranura": "inicio:ayudaParticipar", "alt": "Manos de varias personas juntas, una sobre otra" },
+  { "archivo": "inicio-declaracion.jpg", "origen": "ZX6BPboJrYk", "autor": "Harris Vo", "ranura": "inicio:declaracion", "alt": "El sol saliendo detrás de montañas en la distancia" },
+  { "archivo": "psicoeducativo.jpg", "origen": "Qw6wa96IvvQ", "autor": "Nathan Cima", "ranura": "proyecto:psicoeducativo", "alt": "Un aula con pupitres y sillas de madera" },
+  { "archivo": "psicoempresarial.jpg", "origen": "MDu-53qRVr4", "autor": "FORTYTWO", "ranura": "proyecto:psicoempresarial", "alt": "Manos sobre una mesa llena de notas adhesivas en un taller" },
+  { "archivo": "rompiendo-el-circulo.jpg", "origen": "LInAe_7b1HA", "autor": "Howard Walsh", "ranura": "proyecto:rompiendo-el-circulo", "alt": "Un camino con neblina al amanecer entre árboles" },
+  { "archivo": "historias-que-sanan.jpg", "origen": "tcyW6Im5Uug", "autor": "Marcos Paulo Prado", "ranura": "proyecto:historias-que-sanan", "alt": "Manos escribiendo en un cuaderno abierto", "recorte": { "horizontal": true, "foco": 0.4 }, "focoX": 62 },
+  { "archivo": "grupo-un-solo-corazon.jpg", "origen": "8RaUEd8zD-U", "autor": "Maria Lin Kim", "ranura": "proyecto:grupo-un-solo-corazon", "alt": "Bolsas de papel con manzanas, repollo y bananos", "recorte": { "arriba": 0.46 } },
+  { "archivo": "una-estrella-otiliana.jpg", "origen": "YwutubGmzSU", "autor": "Juliana Malta", "ranura": "proyecto:una-estrella-otiliana", "alt": "Manos atando lazos de cordel en regalos envueltos para Navidad" },
+  { "archivo": "comida-en-la-calle.jpg", "origen": "QLQj_CaNG-Y", "autor": "Louis Hansel", "ranura": "proyecto:comida-en-la-calle", "alt": "Una mano sostiene una taza de sopa caliente" },
+  { "archivo": "angelitos-de-la-calle.jpg", "origen": "VtsKx6BC9GM", "autor": "Jeevan Katel", "ranura": "proyecto:angelitos-de-la-calle", "alt": "Un cachorro marrón descansando junto a una pared de ladrillo", "recorte": { "horizontal": true, "foco": 0.62 } },
+  { "archivo": "hablame-panama.jpg", "origen": "-IMlv9Jlb24", "autor": "Sebastien Gabriel", "ranura": "proyecto:hablame-panama", "alt": "El sol sale sobre el mar con las nubes iluminadas" },
+  { "archivo": "escuchame-panama.jpg", "origen": "Xbch-973w6Y", "autor": "Mathias Reding", "ranura": "proyecto:escuchame-panama", "alt": "Dos sillones junto a una ventana con luz de la mañana" }
+]

@@ -13,6 +13,7 @@ import { Cuarentena } from "./payload/colecciones/cuarentena";
 import { Medios } from "./payload/colecciones/medios";
 import { Eventos, Noticias } from "./payload/colecciones/publicaciones";
 import { Proyectos } from "./payload/colecciones/proyectos";
+import { Fondos } from "./payload/globales/fondos";
 import {
   InscripcionesPadrinos,
   InscripcionesVoluntariado,
@@ -85,7 +86,10 @@ export default buildConfig({
     user: Usuarios.slug,
     meta: { titleSuffix: " · Panel REFUVA" },
     components: {
-      beforeDashboard: ["/payload/componentes/resumen-bandeja#ResumenBandeja"],
+      beforeDashboard: [
+        "/payload/componentes/aviso-fotos#AvisoFotos",
+        "/payload/componentes/resumen-bandeja#ResumenBandeja",
+      ],
     },
     importMap: { baseDir: path.resolve(dirname) },
   },
@@ -120,6 +124,7 @@ export default buildConfig({
     Usuarios,
     Bitacora,
   ],
+  globals: [Fondos],
   db: postgresAdapter({
     pool: conexion(),
     // En producción el esquema lo crean las migraciones (src/migrations), nunca el modo push de
