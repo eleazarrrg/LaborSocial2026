@@ -136,7 +136,7 @@ export const Proyectos: CollectionConfig = {
           type: "text",
           admin: { description: "Una página del sitio (por ejemplo /participar/apadrinar) o un enlace completo." },
           validate: (v: unknown) =>
-            !v || (typeof v === "string" && (v.startsWith("/") || /^https?:\/\//.test(v)))
+            !v || (typeof v === "string" && (/^\/(?!\/)/.test(v) || /^https?:\/\//.test(v)))
               ? true
               : "Empieza con / para una página del sitio, o con https:// para otra.",
         },

@@ -20,7 +20,7 @@ const ANCHOS = [
   ["panoramica", 1920],
 ] as const;
 
-function srcSetDe(foto: Foto): string | undefined {
+export function srcSetDe(foto: Foto): string | undefined {
   const candidatas = ANCHOS.flatMap(([clave, ancho]) => (foto[clave] ? [`${foto[clave]} ${ancho}w`] : []));
   return candidatas.length > 1 ? candidatas.join(", ") : undefined;
 }

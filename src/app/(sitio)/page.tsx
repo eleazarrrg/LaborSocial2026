@@ -6,6 +6,7 @@ import { Boton, Placa } from "@/components/ui";
 import { enPalabras, rutaDe } from "@/lib/catalogo";
 import { campanas, fondosInicio, proyectos } from "@/lib/contenido";
 import type { FondosInicio } from "@/lib/contenido";
+import { fechaLarga, noticias } from "@/lib/publicaciones";
 
 /**
  * Inicio.
@@ -51,7 +52,12 @@ const AYUDA: { clave: keyof FondosInicio; href: string; titulo: string; texto: s
 ];
 
 export default async function Inicio() {
-  const [lista, listaCampanas, fondos] = await Promise.all([proyectos(), campanas(), fondosInicio()]);
+  const [lista, listaCampanas, fondos, recientes] = await Promise.all([
+    proyectos(),
+    campanas(),
+    fondosInicio(),
+    noticias({ limite: 3 }),
+  ]);
 
   return (
     <>
@@ -209,6 +215,32 @@ export default async function Inicio() {
           </div>
         </div>
       </section>
+
+      {/* ═════════════════════════════════════════════ Últimas noticias
+          Solo aparece cuando Edwin ya publicó algo: sin noticias no se pinta nada. */}
+      {recientes.items.length > 0 && (
+        <section aria-labelledby="titulo-noticias" className="mx-auto max-w-6xl px-4 pb-14 sm:px-6 sm:pb-20">
+          <div className="flex flex-wrap items-baseline justify-between gap-4">
+            <h2 id="titulo-noticias" className="text-3xl font-extrabold sm:text-4xl">Últimas noticias</h2>
+            <Link href="/noticias" className="inline-flex min-h-11 items-center font-bold text-fuerte underline underline-offset-4">
+              Todas las noticias →
+            </Link>
+          </div>
+          <ul className="mt-8 grid gap-6 md:grid-cols-3">
+            {recientes.items.map((n) => (
+              <li key={n.slug} className="border-t-2 border-tinta pt-4">
+                <p className="text-sm text-tinta-suave">
+                  <time dateTime={n.fecha}>{fechaLarga(n.fecha)}</time>
+                </p>
+                <h3 className="mt-2 text-xl leading-tight font-extrabold">
+                  <Link href={`/noticias/${n.slug}`} className="underline-offset-4 hover:underline">{n.titulo}</Link>
+                </h3>
+                <p className="mt-2 leading-snug text-tinta-suave">{n.resumen}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* ═══════════════════════════════════════════ Lo que ya está pasando */}
       <section

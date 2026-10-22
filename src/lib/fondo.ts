@@ -27,6 +27,8 @@ export type Foto = {
   /** Punto de enfoque, de 0 a 100: la parte de la foto que no debe recortarse. */
   focoX?: number;
   focoY?: number;
+  /** Texto alternativo (obligatorio al subirla). Los fondos son decorativos y no lo usan. */
+  alt?: string;
   /** Foto de referencia (de archivo), no de la fundación. */
   provisional?: boolean;
 };

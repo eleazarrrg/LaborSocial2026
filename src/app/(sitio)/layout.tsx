@@ -29,6 +29,8 @@ const fuente = Atkinson_Hyperlegible_Next({
 });
 
 export const metadata: Metadata = {
+  // Las imágenes de las noticias para compartir salen con dirección relativa sin esto.
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000"),
   title: {
     default: "Fundación REFUVA — Resiliente, Fuerte, Valiente",
     template: "%s · Fundación REFUVA",

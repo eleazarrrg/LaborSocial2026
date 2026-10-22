@@ -38,7 +38,7 @@ export async function FichaEntrada({ entrada }: { entrada: Entrada }) {
             <Link href={esCampana ? "/campanas" : "/proyectos"} className="underline-offset-4 hover:underline">
               {esCampana ? "Campañas" : "Proyectos"}
             </Link>
-            <span aria-hidden className="mx-2 opacity-70">/</span>
+            <span aria-hidden className="mx-2">/</span>
             <span>{entrada.nombreCorto}</span>
           </nav>
 

@@ -21,7 +21,7 @@ const CATALOGO_POR_CODIGO = new Map(CATALOGO.map((e) => [e.codigo, e]));
 
 /* ------------------------------------------------------------------ Fotos */
 
-function aFoto(m: unknown): Foto | undefined {
+export function aFoto(m: unknown): Foto | undefined {
   if (!m || typeof m !== "object") return undefined;
   const x = m as Medio;
   if (!x.url || !x.width || !x.height) return undefined;
@@ -30,6 +30,7 @@ function aFoto(m: unknown): Foto | undefined {
     miniatura: x.sizes?.miniatura?.url ?? undefined,
     portada: x.sizes?.portada?.url ?? undefined,
     panoramica: x.sizes?.panoramica?.url ?? undefined,
+    alt: x.alt ?? undefined,
     ancho: x.width,
     alto: x.height,
     focoX: x.focalX ?? undefined,
@@ -88,8 +89,11 @@ export const catalogo = cache(async (): Promise<Entrada[]> => {
   try {
     const payload = await getPayload({ config });
     const { docs } = await proyectosActivos(payload);
-    // Base vacía (aún no se sembró): el catálogo del código. Con al menos uno, manda la base.
-    return docs.length ? docs.map(aEntrada) : CATALOGO;
+    if (docs.length) return docs.map(aEntrada);
+    // Sin activos: el catálogo del código solo si la base NUNCA se sembró. Si Edwin ocultó todo,
+    // se respeta y no reaparece lo escrito en el código.
+    const { totalDocs } = await payload.count({ collection: "proyectos", overrideAccess: true });
+    return totalDocs === 0 ? CATALOGO : [];
   } catch (error) {
     console.error(`[contenido] catálogo: se usa el del código. ${describirError(error)}`);
     return CATALOGO;

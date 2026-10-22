@@ -500,6 +500,31 @@ Cada `push` a `main` en GitHub despliega solo. Si un despliegue sale mal: la app
 despliegue anterior → **Rollback**. Las migraciones de base corren solas al arrancar
 (`src/migrations`); una migración aplicada no se edita nunca.
 
+### 5.0.8 Cambiar las fotos de fondo del sitio
+
+Cada bloque con foto se cambia desde el panel, sin tocar código:
+
+- **Cada proyecto y campaña:** Contenido → Proyectos → el proyecto → **Foto de fondo de la página**
+  (foto + tinte). El mismo fondo se ve en su loseta y en la cabecera de su página.
+- **Portada, las tres cajas de ayuda y la franja «Resiliente. Fuerte. Valiente.»:** Contenido →
+  **Fondos del inicio**.
+- El **tinte** es uno de cuatro colores de la marca (turquesa, naranja, marrón, noche). Se pone encima
+  de la foto en blanco y negro, y por eso el texto blanco se lee con cualquier foto. No hay color libre
+  a propósito.
+- Sin foto, el bloque se ve entero en el color del tinte. Nunca queda una caja vacía.
+- Pedir a la fundación **una foto horizontal de 2000 px o más** por proyecto (`docs/06` §3). Si en la
+  foto salen niños o personas en situación de calle, **antes de subirla** hay que tener el
+  consentimiento firmado y marcarlo en la imagen: sin él, la foto no se publica.
+
+**Las fotos que trae el sitio hoy son de referencia** (de Unsplash, con licencia libre), marcadas como
+«Foto de referencia» en la biblioteca de imágenes; el panel muestra un aviso con cuántas quedan. **No se
+publica el sitio con ellas.** Antes del lanzamiento se reemplazan por las de la fundación y el aviso
+tiene que decir cero. Autores y licencia: `docs/fotos-referencia.md`.
+
+**Primera carga del contenido** (una sola vez por base nueva, desde la consola de la app):
+`npm run sembrar`. Pasa el catálogo oficial y las fotos de referencia al panel. Se puede repetir sin
+miedo: no pisa nada que ya se haya editado.
+
 ## 5.1 Publicar una noticia
 
 1. Menú lateral → **Contenido** → **Noticias**.
