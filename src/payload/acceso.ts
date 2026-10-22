@@ -19,4 +19,3 @@ export const soloAdmin: Access = ({ req }) => esAdmin(req.user);
 export const nadie: Access = () => false;
 
 export const campoSoloAdmin: FieldAccess = ({ req }) => esAdmin(req.user);
-export const campoNadie: FieldAccess = () => false;

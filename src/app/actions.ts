@@ -10,8 +10,14 @@ import {
   esquemaVoluntariado,
 } from "@/lib/esquemas";
 import config from "@payload-config";
-import { getPayload, type Payload } from "payload";
-import { describirError } from "@/payload/errores";
+import {
+  getPayload,
+  type DataFromCollectionSlug,
+  type Payload,
+  type RequiredDataFromCollectionSlug,
+} from "payload";
+import { PROYECTO_PADRINOS, type SlugBandeja } from "@/payload/bandejas";
+import { describirError, esViolacionUnica } from "@/payload/errores";
 
 /**
  * Acciones de servidor de los formularios.
@@ -26,13 +32,20 @@ import { describirError } from "@/payload/errores";
  * WhatsApp: nunca un «recibido» sin haber recibido.
  */
 
-type Tabla =
-  | "solicitudes-cita"
-  | "inscripciones-voluntariado"
-  | "inscripciones-padrinos"
-  | "mensajes-contacto";
-
-type Fila = Record<string, unknown>;
+/** Lo que cada acción arma; el resto (estado, consentimiento, notas…) lo pone el sistema. */
+type FilaDe<K extends SlugBandeja> = Omit<
+  DataFromCollectionSlug<K>,
+  | "id"
+  | "createdAt"
+  | "updatedAt"
+  | "estado"
+  | "avisoEnviado"
+  | "notas"
+  | "atendidaPor"
+  | "atendidaEn"
+  | "consentimientoEn"
+  | "politicaVersion"
+>;
 
 const FALLO: EstadoFormulario = {
   estado: "fallo",
@@ -42,11 +55,23 @@ const FALLO: EstadoFormulario = {
 
 const ENVIADO: EstadoFormulario = { estado: "enviado" };
 
-const CONVOCATORIA_CERRADA: EstadoFormulario = {
-  estado: "error",
-  mensaje:
-    "La convocatoria de padrinos y madrinas no está abierta en este momento. Escríbenos y te avisamos cuando abra.",
-};
+const TEXTO_CERRADA_POR_DEFECTO =
+  "La convocatoria de padrinos y madrinas no está abierta en este momento. Escríbenos y te avisamos cuando abra.";
+
+const convocatoriaCerrada = (mensaje: string): EstadoFormulario => ({ estado: "error", mensaje });
+
+/** Lo que Edwin escribió para cuando está cerrada: el de la convocatoria más reciente. */
+async function textoSiCerrada(payload: Payload): Promise<string> {
+  const { docs } = await payload.find({
+    collection: "convocatorias",
+    overrideAccess: true,
+    depth: 0,
+    limit: 1,
+    sort: "-abreEn",
+    where: { proyectoSlug: { equals: PROYECTO_PADRINOS } },
+  });
+  return docs[0]?.textoSiCerrada ?? TEXTO_CERRADA_POR_DEFECTO;
+}
 
 const YA_INSCRITO: EstadoFormulario = {
   estado: "error",
@@ -80,16 +105,19 @@ function valoresDe(formData: FormData): Record<string, string | string[]> {
   return valores;
 }
 
+/** Una acción devuelve una fila para guardar, o ya la respuesta a mostrar (p. ej. «convocatoria cerrada»). */
+const esRespuesta = (v: object): v is EstadoFormulario => "estado" in v && typeof v.estado === "string";
+
 function registrar(donde: string, error: unknown) {
   console.error(`[formularios] ${donde}: ${describirError(error)}`);
 }
 
-async function procesar<T extends z.ZodType>(
-  tabla: Tabla,
+async function procesar<K extends SlugBandeja, T extends z.ZodType>(
+  tabla: K,
   esquema: T,
   formData: FormData,
   crudo: Record<string, unknown>,
-  aFila: (datos: z.output<T>, payload: Payload) => Promise<Fila | EstadoFormulario> | Fila,
+  aFila: (datos: z.output<T>, payload: Payload) => Promise<FilaDe<K> | EstadoFormulario> | FilaDe<K> | EstadoFormulario,
 ): Promise<EstadoFormulario> {
   const resultado = esquema.safeParse(crudo);
   if (!resultado.success) {
@@ -116,7 +144,7 @@ async function procesar<T extends z.ZodType>(
     }
 
     const fila = await aFila(resultado.data, payload);
-    if ("estado" in fila) return { ...(fila as EstadoFormulario), valores: valoresDe(formData) };
+    if (esRespuesta(fila)) return { ...fila, valores: valoresDe(formData) };
 
     // overrideAccess: la colección no deja crear a nadie desde la API. Este es el único camino,
     // y llega aquí solo después de Zod y de la trampa.
@@ -127,10 +155,15 @@ async function procesar<T extends z.ZodType>(
         ...fila,
         consentimientoEn: new Date().toISOString(),
         politicaVersion: POLITICA_VERSION,
-      } as never,
+      } as RequiredDataFromCollectionSlug<K>,
     });
     return ENVIADO;
   } catch (error) {
+    // Dos envíos a la vez con el mismo correo: pasó la consulta de «ya inscrito» y el índice único
+    // frenó al segundo. La persona merece el mismo mensaje claro, no el error genérico.
+    if (tabla === "inscripciones-padrinos" && esViolacionUnica(error)) {
+      return { ...YA_INSCRITO, valores: valoresDe(formData) };
+    }
     registrar(`procesar ${tabla}`, error);
     return { ...FALLO, valores: valoresDe(formData) };
   }
@@ -237,7 +270,7 @@ export async function accionPadrino(
         limit: 1,
         where: {
           and: [
-            { proyectoSlug: { equals: "una-estrella-otiliana" } },
+            { proyectoSlug: { equals: PROYECTO_PADRINOS } },
             { tipo: { equals: "padrinos" } },
             { cerradaManualmente: { equals: false } },
             { abreEn: { less_than_equal: ahora } },
@@ -246,7 +279,7 @@ export async function accionPadrino(
         },
       });
       const convocatoria = docs[0];
-      if (!convocatoria) return CONVOCATORIA_CERRADA;
+      if (!convocatoria) return convocatoriaCerrada(await textoSiCerrada(payload));
 
       // Una inscripción por correo y convocatoria. El índice único de la colección es la red de
       // seguridad; esta consulta es la que da el mensaje claro.

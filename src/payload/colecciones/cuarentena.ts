@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { nadie, soloAdmin } from "../acceso";
+import { registrarEnBitacora } from "./bitacora";
 
 /**
  * Lo que cayó en el campo trampa de un formulario: casi siempre un robot. No entra a la bandeja,
@@ -17,6 +18,22 @@ export const Cuarentena: CollectionConfig = {
   },
   defaultSort: "createdAt",
   access: { read: soloAdmin, update: soloAdmin, delete: soloAdmin, create: nadie },
+  hooks: {
+    // Guarda lo que envió alguien (datos personales): quien la abre deja rastro, como en las bandejas.
+    afterRead: [
+      async ({ doc, findMany, req }) => {
+        if (!findMany && req.user) {
+          await registrarEnBitacora(req, {
+            accion: "ver_solicitud",
+            coleccion: "cuarentena",
+            documento: doc.id,
+            resumen: "Vio: envío en cuarentena",
+          });
+        }
+        return doc;
+      },
+    ],
+  },
   fields: [
     {
       name: "formulario",

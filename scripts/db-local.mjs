@@ -30,8 +30,9 @@ if (!existsSync(DIRECTORIO)) await pg.initialise();
 await pg.start();
 try {
   await pg.createDatabase(BASE);
-} catch {
-  // Ya existe: es lo normal desde la segunda vez.
+} catch (error) {
+  // Ya existe: es lo normal desde la segunda vez. Cualquier otro fallo sí se muestra.
+  if (!/already exists|ya existe/i.test(String(error?.message ?? error))) throw error;
 }
 console.log(`Postgres local listo: postgres://postgres:local@127.0.0.1:5433/${BASE}`);
 

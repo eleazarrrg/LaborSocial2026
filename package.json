@@ -13,7 +13,8 @@
     "db:local": "node scripts/db-local.mjs",
     "payload": "payload",
     "generate:importmap": "payload generate:importmap",
-    "generate:types": "payload generate:types"
+    "generate:types": "payload generate:types",
+    "crear-admin": "payload run scripts/crear-primera-admin.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.90.2",

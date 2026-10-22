@@ -1,5 +1,6 @@
-import type { PayloadRequest } from "payload";
+import type { Payload, PayloadRequest } from "payload";
 import { RECURSOS_CRISIS } from "@/lib/crisis";
+import type { SlugBandeja } from "./bandejas";
 import { ErrorSeguro, describirError } from "./errores";
 
 /**
@@ -20,7 +21,7 @@ const CRISIS = [
   `· Si hay riesgo para la vida ahora mismo: ${emergencia.numero}.`,
 ].join("\n");
 
-const CONFIRMACION: Record<string, { asunto: string; cuerpo: string }> = {
+const CONFIRMACION: Record<SlugBandeja, { asunto: string; cuerpo: string }> = {
   "solicitudes-cita": {
     asunto: "Recibimos tu solicitud de cita",
     cuerpo: `Recibimos tu solicitud de cita con la Fundación REFUVA. Te escribiremos por el medio que elegiste para acordar día y hora.\n\n${CRISIS}`,
@@ -44,88 +45,114 @@ const CONFIRMACION: Record<string, { asunto: string; cuerpo: string }> = {
 const UN_DIA = 24 * 60 * 60 * 1000;
 const UNA_HORA = 60 * 60 * 1000;
 const TOPE_POR_HORA = 15;
+/** Quien pide una cita siempre recibe los recursos de crisis; el resto, una confirmación al día. */
+const CONFIRMACIONES_POR_DIA: Record<SlugBandeja, number> = {
+  "solicitudes-cita": 3,
+  "inscripciones-voluntariado": 1,
+  "inscripciones-padrinos": 1,
+  "mensajes-contacto": 1,
+};
 
 const FIRMA = "\n\n— Fundación REFUVA\n\nEste correo es automático. No es un canal de emergencia.";
 
+type Doc = { id: number | string; correo?: string | null };
+
+const fechaLarga = () =>
+  new Date().toLocaleString("es-PA", {
+    timeZone: "America/Panama",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+
+/** Un ataque de envíos no puede agotar la cuota diaria de Resend (100) y dejar sin aviso a las reales. */
+async function exigirDentroDelTope(req: PayloadRequest, coleccion: SlugBandeja): Promise<void> {
+  const { totalDocs } = await req.payload.count({
+    collection: coleccion,
+    overrideAccess: true,
+    req,
+    where: { createdAt: { greater_than: new Date(Date.now() - UNA_HORA).toISOString() } },
+  });
+  if (totalDocs > TOPE_POR_HORA) {
+    throw new ErrorSeguro(
+      `Más de ${TOPE_POR_HORA} envíos en la última hora: aviso omitido para no agotar la cuota.`,
+    );
+  }
+}
+
+/** A la fundación: tipo, fecha y enlace. Ni el contenido ni la urgencia: eso se lee en el panel. */
+async function avisarALaFundacion(
+  payload: Payload,
+  coleccion: SlugBandeja,
+  singular: string,
+  doc: Doc,
+): Promise<void> {
+  const destino = process.env.AVISOS_CORREO;
+  if (!destino) throw new ErrorSeguro("Falta AVISOS_CORREO: nadie recibiría el aviso.");
+  await payload.sendEmail({
+    to: destino,
+    // «Nuevo envío: …» y no «Nueva …»: los cuatro tipos no comparten género gramatical.
+    subject: `Nuevo envío: ${singular}`,
+    text: [
+      `Llegó por el sitio: ${singular}.`,
+      `Fecha: ${fechaLarga()}`,
+      `Ábrela en el panel: ${payload.config.serverURL}/admin/collections/${coleccion}/${doc.id}`,
+      "",
+      "Por seguridad, el contenido no viaja por correo: solo se lee dentro del panel.",
+    ].join("\n"),
+  });
+}
+
+/**
+ * A la persona, si dejó correo. Con tope por día: sin él, cualquiera podría usar los formularios
+ * para mandar correos de la fundación a un tercero.
+ */
+async function confirmarALaPersona(req: PayloadRequest, coleccion: SlugBandeja, doc: Doc): Promise<void> {
+  if (!doc.correo) return;
+  const { totalDocs: previas } = await req.payload.count({
+    collection: coleccion,
+    overrideAccess: true,
+    req,
+    where: {
+      and: [
+        { correo: { equals: doc.correo } },
+        { avisoEnviado: { equals: true } },
+        { createdAt: { greater_than: new Date(Date.now() - UN_DIA).toISOString() } },
+      ],
+    },
+  });
+  if (previas >= CONFIRMACIONES_POR_DIA[coleccion]) return;
+
+  const { asunto, cuerpo } = CONFIRMACION[coleccion];
+  await req.payload.sendEmail({
+    to: doc.correo,
+    subject: `${asunto} · Fundación REFUVA`,
+    text: cuerpo + FIRMA,
+  });
+}
+
 export async function avisarNuevaSolicitud(
   req: PayloadRequest,
-  coleccion: string,
+  coleccion: SlugBandeja,
   singular: string,
-  doc: { id: number | string; correo?: string | null; atencionPronto?: boolean | null },
+  doc: Doc,
 ): Promise<void> {
   const { payload } = req;
   try {
-    const destino = process.env.AVISOS_CORREO;
-    if (!destino) throw new ErrorSeguro("Falta AVISOS_CORREO: nadie recibiría el aviso.");
+    await exigirDentroDelTope(req, coleccion);
+    await avisarALaFundacion(payload, coleccion, singular, doc);
+    await confirmarALaPersona(req, coleccion, doc);
+  } catch (error) {
+    payload.logger.error(`[avisos] ${coleccion} ${doc.id}: no se envió el aviso. ${describirError(error)}`);
+    return;
+  }
 
-    // Tope de volumen: un ataque de envíos no puede agotar la cuota diaria de Resend (100) y dejar
-    // sin aviso a las solicitudes reales. Pasado el tope, las solicitudes se siguen guardando y el
-    // panel muestra cuántas quedaron sin aviso.
-    const { totalDocs: enLaUltimaHora } = await payload.count({
-      collection: coleccion as "solicitudes-cita",
-      overrideAccess: true,
-      req,
-      where: { createdAt: { greater_than: new Date(Date.now() - UNA_HORA).toISOString() } },
-    });
-    if (enLaUltimaHora > TOPE_POR_HORA) {
-      throw new ErrorSeguro(
-        `Más de ${TOPE_POR_HORA} envíos en la última hora: aviso omitido para no agotar la cuota.`,
-      );
-    }
-
-    const enlace = `${payload.config.serverURL}/admin/collections/${coleccion}/${doc.id}`;
-    await payload.sendEmail({
-      to: destino,
-      // «Nuevo envío: …» y no «Nueva …»: los cuatro tipos no comparten género gramatical.
-      subject: `${doc.atencionPronto ? "[Atención pronto] " : ""}Nuevo envío: ${singular}`,
-      text: [
-        `Llegó por el sitio: ${singular}.`,
-        doc.atencionPronto ? "La persona marcó «Necesito atención pronto»." : "",
-        `Fecha: ${new Date().toLocaleString("es-PA", {
-          timeZone: "America/Panama",
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-          hour: "numeric",
-          minute: "2-digit",
-        })}`,
-        `Ábrela en el panel: ${enlace}`,
-        "",
-        "Por seguridad, el contenido no viaja por correo: solo se lee dentro del panel.",
-      ]
-        .filter(Boolean)
-        .join("\n"),
-    });
-
-    // Una sola confirmación por correo y por día. Sin esto, cualquiera podría usar los formularios
-    // para mandar correos de la fundación a un tercero, o agotar la cuota diaria de Resend.
-    const confirmacion = CONFIRMACION[coleccion];
-    const yaConfirmado =
-      !!doc.correo &&
-      (
-        await payload.count({
-          collection: coleccion as "solicitudes-cita",
-          overrideAccess: true,
-          req,
-          where: {
-            and: [
-              { correo: { equals: doc.correo } },
-              { avisoEnviado: { equals: true } },
-              { createdAt: { greater_than: new Date(Date.now() - UN_DIA).toISOString() } },
-            ],
-          },
-        })
-      ).totalDocs > 0;
-    if (doc.correo && confirmacion && !yaConfirmado) {
-      await payload.sendEmail({
-        to: doc.correo,
-        subject: `${confirmacion.asunto} · Fundación REFUVA`,
-        text: confirmacion.cuerpo + FIRMA,
-      });
-    }
-
+  // Aparte del envío: si esto falla, el correo ya salió, y no se debe reportar como «sin aviso».
+  try {
     await payload.update({
-      collection: coleccion as "solicitudes-cita",
+      collection: coleccion,
       id: doc.id,
       data: { avisoEnviado: true },
       req,
@@ -133,6 +160,6 @@ export async function avisarNuevaSolicitud(
       context: { sinBitacora: true, desdeAvisos: true },
     });
   } catch (error) {
-    payload.logger.error(`[avisos] ${coleccion} ${doc.id}: no se envió el aviso. ${describirError(error)}`);
+    payload.logger.error(`[avisos] ${coleccion} ${doc.id}: el correo salió pero no se pudo marcar. ${describirError(error)}`);
   }
 }

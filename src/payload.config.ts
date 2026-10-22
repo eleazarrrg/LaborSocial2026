@@ -15,6 +15,7 @@ import {
   SolicitudesCita,
 } from "./payload/colecciones/solicitudes";
 import { migrations } from "./migrations";
+import { ErrorSeguro } from "./payload/errores";
 import { Usuarios } from "./payload/colecciones/usuarios";
 import { sembrarConvocatoria2026 } from "./payload/semillas";
 
@@ -57,7 +58,8 @@ function comprobarConfiguracion(): void {
     faltas.push("AVISOS_CORREO (el buzón real de la fundación)");
   }
   if (!process.env.RESEND_API_KEY) faltas.push("RESEND_API_KEY");
-  if (faltas.length) throw new Error(`Configuración incompleta en producción: ${faltas.join(", ")}.`);
+  // ErrorSeguro: el mensaje solo nombra variables, nunca valores, y quien despliega necesita verlo.
+  if (faltas.length) throw new ErrorSeguro(`Configuración incompleta en producción: ${faltas.join(", ")}.`);
 }
 
 /**

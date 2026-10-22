@@ -414,7 +414,7 @@ que entra cada dos semanas y no recuerda dónde estaba nada (X-03).
     DigitalOcean: la app → **Console**, y ahí:
 
     ```bash
-    CORREO=edwin@refuva.org NOMBRE="Edwin Quintero" npx payload run scripts/crear-primera-admin.ts
+    CORREO=edwin@refuva.org NOMBRE="Edwin Quintero" npm run crear-admin
     ```
 
     Imprime una contraseña temporal **una sola vez**: se le dicta a Edwin en el momento. Al entrar,
