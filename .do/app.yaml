@@ -42,6 +42,23 @@ services:
       - key: RESEND_API_KEY
         scope: RUN_TIME
         type: SECRET
+      # Las imágenes del sitio viven en DigitalOcean Spaces: el disco del servidor se borra en cada
+      # despliegue. Las llaves se crean en Spaces → Access Keys, con la cuenta de la fundación.
+      - key: SPACES_BUCKET
+        scope: RUN_TIME
+        value: refuva-medios
+      - key: SPACES_REGION
+        scope: RUN_TIME
+        value: nyc3
+      - key: SPACES_PUBLIC_URL
+        scope: RUN_TIME
+        value: https://refuva-medios.nyc3.cdn.digitaloceanspaces.com
+      - key: SPACES_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: SPACES_SECRET
+        scope: RUN_TIME
+        type: SECRET
       - key: CORREO_REMITENTE
         scope: RUN_TIME
         value: avisos@refuva.org

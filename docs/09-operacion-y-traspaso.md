@@ -391,13 +391,17 @@ que entra cada dos semanas y no recuerda dónde estaba nada (X-03).
      cambiarlo cierra todas las sesiones e invalida los segundos factores.
    - `RESEND_API_KEY`: la clave de Resend.
    - Cambiar `AVISOS_CORREO` por el buzón real de la fundación.
-5. **Solo la app entra a la base:** Databases → `refuva-db` → Settings → Trusted Sources → dejar
+5. **Imágenes (Spaces):** Spaces → Create → bucket `refuva-medios`, región **NYC3**, con la **CDN
+   activada** (B/.5.00 al mes por 250 GB). En Spaces → Access Keys, crear una llave **limitada a ese
+   bucket** y guardar `SPACES_KEY` y `SPACES_SECRET` como secretos de la app (nunca por chat). El
+   arranque de la app falla a propósito si falta alguna `SPACES_*`.
+6. **Solo la app entra a la base:** Databases → `refuva-db` → Settings → Trusted Sources → dejar
    únicamente la app `refuva`.
-6. **Respaldos:** vienen activos (diarios, y recuperación a cualquier punto de los últimos 7 días).
+7. **Respaldos:** vienen activos (diarios, y recuperación a cualquier punto de los últimos 7 días).
    Antes de entregar, **probar una restauración** en una base nueva y anotar la fecha aquí.
-7. **Dominio:** en la app, Settings → Domains → `refuva.org`. En Cloudflare, el registro que indique
+8. **Dominio:** en la app, Settings → Domains → `refuva.org`. En Cloudflare, el registro que indique
    DigitalOcean, con el proxy activo (nube naranja), SSL «Full (strict)».
-8. **Cloudflare — seguridad:**
+9. **Cloudflare — seguridad:**
    - Security → WAF → reglas administradas activas.
    - Security → WAF → Rate limiting (**obligatorio antes de publicar**):
      - `POST` a `/api/usuarios/login`, `/api/usuarios/forgot-password` y `/api/*totp*`: 10 por minuto
@@ -407,9 +411,9 @@ que entra cada dos semanas y no recuerda dónde estaba nada (X-03).
    - El arranque de la app **falla a propósito** si falta `PAYLOAD_SECRET`, el CA de la base, la URL
      `https`, `RESEND_API_KEY` o un `AVISOS_CORREO` real: mejor un despliegue rojo que avisos perdidos.
    - Security → Bots → Bot Fight Mode activo.
-9. **Monitoreo:** en DigitalOcean, la app → Insights → alertas por reinicios, CPU y memoria al correo
+10. **Monitoreo:** en DigitalOcean, la app → Insights → alertas por reinicios, CPU y memoria al correo
    de la fundación. Si avisa de reinicios por memoria, subir el tamaño a `apps-s-1vcpu-1gb`.
-10. **Primera cuenta — desde la consola, nunca desde la web.** Con la base vacía, la web **no** deja
+11. **Primera cuenta — desde la consola, nunca desde la web.** Con la base vacía, la web **no** deja
     crear cuentas (si lo dejara, quien llegara primero a `/admin` sería administrador). En
     DigitalOcean: la app → **Console**, y ahí:
 
@@ -419,7 +423,7 @@ que entra cada dos semanas y no recuerda dónde estaba nada (X-03).
 
     Imprime una contraseña temporal **una sola vez**: se le dicta a Edwin en el momento. Al entrar,
     configura el código del teléfono y cambia la contraseña en «Cuenta».
-11. **MCP de Claude:** el de DigitalOcean (`@digitalocean/mcp`) con un token de **alcance limitado**
+12. **MCP de Claude:** el de DigitalOcean (`@digitalocean/mcp`) con un token de **alcance limitado**
     (lectura, despliegues y logs; sin borrar recursos), creado por la cuenta de la fundación y
     guardado en la bóveda (§2.5). Nunca un token con acceso total.
 

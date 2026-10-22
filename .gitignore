@@ -78,3 +78,4 @@ npm-debug.log*
 
 # Postgres local de desarrollo (scripts/db-local.mjs).
 /.db-local/
+/.medios-local/

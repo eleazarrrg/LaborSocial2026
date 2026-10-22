@@ -14,12 +14,15 @@
     "payload": "payload",
     "generate:importmap": "payload generate:importmap",
     "generate:types": "payload generate:types",
-    "crear-admin": "payload run scripts/crear-primera-admin.ts"
+    "crear-admin": "payload run scripts/crear-primera-admin.ts",
+    "probar-cms": "payload run scripts/probar-cms.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.90.2",
     "@payloadcms/email-resend": "3.90.2",
     "@payloadcms/next": "3.90.2",
+    "@payloadcms/richtext-lexical": "3.90.2",
+    "@payloadcms/storage-s3": "3.90.2",
     "@payloadcms/translations": "3.90.2",
     "@payloadcms/ui": "3.90.2",
     "graphql": "16.11.0",
@@ -29,6 +32,7 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "server-only": "0.0.1",
+    "sharp": "0.35.5",
     "zod": "^4.5.4"
   },
   "devDependencies": {

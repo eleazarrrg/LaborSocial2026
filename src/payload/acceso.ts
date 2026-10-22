@@ -12,6 +12,15 @@ export const esAdmin = (usuario: unknown): boolean => {
   return u?.activo === true && u.rol === "administrador";
 };
 
+/** El equipo que edita contenido: administración y edición, siempre con la cuenta activa. */
+export const esEquipo = (usuario: unknown): boolean => {
+  const u = usuario as ConRol;
+  return u?.activo === true && (u.rol === "administrador" || u.rol === "editor");
+};
+
+/** Contenido del sitio (noticias, proyectos, imágenes): lo edita todo el equipo. */
+export const soloEquipo: Access = ({ req }) => esEquipo(req.user);
+
 /** Solicitudes, cuarentena, bitácora y usuarios: solo administración. */
 export const soloAdmin: Access = ({ req }) => esAdmin(req.user);
 

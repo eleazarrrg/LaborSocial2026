@@ -2,12 +2,17 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { resendAdapter } from "@payloadcms/email-resend";
+import { s3Storage } from "@payloadcms/storage-s3";
 import { es } from "@payloadcms/translations/languages/es";
 import { buildConfig } from "payload";
+import sharp from "sharp";
 import { payloadTotp } from "payload-totp";
 import { Bitacora } from "./payload/colecciones/bitacora";
 import { Convocatorias } from "./payload/colecciones/convocatorias";
 import { Cuarentena } from "./payload/colecciones/cuarentena";
+import { Medios } from "./payload/colecciones/medios";
+import { Eventos, Noticias } from "./payload/colecciones/publicaciones";
+import { Proyectos } from "./payload/colecciones/proyectos";
 import {
   InscripcionesPadrinos,
   InscripcionesVoluntariado,
@@ -39,6 +44,8 @@ function conexion() {
   return { connectionString: sinModo.toString(), ssl: ca ? { ca, rejectUnauthorized: true } : { rejectUnauthorized: true } };
 }
 
+const hayAlmacenamiento = () => Boolean(process.env.SPACES_BUCKET && process.env.SPACES_KEY);
+
 /** `next build` también corre con NODE_ENV=production; el servidor real tiene DATABASE_URL. */
 const esProduccion = () => process.env.NODE_ENV === "production" && !!process.env.DATABASE_URL;
 
@@ -58,6 +65,10 @@ function comprobarConfiguracion(): void {
     faltas.push("AVISOS_CORREO (el buzón real de la fundación)");
   }
   if (!process.env.RESEND_API_KEY) faltas.push("RESEND_API_KEY");
+  // Sin Spaces, una foto subida se perdería en el siguiente despliegue.
+  for (const v of ["SPACES_BUCKET", "SPACES_KEY", "SPACES_SECRET", "SPACES_REGION", "SPACES_PUBLIC_URL"]) {
+    if (!process.env[v]) faltas.push(v);
+  }
   // ErrorSeguro: el mensaje solo nombra variables, nunca valores, y quien despliega necesita verlo.
   if (faltas.length) throw new ErrorSeguro(`Configuración incompleta en producción: ${faltas.join(", ")}.`);
 }
@@ -79,12 +90,27 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname) },
   },
   i18n: { supportedLanguages: { es }, fallbackLanguage: "es" },
+  // Español como base. El inglés queda en blanco hasta que la fundación entregue la traducción, y
+  // mientras tanto el sitio muestra el español (fallback): nunca una página vacía.
+  localization: {
+    locales: [
+      { code: "es", label: "Español" },
+      { code: "en", label: "English" },
+    ],
+    defaultLocale: "es",
+    fallback: true,
+  },
+  sharp,
   // Solo el propio dominio puede usar la API con la sesión (además de la cookie SameSite=Strict).
   csrf: process.env.NEXT_PUBLIC_SERVER_URL ? [process.env.NEXT_PUBLIC_SERVER_URL] : [],
   cors: process.env.NEXT_PUBLIC_SERVER_URL ? [process.env.NEXT_PUBLIC_SERVER_URL] : [],
   // Menos superficie de ataque: el sitio no usa GraphQL.
   graphQL: { disable: true },
   collections: [
+    Noticias,
+    Eventos,
+    Proyectos,
+    Medios,
     SolicitudesCita,
     InscripcionesVoluntariado,
     InscripcionesPadrinos,
@@ -114,6 +140,28 @@ export default buildConfig({
     await sembrarConvocatoria2026(payload);
   },
   plugins: [
+    // Las imágenes viven en DigitalOcean Spaces: el disco del servidor se borra en cada despliegue.
+    // Sin las variables (desarrollo local), se guardan en .medios-local.
+    s3Storage({
+      enabled: hayAlmacenamiento(),
+      acl: "public-read",
+      bucket: process.env.SPACES_BUCKET ?? "",
+      collections: {
+        medios: {
+          prefix: "medios",
+          generateFileURL: ({ filename, prefix }) =>
+            `${process.env.SPACES_PUBLIC_URL}/${prefix ? `${prefix}/` : ""}${filename}`,
+        },
+      },
+      config: {
+        endpoint: `https://${process.env.SPACES_REGION ?? "nyc3"}.digitaloceanspaces.com`,
+        region: process.env.SPACES_REGION ?? "nyc3",
+        credentials: {
+          accessKeyId: process.env.SPACES_KEY ?? "",
+          secretAccessKey: process.env.SPACES_SECRET ?? "",
+        },
+      },
+    }),
     // Último a propósito: envuelve los permisos de todas las colecciones (ver su README).
     payloadTotp({
       collection: "usuarios",
