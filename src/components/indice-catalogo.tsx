@@ -1,24 +1,19 @@
 import Link from "next/link";
+import { Fondo } from "@/components/fondo";
 import { Flecha } from "@/components/iconos";
 import { Placa } from "@/components/ui";
 import { rutaDe, type Entrada } from "@/lib/catalogo";
 
 /**
- * El catálogo como lista de filas, a dos columnas, sin contenedor de tarjeta.
+ * El catálogo como lositas con foto y tinte, a dos columnas.
  *
- * QUÉ CAMBIÓ Y POR QUÉ. Primero fue un índice numerado 01–08 sin logos (lo
- * más genérico del sitio, según la crítica de octubre). Después, ocho tarjetas
- * tintadas iguales: la revisión final de impeccable las rechazó por ser el
- * andamio de «tarjetas de icono, título y texto» que su piso de calidad
- * prohíbe, y porque repetían en grande los emblemas que el héroe ya enseña.
+ * QUÉ CAMBIÓ Y POR QUÉ. Fue un índice numerado, después ocho tarjetas tintadas sin foto y luego
+ * filas con filete. Con las fotos editables desde el panel (Edwin las cambia sin nosotros), cada
+ * entrada lleva la suya con el tinte de la marca encima, como las fundaciones de referencia
+ * (difunda.org): el catálogo se ve como un catálogo de lugares y gente, no como una lista de texto.
  *
- * Ahora: filas separadas por un filete, el emblema pequeño, el nombre con peso
- * de titular y una línea. La dedicatoria «En honor a» lleva un solo
- * tratamiento en todas las entradas: con el color de cada una, el rojo de Un
- * Solo Corazón se leía como un error.
- *
- * Todas las filas iguales a propósito (HU-01): ninguna se presenta como
- * subordinada a otra. La fila entera es el enlace: un solo destino de foco.
+ * Todas las lositas son iguales a propósito (HU-01): ninguna se presenta como subordinada a otra.
+ * La loseta entera es el enlace: un solo destino de foco. Sin foto se ve el color del tinte.
  */
 export function IndiceCatalogo({
   entradas,
@@ -31,33 +26,42 @@ export function IndiceCatalogo({
   const Titulo = encabezado;
 
   return (
-    <ul className="grid gap-x-12 border-t border-borde md:grid-cols-2">
+    <ul className="grid gap-4 md:grid-cols-2">
       {entradas.map((e) => (
-        <li key={e.codigo} className="border-b border-borde">
+        <Fondo
+          key={e.codigo}
+          como="li"
+          fondo={e.fondo ?? { tinte: e.tinte }}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          className="rounded-2xl focus-within:ring-4 focus-within:ring-tinta"
+        >
           <Link
             href={rutaDe(e)}
-            className="group flex h-full items-start gap-5 py-6 sm:gap-6"
+            className="group flex h-full min-h-72 flex-col gap-6 p-6 outline-none sm:p-8"
           >
-            {e.logo && (
-              <Placa src={e.logo.src} alt="" fondo={e.logo.fondo} tamano="fila" />
-            )}
+            {e.logo && <Placa src={e.logo.src} alt="" fondo={e.logo.fondo} tamano="fila" />}
 
-            <div className="min-w-0 flex-1">
-              <Titulo className="text-xl leading-tight font-extrabold underline-offset-4 group-hover:text-fuerte group-hover:underline sm:text-2xl">
+            <div className="mt-auto pr-12">
+              <Titulo className="text-2xl leading-tight font-extrabold underline-offset-4 group-hover:underline sm:text-3xl">
                 {e.nombreCorto}
               </Titulo>
-              <p className="mt-2 leading-snug text-tinta-suave">{e.resumen}</p>
+              <p className="mt-3 max-w-[46ch] leading-snug">{e.resumen}</p>
               {e.enHonorA && (
-                <p className="mt-2 font-bold">
-                  <span className="font-normal text-tinta-suave">En honor a </span>
+                <p className="mt-3 font-bold">
+                  <span className="font-normal">En honor a </span>
                   {e.enHonorA}
                 </p>
               )}
             </div>
 
-            <Flecha className="mt-1 size-6 shrink-0 text-fuerte transition-transform group-hover:translate-x-1" />
+            <span
+              aria-hidden
+              className="absolute right-0 bottom-0 grid size-14 place-items-center rounded-tl-xl bg-papel text-tinta"
+            >
+              <Flecha className="size-6 transition-transform group-hover:translate-x-0.5" />
+            </span>
           </Link>
-        </li>
+        </Fondo>
       ))}
     </ul>
   );

@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Flecha, Telefono } from "@/components/iconos";
 import { SelectorTema } from "@/components/tema";
-import { CAMPANAS, PROYECTOS, rutaDe } from "@/lib/catalogo";
+import { rutaDe } from "@/lib/catalogo";
+import { campanas, proyectos } from "@/lib/contenido";
 import { RECURSOS_CRISIS, VERIFICADO_EL } from "@/lib/crisis";
 
 /**
@@ -40,7 +41,8 @@ function Columna({
   );
 }
 
-export function Pie() {
+export async function Pie() {
+  const [listaProyectos, listaCampanas] = await Promise.all([proyectos(), campanas()]);
   return (
     <footer className="bg-marca text-sobre-marca">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
@@ -59,8 +61,8 @@ export function Pie() {
               <span className="text-xl font-extrabold">Fundación REFUVA</span>
             </Link>
             <p className="mt-5 max-w-xs leading-relaxed">
-              Resiliente, Fuerte, Valiente. {PROYECTOS.length} proyectos y{" "}
-              {CAMPANAS.length} campañas en Panamá: la salud mental es una parte,
+              Resiliente, Fuerte, Valiente. {listaProyectos.length} proyectos y{" "}
+              {listaCampanas.length} campañas en Panamá: la salud mental es una parte,
               no el todo.
             </p>
           </div>
@@ -68,7 +70,7 @@ export function Pie() {
           <nav aria-label="Proyectos y campañas">
             <Columna titulo="Proyectos">
               <ul className="space-y-2.5">
-                {PROYECTOS.map((p) => (
+                {listaProyectos.map((p) => (
                   <li key={p.codigo}>
                     <Link href={rutaDe(p)} className={ENLACE}>
                       {p.nombreCorto}
@@ -79,7 +81,7 @@ export function Pie() {
             </Columna>
             <h2 className="mt-8 text-lg font-extrabold">Campañas</h2>
             <ul className="mt-4 space-y-2.5">
-              {CAMPANAS.map((c) => (
+              {listaCampanas.map((c) => (
                 <li key={c.codigo}>
                   <Link href={rutaDe(c)} className={ENLACE}>
                     {c.nombreCorto}

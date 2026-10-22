@@ -49,14 +49,20 @@ export function Placa({
           : { backgroundColor: fondo, width: px, height: px }
       }
     >
-      <Image
-        src={src}
-        alt={alt}
-        width={px}
-        height={px}
-        sizes={fluida ? "(min-width: 1024px) 140px, 22vw" : undefined}
-        className="size-full object-contain"
-      />
+      {src.startsWith("/marca/") ? (
+        <Image
+          src={src}
+          alt={alt}
+          width={px}
+          height={px}
+          sizes={fluida ? "(min-width: 1024px) 140px, 22vw" : undefined}
+          className="size-full object-contain"
+        />
+      ) : (
+        // Logo del CMS: ya viene en su tamaño pequeño (miniatura). Ver components/fondo.tsx.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={src} alt={alt} width={px} height={px} loading="lazy" decoding="async" className="size-full object-contain" />
+      )}
     </div>
   );
 }

@@ -1,24 +1,27 @@
 import Link from "next/link";
+import { Fondo } from "@/components/fondo";
 import { Flecha } from "@/components/iconos";
 import { IndiceCatalogo } from "@/components/indice-catalogo";
 import { Boton, Placa } from "@/components/ui";
-import { CAMPANAS, PROYECTOS, enPalabras, rutaDe } from "@/lib/catalogo";
+import { enPalabras, rutaDe } from "@/lib/catalogo";
+import { campanas, fondosInicio, proyectos } from "@/lib/contenido";
+import type { FondosInicio } from "@/lib/contenido";
 
 /**
  * Inicio.
  *
  * Tiene un solo trabajo, el requisito raíz (O-04 / RF-06): que en diez segundos
- * se entienda que REFUVA son muchos frentes y no uno. Dirección elegida por el
- * equipo el 5 de octubre: el estándar del sector, con Mind como vara.
+ * se entienda que REFUVA son muchos frentes y no uno.
  *
  * Tres decisiones:
- * 1. La amplitud se VE, no solo se lee: los ocho emblemas reales están en la
+ * 1. La amplitud se VE, no solo se lee: los emblemas reales están en la
  *    primera pantalla, junto al titular.
  * 2. Le habla primero a quien pide ayuda: el botón principal es «Pedir una
  *    cita» y la primera casilla de «¿Cómo te podemos ayudar?» es «Estoy
  *    pasando por un momento difícil». Donar está en la cabecera, segundo.
- * 3. Nada vacío a la vista: sin cajas de «foto pendiente» ni notas internas.
- *    Vuelven las fotos cuando existan (P-08).
+ * 3. Los fondos con foto (héroe, ayuda, declaración y cada proyecto) se cambian
+ *    desde el panel (Fondos del inicio y cada proyecto). Sin foto, cada bloque
+ *    se ve en el color de su tinte: nunca una caja de «foto pendiente».
  *
  * HU-01 exige que el SUBTÍTULO nombre al menos dos frentes ajenos a salud
  * mental. El conteo se deriva del catálogo; nunca se escribe a mano.
@@ -26,40 +29,38 @@ import { CAMPANAS, PROYECTOS, enPalabras, rutaDe } from "@/lib/catalogo";
 
 const mayuscula = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-const AYUDA = [
+const AYUDA: { clave: keyof FondosInicio; href: string; titulo: string; texto: string }[] = [
   {
+    clave: "ayudaDificil",
     href: "/ayuda-en-crisis",
     titulo: "Estoy pasando por un momento difícil",
     texto: "Números que contestan ahora mismo, y qué hacer mientras llega la ayuda.",
-    fondo: "bg-valiente-tenue",
-    flecha: "bg-valiente",
   },
   {
+    clave: "ayudaCita",
     href: "/agendar-cita",
     titulo: "Quiero pedir una cita",
     texto: "Atención psicológica por B/.15.00. Si el precio es el problema, escríbenos igual.",
-    fondo: "bg-fuerte-tenue",
-    flecha: "bg-fuerte",
   },
   {
+    clave: "ayudaParticipar",
     href: "/participar",
     titulo: "Quiero ayudar",
     texto: "Ser padrino o madrina en Navidad, dar tu tiempo como voluntario o donar.",
-    fondo: "bg-fuerte-tenue",
-    flecha: "bg-fuerte",
   },
 ];
 
-export default function Inicio() {
+export default async function Inicio() {
+  const [lista, listaCampanas, fondos] = await Promise.all([proyectos(), campanas(), fondosInicio()]);
+
   return (
     <>
       {/* ═════════════════════════════════════════════════════════ Héroe */}
-      {/* Campo tintado a sangre, como el de Mind: la tarjeta del titular va en
-          blanco encima y los emblemas ocupan la otra mitad del mismo campo, en
-          vez de flotar sobre blanco. */}
-      <section className="bg-papel-alto">
+      {/* Foto a sangre con el tinte encima: la tarjeta blanca lleva el titular
+          y los emblemas ocupan la otra mitad del mismo campo. */}
+      <Fondo fondo={fondos.portada} como="section" prioridad>
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:px-6 sm:py-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch lg:gap-12">
-          <div className="rounded-2xl bg-papel p-6 sm:p-10">
+          <div className="rounded-2xl bg-papel p-6 text-tinta sm:p-10">
             {/* Las frases cortas no se parten: sin esto, a 1440 quedaba una «Y»
                 sola al final de la tercera línea. */}
             <h1 className="max-w-[19ch] text-[length:var(--paso-display)] leading-[1.06] font-extrabold">
@@ -72,7 +73,7 @@ export default function Inicio() {
             <p className="mt-6 max-w-[46ch] text-lg leading-relaxed text-tinta-suave sm:text-xl">
               Sostenemos{" "}
               <strong className="font-bold text-tinta">
-                {enPalabras(PROYECTOS.length)} proyectos
+                {enPalabras(lista.length)} proyectos
               </strong>{" "}
               en Panamá: escuelas, calle, animales, familias, escritura,
               emprendimiento y Navidad. La salud mental es uno de ellos —{" "}
@@ -90,13 +91,10 @@ export default function Inicio() {
             </div>
           </div>
 
-          {/* Los ocho emblemas reales: la prueba de amplitud en un vistazo. */}
-          {/* La rejilla arranca a la altura del borde superior de la tarjeta.
-              Centrada, flotaba con un hueco encima; repartida entre arriba y
-              abajo, dejaba 320 px muertos entre sus dos filas. */}
+          {/* Los emblemas reales: la prueba de amplitud en un vistazo. */}
           <nav aria-label="Los proyectos de un vistazo" className="lg:flex">
             <ul className="grid w-full grid-cols-4 gap-3 sm:gap-x-4 sm:gap-y-6 lg:content-start">
-              {PROYECTOS.map((p) => (
+              {lista.map((p) => (
                 <li key={p.codigo}>
                   <Link
                     href={rutaDe(p)}
@@ -112,7 +110,7 @@ export default function Inicio() {
                         />
                       </span>
                     )}
-                    <span className="text-sm leading-tight font-bold group-hover:text-fuerte max-sm:sr-only">
+                    <span className="text-sm leading-tight font-bold group-hover:underline max-sm:sr-only">
                       {p.nombreCorto}
                     </span>
                   </Link>
@@ -121,33 +119,39 @@ export default function Inicio() {
             </ul>
           </nav>
         </div>
-      </section>
+      </Fondo>
 
       {/* ═════════════════════════════════════════ ¿Cómo te podemos ayudar? */}
-      <section aria-labelledby="ayuda" className="bg-papel-alto">
+      <section aria-labelledby="ayuda">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
           <h2 id="ayuda" className="text-3xl font-extrabold sm:text-4xl">
             ¿Cómo te podemos ayudar?
           </h2>
           <ul className="mt-8 grid gap-4 md:grid-cols-3">
             {AYUDA.map((a) => (
-              <li key={a.href}>
+              <Fondo
+                key={a.href}
+                como="li"
+                fondo={fondos[a.clave]}
+                sizes="(min-width: 768px) 33vw, 100vw"
+                className="rounded-xl focus-within:ring-4 focus-within:ring-tinta"
+              >
                 <Link
                   href={a.href}
-                  className={`group relative flex h-full min-h-48 flex-col rounded-xl ${a.fondo} p-6 pb-20 ring-tinta transition-shadow hover:ring-2`}
+                  className="group flex h-full min-h-56 flex-col p-6 pb-20 outline-none"
                 >
-                  <span className="text-xl leading-snug font-extrabold sm:text-2xl">
+                  <span className="text-xl leading-snug font-extrabold underline-offset-4 group-hover:underline sm:text-2xl">
                     {a.titulo}
                   </span>
-                  <span className="mt-3 text-tinta-suave">{a.texto}</span>
+                  <span className="mt-3">{a.texto}</span>
                   <span
                     aria-hidden
-                    className={`absolute right-0 bottom-0 grid size-14 place-items-center rounded-tl-xl rounded-br-xl ${a.flecha} text-papel`}
+                    className="absolute right-0 bottom-0 grid size-14 place-items-center rounded-tl-xl bg-papel text-tinta"
                   >
                     <Flecha className="size-6 transition-transform group-hover:translate-x-0.5" />
                   </span>
                 </Link>
-              </li>
+              </Fondo>
             ))}
           </ul>
         </div>
@@ -157,11 +161,11 @@ export default function Inicio() {
       <section
         id="proyectos"
         aria-labelledby="titulo-proyectos"
-        className="mx-auto max-w-6xl scroll-mt-4 px-4 py-14 sm:px-6 sm:py-20"
+        className="mx-auto max-w-6xl scroll-mt-4 px-4 pb-14 sm:px-6 sm:pb-20"
       >
         <div className="max-w-2xl">
           <h2 id="titulo-proyectos" className="text-3xl font-extrabold sm:text-4xl">
-            {mayuscula(enPalabras(PROYECTOS.length))} proyectos, un mismo equipo
+            {mayuscula(enPalabras(lista.length))} proyectos, un mismo equipo
           </h2>
           <p className="mt-4 text-lg text-tinta-suave">
             Cada uno nació de una historia y va en honor a alguien. Se sostienen
@@ -169,13 +173,13 @@ export default function Inicio() {
           </p>
         </div>
         <div className="mt-9">
-          <IndiceCatalogo entradas={PROYECTOS} encabezado="h3" />
+          <IndiceCatalogo entradas={lista} encabezado="h3" />
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════ Declaración */}
-      <section className="bg-marca text-sobre-marca">
-        <div className="mx-auto max-w-6xl px-4 py-14 text-center sm:px-6 sm:py-16">
+      <Fondo fondo={fondos.declaracion} como="section">
+        <div className="mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-28">
           <p className="text-3xl leading-tight font-extrabold text-balance sm:text-5xl">
             Resiliente. Fuerte. Valiente.
           </p>
@@ -184,16 +188,16 @@ export default function Inicio() {
             en que trabaja.
           </p>
         </div>
-      </section>
+      </Fondo>
 
       {/* ═════════════════════════════════════════════════════ Campañas
           Van aparte porque la fundación las separa, y porque juntas con los
           proyectos serían media lista de salud mental (CLAUDE.md §2). */}
-      <section aria-labelledby="titulo-campanas" className="bg-papel-alto">
+      <section aria-labelledby="titulo-campanas">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="max-w-2xl">
             <h2 id="titulo-campanas" className="text-3xl font-extrabold sm:text-4xl">
-              Y {enPalabras(CAMPANAS.length)} campañas, para que se hable de esto
+              Y {enPalabras(listaCampanas.length)} campañas, para que se hable de esto
             </h2>
             <p className="mt-4 text-lg text-tinta-suave">
               No piden que te inscribas a nada. Piden que hablemos, que
@@ -201,7 +205,7 @@ export default function Inicio() {
             </p>
           </div>
           <div className="mt-9">
-            <IndiceCatalogo entradas={CAMPANAS} encabezado="h3" />
+            <IndiceCatalogo entradas={listaCampanas} encabezado="h3" />
           </div>
         </div>
       </section>
@@ -209,7 +213,7 @@ export default function Inicio() {
       {/* ═══════════════════════════════════════════ Lo que ya está pasando */}
       <section
         aria-labelledby="titulo-impacto"
-        className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20"
+        className="mx-auto max-w-6xl px-4 pb-14 sm:px-6 sm:pb-20"
       >
         <h2 id="titulo-impacto" className="text-3xl font-extrabold sm:text-4xl">
           Lo que ya está pasando

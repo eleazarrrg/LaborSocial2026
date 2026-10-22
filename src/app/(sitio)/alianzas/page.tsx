@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { FormularioContacto } from "@/components/formularios/form-contacto";
 import { Nota, TituloPagina } from "@/components/ui";
-import { PROYECTOS } from "@/lib/catalogo";
+import { proyectos } from "@/lib/contenido";
 
 export const metadata: Metadata = {
   title: "Solicitar una alianza",
@@ -19,7 +19,8 @@ export const metadata: Metadata = {
  * —institución, tipo, cargo, proyecto de interés y población estimada— entran
  * con el modelo de datos, junto con el etiquetado que separa esta bandeja.
  */
-export default function Alianzas() {
+export default async function Alianzas() {
+  const lista = await proyectos();
   return (
     <>
       <TituloPagina
@@ -38,7 +39,7 @@ export default function Alianzas() {
               Líneas disponibles
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm text-tinta-suave">
-              {PROYECTOS.map((p) => (
+              {lista.map((p) => (
                 <li key={p.codigo}>{p.nombreCorto}</li>
               ))}
             </ul>

@@ -39,6 +39,13 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+/**
+ * Lo que Edwin publica o cambia en el panel se ve en el sitio en la siguiente visita, sin esperar a
+ * una nueva versión. Cada página lee del CMS (lib/contenido.ts) y, si la base falla, cae al catálogo
+ * del código. La carga la absorben Cloudflare delante y el caché por petición de `cache()`.
+ */
+export const dynamic = "force-dynamic";
+
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },

@@ -179,8 +179,10 @@ El equipo entrega y se retira. Por lo tanto:
   La legibilidad aquí es un requisito de seguridad, no de estilo.
 - Contraste 4.5:1 en texto normal, área táctil mínima 24×24 px, todo operable por teclado, foco visible.
 - **Core Web Vitals**: LCP ≤ 2.5 s, INP ≤ 200 ms, CLS ≤ 0.1 en el percentil 75.
-- Imágenes siempre por `next/image` con `width`/`height` — el sitio va lleno de fotos de evidencia
-  y el CLS es el riesgo obvio.
+- Imágenes con `width`/`height` siempre — el sitio va lleno de fotos de evidencia y el CLS es el
+  riesgo obvio. Las del código (`/marca/…`) van por `next/image`. Las que sube Edwin al CMS van con
+  `<img>` y `srcSet` de los tamaños que Payload ya genera al subirlas (480, 1280 y 1920 px, webp):
+  el servidor de 512 MB no debe ser también el optimizador de imágenes. Ver `components/fondo.tsx`.
 
 ### 5.5 Pagos
 

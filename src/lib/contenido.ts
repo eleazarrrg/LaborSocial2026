@@ -66,7 +66,7 @@ function aEntrada(p: Proyecto): Entrada {
     cifra: p.cifraValor && p.cifraPie ? { valor: p.cifraValor, pie: p.cifraPie } : undefined,
     poblacion: p.poblacion ?? base?.poblacion ?? "",
     parrafos: parrafos.length ? parrafos : (base?.parrafos ?? []),
-    historia: parrafos.length ? p.historia : undefined,
+    historia: parrafos.length ? (p.historia ?? undefined) : undefined,
     enHonorA: p.enHonorA ?? undefined,
     requisitos: p.requisitos?.length ? p.requisitos.map((r) => r.texto) : base?.requisitos,
     cuando: p.cuando ?? base?.cuando,

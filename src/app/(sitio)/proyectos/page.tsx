@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { IndiceCatalogo } from "@/components/indice-catalogo";
-import { PROYECTOS } from "@/lib/catalogo";
+import { proyectos } from "@/lib/contenido";
 import { TituloPagina, Boton } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -9,7 +9,8 @@ export const metadata: Metadata = {
     "Los proyectos de la Fundación REFUVA: escuelas, emprendimiento, riesgo social, escritura terapéutica, familias, Navidad, personas en situación de calle y animales.",
 };
 
-export default function Proyectos() {
+export default async function Proyectos() {
+  const lista = await proyectos();
   return (
     <>
       <TituloPagina
@@ -18,7 +19,7 @@ export default function Proyectos() {
       />
 
       <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <IndiceCatalogo entradas={PROYECTOS} />
+        <IndiceCatalogo entradas={lista} />
       </section>
 
       <section className="border-t border-borde bg-papel-alto">

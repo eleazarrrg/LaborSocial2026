@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { IndiceCatalogo } from "@/components/indice-catalogo";
 import { TituloPagina } from "@/components/ui";
-import { CAMPANAS } from "@/lib/catalogo";
+import { campanas } from "@/lib/contenido";
 
 export const metadata: Metadata = {
   title: "Campañas",
@@ -22,7 +22,8 @@ export const metadata: Metadata = {
  * la comida, los animales, la Navidad, las familias y el emprendimiento, y la
  * salud mental tiene su propia sección, honesta y etiquetada.
  */
-export default function Campanas() {
+export default async function Campanas() {
+  const lista = await campanas();
   return (
     <>
       <TituloPagina
@@ -31,7 +32,7 @@ export default function Campanas() {
       />
 
       <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <IndiceCatalogo entradas={CAMPANAS} />
+        <IndiceCatalogo entradas={lista} />
       </section>
 
       <section className="border-t border-borde bg-papel-alto">

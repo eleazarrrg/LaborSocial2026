@@ -25,7 +25,10 @@
  * En producción esto vive en la tabla `proyectos` con su columna `tipo`.
  */
 
+import type { Proyecto } from "@/payload-types";
 import type { Fondo, Tinte } from "./fondo";
+
+type TextoEnriquecido = NonNullable<Proyecto["historia"]>;
 
 export type TipoEntrada = "proyecto" | "campana";
 
@@ -88,7 +91,7 @@ export type Entrada = {
    * El texto en texto enriquecido (Lexical), si viene de la base. Con él se renderiza el formato que
    * puso quien editó; sin él, se usan `parrafos`.
    */
-  historia?: unknown;
+  historia?: TextoEnriquecido;
 };
 
 export const CATALOGO: Entrada[] = [
