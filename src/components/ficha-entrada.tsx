@@ -33,7 +33,7 @@ export async function FichaEntrada({ entrada }: { entrada: Entrada }) {
   return (
     <>
       <Fondo fondo={entrada.fondo ?? { tinte: entrada.tinte }} como="header" prioridad>
-        <div className="mx-auto max-w-6xl px-4 pt-8 pb-12 sm:px-6 sm:pt-10 sm:pb-20">
+        <div className="mx-auto max-w-6xl px-4 pt-8 pb-10 sm:px-6 sm:pt-10 sm:pb-12">
           <nav aria-label="Miga de pan" className="text-sm">
             <Link href={esCampana ? "/campanas" : "/proyectos"} className="underline-offset-4 hover:underline">
               {esCampana ? "Campañas" : "Proyectos"}
@@ -49,6 +49,13 @@ export async function FichaEntrada({ entrada }: { entrada: Entrada }) {
               {entrada.nombre}
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed sm:text-xl">{entrada.resumen}</p>
+            {/* La dedicatoria es el gancho narrativo de REFUVA: va arriba, a la vista, no al final. */}
+            {entrada.enHonorA && (
+              <p className="mt-5 text-xl font-extrabold sm:text-2xl">
+                <span className="font-normal">En honor a </span>
+                {entrada.enHonorA}.
+              </p>
+            )}
             {/* La cifra real va en una línea de texto, no como número gigante. */}
             {entrada.cifra && (
               <p className="mt-3 text-lg sm:text-xl">
@@ -69,15 +76,6 @@ export async function FichaEntrada({ entrada }: { entrada: Entrada }) {
                 <p key={p.slice(0, 40)}>{p}</p>
               ))}
             </div>
-          )}
-
-          {entrada.enHonorA && (
-            /* La dedicatoria es el gancho narrativo de REFUVA: va con el peso de
-               un titular, no como una nota al margen con barra de color. */
-            <p className="mt-10 max-w-[30ch] text-2xl leading-snug font-extrabold sm:text-3xl">
-              <span className="text-tinta-suave">En honor a </span>
-              <span className="text-fuerte">{entrada.enHonorA}</span>.
-            </p>
           )}
 
           {entrada.requisitos && (

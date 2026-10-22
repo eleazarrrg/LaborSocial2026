@@ -140,7 +140,7 @@ export default async function Inicio() {
                 como="li"
                 fondo={fondos[a.clave]}
                 sizes="(min-width: 768px) 33vw, 100vw"
-                className="rounded-xl focus-within:ring-4 focus-within:ring-tinta"
+                className="revelar elevable rounded-xl focus-within:ring-4 focus-within:ring-tinta"
               >
                 <Link
                   href={a.href}

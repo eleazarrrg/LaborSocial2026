@@ -33,7 +33,7 @@ export function IndiceCatalogo({
           como="li"
           fondo={e.fondo ?? { tinte: e.tinte }}
           sizes="(min-width: 768px) 50vw, 100vw"
-          className="rounded-2xl focus-within:ring-4 focus-within:ring-tinta"
+          className="revelar elevable rounded-2xl focus-within:ring-4 focus-within:ring-tinta"
         >
           <Link
             href={rutaDe(e)}

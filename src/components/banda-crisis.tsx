@@ -33,7 +33,7 @@ export function BandaCrisis() {
           Emergencia{" "}
           <a
             href={`tel:${emergencia.marcar}`}
-            className="cifras-alineadas font-display text-base font-semibold underline decoration-2 underline-offset-[3px] hover:no-underline"
+            className="cifras-alineadas font-display -my-2 inline-block px-1 py-2 text-base font-semibold underline decoration-2 underline-offset-[3px] hover:no-underline"
           >
             {emergencia.numero}
           </a>
@@ -41,7 +41,7 @@ export function BandaCrisis() {
           Hablar con alguien{" "}
           <a
             href={`tel:${linea.marcar}`}
-            className="cifras-alineadas font-display text-base font-semibold underline decoration-2 underline-offset-[3px] hover:no-underline"
+            className="cifras-alineadas font-display -my-2 inline-block px-1 py-2 text-base font-semibold underline decoration-2 underline-offset-[3px] hover:no-underline"
           >
             {linea.numero}
           </a>
