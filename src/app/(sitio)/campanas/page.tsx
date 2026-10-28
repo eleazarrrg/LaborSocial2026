@@ -27,6 +27,7 @@ export default async function Campanas() {
   return (
     <>
       <TituloPagina
+        quieto
         titulo="Hablar de esto, en voz alta."
         entrada="Dos campañas de sensibilización que REFUVA sostiene en el espacio público. No piden que te inscribas a nada: piden que hablemos, que escuchemos y que acompañemos."
       />

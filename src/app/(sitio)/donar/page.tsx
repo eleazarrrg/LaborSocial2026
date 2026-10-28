@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BotonCopiar } from "@/components/boton-copiar";
+import { Palabras } from "@/components/palabras";
 import { Boton, TituloPagina } from "@/components/ui";
 import { CONTACTO, DONACIONES, PRECIO_CONSULTA } from "@/lib/contacto";
 
@@ -60,13 +61,13 @@ export default function Donar() {
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
         {/* ────────────────────────────────────────── Equivalencias */}
         <section aria-labelledby="equivalencias">
-          <h2 id="equivalencias" className="text-3xl font-extrabold sm:text-4xl">
-            Qué hace tu donación
+          <h2 id="equivalencias" className="text-3xl font-extrabold sm:text-5xl">
+            <Palabras texto="Qué hace tu donación" />
           </h2>
           <dl className="mt-8 grid gap-x-8 gap-y-8 sm:grid-cols-3">
             {EQUIVALENCIAS.map((e) => (
-              <div key={e.monto}>
-                <dt className="cifras-alineadas font-display text-2xl font-semibold text-fuerte sm:text-3xl">
+              <div key={e.monto} className="revelar">
+                <dt className="font-display text-4xl leading-none font-extrabold text-fuerte tabular-nums sm:text-6xl">
                   {e.monto}
                 </dt>
                 <dd className="mt-2.5 leading-relaxed text-tinta-suave">

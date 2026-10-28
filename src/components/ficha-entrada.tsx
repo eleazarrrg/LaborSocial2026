@@ -1,7 +1,7 @@
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import Link from "next/link";
 import { BloqueCrisis } from "@/components/banda-crisis";
-import { Fondo } from "@/components/fondo";
+import { ArcoFoto } from "@/components/arco-foto";
 import { Flecha } from "@/components/iconos";
 import { Boton, Placa } from "@/components/ui";
 import { rutaDe, type Entrada } from "@/lib/catalogo";
@@ -32,39 +32,47 @@ export async function FichaEntrada({ entrada }: { entrada: Entrada }) {
 
   return (
     <>
-      <Fondo fondo={entrada.fondo ?? { tinte: entrada.tinte }} como="header" prioridad>
-        <div className="mx-auto max-w-6xl px-4 pt-8 pb-10 sm:px-6 sm:pt-10 sm:pb-12">
-          <nav aria-label="Miga de pan" className="text-sm">
-            <Link href={esCampana ? "/campanas" : "/proyectos"} className="underline-offset-4 hover:underline">
-              {esCampana ? "Campañas" : "Proyectos"}
-            </Link>
-            <span aria-hidden className="mx-2">/</span>
-            <span>{entrada.nombreCorto}</span>
-          </nav>
+      {/* Misma composición que la portada: texto sobre papel y la foto en arco, a color. Si la
+          entrada es de prevención del suicidio (`bloqueCrisis`), nada se mueve. */}
+      <header className="overflow-hidden border-b border-borde bg-papel">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-8 pb-12 sm:px-6 sm:pt-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-center lg:gap-14 lg:pb-14">
+          <div className="min-w-0">
+            <nav aria-label="Miga de pan" className="text-sm text-tinta-suave">
+              <Link href={esCampana ? "/campanas" : "/proyectos"} className="underline-offset-4 hover:text-tinta hover:underline">
+                {esCampana ? "Campañas" : "Proyectos"}
+              </Link>
+              <span aria-hidden className="mx-2 text-borde-fuerte">/</span>
+              <span className="text-tinta">{entrada.nombreCorto}</span>
+            </nav>
 
-          <div className="mt-8">
-            {entrada.logo && <Placa src={entrada.logo.src} alt={entrada.logo.alt} fondo={entrada.logo.fondo} />}
+            <div className="mt-8">
+              {entrada.logo && <Placa src={entrada.logo.src} alt={entrada.logo.alt} fondo={entrada.logo.fondo} />}
 
-            <h1 className="mt-6 max-w-[18ch] text-4xl leading-[1.05] font-extrabold sm:text-5xl lg:text-[3.5rem]">
-              {entrada.nombre}
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed sm:text-xl">{entrada.resumen}</p>
-            {/* La dedicatoria es el gancho narrativo de REFUVA: va arriba, a la vista, no al final. */}
-            {entrada.enHonorA && (
-              <p className="mt-5 text-xl font-extrabold sm:text-2xl">
-                <span className="font-normal">En honor a </span>
-                {entrada.enHonorA}.
-              </p>
-            )}
-            {/* La cifra real va en una línea de texto, no como número gigante. */}
-            {entrada.cifra && (
-              <p className="mt-3 text-lg sm:text-xl">
-                <strong className="font-extrabold">{entrada.cifra.valor}</strong> {entrada.cifra.pie}
-              </p>
-            )}
+              <h1 className="mt-6 max-w-[18ch] text-4xl leading-[1.04] font-extrabold sm:text-5xl lg:text-[3.6rem]">
+                <span className={entrada.bloqueCrisis ? undefined : "linea"}>{entrada.nombre}</span>
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-tinta-suave sm:text-xl">{entrada.resumen}</p>
+              {/* La dedicatoria es el gancho narrativo de REFUVA: va arriba, a la vista, no al final. */}
+              {entrada.enHonorA && (
+                <p className="mt-6 max-w-[22ch] font-display text-2xl leading-tight font-extrabold text-fuerte sm:text-4xl">
+                  En honor a {entrada.enHonorA}.
+                </p>
+              )}
+              {/* La cifra real va en una línea de texto, no como número gigante. */}
+              {entrada.cifra && (
+                <p className="mt-4 text-lg sm:text-xl">
+                  <strong className="font-extrabold text-fuerte">{entrada.cifra.valor}</strong> {entrada.cifra.pie}
+                </p>
+              )}
+            </div>
           </div>
+
+          <ArcoFoto
+            fondo={entrada.fondo ?? { tinte: entrada.tinte }}
+            className="mx-auto w-full max-w-[16rem] sm:max-w-xs lg:max-w-none"
+          />
         </div>
-      </Fondo>
+      </header>
 
       <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 sm:py-20 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
         <div className="min-w-0">

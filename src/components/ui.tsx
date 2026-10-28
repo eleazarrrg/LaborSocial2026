@@ -135,15 +135,24 @@ export function Nota({
 export function TituloPagina({
   titulo,
   entrada,
+  quieto = false,
 }: {
   titulo: string;
   entrada?: string;
+  /** Sin movimiento de entrada: para páginas cuyo tema es sensible (prevención del suicidio). */
+  quieto?: boolean;
 }) {
   return (
-    <header className="border-b border-borde bg-papel-alto">
-      <div className="mx-auto max-w-6xl px-4 pt-12 pb-10 sm:px-6 sm:pt-16 sm:pb-14">
-        <h1 className="max-w-3xl text-4xl leading-[1.08] font-extrabold sm:text-5xl lg:text-[3.5rem]">
-          {titulo}
+    <header className="overflow-hidden border-b border-borde bg-papel-alto">
+      <div className="relative mx-auto max-w-6xl px-4 pt-12 pb-10 sm:px-6 sm:pt-16 sm:pb-14">
+        {/* La firma de REFUVA: tres arcos (puertas abiertas), los mismos de la foto de la portada. */}
+        <div aria-hidden className="absolute right-6 bottom-0 hidden items-end gap-3 lg:flex">
+          <span className="block h-36 w-24 rounded-t-full" style={{ backgroundColor: "var(--tinte-turquesa)" }} />
+          <span className="block h-56 w-24 rounded-t-full" style={{ backgroundColor: "var(--tinte-naranja)" }} />
+          <span className="block h-24 w-24 rounded-t-full" style={{ backgroundColor: "var(--tinte-marron)" }} />
+        </div>
+        <h1 className="relative max-w-3xl text-4xl leading-[1.08] font-extrabold sm:text-5xl lg:text-[3.5rem]">
+          <span className={quieto ? undefined : "linea"}>{titulo}</span>
         </h1>
         {entrada && (
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-tinta-suave sm:text-xl">
