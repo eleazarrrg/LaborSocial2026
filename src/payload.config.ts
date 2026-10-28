@@ -132,6 +132,9 @@ export default buildConfig({
   globals: [Fondos],
   db: postgresAdapter({
     pool: conexion(),
+    // PAYLOAD_PUSH=false apaga el modo push de desarrollo. Con una base compartida (Supabase) el
+    // esquema lo crean SOLO las migraciones, que activan RLS; el push crearía tablas sin él.
+    push: process.env.PAYLOAD_PUSH !== "false",
     // En producción el esquema lo crean las migraciones (src/migrations), nunca el modo push de
     // desarrollo. Corren solas al arrancar el servidor.
     prodMigrations: migrations,
