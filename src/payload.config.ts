@@ -23,6 +23,7 @@ import {
 import { migrations } from "./migrations";
 import { ErrorSeguro } from "./payload/errores";
 import { Usuarios } from "./payload/colecciones/usuarios";
+import { revalidarAlGuardar } from "./payload/revalidar";
 import { sembrarConvocatoria2026 } from "./payload/semillas";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -141,7 +142,10 @@ export default buildConfig({
       (!process.env.DATABASE_URL || /@(127\.0\.0\.1|localhost)[:/]/.test(process.env.DATABASE_URL)),
     // En producción el esquema lo crean las migraciones (src/migrations), nunca el modo push de
     // desarrollo. Corren solas al arrancar el servidor.
-    prodMigrations: migrations,
+    // En una plataforma serverless (Netlify) varias instancias arrancan a la vez y no deben migrar
+    // todas a la vez: allí PAYLOAD_MIGRAR_AL_ARRANCAR=false y se migra a mano antes de desplegar
+    // (`npx payload migrate`). En un servidor único (DigitalOcean) corren solas al arrancar.
+    prodMigrations: process.env.PAYLOAD_MIGRAR_AL_ARRANCAR === "false" ? undefined : migrations,
   }),
   // Sin clave de Resend (en desarrollo), Payload escribe los correos en el registro.
   email: process.env.RESEND_API_KEY
@@ -157,6 +161,8 @@ export default buildConfig({
     await sembrarConvocatoria2026(payload);
   },
   plugins: [
+    // Cuando Edwin guarda algo, el sitio expira su caché y lo muestra al instante (ver revalidar.ts).
+    revalidarAlGuardar,
     // Las imágenes viven en DigitalOcean Spaces: el disco del servidor se borra en cada despliegue.
     // Sin las variables (desarrollo local), se guardan en .medios-local.
     s3Storage({

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { FotoBanda } from "@/components/foto-banda";
 import { Boton, Nota, TituloPagina } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -8,13 +9,15 @@ export const metadata: Metadata = {
     "Quién es la Fundación REFUVA, cómo empezó y por qué sostiene tantos proyectos a la vez en Panamá.",
 };
 
-export default function Nosotros() {
+export default async function Nosotros() {
   return (
     <>
       <TituloPagina
         titulo="Empezó atendiendo gratis."
         entrada="REFUVA nació del trabajo de un psicólogo que salía a atender sin cobrar. Hoy son varios proyectos y dos campañas, y cada uno nació de una historia."
       />
+
+      <FotoBanda codigo="comida-en-la-calle" />
 
       <div className="mx-auto grid max-w-6xl gap-14 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16">
         <div className="min-w-0">

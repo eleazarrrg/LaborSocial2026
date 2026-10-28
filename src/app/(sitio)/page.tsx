@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArcoFoto } from "@/components/arco-foto";
 import { Contador } from "@/components/contador";
 import { Fondo } from "@/components/fondo";
+import { TarjetaFoto } from "@/components/tarjeta-foto";
 import { Flecha } from "@/components/iconos";
 import { IndiceCatalogo } from "@/components/indice-catalogo";
 import { Palabras } from "@/components/palabras";
@@ -149,28 +150,20 @@ export default async function Inicio() {
           <h2 id="ayuda" className="text-3xl font-extrabold sm:text-5xl">
             <Palabras texto="¿Cómo te podemos ayudar?" />
           </h2>
-          <ul className="mt-8 grid gap-4 md:grid-cols-3">
+          <ul className="mt-8 grid gap-5 md:grid-cols-3">
             {AYUDA.map((a) => (
-              <Fondo
+              <TarjetaFoto
                 key={a.href}
-                como="li"
+                href={a.href}
                 fondo={fondos[a.clave]}
+                quieto={a.clave === "ayudaDificil"}
                 sizes="(min-width: 768px) 33vw, 100vw"
-                className="revelar elevable rounded-xl focus-within:ring-4 focus-within:ring-tinta"
               >
-                <Link href={a.href} className="group flex h-full min-h-56 flex-col p-6 pb-20 outline-none">
-                  <span className="text-xl leading-snug font-extrabold underline-offset-4 group-hover:underline sm:text-2xl">
-                    {a.titulo}
-                  </span>
-                  <span className="mt-3">{a.texto}</span>
-                  <span
-                    aria-hidden
-                    className="absolute right-0 bottom-0 grid size-14 place-items-center rounded-tl-xl bg-papel text-tinta"
-                  >
-                    <Flecha className="size-6 transition-transform group-hover:translate-x-0.5" />
-                  </span>
-                </Link>
-              </Fondo>
+                <span className="text-xl leading-snug font-extrabold underline-offset-4 group-hover:underline">
+                  {a.titulo}
+                </span>
+                <span className="mt-2 text-tinta-suave">{a.texto}</span>
+              </TarjetaFoto>
             ))}
           </ul>
         </div>
@@ -205,18 +198,18 @@ export default async function Inicio() {
           className="overflow-hidden"
           style={{ backgroundColor: "var(--tinte-marron)", color: "var(--sobre-tinte)" }}
         >
-          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
+          <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
             <h2 id="titulo-honor" className="max-w-2xl text-2xl font-extrabold sm:text-3xl">
               Nada de esto empezó como un proyecto. Empezó como una persona.
             </h2>
-            <ul className="mt-12 space-y-10 sm:space-y-14">
+            <ul className="mt-8 space-y-7 sm:space-y-9">
               {dedicatorias.map((e, i) => (
                 <li key={e.codigo} className={`honor ${i % 2 ? "sm:pl-[10vw]" : ""}`}>
                   <Link href={rutaDe(e)} className="group block">
                     <span className="block text-base font-bold underline-offset-4 group-hover:underline sm:text-lg">
                       {e.nombreCorto}
                     </span>
-                    <span className="mt-1 block font-display text-[length:clamp(1.9rem,0.9rem+4.4vw,4.4rem)] leading-[1.04] font-extrabold text-balance">
+                    <span className="mt-1 block font-display text-[length:clamp(1.7rem,0.9rem+3vw,3.2rem)] leading-[1.04] font-extrabold text-balance">
                       En honor a {e.enHonorA}.
                     </span>
                   </Link>
@@ -229,8 +222,8 @@ export default async function Inicio() {
 
       {/* ═══════════════════════════════════════════════════ Declaración */}
       <Fondo fondo={fondos.declaracion} como="section">
-        <div className="mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-28">
-          <p className="font-display text-3xl leading-tight font-extrabold text-balance sm:text-6xl">
+        <div className="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 sm:py-16">
+          <p className="font-display text-3xl leading-tight font-extrabold text-balance sm:text-5xl">
             Resiliente. Fuerte. Valiente.
           </p>
           <p className="mx-auto mt-4 max-w-[50ch] text-lg sm:text-xl">

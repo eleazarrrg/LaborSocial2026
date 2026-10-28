@@ -348,10 +348,10 @@ h3 {
 
   /* Entre páginas: la anterior se va rápido y la nueva sube con suavidad. */
   ::view-transition-old(.pagina-sale) {
-    animation: 150ms ease-in both pagina-fuera;
+    animation: 100ms ease-in both pagina-fuera;
   }
   ::view-transition-new(.pagina-entra) {
-    animation: 420ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both pagina-dentro;
+    animation: 300ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both pagina-dentro;
   }
 
   @supports (animation-timeline: scroll()) {

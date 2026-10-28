@@ -1,10 +1,12 @@
 import "server-only";
 import config from "@payload-config";
+import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { getPayload } from "payload";
 import type { Evento, Noticia, Proyecto } from "@/payload-types";
 import { describirError } from "@/payload/errores";
 import { eventosProximos, noticiaPorSlug, noticiasPublicadas } from "@/payload/lecturaPublica";
+import { ETIQUETA_CMS, SEGUNDOS_CACHE } from "./cache-cms";
 import { aFoto } from "./contenido";
 import type { Foto } from "./fondo";
 
@@ -57,45 +59,63 @@ const aResumen = (n: Noticia): ResumenNoticia => ({
   proyecto: proyectoDe(n.proyecto),
 });
 
-export async function noticias(o: { pagina?: number; proyecto?: string; limite?: number } = {}) {
-  const vacio = { items: [] as ResumenNoticia[], paginas: 1, pagina: 1 };
-  try {
+type ListaNoticias = { items: ResumenNoticia[]; paginas: number; pagina: number };
+const VACIO: ListaNoticias = { items: [], paginas: 1, pagina: 1 };
+const OPCIONES_CACHE = { tags: [ETIQUETA_CMS], revalidate: SEGUNDOS_CACHE };
+
+/** Lecturas en la caché de datos (lib/cache-cms.ts). LANZAN si la base falla: así no se cachea el fallo. */
+const leerNoticias = unstable_cache(
+  async (pagina: number, proyectoCodigo: string, limite: number): Promise<ListaNoticias> => {
     const payload = await getPayload({ config });
     let proyecto: number | undefined;
-    if (o.proyecto) {
+    if (proyectoCodigo) {
       const { docs } = await payload.find({
         collection: "proyectos",
-        where: { and: [{ codigo: { equals: o.proyecto } }, { activo: { equals: true } }] },
+        where: { and: [{ codigo: { equals: proyectoCodigo } }, { activo: { equals: true } }] },
         limit: 1,
         depth: 0,
         overrideAccess: true,
       });
       // Un filtro con un código que no existe no muestra «todas»: muestra ninguna.
-      if (!docs[0]) return vacio;
+      if (!docs[0]) return VACIO;
       proyecto = docs[0].id;
     }
-    const r = await noticiasPublicadas(payload, { pagina: o.pagina, limite: o.limite ?? NOTICIAS_POR_PAGINA, proyecto });
+    const r = await noticiasPublicadas(payload, { pagina, limite, proyecto });
     return { items: r.docs.map(aResumen), paginas: r.totalPages || 1, pagina: r.page ?? 1 };
+  },
+  ["cms-noticias"],
+  OPCIONES_CACHE,
+);
+
+export async function noticias(o: { pagina?: number; proyecto?: string; limite?: number } = {}): Promise<ListaNoticias> {
+  try {
+    return await leerNoticias(o.pagina ?? 1, o.proyecto ?? "", o.limite ?? NOTICIAS_POR_PAGINA);
   } catch (error) {
     console.error(`[publicaciones] noticias: se muestra la lista vacía. ${describirError(error)}`);
-    return vacio;
+    return VACIO;
   }
 }
+
+const leerNoticia = unstable_cache(
+  async (slug: string): Promise<DetalleNoticia | null> => {
+    const payload = await getPayload({ config });
+    const n = await noticiaPorSlug(payload, slug);
+    if (!n) return null;
+    const bloqueCrisis = typeof n.proyecto === "object" && n.proyecto ? (n.proyecto.bloqueCrisis ?? false) : false;
+    return { ...aResumen(n), cuerpo: n.cuerpo ?? undefined, bloqueCrisis };
+  },
+  ["cms-noticia"],
+  OPCIONES_CACHE,
+);
 
 /**
  * `null` solo cuando la noticia de verdad no existe. Si la base falla el error se propaga: un 404
  * falso podría quedar en caché o en buscadores, y un 500 no.
  */
-export const noticia = cache(async (slug: string): Promise<DetalleNoticia | null> => {
-  const payload = await getPayload({ config });
-  const n = await noticiaPorSlug(payload, slug);
-  if (!n) return null;
-  const bloqueCrisis = typeof n.proyecto === "object" && n.proyecto ? (n.proyecto.bloqueCrisis ?? false) : false;
-  return { ...aResumen(n), cuerpo: n.cuerpo ?? undefined, bloqueCrisis };
-});
+export const noticia = cache((slug: string): Promise<DetalleNoticia | null> => leerNoticia(slug));
 
-export async function eventos(limite = 5): Promise<ResumenEvento[]> {
-  try {
+const leerEventos = unstable_cache(
+  async (limite: number): Promise<ResumenEvento[]> => {
     const payload = await getPayload({ config });
     const { docs } = await eventosProximos(payload, { limite });
     return docs.map((e: Evento) => ({
@@ -106,6 +126,14 @@ export async function eventos(limite = 5): Promise<ResumenEvento[]> {
       lugar: e.lugar ?? undefined,
       inscripcionUrl: e.inscripcionUrl ?? undefined,
     }));
+  },
+  ["cms-eventos"],
+  OPCIONES_CACHE,
+);
+
+export async function eventos(limite = 5): Promise<ResumenEvento[]> {
+  try {
+    return await leerEventos(limite);
   } catch (error) {
     console.error(`[publicaciones] eventos: se muestra la lista vacía. ${describirError(error)}`);
     return [];

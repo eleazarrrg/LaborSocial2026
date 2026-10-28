@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { FotoBanda } from "@/components/foto-banda";
 import { TituloPagina } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -40,13 +41,15 @@ const FORMAS = [
   },
 ];
 
-export default function Participar() {
+export default async function Participar() {
   return (
     <>
       <TituloPagina
         titulo="Cuatro formas de sostener esto."
         entrada="Sosteniendo todo esto hay muy poca gente. Cualquiera de estas cuatro cosas suma, y ninguna exige más de lo que puedas dar."
       />
+
+      <FotoBanda codigo="grupo-un-solo-corazon" />
 
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
         <ul className="grid gap-5 lg:grid-cols-2">

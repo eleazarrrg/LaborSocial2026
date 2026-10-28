@@ -1,11 +1,13 @@
 import "server-only";
 import config from "@payload-config";
+import { unstable_cache } from "next/cache";
 import { cache } from "react";
 import { getPayload } from "payload";
 import type { Fondo as FondoDeInicio, Medio, Proyecto } from "@/payload-types";
 import { describirError } from "@/payload/errores";
 import { proyectosActivos } from "@/payload/lecturaPublica";
 import { textoPlano } from "@/payload/lenguaSeguro";
+import { ETIQUETA_CMS, SEGUNDOS_CACHE } from "./cache-cms";
 import { CATALOGO, type Entrada, type TipoEntrada } from "./catalogo";
 import { esTinte, type Foto, type Fondo, type Tinte } from "./fondo";
 
@@ -84,9 +86,12 @@ function aEntrada(p: Proyecto): Entrada {
   };
 }
 
-/** Los proyectos y las campañas activos, ordenados. Es la lista que se muestra en todo el sitio. */
-export const catalogo = cache(async (): Promise<Entrada[]> => {
-  try {
+/**
+ * La lectura de la base, guardada en la caché de datos (ver lib/cache-cms.ts). LANZA si la base
+ * falla: así Next no guarda el fallo y quien la llama muestra el respaldo sin cachearlo.
+ */
+const leerCatalogo = unstable_cache(
+  async (): Promise<Entrada[]> => {
     const payload = await getPayload({ config });
     const { docs } = await proyectosActivos(payload);
     if (docs.length) return docs.map(aEntrada);
@@ -94,6 +99,15 @@ export const catalogo = cache(async (): Promise<Entrada[]> => {
     // se respeta y no reaparece lo escrito en el código.
     const { totalDocs } = await payload.count({ collection: "proyectos", overrideAccess: true });
     return totalDocs === 0 ? CATALOGO : [];
+  },
+  ["cms-catalogo"],
+  { tags: [ETIQUETA_CMS], revalidate: SEGUNDOS_CACHE },
+);
+
+/** Los proyectos y las campañas activos, ordenados. Es la lista que se muestra en todo el sitio. */
+export const catalogo = cache(async (): Promise<Entrada[]> => {
+  try {
+    return await leerCatalogo();
   } catch (error) {
     console.error(`[contenido] catálogo: se usa el del código. ${describirError(error)}`);
     return CATALOGO;
@@ -123,11 +137,20 @@ const TINTES_INICIO: Record<keyof FondosInicio, Tinte> = {
   declaracion: "turquesa",
 };
 
+/** Lo guardado en el panel, en la caché de datos. LANZA si la base falla (así no se cachea el fallo). */
+const leerFondos = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config });
+    return (await payload.findGlobal({ slug: "fondos", depth: 1, overrideAccess: true })) as Partial<FondoDeInicio>;
+  },
+  ["cms-fondos"],
+  { tags: [ETIQUETA_CMS], revalidate: SEGUNDOS_CACHE },
+);
+
 export const fondosInicio = cache(async (): Promise<FondosInicio> => {
   let guardado: Partial<FondoDeInicio> = {};
   try {
-    const payload = await getPayload({ config });
-    guardado = await payload.findGlobal({ slug: "fondos", depth: 1, overrideAccess: true });
+    guardado = await leerFondos();
   } catch (error) {
     console.error(`[contenido] fondos del inicio: se usan los colores. ${describirError(error)}`);
   }
