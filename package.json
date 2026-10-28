@@ -17,7 +17,7 @@
     "crear-admin": "payload run scripts/crear-primera-admin.ts",
     "probar-cms": "payload run scripts/probar-cms.ts",
     "sembrar": "payload run scripts/sembrar.ts",
-    "demo:dev": "node --env-file=.env.demo node_modules/next/dist/bin/next dev",
+    "demo:dev": "node scripts/demo-dev.mjs",
     "demo:migrar": "node --env-file=.env.demo node_modules/payload/bin.js migrate",
     "demo:sembrar": "node --env-file=.env.demo node_modules/payload/bin.js run scripts/sembrar.ts",
     "demo:admin": "node --env-file=.env.demo node_modules/payload/bin.js run scripts/crear-primera-admin.ts"

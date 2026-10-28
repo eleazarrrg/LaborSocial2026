@@ -162,7 +162,8 @@ export default buildConfig({
       bucket: process.env.SPACES_BUCKET ?? "",
       collections: {
         medios: {
-          prefix: "medios",
+          // Sin `prefix`: ese campo agrega una columna `prefix` que las migraciones no crean.
+          // El bucket es solo de imágenes.
           generateFileURL: ({ filename, prefix }) =>
             `${process.env.SPACES_PUBLIC_URL}/${prefix ? `${prefix}/` : ""}${filename}`,
         },

@@ -66,7 +66,7 @@ export async function FichaEntrada({ entrada }: { entrada: Entrada }) {
         </div>
       </Fondo>
 
-      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1fr_20rem] lg:gap-16">
+      <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 sm:py-20 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
         <div className="min-w-0">
           {entrada.historia ? (
             <RichText data={entrada.historia} className="max-w-[62ch] space-y-6 text-lg leading-relaxed" />
@@ -125,7 +125,7 @@ export async function FichaEntrada({ entrada }: { entrada: Entrada }) {
 
           <Link
             href={rutaDe(siguiente)}
-            className="group mt-6 flex items-center gap-2 rounded-xl bg-papel-alto p-6 font-extrabold transition-colors hover:bg-fuerte-tenue"
+            className="group mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-xl bg-papel-alto p-6 font-extrabold transition-colors hover:bg-fuerte-tenue"
           >
             <span className="font-normal text-tinta-suave">Siguiente:</span>
             <span className="group-hover:text-fuerte">{siguiente.nombreCorto}</span>

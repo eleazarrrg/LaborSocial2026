@@ -3,6 +3,8 @@ import * as migration_20261022_012359_bitacora_inalterable from './20261022_0123
 import * as migration_20261022_014329_contenido_cms from './20261022_014329_contenido_cms';
 import * as migration_20261022_022909_fondos_con_foto from './20261022_022909_fondos_con_foto';
 import * as migration_20261022_025936_fotos_provisionales_y_fondos from './20261022_025936_fotos_provisionales_y_fondos';
+import * as migration_20261028_033409_objectkey_medios from './20261028_033409_objectkey_medios';
+import * as migration_20261028_033635_bitacora_search_path from './20261028_033635_bitacora_search_path';
 
 export const migrations = [
   {
@@ -28,6 +30,16 @@ export const migrations = [
   {
     up: migration_20261022_025936_fotos_provisionales_y_fondos.up,
     down: migration_20261022_025936_fotos_provisionales_y_fondos.down,
-    name: '20261022_025936_fotos_provisionales_y_fondos'
+    name: '20261022_025936_fotos_provisionales_y_fondos',
+  },
+  {
+    up: migration_20261028_033409_objectkey_medios.up,
+    down: migration_20261028_033409_objectkey_medios.down,
+    name: '20261028_033409_objectkey_medios',
+  },
+  {
+    up: migration_20261028_033635_bitacora_search_path.up,
+    down: migration_20261028_033635_bitacora_search_path.down,
+    name: '20261028_033635_bitacora_search_path'
   },
 ];

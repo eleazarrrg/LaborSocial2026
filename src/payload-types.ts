@@ -234,6 +234,7 @@ export interface Medio {
    * Sin el consentimiento firmado no se puede guardar esta foto.
    */
   consentimientoRegistrado?: boolean | null;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -897,6 +898,7 @@ export interface MediosSelect<T extends boolean = true> {
   licencia?: T;
   requiereConsentimiento?: T;
   consentimientoRegistrado?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

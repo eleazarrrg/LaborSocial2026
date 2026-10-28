@@ -46,6 +46,9 @@ export const Medios: CollectionConfig = {
     staticDir: ".medios-local",
   },
   fields: [
+    // Lo agrega el plugin de almacenamiento S3 cuando está activo. Se declara siempre para que el
+    // esquema (y las migraciones) sean los mismos con y sin almacenamiento en la nube.
+    { name: "_objectKey", type: "text", admin: { hidden: true, readOnly: true } },
     {
       name: "alt",
       label: "Texto alternativo",
