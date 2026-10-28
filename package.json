@@ -16,7 +16,10 @@
     "generate:types": "payload generate:types",
     "crear-admin": "payload run scripts/crear-primera-admin.ts",
     "probar-cms": "payload run scripts/probar-cms.ts",
-    "sembrar": "payload run scripts/sembrar.ts"
+    "sembrar": "payload run scripts/sembrar.ts",
+    "demo:migrar": "node --env-file=.env.demo node_modules/payload/bin.js migrate",
+    "demo:sembrar": "node --env-file=.env.demo node_modules/payload/bin.js run scripts/sembrar.ts",
+    "demo:admin": "node --env-file=.env.demo node_modules/payload/bin.js run scripts/crear-primera-admin.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.90.2",

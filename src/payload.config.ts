@@ -42,7 +42,12 @@ function conexion() {
   sinModo.searchParams.delete("sslmode");
   // En producción, TLS siempre. Sin el CA, igual se exige un certificado válido: la conexión
   // falla a la vista en lugar de viajar sin cifrar.
-  return { connectionString: sinModo.toString(), ssl: ca ? { ca, rejectUnauthorized: true } : { rejectUnauthorized: true } };
+  return {
+    connectionString: sinModo.toString(),
+    ssl: ca ? { ca, rejectUnauthorized: true } : { rejectUnauthorized: true },
+    // En serverless (Vercel) cada instancia usa una sola conexión, para no agotar el pooler.
+    ...(process.env.DATABASE_POOL_MAX ? { max: Number(process.env.DATABASE_POOL_MAX) } : {}),
+  };
 }
 
 const hayAlmacenamiento = () => Boolean(process.env.SPACES_BUCKET && process.env.SPACES_KEY);
@@ -149,7 +154,8 @@ export default buildConfig({
     // Sin las variables (desarrollo local), se guardan en .medios-local.
     s3Storage({
       enabled: hayAlmacenamiento(),
-      acl: "public-read",
+      // En otro S3 (Supabase Storage, vía SPACES_ENDPOINT) el bucket ya es público y no se envía ACL.
+      acl: process.env.SPACES_ENDPOINT ? undefined : "public-read",
       bucket: process.env.SPACES_BUCKET ?? "",
       collections: {
         medios: {
@@ -159,7 +165,9 @@ export default buildConfig({
         },
       },
       config: {
-        endpoint: `https://${process.env.SPACES_REGION ?? "nyc3"}.digitaloceanspaces.com`,
+        endpoint: process.env.SPACES_ENDPOINT ?? `https://${process.env.SPACES_REGION ?? "nyc3"}.digitaloceanspaces.com`,
+        // Supabase Storage exige direcciones con el bucket en la ruta, no en el subdominio.
+        forcePathStyle: Boolean(process.env.SPACES_ENDPOINT),
         region: process.env.SPACES_REGION ?? "nyc3",
         credentials: {
           accessKeyId: process.env.SPACES_KEY ?? "",
