@@ -34,7 +34,7 @@ export function IndiceCatalogo({
           key={e.codigo}
           como="li"
           fondo={e.fondo ?? { tinte: e.tinte }}
-          sizes="(min-width: 768px) 50vw, 100vw"
+          sizes={entradas.length >= 4 ? "(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 50vw, 100vw"}
           className="revelar elevable rounded-2xl focus-within:ring-4 focus-within:ring-tinta xl:even:translate-y-10"
         >
           <Link

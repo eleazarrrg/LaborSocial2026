@@ -36,7 +36,7 @@ export default async function PaginaNoticia({ params }: Props) {
       <header className="border-b border-borde bg-papel-alto">
         <div className="mx-auto max-w-3xl px-4 pt-8 pb-10 sm:px-6 sm:pt-10 sm:pb-14">
           <nav aria-label="Miga de pan" className="text-sm text-tinta-suave">
-            <Link href="/noticias" className="underline-offset-4 hover:text-tinta hover:underline">Noticias</Link>
+            <Link href="/noticias" className="-my-1.5 inline-block py-1.5 underline-offset-4 hover:text-tinta hover:underline">Noticias</Link>
             <span aria-hidden className="mx-2 text-borde-fuerte">/</span>
             <span className="text-tinta">{n.titulo}</span>
           </nav>

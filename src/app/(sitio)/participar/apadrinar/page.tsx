@@ -23,7 +23,7 @@ export default function Apadrinar() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
       <nav aria-label="Miga de pan" className="text-sm text-tinta-suave">
-        <Link href="/participar" className="hover:text-tinta">
+        <Link href="/participar" className="-my-1.5 inline-block py-1.5 hover:text-tinta">
           Participar
         </Link>
         <span className="mx-2 text-borde-fuerte">/</span>

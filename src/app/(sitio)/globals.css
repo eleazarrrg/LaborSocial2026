@@ -279,7 +279,9 @@ h3 {
 
 @keyframes honra {
   from {
-    opacity: 0.18;
+    /* 0.72 y no menos: aun sin entrar en pantalla, el texto blanco sobre el marrón tiene que
+       cumplir AA (4.5:1). El QA midió 3.63:1 con 0.18. */
+    opacity: 0.72;
     transform: translateX(-4vw);
   }
   to {

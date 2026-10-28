@@ -48,7 +48,7 @@ export function BandaCrisis() {
         </span>
         <Link
           href="/ayuda-en-crisis"
-          className="ml-auto shrink-0 font-medium underline decoration-1 underline-offset-[3px] opacity-90 hover:opacity-100"
+          className="-my-2 ml-auto inline-block shrink-0 py-2 font-medium underline decoration-1 underline-offset-[3px] opacity-90 hover:opacity-100"
         >
           Más recursos
         </Link>

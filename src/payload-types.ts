@@ -205,6 +205,7 @@ export interface Noticia {
  */
 export interface Medio {
   id: number;
+  _objectKey?: string | null;
   /**
    * Describe qué se ve, para quien no puede verla. Por ejemplo: «Voluntarios sirviendo comida en una jornada». Si es un logo, el nombre del proyecto.
    */
@@ -234,7 +235,6 @@ export interface Medio {
    * Sin el consentimiento firmado no se puede guardar esta foto.
    */
   consentimientoRegistrado?: boolean | null;
-  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -890,6 +890,7 @@ export interface ProyectosSelect<T extends boolean = true> {
  * via the `definition` "medios_select".
  */
 export interface MediosSelect<T extends boolean = true> {
+  _objectKey?: T;
   alt?: T;
   pie?: T;
   provisional?: T;
@@ -898,7 +899,6 @@ export interface MediosSelect<T extends boolean = true> {
   licencia?: T;
   requiereConsentimiento?: T;
   consentimientoRegistrado?: T;
-  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

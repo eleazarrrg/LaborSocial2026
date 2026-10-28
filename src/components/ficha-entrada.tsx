@@ -38,7 +38,7 @@ export async function FichaEntrada({ entrada }: { entrada: Entrada }) {
         <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-8 pb-12 sm:px-6 sm:pt-10 lg:grid-cols-[1.25fr_0.75fr] lg:items-center lg:gap-14 lg:pb-14">
           <div className="min-w-0">
             <nav aria-label="Miga de pan" className="text-sm text-tinta-suave">
-              <Link href={esCampana ? "/campanas" : "/proyectos"} className="underline-offset-4 hover:text-tinta hover:underline">
+              <Link href={esCampana ? "/campanas" : "/proyectos"} className="-my-1.5 inline-block py-1.5 underline-offset-4 hover:text-tinta hover:underline">
                 {esCampana ? "Campañas" : "Proyectos"}
               </Link>
               <span aria-hidden className="mx-2 text-borde-fuerte">/</span>
