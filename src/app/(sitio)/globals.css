@@ -91,9 +91,10 @@
    No es el claro invertido: el blanco se vuelve un verde petróleo casi negro,
    tinte del mismo turquesa, y los colores suben de luminosidad lo justo.
 
-   Cubre a quien tiene el sistema en oscuro y NO eligió tema en el sitio. */
+   El fondo es BLANCO por defecto (decisión del 28 de octubre de 2026). El oscuro del sistema solo
+   aplica a quien lo eligió en el selector del pie con «Seguir al sistema» (data-tema="sistema"). */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-tema="claro"]) {
+  :root[data-tema="sistema"] {
     color-scheme: dark;
 
     --papel: #0c1413;
@@ -298,6 +299,148 @@ h3 {
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ------------------------------------------------------------ MÁS VIDA
+   Todo lo de abajo es CSS puro (cero JavaScript) y solo corre si la persona NO pidió «reducir
+   movimiento». Cada efecto responde a algo: lo que se toca responde, lo que se baja avanza, y
+   cambiar de página no es un corte seco. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Lo que se toca responde: sube al pasar el cursor y se aprieta al pulsar. */
+  .pulsa {
+    transition:
+      transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 220ms ease,
+      background-color 150ms ease,
+      color 150ms ease;
+  }
+  .pulsa:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -12px color-mix(in srgb, var(--tinta) 60%, transparent);
+  }
+  .pulsa:active {
+    transform: translateY(0) scale(0.95);
+    box-shadow: none;
+    transition-duration: 60ms;
+  }
+
+  /* La foto del héroe se abre como un arco, y su sombra de color llega un poco después. */
+  .arco-entra {
+    animation: arco 1000ms cubic-bezier(0.16, 1, 0.3, 1) 120ms backwards;
+  }
+  .arco-detras {
+    animation: aparece-suave 700ms ease-out 650ms backwards;
+  }
+
+  /* «Ver los proyectos» (y cualquier #proyectos): al llegar, las losetas entran en cascada. */
+  #proyectos:target .revelar {
+    animation: entra 700ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-timeline: auto;
+    animation-range: normal;
+    animation-delay: calc(420ms + var(--i, 0) * 85ms);
+  }
+
+  /* El esqueleto de carga respira mientras llega el contenido. */
+  .esqueleto {
+    animation: respira 1400ms ease-in-out infinite;
+  }
+
+  /* Entre páginas: la anterior se va rápido y la nueva sube con suavidad. */
+  ::view-transition-old(.pagina-sale) {
+    animation: 150ms ease-in both pagina-fuera;
+  }
+  ::view-transition-new(.pagina-entra) {
+    animation: 420ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both pagina-dentro;
+  }
+
+  @supports (animation-timeline: scroll()) {
+    /* Una barra arriba avanza con el scroll: dice cuánto falta de la página. */
+    .progreso-scroll {
+      animation: progreso linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+  @supports (animation-timeline: view()) {
+    /* Paralaje: la foto se mueve un poco más lento que la loseta que la contiene. El contenedor
+       tiene overflow:hidden, y el navegador lo tomaría como «el scroll» de la foto (que siempre
+       está completa dentro de él): por eso es el CONTENEDOR quien declara la línea de tiempo,
+       medida contra la página, y la foto la usa por nombre. */
+    .paralaje-contenedor {
+      view-timeline: --paralaje block;
+    }
+    .paralaje {
+      scale: 1.16;
+      animation: paralaje linear both;
+      animation-timeline: --paralaje;
+      animation-range: cover;
+    }
+  }
+}
+
+.progreso-scroll {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 4px;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--tinte-turquesa), var(--tinte-naranja));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+@keyframes arco {
+  from {
+    clip-path: inset(100% 0 0 0 round 999px 999px 24px 24px);
+    transform: translateY(28px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 999px 999px 24px 24px);
+    transform: none;
+  }
+}
+@keyframes aparece-suave {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes respira {
+  50% {
+    opacity: 0.45;
+  }
+}
+@keyframes pagina-fuera {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+@keyframes pagina-dentro {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(4px);
+  }
+}
+@keyframes progreso {
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes paralaje {
+  from {
+    transform: translateY(-7%);
+  }
+  to {
+    transform: translateY(7%);
   }
 }
 

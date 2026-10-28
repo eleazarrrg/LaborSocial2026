@@ -68,6 +68,7 @@ export async function FichaEntrada({ entrada }: { entrada: Entrada }) {
           </div>
 
           <ArcoFoto
+            quieto={entrada.bloqueCrisis}
             fondo={entrada.fondo ?? { tinte: entrada.tinte }}
             className="mx-auto w-full max-w-[16rem] sm:max-w-xs lg:max-w-none"
           />

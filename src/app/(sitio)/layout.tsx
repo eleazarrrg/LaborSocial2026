@@ -81,6 +81,8 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: guionAntiParpadeo }} />
       </head>
       <body>
+        {/* Una barra de color avanza con el scroll (CSS puro; invisible sin soporte o con reduced-motion). */}
+        <div aria-hidden className="progreso-scroll" />
         <a
           href="#contenido"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-70 focus:rounded-lg focus:bg-fuerte focus:px-4 focus:py-2 focus:font-semibold focus:text-papel"

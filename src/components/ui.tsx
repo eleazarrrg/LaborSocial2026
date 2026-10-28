@@ -99,7 +99,7 @@ export function Boton({
   return (
     <Link
       href={href}
-      className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border-2 px-6 py-3 font-bold transition-colors duration-150 ${VARIANTES[variante]} ${className}`}
+      className={`pulsa inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border-2 px-6 py-3 font-bold transition-colors duration-150 ${VARIANTES[variante]} ${className}`}
     >
       {children}
     </Link>

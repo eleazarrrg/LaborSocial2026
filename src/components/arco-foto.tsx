@@ -9,17 +9,26 @@ import type { Fondo } from "@/lib/fondo";
  *
  * `<img>` con `srcSet` y no `next/image`: ver components/fondo.tsx y CLAUDE.md §5.4.
  */
-export function ArcoFoto({ fondo, className = "" }: { fondo: Fondo; className?: string }) {
+export function ArcoFoto({
+  fondo,
+  className = "",
+  quieto = false,
+}: {
+  fondo: Fondo;
+  className?: string;
+  /** Sin movimiento: para temas sensibles (prevención del suicidio). */
+  quieto?: boolean;
+}) {
   const { foto, tinte } = fondo;
   return (
     <div className={`relative ${className}`}>
       <div
         aria-hidden
-        className="absolute inset-0 translate-x-3 translate-y-3 rounded-t-[999px] rounded-b-3xl sm:translate-x-5 sm:translate-y-5"
+        className={`absolute inset-0 translate-x-3 translate-y-3 rounded-t-[999px] rounded-b-3xl sm:translate-x-5 sm:translate-y-5 ${quieto ? "" : "arco-detras"}`}
         style={{ backgroundColor: "var(--tinte-naranja)" }}
       />
       <div
-        className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-3xl"
+        className={`relative aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-3xl ${quieto ? "" : "arco-entra paralaje-contenedor"}`}
         style={{ backgroundColor: `var(--tinte-${tinte})` }}
       >
         {foto && (
@@ -33,7 +42,7 @@ export function ArcoFoto({ fondo, className = "" }: { fondo: Fondo; className?: 
             alt=""
             fetchPriority="high"
             decoding="async"
-            className="size-full object-cover"
+            className={`size-full object-cover ${quieto ? "" : "paralaje"}`}
             style={{ objectPosition: `${foto.focoX ?? 50}% ${foto.focoY ?? 50}%` }}
           />
         )}

@@ -27,7 +27,7 @@ const NAVEGACION = [
 ];
 
 const BOTON_CABECERA =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-tinta px-4 font-bold text-tinta transition-colors";
+  "pulsa inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-tinta px-4 font-bold text-tinta transition-colors";
 
 function Marca() {
   return (

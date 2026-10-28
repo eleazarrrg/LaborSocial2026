@@ -18,24 +18,35 @@ import { rutaDe, type Entrada } from "@/lib/catalogo";
 export function IndiceCatalogo({
   entradas,
   encabezado = "h2",
+  entrada = "scroll",
 }: {
   entradas: Entrada[];
   /** h2 en las páginas de índice; h3 cuando va dentro de una sección. */
   encabezado?: "h2" | "h3";
+  /**
+   * Cómo entran las losetas: «scroll» (se revelan al llegar a pantalla, para la portada) o «carga»
+   * (en cascada al abrir la página, para /proyectos y /campanas, donde ya están a la vista).
+   */
+  entrada?: "scroll" | "carga";
 }) {
   const Titulo = encabezado;
+  const alCargar = entrada === "carga";
+  // Las campañas de prevención del suicidio no se mueven (CLAUDE.md §5.1): ni entrada ni paralaje.
+  const sensible = (e: Entrada) => e.tipo === "campana" && e.bloqueCrisis;
 
   return (
     // Con 4 o más entradas, 4 columnas en pantallas grandes: los ocho proyectos se ven en dos filas.
     // Con 4 o más, las losetas pares bajan un poco: la rejilla deja de ser un bloque uniforme.
-    <ul className={`grid gap-4 md:grid-cols-2 ${entradas.length >= 4 ? "xl:grid-cols-4 xl:pb-10" : ""}`}>
-      {entradas.map((e) => (
+    <ul className={`grid gap-4 md:grid-cols-2 ${alCargar ? "cascada" : ""} ${entradas.length >= 4 ? "xl:grid-cols-4 xl:pb-10" : ""}`}>
+      {entradas.map((e, i) => (
         <Fondo
           key={e.codigo}
           como="li"
+          indice={i}
+          quieto={sensible(e)}
           fondo={e.fondo ?? { tinte: e.tinte }}
           sizes={entradas.length >= 4 ? "(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 50vw, 100vw"}
-          className="revelar elevable rounded-2xl focus-within:ring-4 focus-within:ring-tinta xl:even:translate-y-10"
+          className={`${alCargar || sensible(e) ? "" : "revelar"} elevable rounded-2xl focus-within:ring-4 focus-within:ring-tinta xl:even:translate-y-10`}
         >
           <Link
             href={rutaDe(e)}

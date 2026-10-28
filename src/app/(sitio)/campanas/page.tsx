@@ -33,7 +33,7 @@ export default async function Campanas() {
       />
 
       <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-        <IndiceCatalogo entradas={lista} />
+        <IndiceCatalogo entradas={lista} entrada="carga" />
       </section>
 
       <section className="border-t border-borde bg-papel-alto">

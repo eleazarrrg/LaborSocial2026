@@ -108,10 +108,10 @@ export default async function Inicio() {
               <Boton href="/agendar-cita">Pedir una cita</Boton>
               <Link
                 href="#proyectos"
-                className="inline-flex min-h-11 items-center gap-2 font-bold text-fuerte underline decoration-2 underline-offset-4 hover:decoration-[3px]"
+                className="group inline-flex min-h-11 items-center gap-2 font-bold text-fuerte underline decoration-2 underline-offset-4 hover:decoration-[3px]"
               >
                 Ver los proyectos
-                <Flecha className="size-5" />
+                <Flecha className="size-5 rotate-90 transition-transform duration-200 motion-reduce:transition-none group-hover:translate-y-1 group-active:translate-y-2" />
               </Link>
             </div>
           </div>

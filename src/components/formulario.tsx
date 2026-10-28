@@ -354,8 +354,11 @@ export function Enviar({ children }: { children: ReactNode }) {
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex min-h-12 items-center justify-center rounded-lg bg-fuerte px-7 py-3.5 font-semibold text-papel transition-all duration-150 hover:-translate-y-px disabled:cursor-wait disabled:opacity-60"
+      className="pulsa inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-fuerte px-7 py-3.5 font-semibold text-papel disabled:cursor-wait disabled:opacity-60"
     >
+      {pending && (
+        <span aria-hidden className="size-4 rounded-full border-2 border-papel border-t-transparent motion-safe:animate-spin" />
+      )}
       {pending ? "Enviando…" : children}
     </button>
   );

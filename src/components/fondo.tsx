@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import type { Fondo as FondoTipo, Foto } from "@/lib/fondo";
 
 /**
@@ -33,15 +33,34 @@ type Props = {
   prioridad?: boolean;
   /** Ancho que ocupa la foto en pantalla, para que el navegador elija el tamaño. */
   sizes?: string;
+  /** Posición en una lista (0, 1, 2…): escalona la entrada en cascada (variable CSS `--i`). */
+  indice?: number;
+  /** Sin paralaje: para temas sensibles (prevención del suicidio), donde nada se mueve. */
+  quieto?: boolean;
   children?: ReactNode;
 };
 
-export function Fondo({ fondo, como: Etiqueta = "div", className = "", prioridad = false, sizes = "100vw", children }: Props) {
+export function Fondo({
+  fondo,
+  como: Etiqueta = "div",
+  className = "",
+  prioridad = false,
+  sizes = "100vw",
+  indice,
+  quieto = false,
+  children,
+}: Props) {
   const { tinte, foto } = fondo;
   return (
     <Etiqueta
-      className={`relative isolate overflow-hidden ${className}`}
-      style={{ backgroundColor: `var(--tinte-${tinte})`, color: "var(--sobre-tinte)" }}
+      className={`relative isolate overflow-hidden ${quieto ? "" : "paralaje-contenedor"} ${className}`}
+      style={
+        {
+          backgroundColor: `var(--tinte-${tinte})`,
+          color: "var(--sobre-tinte)",
+          ...(indice === undefined ? {} : { "--i": indice }),
+        } as CSSProperties
+      }
     >
       {foto && (
         // eslint-disable-next-line @next/next/no-img-element -- ver el comentario del archivo
@@ -55,7 +74,7 @@ export function Fondo({ fondo, como: Etiqueta = "div", className = "", prioridad
           loading={prioridad ? "eager" : "lazy"}
           fetchPriority={prioridad ? "high" : undefined}
           decoding="async"
-          className="absolute inset-0 -z-10 size-full object-cover mix-blend-multiply grayscale"
+          className={`absolute inset-0 -z-10 size-full object-cover mix-blend-multiply grayscale ${quieto ? "" : "paralaje"}`}
           style={{ objectPosition: `${foto.focoX ?? 50}% ${foto.focoY ?? 50}%` }}
         />
       )}

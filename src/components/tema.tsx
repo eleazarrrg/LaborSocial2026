@@ -5,15 +5,17 @@ import { useSyncExternalStore } from "react";
 /**
  * Selector de tema: claro, oscuro o el del sistema.
  *
- * TRES ESTADOS, NO DOS. «Sistema» es el valor por defecto y tiene que existir:
- * mucha gente ya configuró su teléfono en oscuro por la noche, y forzarle un
- * tema claro a las dos de la mañana en la página de crisis es exactamente el
- * momento en que peor sienta.
+ * TRES ESTADOS, NO DOS. El valor por defecto es CLARO (fondo blanco; decisión
+ * del 28 de octubre de 2026, para que el sitio se vea igual para todos en la
+ * primera visita). «Sistema» sigue existiendo como opción explícita: mucha gente
+ * ya configuró su teléfono en oscuro por la noche, y quien lo prefiera lo elige
+ * en el selector del pie. Es el costo consciente de este cambio: a quien llega de
+ * madrugada a la página de crisis con el teléfono en oscuro se le ofrece blanco.
  *
  * CÓMO SE GUARDA. Una llave en localStorage y un atributo `data-tema` en <html>.
  * No hay cookie: no hace falta, y este sitio no pone cookies (así se evita el
- * banner de consentimiento). Si el usuario no ha elegido nada, no hay atributo
- * y manda `prefers-color-scheme`.
+ * banner de consentimiento). Sin elección no hay atributo y se ve el claro.
+ * `data-tema="sistema"` es lo que activa `prefers-color-scheme`.
  *
  * EL PARPADEO. Lo resuelve `guionAntiParpadeo`, que se inyecta en el <head> y
  * corre antes del primer pintado. Sin él, quien elige oscuro ve un fogonazo
@@ -26,7 +28,7 @@ export const LLAVE_TEMA = "refuva-tema";
  * Se inserta en el <head> y bloquea el pintado durante menos de un milisegundo.
  * Va minificado a mano porque viaja en cada respuesta HTML.
  */
-export const guionAntiParpadeo = `(function(){try{var t=localStorage.getItem("${LLAVE_TEMA}");if(t==="claro"||t==="oscuro"){document.documentElement.setAttribute("data-tema",t)}}catch(e){}})()`;
+export const guionAntiParpadeo = `(function(){try{var t=localStorage.getItem("${LLAVE_TEMA}");if(t==="oscuro"||t==="sistema"){document.documentElement.setAttribute("data-tema",t)}}catch(e){}})()`;
 
 type Tema = "sistema" | "claro" | "oscuro";
 
@@ -79,17 +81,17 @@ function suscribir(alCambiar: () => void) {
 function leerCliente(): Tema {
   try {
     const guardado = localStorage.getItem(LLAVE_TEMA);
-    if (guardado === "claro" || guardado === "oscuro") return guardado;
+    if (guardado === "oscuro" || guardado === "sistema") return guardado;
   } catch {
     // localStorage puede estar bloqueado (navegación privada, políticas del
-    // dispositivo). No es motivo para romper la página: se cae a «sistema».
+    // dispositivo). No es motivo para romper la página: se cae a «claro».
   }
-  return "sistema";
+  return "claro";
 }
 
-/** En el servidor no hay preferencia que leer. */
+/** En el servidor no hay preferencia que leer: el valor por defecto es claro. */
 function leerServidor(): Tema {
-  return "sistema";
+  return "claro";
 }
 
 export function SelectorTema() {
@@ -98,12 +100,12 @@ export function SelectorTema() {
   function elegir(nuevo: Tema) {
     const raiz = document.documentElement;
     try {
-      if (nuevo === "sistema") localStorage.removeItem(LLAVE_TEMA);
+      if (nuevo === "claro") localStorage.removeItem(LLAVE_TEMA);
       else localStorage.setItem(LLAVE_TEMA, nuevo);
     } catch {
       // Si no se puede persistir, al menos se aplica en esta sesión.
     }
-    if (nuevo === "sistema") raiz.removeAttribute("data-tema");
+    if (nuevo === "claro") raiz.removeAttribute("data-tema");
     else raiz.setAttribute("data-tema", nuevo);
     window.dispatchEvent(new Event(EVENTO_TEMA));
   }
