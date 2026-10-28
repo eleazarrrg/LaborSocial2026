@@ -27,14 +27,15 @@ export function IndiceCatalogo({
 
   return (
     // Con 4 o más entradas, 4 columnas en pantallas grandes: los ocho proyectos se ven en dos filas.
-    <ul className={`grid gap-4 md:grid-cols-2 ${entradas.length >= 4 ? "xl:grid-cols-4" : ""}`}>
+    // Con 4 o más, las losetas pares bajan un poco: la rejilla deja de ser un bloque uniforme.
+    <ul className={`grid gap-4 md:grid-cols-2 ${entradas.length >= 4 ? "xl:grid-cols-4 xl:pb-10" : ""}`}>
       {entradas.map((e) => (
         <Fondo
           key={e.codigo}
           como="li"
           fondo={e.fondo ?? { tinte: e.tinte }}
           sizes="(min-width: 768px) 50vw, 100vw"
-          className="revelar elevable rounded-2xl focus-within:ring-4 focus-within:ring-tinta"
+          className="revelar elevable rounded-2xl focus-within:ring-4 focus-within:ring-tinta xl:even:translate-y-10"
         >
           <Link
             href={rutaDe(e)}

@@ -50,7 +50,7 @@
   /* Una sola familia, como Mind. Atkinson Hyperlegible Next la diseñó el
      Braille Institute para lectores con baja visión: el público de este sitio
      incluye gente en crisis, con teléfonos viejos y sol de frente. */
-  --font-display: var(--fuente), system-ui, sans-serif;
+  --font-display: var(--fuente-display), var(--fuente), system-ui, sans-serif;
   --font-sans: var(--fuente), system-ui, sans-serif;
 }
 
@@ -177,6 +177,8 @@ h3 {
 /* Numerales tabulares donde hay cifras alineadas: evita el baile de columnas. */
 .cifras-alineadas {
   font-variant-numeric: tabular-nums;
+  /* Los números de emergencia y los montos van en la familia de texto, la más legible. */
+  font-family: var(--font-sans);
 }
 
 /* El foco visible es requisito de accesibilidad (WCAG 2.2 AA), no preferencia
@@ -208,6 +210,81 @@ h3 {
   .elevable:hover,
   .elevable:focus-within {
     transform: translateY(-4px);
+  }
+}
+
+/* Personalidad en movimiento. Todo CSS, nada de JavaScript, y todo apagado con reduced-motion.
+   · .linea: cada frase del titular sube en secuencia (--i): marca el orden de los tres frentes.
+   · .cascada: los hijos entran uno tras otro (--i): la amplitud de proyectos se ve de golpe.
+   · .palabra: los títulos de sección se arman palabra por palabra al entrar en pantalla.
+   · .subrayado: el trazo bajo «no es el único» se dibuja a mano.
+   · .honor: las dedicatorias grandes avanzan y se encienden al cruzar la pantalla. */
+@media (prefers-reduced-motion: no-preference) {
+  .linea {
+    display: block;
+    animation: sube 560ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: calc(var(--i, 0) * 120ms);
+  }
+  .cascada > * {
+    animation: entra 520ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    animation-delay: calc(320ms + var(--i, 0) * 70ms);
+  }
+  .subrayado path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: dibuja 800ms 700ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  @supports (animation-timeline: view()) {
+    .palabra {
+      display: inline-block;
+      animation: sube 1ms linear both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 4%) entry calc(26% + var(--i, 0) * 4%);
+    }
+    .honor {
+      animation: honra linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 45%;
+    }
+  }
+}
+
+@keyframes sube {
+  from {
+    opacity: 0;
+    transform: translateY(0.4em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes entra {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dibuja {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes honra {
+  from {
+    opacity: 0.18;
+    transform: translateX(-4vw);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Atkinson_Hyperlegible_Next } from "next/font/google";
+import { Atkinson_Hyperlegible_Next, Bricolage_Grotesque } from "next/font/google";
 import { BandaCrisis } from "@/components/banda-crisis";
 import { Encabezado } from "@/components/encabezado";
 import { Pie } from "@/components/pie";
@@ -24,6 +24,21 @@ const fuente = Atkinson_Hyperlegible_Next({
   // avisa en cada build. Se desactiva a propósito: con `swap` el texto se ve
   // desde el primer pintado, y el salto al cambiar de fuente es de unos
   // píxeles en el titular. Revisar el CLS en campo cuando haya datos reales.
+  adjustFontFallback: false,
+  fallback: ["system-ui", "sans-serif"],
+});
+
+/**
+ * Segunda familia, solo para titulares: Bricolage Grotesque. Tiene carácter propio (trazo
+ * grueso, aperturas amplias, un poco de oficio) sin ser serif, así que el sitio deja de leerse como
+ * plantilla sin perder legibilidad. El texto corrido, los formularios y los números de emergencia
+ * siguen en Atkinson Hyperlegible Next. Se cargan solo los pesos que se usan.
+ */
+const titulares = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--fuente-display",
+  weight: ["700", "800"],
+  display: "swap",
   adjustFontFallback: false,
   fallback: ["system-ui", "sans-serif"],
 });
@@ -59,7 +74,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es-PA" className={fuente.variable}>
+    <html lang="es-PA" className={`${fuente.variable} ${titulares.variable}`}>
       <head>
         {/* Corre antes del primer pintado para que quien eligió tema oscuro no
             vea un fogonazo blanco en cada carga. Ver components/tema.tsx. */}

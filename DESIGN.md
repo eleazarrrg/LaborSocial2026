@@ -195,7 +195,15 @@ en teléfonos viejos y a veces en crisis. La legibilidad es un requisito de segu
 - Blanco limpio de fondo; el tinte turquesa claro (`papel-alto`) hace de suelo de sección.
 - El turquesa profundo es dueño de franjas enteras: navegación, declaración y pie.
 - El naranja del árbol marca la acción de ayuda y el anillo de foco. El marrón del tronco, solo la crisis.
-- Una sola familia: Atkinson Hyperlegible Next, titulares en 800.
+- Dos familias, cada una con su trabajo (decisión del 28 de octubre de 2026: con una sola, la portada
+  se leía como plantilla). **Bricolage Grotesque** (700 y 800) solo para titulares y cifras grandes:
+  trazo grueso y carácter propio, sin ser serif. **Atkinson Hyperlegible Next** para el texto corrido,
+  los formularios y los números de emergencia (911, 147) y los montos, donde la legibilidad es
+  requisito de seguridad. Un token, `--font-display`, decide cuál titular usa cuál.
+- Movimiento (portada): CSS puro y apagado con `prefers-reduced-motion`. Titular por líneas, emblemas
+  en cascada, títulos por palabras, subrayado dibujado y dedicatorias «En honor a…» ligadas al scroll.
+  Solo el contador de cifras usa JavaScript. Nunca en la banda de crisis, los formularios ni el
+  contenido sobre suicidio.
 - Botones con borde de 2 px y relleno; tarjetas tintadas sin sombra; iconos SVG de trazo único.
 - Cero fotos fingidas: lo que no existe todavía no se pinta.
 
