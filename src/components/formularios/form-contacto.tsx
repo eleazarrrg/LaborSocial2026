@@ -3,7 +3,6 @@
 import { useActionState } from "react";
 import { accionContacto } from "@/app/actions";
 import { ESTADO_INICIAL } from "@/lib/estado-formulario";
-import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 import {
   Area,
   Campo,
@@ -14,7 +13,7 @@ import {
 } from "@/components/formulario";
 
 /** Contacto general (RF-10, HU-20). */
-export function FormularioContacto() {
+export function FormularioContacto({ alternativa }: { alternativa?: React.ReactNode }) {
   const [estado, accion] = useActionState(accionContacto, ESTADO_INICIAL);
   const e = estado.errores ?? {};
 
@@ -64,7 +63,7 @@ export function FormularioContacto() {
 
       <Resultado
         estado={estado}
-        alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />}
+        alternativa={alternativa}
       >
         <p>Te responderemos por el correo o el teléfono que dejaste.</p>
       </Resultado>

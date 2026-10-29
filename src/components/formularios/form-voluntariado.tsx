@@ -4,7 +4,6 @@ import { useActionState } from "react";
 import { accionVoluntariado } from "@/app/actions";
 import { ESTADO_INICIAL } from "@/lib/estado-formulario";
 import { AREAS_VOLUNTARIADO } from "@/lib/opciones";
-import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 import {
   Area,
   Campo,
@@ -16,7 +15,7 @@ import {
 } from "@/components/formulario";
 
 /** Inscripción de voluntariado (RF-03, HU-12). */
-export function FormularioVoluntariado() {
+export function FormularioVoluntariado({ alternativa }: { alternativa?: React.ReactNode }) {
   const [estado, accion] = useActionState(accionVoluntariado, ESTADO_INICIAL);
   const e = estado.errores ?? {};
 
@@ -91,7 +90,7 @@ export function FormularioVoluntariado() {
 
       <Resultado
         estado={estado}
-        alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />}
+        alternativa={alternativa}
       >
         <p>
           Te escribiremos al correo que dejaste cuando haya una actividad en las áreas que

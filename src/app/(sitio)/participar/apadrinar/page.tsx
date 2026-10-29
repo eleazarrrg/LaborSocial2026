@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FormularioPadrino } from "@/components/formularios/form-padrino";
 import { PreguntasFrecuentes } from "@/components/preguntas-frecuentes";
+import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 
 export const metadata: Metadata = {
   title: "Ser padrino o madrina",
@@ -53,7 +54,7 @@ export default function Apadrinar() {
             Con esto quedas en la lista de padrinos. Después te escribimos para
             coordinar todo lo demás.
           </p>
-          <FormularioPadrino />
+          <FormularioPadrino alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />} />
         </div>
 
         <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">

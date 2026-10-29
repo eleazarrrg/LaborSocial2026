@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FormularioContacto } from "@/components/formularios/form-contacto";
-import { Instagram, WhatsApp } from "@/components/iconos";
+import { Enlace, Instagram, WhatsApp } from "@/components/iconos";
 import { Nota, TituloPagina } from "@/components/ui";
-import { CONTACTO, enlaceWhatsapp, whatsappVisible } from "@/lib/contacto";
+import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
+import { ajustes, enlaceWhatsapp, whatsappVisible } from "@/lib/ajustes";
 
 export const metadata: Metadata = {
   title: "Contacto",
-  description: "Cómo comunicarse con la Fundación REFUVA.",
+  description: "Escribe a la Fundación REFUVA: formulario, WhatsApp, correo e Instagram. Si necesitas ayuda ahora, usa los números de crisis.",
 };
 
-export default function Contacto() {
+export default async function Contacto() {
+  const a = await ajustes();
+  const chat = enlaceWhatsapp(a.whatsapp);
   return (
     <>
       <TituloPagina
@@ -20,7 +23,7 @@ export default function Contacto() {
 
       <div className="mx-auto grid max-w-6xl gap-14 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
         <div className="min-w-0 max-w-2xl">
-          <FormularioContacto />
+          <FormularioContacto alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />} />
         </div>
 
         <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
@@ -30,15 +33,15 @@ export default function Contacto() {
               <div>
                 <dt className="font-semibold">WhatsApp</dt>
                 <dd className="mt-1">
-                  {enlaceWhatsapp() ? (
+                  {chat ? (
                     <a
-                      href={enlaceWhatsapp() ?? "#"}
+                      href={chat}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex min-h-11 items-center gap-2 font-semibold text-fuerte underline underline-offset-2"
                     >
                       <WhatsApp className="size-5" />
-                      <span className="cifras-alineadas">{whatsappVisible()}</span>
+                      <span className="cifras-alineadas">{whatsappVisible(a.whatsapp)}</span>
                       <span className="sr-only"> (se abre en otra pestaña)</span>
                     </a>
                   ) : (
@@ -49,31 +52,55 @@ export default function Contacto() {
               <div>
                 <dt className="font-semibold">Correo</dt>
                 <dd className="mt-1 text-tinta-suave">
-                  {CONTACTO.correo ??
-                    "Pendiente: la fundación va a estrenar dominio propio."}
+                  {a.correo ?? "Pendiente: la fundación va a estrenar dominio propio."}
                 </dd>
               </div>
-              <div>
-                <dt className="font-semibold">Instagram</dt>
-                <dd className="mt-1">
-                  <a
-                    href={CONTACTO.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex min-h-11 items-center gap-2 font-semibold text-fuerte underline underline-offset-2"
-                  >
-                    <Instagram className="size-5" />
-                    {CONTACTO.instagramUsuario}
-                    <span className="sr-only"> (se abre en otra pestaña)</span>
-                  </a>
-                </dd>
-              </div>
+              {a.instagram && (
+                <div>
+                  <dt className="font-semibold">Instagram</dt>
+                  <dd className="mt-1">
+                    <a
+                      href={a.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-11 items-center gap-2 font-semibold text-fuerte underline underline-offset-2"
+                    >
+                      <Instagram className="size-5" />
+                      {a.instagramUsuario ?? "Ver la cuenta"}
+                      <span className="sr-only"> (se abre en otra pestaña)</span>
+                    </a>
+                  </dd>
+                </div>
+              )}
+              {a.otrasRedes.map((r) => (
+                <div key={r.url}>
+                  <dt className="font-semibold">{r.nombre}</dt>
+                  <dd className="mt-1">
+                    <a
+                      href={r.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-11 items-center gap-2 font-semibold text-fuerte underline underline-offset-2"
+                    >
+                      <Enlace className="size-5" />
+                      Ver la cuenta
+                      <span className="sr-only"> de {r.nombre} (se abre en otra pestaña)</span>
+                    </a>
+                  </dd>
+                </div>
+              ))}
               <div>
                 <dt className="font-semibold">Dirección</dt>
                 <dd className="mt-1 text-tinta-suave">
-                  {CONTACTO.direccion ?? "Pendiente de confirmar."}
+                  {a.direccion ?? "Pendiente de confirmar."}
                 </dd>
               </div>
+              {a.horario && (
+                <div>
+                  <dt className="font-semibold">Horario</dt>
+                  <dd className="mt-1 text-tinta-suave">{a.horario}</dd>
+                </div>
+              )}
             </dl>
           </section>
 

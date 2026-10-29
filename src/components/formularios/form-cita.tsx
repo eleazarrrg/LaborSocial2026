@@ -5,7 +5,6 @@ import { accionCita } from "@/app/actions";
 import { ESTADO_INICIAL } from "@/lib/estado-formulario";
 import { CONTACTO_PREFERIDO, MODALIDADES } from "@/lib/opciones";
 import { RECURSOS_CRISIS } from "@/lib/crisis";
-import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 import {
   Area,
   Campo,
@@ -33,7 +32,7 @@ import {
  */
 const [emergencia, linea] = RECURSOS_CRISIS;
 
-export function FormularioCita() {
+export function FormularioCita({ alternativa }: { alternativa?: React.ReactNode }) {
   const [estado, accion] = useActionState(accionCita, ESTADO_INICIAL);
   const e = estado.errores ?? {};
 
@@ -112,7 +111,7 @@ export function FormularioCita() {
 
       <Resultado
         estado={estado}
-        alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />}
+        alternativa={alternativa}
       >
         <p>Te escribiremos por el medio que elegiste.</p>
         <p>

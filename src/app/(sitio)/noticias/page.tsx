@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Portada } from "@/components/portada";
 import { Boton, TituloPagina } from "@/components/ui";
-import { CONTACTO } from "@/lib/contacto";
+import { ajustes } from "@/lib/ajustes";
 import { catalogo } from "@/lib/contenido";
 import { eventos, fechaLarga, horaCorta, noticias } from "@/lib/publicaciones";
 
@@ -35,6 +35,7 @@ const ruta = (proyecto?: string, pagina?: number) => {
 };
 
 export default async function Noticias({ searchParams }: Props) {
+  const redes = await ajustes();
   const params = await searchParams;
   // Un parámetro repetido llega como arreglo: vale el primero.
   const primero = (v?: string | string[]) => (Array.isArray(v) ? v[0] : v);
@@ -167,13 +168,15 @@ export default async function Noticias({ searchParams }: Props) {
             )}
           </section>
 
-          <section aria-labelledby="instagram" className="rounded-xl border border-borde p-6">
-            <h2 id="instagram" className="text-lg font-extrabold">Y en Instagram</h2>
-            <p className="mt-3 text-sm text-tinta-suave">El día a día de la fundación se ve primero en sus redes.</p>
-            <a href={CONTACTO.instagram} rel="noopener noreferrer" target="_blank" className="mt-3 inline-flex min-h-11 items-center font-bold text-fuerte underline underline-offset-4">
-              @refuva_pma
-            </a>
-          </section>
+          {redes.instagram && (
+            <section aria-labelledby="instagram" className="rounded-xl border border-borde p-6">
+              <h2 id="instagram" className="text-lg font-extrabold">Y en Instagram</h2>
+              <p className="mt-3 text-sm text-tinta-suave">El día a día de la fundación se ve primero en sus redes.</p>
+              <a href={redes.instagram} rel="noopener noreferrer" target="_blank" className="mt-3 inline-flex min-h-11 items-center font-bold text-fuerte underline underline-offset-4">
+                {redes.instagramUsuario ?? "Ver la cuenta"}
+              </a>
+            </section>
+          )}
         </aside>
       </div>
     </>

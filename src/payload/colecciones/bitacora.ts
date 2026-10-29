@@ -26,6 +26,7 @@ export const Bitacora: CollectionConfig = {
         { label: "Consultó una lista de solicitudes", value: "ver_lista" },
         { label: "Cambió el estado", value: "cambiar_estado" },
         { label: "Borró una solicitud", value: "borrar_solicitud" },
+        { label: "Cambió los ajustes (contacto o donaciones)", value: "cambiar_ajustes" },
       ],
     },
     { name: "coleccion", type: "text", required: true },
@@ -44,7 +45,7 @@ export const Bitacora: CollectionConfig = {
 export async function registrarEnBitacora(
   req: PayloadRequest,
   entrada: {
-    accion: "ver_solicitud" | "ver_lista" | "cambiar_estado" | "borrar_solicitud";
+    accion: "ver_solicitud" | "ver_lista" | "cambiar_estado" | "borrar_solicitud" | "cambiar_ajustes";
     coleccion: string;
     documento: string | number;
     resumen: string;

@@ -5,7 +5,7 @@ import { Encabezado } from "@/components/encabezado";
 import { JsonLd } from "@/components/json-ld";
 import { Pie } from "@/components/pie";
 import { guionAntiParpadeo } from "@/components/tema";
-import { CONTACTO } from "@/lib/contacto";
+import { ajustes, type Ajustes } from "@/lib/ajustes";
 import { IMAGEN_COMPARTIR, sitioIndexable, URL_SITIO } from "@/lib/sitio";
 import "./globals.css";
 
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     template: "%s · Fundación REFUVA",
   },
   description:
-    "Fundación panameña: salud mental en escuelas, alimentación en la calle y a animales, Navidad para niños que nunca la han vivido, escritura terapéutica, emprendimiento y campañas de prevención del suicidio.",
+    "Fundación panameña: salud mental en escuelas, comida en la calle, cuidado de animales, Navidad para niños, escritura terapéutica y emprendimiento.",
   // Prototipo en revisión: no se indexa hasta que se ponga INDEXAR=true (ver lib/sitio.ts).
   robots: { index: sitioIndexable(), follow: sitioIndexable() },
   // «./» = la dirección de cada página (cada una declara su propia versión preferida).
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
 };
 
 /** Quién es la fundación, para buscadores y asistentes. Solo datos ya públicos en el sitio. */
-const DATOS_FUNDACION = {
+const datosFundacion = (a: Ajustes) => ({
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -87,9 +87,9 @@ const DATOS_FUNDACION = {
         "Fundación panameña sin fines de lucro con varios proyectos y campañas: salud mental en escuelas, alimentación en la calle y a animales, Navidad para niños, escritura terapéutica y emprendimiento.",
       areaServed: { "@type": "Country", name: "Panamá" },
       founder: { "@type": "Person", name: "Edwin Quintero", jobTitle: "Psicólogo" },
-      sameAs: [CONTACTO.instagram],
-      ...(CONTACTO.correo ? { email: CONTACTO.correo } : {}),
-      ...(CONTACTO.whatsapp ? { telephone: `+${CONTACTO.whatsapp}` } : {}),
+      sameAs: [a.instagram, ...a.otrasRedes.map((r) => r.url)].filter((u): u is string => Boolean(u)),
+      ...(a.correo ? { email: a.correo } : {}),
+      ...(a.whatsapp ? { telephone: `+${a.whatsapp}` } : {}),
     },
     {
       "@type": "WebSite",
@@ -100,7 +100,7 @@ const DATOS_FUNDACION = {
       publisher: { "@id": `${URL_SITIO}/#fundacion` },
     },
   ],
-};
+});
 
 /**
  * Lo que Edwin publica o cambia en el panel se ve en el sitio en la siguiente visita, sin esperar a
@@ -116,7 +116,7 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   // suppressHydrationWarning en <html>: el guion del tema pone data-tema antes de pintar
@@ -129,7 +129,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: guionAntiParpadeo }} />
       </head>
       <body>
-        <JsonLd datos={DATOS_FUNDACION} />
+        <JsonLd datos={datosFundacion(await ajustes())} />
         {/* Una barra de color avanza con el scroll (CSS puro; invisible sin soporte o con reduced-motion). */}
         <div aria-hidden className="progreso-scroll" />
         <a

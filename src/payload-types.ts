@@ -113,9 +113,11 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('es' | 'en') | ('es' | 'en')[];
   globals: {
     fondos: Fondo;
+    ajustes: Ajuste;
   };
   globalsSelect: {
     fondos: FondosSelect<false> | FondosSelect<true>;
+    ajustes: AjustesSelect<false> | AjustesSelect<true>;
   };
   locale: 'es' | 'en';
   widgets: {
@@ -716,7 +718,7 @@ export interface Pregunta {
  */
 export interface Bitacora {
   id: number;
-  accion: 'ver_solicitud' | 'ver_lista' | 'cambiar_estado' | 'borrar_solicitud';
+  accion: 'ver_solicitud' | 'ver_lista' | 'cambiar_estado' | 'borrar_solicitud' | 'cambiar_ajustes';
   coleccion: string;
   documento: string;
   usuario?: (number | null) | Usuario;
@@ -1314,6 +1316,60 @@ export interface Fondo {
   createdAt?: string | null;
 }
 /**
+ * Contacto, redes y datos de donación del sitio, y la prueba de SEO. Lo que escribes aquí se ve en el sitio al guardar.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ajustes".
+ */
+export interface Ajuste {
+  id: number;
+  /**
+   * Con o sin +507; se muestra como +507 XXXX-XXXX y abre el chat. No es un canal de emergencia: así se avisa en el sitio. Vacío = no se muestra.
+   */
+  whatsapp?: string | null;
+  /**
+   * El que ve el público. Vacío = no se muestra.
+   */
+  correo?: string | null;
+  /**
+   * Pega el enlace de la cuenta o escribe @usuario. Vacío = no se muestra.
+   */
+  instagram?: string | null;
+  /**
+   * Facebook, TikTok, YouTube… Salen en el pie de página con su nombre y un icono genérico.
+   */
+  otrasRedes?:
+    | {
+        nombre: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Solo si la fundación quiere publicarla. Vacío = no se muestra.
+   */
+  direccion?: string | null;
+  /**
+   * Por ejemplo: lunes a viernes, 9:00 a. m. a 4:00 p. m.
+   */
+  horario?: string | null;
+  /**
+   * Tal como aparece en Yappy. Vacío = no se muestra.
+   */
+  yappy?: string | null;
+  /**
+   * Los cuatro datos van juntos: si falta uno, no se guarda.
+   */
+  cuenta?: {
+    banco?: string | null;
+    tipo?: ('Ahorros' | 'Corriente') | null;
+    numero?: string | null;
+    titular?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "fondos_select".
  */
@@ -1347,6 +1403,36 @@ export interface FondosSelect<T extends boolean = true> {
     | {
         imagen?: T;
         tinte?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ajustes_select".
+ */
+export interface AjustesSelect<T extends boolean = true> {
+  whatsapp?: T;
+  correo?: T;
+  instagram?: T;
+  otrasRedes?:
+    | T
+    | {
+        nombre?: T;
+        url?: T;
+        id?: T;
+      };
+  direccion?: T;
+  horario?: T;
+  yappy?: T;
+  cuenta?:
+    | T
+    | {
+        banco?: T;
+        tipo?: T;
+        numero?: T;
+        titular?: T;
       };
   updatedAt?: T;
   createdAt?: T;

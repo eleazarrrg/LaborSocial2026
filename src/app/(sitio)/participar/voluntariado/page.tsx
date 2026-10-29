@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FormularioVoluntariado } from "@/components/formularios/form-voluntariado";
 import { PreguntasFrecuentes } from "@/components/preguntas-frecuentes";
+import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 
 export const metadata: Metadata = {
   title: "Ser voluntario",
@@ -59,7 +60,7 @@ export default function Voluntariado() {
             Sin compromiso de horas ni de frecuencia. Te escribimos cuando haya
             algo de lo que marcaste.
           </p>
-          <FormularioVoluntariado />
+          <FormularioVoluntariado alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />} />
         </div>
 
         <aside className="lg:sticky lg:top-28 lg:self-start">

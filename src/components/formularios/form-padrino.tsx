@@ -4,7 +4,6 @@ import { useActionState } from "react";
 import { accionPadrino } from "@/app/actions";
 import { ESTADO_INICIAL } from "@/lib/estado-formulario";
 import { FORMAS_ENTREGA } from "@/lib/opciones";
-import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 import {
   Area,
   Campo,
@@ -26,7 +25,7 @@ import {
  *    salga de su corazón», la fundación no estima nada. Poner un monto
  *    sugerido cambiaría el proyecto.
  */
-export function FormularioPadrino() {
+export function FormularioPadrino({ alternativa }: { alternativa?: React.ReactNode }) {
   const [estado, accion] = useActionState(accionPadrino, ESTADO_INICIAL);
   const e = estado.errores ?? {};
 
@@ -92,7 +91,7 @@ export function FormularioPadrino() {
 
       <Resultado
         estado={estado}
-        alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />}
+        alternativa={alternativa}
       >
         <p>
           Gracias por sumarte a Una Estrella Otiliana. Te contactaremos antes de la fiesta para

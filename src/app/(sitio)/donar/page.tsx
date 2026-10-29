@@ -3,7 +3,8 @@ import Link from "next/link";
 import { BotonCopiar } from "@/components/boton-copiar";
 import { Palabras } from "@/components/palabras";
 import { Boton, TituloPagina } from "@/components/ui";
-import { CONTACTO, DONACIONES, PRECIO_CONSULTA } from "@/lib/contacto";
+import { ajustes } from "@/lib/ajustes";
+import { PRECIO_CONSULTA } from "@/lib/contacto";
 import { PreguntasFrecuentes } from "@/components/preguntas-frecuentes";
 
 export const metadata: Metadata = {
@@ -49,8 +50,9 @@ const EQUIVALENCIAS = [
   },
 ];
 
-export default function Donar() {
-  const sinDatos = !DONACIONES.yappy && !DONACIONES.cuenta;
+export default async function Donar() {
+  const a = await ajustes();
+  const sinDatos = !a.yappy && !a.cuenta;
 
   return (
     <>
@@ -98,18 +100,18 @@ export default function Donar() {
                 la fundación los confirme, para que nadie transfiera a una cuenta
                 equivocada. Si quieres dar hoy, escríbenos y te los pasamos.
               </p>
-              {CONTACTO.correo && (
+              {a.correo && (
                 <a
-                  href={`mailto:${CONTACTO.correo}`}
+                  href={`mailto:${a.correo}`}
                   className="mt-4 inline-flex min-h-11 items-center font-bold text-fuerte underline underline-offset-4"
                 >
-                  {CONTACTO.correo}
+                  {a.correo}
                 </a>
               )}
             </div>
           ) : (
             <div className="mt-8 grid gap-6 lg:grid-cols-2">
-              {DONACIONES.yappy && (
+              {a.yappy && (
                 <section className="flex flex-col rounded-2xl border border-borde bg-superficie p-7 sm:p-8">
                   <h3 className="font-display text-2xl font-semibold">Yappy Comercial</h3>
                   <p className="mt-3 text-tinta-suave">
@@ -118,14 +120,14 @@ export default function Donar() {
                   </p>
                   <div className="mt-7 flex items-center gap-3 rounded-lg bg-papel-alto px-4 py-3.5">
                     <span className="cifras-alineadas grow font-display text-xl font-semibold">
-                      {DONACIONES.yappy}
+                      {a.yappy}
                     </span>
-                    <BotonCopiar valor={DONACIONES.yappy} etiqueta="el alias de Yappy" />
+                    <BotonCopiar valor={a.yappy} etiqueta="el alias de Yappy" />
                   </div>
                 </section>
               )}
 
-              {DONACIONES.cuenta && (
+              {a.cuenta && (
                 <section className="flex flex-col rounded-2xl border border-borde bg-superficie p-7 sm:p-8">
                   <h3 className="font-display text-2xl font-semibold">Transferencia bancaria</h3>
                   <p className="mt-3 text-tinta-suave">
@@ -134,20 +136,22 @@ export default function Donar() {
                   </p>
                   <dl className="mt-7 space-y-3">
                     {[
-                      ["Banco", DONACIONES.cuenta.banco],
-                      ["Tipo de cuenta", DONACIONES.cuenta.tipo],
-                      ["Número", DONACIONES.cuenta.numero],
-                      ["Titular", DONACIONES.cuenta.titular],
+                      ["Banco", a.cuenta.banco],
+                      ["Tipo de cuenta", a.cuenta.tipo],
+                      ["Número", a.cuenta.numero],
+                      ["Titular", a.cuenta.titular],
                     ].map(([campo, valor]) => (
+                      // Un <dl> solo admite grupos de <dt> y <dd> (un <div> los puede envolver, pero no otro
+                      // <div> dentro): por eso el botón de copiar es un segundo <dd> y no un hermano del grupo.
                       <div
                         key={campo}
-                        className="flex items-center gap-3 rounded-lg bg-papel-alto px-4 py-3"
+                        className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 rounded-lg bg-papel-alto px-4 py-3"
                       >
-                        <div className="grow">
-                          <dt className="text-sm text-tinta-suave">{campo}</dt>
-                          <dd className="cifras-alineadas font-medium">{valor}</dd>
-                        </div>
-                        <BotonCopiar valor={valor} etiqueta={campo} />
+                        <dt className="text-sm text-tinta-suave">{campo}</dt>
+                        <dd className="cifras-alineadas font-medium">{valor}</dd>
+                        <dd className="col-start-2 row-span-2 row-start-1">
+                          <BotonCopiar valor={valor} etiqueta={campo} />
+                        </dd>
                       </div>
                     ))}
                   </dl>

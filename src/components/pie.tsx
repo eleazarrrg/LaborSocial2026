@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Flecha, Instagram, Telefono, WhatsApp } from "@/components/iconos";
+import { Enlace, Flecha, Instagram, Telefono, WhatsApp } from "@/components/iconos";
 import { SelectorTema } from "@/components/tema";
 import { rutaDe } from "@/lib/catalogo";
-import { CONTACTO, enlaceWhatsapp, whatsappVisible } from "@/lib/contacto";
+import { ajustes, enlaceWhatsapp, whatsappVisible } from "@/lib/ajustes";
 import { campanas, proyectos } from "@/lib/contenido";
 import { RECURSOS_CRISIS, VERIFICADO_EL } from "@/lib/crisis";
 
@@ -49,7 +49,9 @@ function Columna({
 }
 
 export async function Pie() {
-  const [listaProyectos, listaCampanas] = await Promise.all([proyectos(), campanas()]);
+  const [listaProyectos, listaCampanas, a] = await Promise.all([proyectos(), campanas(), ajustes()]);
+  const chat = enlaceWhatsapp(a.whatsapp);
+  const hayRedes = Boolean(a.instagram || chat || a.otrasRedes.length > 0);
   return (
     <footer className="bg-marca text-sobre-marca">
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
@@ -73,42 +75,60 @@ export async function Pie() {
               no el todo.
             </p>
 
-            <div className="mt-7">
-              <h2 className="text-lg font-extrabold">Síguenos y escríbenos</h2>
-              <ul className="mt-3 space-y-1.5">
-                <li>
-                  <a href={CONTACTO.instagram} target="_blank" rel="noopener noreferrer" className={RED}>
-                    <span className={FICHA_ICONO}>
-                      <Instagram className="size-6" />
-                    </span>
-                    <span className="leading-tight">
-                      <span className="block text-sm">Instagram</span>
-                      <strong className="block">{CONTACTO.instagramUsuario}</strong>
-                      <span className="sr-only"> (se abre en otra pestaña)</span>
-                    </span>
-                  </a>
-                </li>
-                {enlaceWhatsapp() && (
-                  <li>
-                    <a href={enlaceWhatsapp() ?? "#"} target="_blank" rel="noopener noreferrer" className={RED}>
-                      <span className={FICHA_ICONO}>
-                        <WhatsApp className="size-6" />
-                      </span>
-                      <span className="leading-tight">
-                        <span className="block text-sm">WhatsApp</span>
-                        <strong className="cifras-alineadas block whitespace-nowrap">{whatsappVisible()}</strong>
-                        <span className="sr-only"> (se abre en otra pestaña)</span>
-                      </span>
-                    </a>
-                  </li>
+            {hayRedes && (
+              <div className="mt-7">
+                <h2 className="text-lg font-extrabold">Síguenos y escríbenos</h2>
+                <ul className="mt-3 space-y-1.5">
+                  {a.instagram && (
+                    <li>
+                      <a href={a.instagram} target="_blank" rel="noopener noreferrer" className={RED}>
+                        <span className={FICHA_ICONO}>
+                          <Instagram className="size-6" />
+                        </span>
+                        <span className="leading-tight">
+                          <span className="block text-sm">Instagram</span>
+                          <strong className="block">{a.instagramUsuario ?? "Ver la cuenta"}</strong>
+                          <span className="sr-only"> (se abre en otra pestaña)</span>
+                        </span>
+                      </a>
+                    </li>
+                  )}
+                  {chat && (
+                    <li>
+                      <a href={chat} target="_blank" rel="noopener noreferrer" className={RED}>
+                        <span className={FICHA_ICONO}>
+                          <WhatsApp className="size-6" />
+                        </span>
+                        <span className="leading-tight">
+                          <span className="block text-sm">WhatsApp</span>
+                          <strong className="cifras-alineadas block whitespace-nowrap">{whatsappVisible(a.whatsapp)}</strong>
+                          <span className="sr-only"> (se abre en otra pestaña)</span>
+                        </span>
+                      </a>
+                    </li>
+                  )}
+                  {a.otrasRedes.map((r) => (
+                    <li key={r.url}>
+                      <a href={r.url} target="_blank" rel="noopener noreferrer" className={RED}>
+                        <span className={FICHA_ICONO}>
+                          <Enlace className="size-6" />
+                        </span>
+                        <span className="leading-tight">
+                          <span className="block text-sm">Síguenos en</span>
+                          <strong className="block">{r.nombre}</strong>
+                          <span className="sr-only"> (se abre en otra pestaña)</span>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+                {chat && (
+                  <p className="mt-3 max-w-xs text-sm leading-relaxed">
+                    El WhatsApp no es un canal de emergencia. Si es urgente, llama al 911 o a la Línea 147.
+                  </p>
                 )}
-              </ul>
-              {enlaceWhatsapp() && (
-                <p className="mt-3 max-w-xs text-sm leading-relaxed">
-                  El WhatsApp no es un canal de emergencia. Si es urgente, llama al 911 o a la Línea 147.
-                </p>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
           <nav aria-label="Proyectos y campañas">

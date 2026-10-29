@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { WhatsApp } from "@/components/iconos";
-import { CONTACTO, enlaceWhatsapp } from "@/lib/contacto";
+import { ajustes, enlaceWhatsapp } from "@/lib/ajustes";
 
 /**
  * El camino alternativo cuando el formulario no basta.
@@ -13,12 +13,14 @@ import { CONTACTO, enlaceWhatsapp } from "@/lib/contacto";
  * inventa. Mandar a alguien que pide ayuda a un número equivocado es peor que
  * no ofrecer el botón.
  */
-export function AlternativaWhatsApp({
+export async function AlternativaWhatsApp({
   texto = "O escríbenos directamente por WhatsApp",
 }: {
   texto?: string;
 }) {
-  if (!CONTACTO.whatsapp) {
+  const a = await ajustes();
+  const enlace = enlaceWhatsapp(a.whatsapp);
+  if (!enlace) {
     return (
       <p className="text-sm text-tinta-suave">
         {texto}.{" "}
@@ -39,7 +41,7 @@ export function AlternativaWhatsApp({
 
   return (
     <a
-      href={enlaceWhatsapp() ?? "#"}
+      href={enlace}
       target="_blank"
       rel="noopener noreferrer"
       className="inline-flex min-h-12 items-center gap-2.5 rounded-lg bg-superficie px-6 py-3.5 font-semibold text-tinta ring-1 ring-inset ring-borde-fuerte transition-colors hover:bg-papel-alto"

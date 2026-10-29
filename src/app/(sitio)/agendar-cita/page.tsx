@@ -48,7 +48,7 @@ export default function AgendarCita() {
 
       <div className="mt-14 grid gap-14 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
         <div className="min-w-0 max-w-2xl">
-          <FormularioCita />
+          <FormularioCita alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />} />
         </div>
 
         <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">

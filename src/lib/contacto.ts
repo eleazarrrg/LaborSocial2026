@@ -1,5 +1,7 @@
 /**
- * Datos de contacto y de donación de la fundación.
+ * Datos de contacto y de donación de la fundación: son el RESPALDO. Los que se ven en el sitio salen del
+ * panel (Publicar > Ajustes, src/lib/ajustes.ts); estos solo se usan si la base falla o si el apartado
+ * nunca se guardó.
  *
  * Todo lo que hay aquí en `null` es un pendiente real que Edwin tiene que
  * entregar (docs/06-inventario-contenido.md). El prototipo los muestra como
@@ -50,14 +52,3 @@ export const PRECIO_CONSULTA = "B/.15.00";
  * fila (`politica_version`). Cambia este texto cada vez que cambie la política.
  */
 export const POLITICA_VERSION = "borrador-2026-10";
-
-/** «+507 6058-3801»: como se escribe en pantalla el número de WhatsApp (507 + 8 dígitos). */
-export function whatsappVisible(): string | null {
-  const m = CONTACTO.whatsapp?.match(/^507(\d{4})(\d{4})$/);
-  return m ? `+507 ${m[1]}-${m[2]}` : (CONTACTO.whatsapp ?? null);
-}
-
-/** El enlace que abre el chat (la app en el teléfono, WhatsApp Web en el computador). */
-export function enlaceWhatsapp(): string | null {
-  return CONTACTO.whatsapp ? `https://wa.me/${CONTACTO.whatsapp}` : null;
-}

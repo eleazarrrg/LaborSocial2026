@@ -15,7 +15,7 @@ import { ETIQUETA_CMS } from "@/lib/cache-cms";
  */
 
 const COLECCIONES = new Set(["proyectos", "noticias", "eventos", "medios", "preguntas"]);
-const GLOBALES = new Set(["fondos"]);
+const GLOBALES = new Set(["fondos", "ajustes"]);
 
 function expirar(origen: string): void {
   // Fuera de Next (scripts de siembra o de pruebas) no hay caché de datos que expirar.

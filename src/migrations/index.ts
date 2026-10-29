@@ -6,6 +6,7 @@ import * as migration_20261022_025936_fotos_provisionales_y_fondos from './20261
 import * as migration_20261028_033409_objectkey_medios from './20261028_033409_objectkey_medios';
 import * as migration_20261028_033635_bitacora_search_path from './20261028_033635_bitacora_search_path';
 import * as migration_20261029_023836_preguntas_frecuentes from './20261029_023836_preguntas_frecuentes';
+import * as migration_20261029_042244_ajustes_de_la_fundacion from './20261029_042244_ajustes_de_la_fundacion';
 
 export const migrations = [
   {
@@ -46,6 +47,11 @@ export const migrations = [
   {
     up: migration_20261029_023836_preguntas_frecuentes.up,
     down: migration_20261029_023836_preguntas_frecuentes.down,
-    name: '20261029_023836_preguntas_frecuentes'
+    name: '20261029_023836_preguntas_frecuentes',
+  },
+  {
+    up: migration_20261029_042244_ajustes_de_la_fundacion.up,
+    down: migration_20261029_042244_ajustes_de_la_fundacion.down,
+    name: '20261029_042244_ajustes_de_la_fundacion'
   },
 ];

@@ -3,6 +3,7 @@ import { FormularioContacto } from "@/components/formularios/form-contacto";
 import { Nota, TituloPagina } from "@/components/ui";
 import { proyectos } from "@/lib/contenido";
 import { PreguntasFrecuentes } from "@/components/preguntas-frecuentes";
+import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 
 export const metadata: Metadata = {
   title: "Solicitar una alianza",
@@ -31,7 +32,7 @@ export default async function Alianzas() {
 
       <div className="mx-auto grid max-w-6xl gap-14 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
         <div className="min-w-0 max-w-2xl">
-          <FormularioContacto />
+          <FormularioContacto alternativa={<AlternativaWhatsApp texto="Escríbenos por WhatsApp" />} />
         </div>
 
         <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">

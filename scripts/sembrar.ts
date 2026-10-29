@@ -20,6 +20,7 @@ import { readFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { getPayload } from "payload";
 import { CATALOGO } from "../src/lib/catalogo";
+import { CONTACTO } from "../src/lib/contacto";
 import { PREGUNTAS_BASE } from "../src/lib/preguntas-base";
 import type { Tinte } from "../src/lib/fondo";
 import config from "../src/payload.config";
@@ -183,9 +184,24 @@ if (yaHayPreguntas === 0) {
   }
 }
 
+// 5. Los ajustes de contacto: solo si el apartado nunca se guardó, con lo que el sitio ya mostraba, para
+//    que la ficha del panel no aparezca vacía mientras el sitio muestra datos. Los de donación NO se
+//    siembran: los carga administración (Publicar > Ajustes > Donaciones).
+const guardadoAjustes = (await payload.findGlobal({ slug: "ajustes", depth: 0, overrideAccess: true })) as { updatedAt?: string };
+let ajustesNuevos = false;
+if (!guardadoAjustes.updatedAt) {
+  await payload.updateGlobal({
+    slug: "ajustes",
+    overrideAccess: true,
+    data: { whatsapp: CONTACTO.whatsapp, correo: CONTACTO.correo, instagram: CONTACTO.instagram },
+  });
+  ajustesNuevos = true;
+}
+
 console.log(
   `\nSiembra lista: ${cuenta.logos} logos, ${cuenta.proyectos} proyectos o campañas nuevos` +
     ` (${cuenta.existentes} ya estaban), ${cuenta.fotos} fotos de referencia subidas y ${cuenta.asignadas} asignadas a su espacio.` +
+    ` Ajustes de contacto: ${ajustesNuevos ? "cargados" : "ya estaban, no se tocan"}.` +
     ` Preguntas frecuentes nuevas: ${preguntasNuevas}${yaHayPreguntas ? " (ya había, no se tocan)" : ""}.`,
 );
 process.exit(0);

@@ -14,6 +14,7 @@ import { Medios } from "./payload/colecciones/medios";
 import { Eventos, Noticias } from "./payload/colecciones/publicaciones";
 import { Proyectos } from "./payload/colecciones/proyectos";
 import { Preguntas } from "./payload/colecciones/preguntas";
+import { Ajustes } from "./payload/globales/ajustes";
 import { Fondos } from "./payload/globales/fondos";
 import {
   InscripcionesPadrinos,
@@ -172,7 +173,7 @@ export default buildConfig({
     Usuarios,
     Bitacora,
   ],
-  globals: [Fondos],
+  globals: [Fondos, Ajustes],
   db: postgresAdapter({
     pool: conexion(),
     // El modo push (esquema automático de desarrollo) SOLO corre contra una base local. Contra una

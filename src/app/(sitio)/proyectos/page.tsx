@@ -6,7 +6,7 @@ import { TituloPagina, Boton } from "@/components/ui";
 export const metadata: Metadata = {
   title: "Proyectos",
   description:
-    "Los proyectos de la Fundación REFUVA: escuelas, emprendimiento, riesgo social, escritura terapéutica, familias, Navidad, personas en situación de calle y animales.",
+    "Los proyectos de la Fundación REFUVA: escuelas, emprendimiento, riesgo social, escritura, familias, Navidad, personas en situación de calle y animales.",
 };
 
 export default async function Proyectos() {
