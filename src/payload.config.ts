@@ -174,11 +174,8 @@ export default buildConfig({
     : undefined,
   typescript: { outputFile: path.resolve(dirname, "payload-types.ts") },
   onInit: async (payload) => {
-    console.log("[DIAG-7c2e] onInit: inicio");
     comprobarConfiguracion();
-    console.log("[DIAG-7c2e] onInit: configuración comprobada");
     await sembrarConvocatoria2026(payload);
-    console.log("[DIAG-7c2e] onInit: siembra lista");
   },
   plugins: [
     // Cuando Edwin guarda algo, el sitio expira su caché y lo muestra al instante (ver revalidar.ts).
