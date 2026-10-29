@@ -10,7 +10,7 @@ export const Convocatorias: CollectionConfig = {
   slug: "convocatorias",
   labels: { singular: "Convocatoria", plural: "Convocatorias" },
   admin: {
-    group: "Contenido",
+    group: "Publicar",
     useAsTitle: "titulo",
     defaultColumns: ["titulo", "abreEn", "cierraEn", "cerradaManualmente"],
   },
@@ -31,9 +31,17 @@ export const Convocatorias: CollectionConfig = {
       type: "select",
       required: true,
       defaultValue: "padrinos",
+      label: "Tipo",
       options: [{ label: "Padrinos y madrinas", value: "padrinos" }],
+      admin: { description: "Hoy solo existe la convocatoria de padrinos y madrinas." },
     },
-    { name: "titulo", label: "Título", type: "text", required: true },
+    {
+      name: "titulo",
+      label: "Título",
+      type: "text",
+      required: true,
+      admin: { description: "Cómo se llama esta convocatoria, por ejemplo «Padrinos y madrinas · Navidad 2026»." },
+    },
     { name: "descripcion", label: "Descripción", type: "textarea" },
     {
       name: "textoSiCerrada",
@@ -46,7 +54,7 @@ export const Convocatorias: CollectionConfig = {
       label: "Abre el",
       type: "date",
       required: true,
-      admin: { date: { pickerAppearance: "dayAndTime" } },
+      admin: { date: { pickerAppearance: "dayAndTime" }, description: "Hora de Panamá. Antes de esta fecha el formulario se ve cerrado." },
     },
     {
       name: "cierraEn",
@@ -63,7 +71,10 @@ export const Convocatorias: CollectionConfig = {
       label: "Cerrarla ya, antes de la fecha",
       type: "checkbox",
       defaultValue: false,
-      admin: { position: "sidebar" },
+      admin: {
+        position: "sidebar",
+        description: "Márcala para dejar de recibir inscripciones ya, sin esperar la fecha de cierre.",
+      },
     },
   ],
   hooks: {

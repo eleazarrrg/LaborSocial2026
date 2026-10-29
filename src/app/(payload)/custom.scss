@@ -118,7 +118,7 @@
 
   h2 {
     margin: 0 0 0.25rem;
-    font-size: 1.25rem;
+    font-size: 2rem;
   }
 
   ul {
@@ -137,10 +137,11 @@
     border: 1px solid var(--theme-elevation-150);
     border-left-width: 4px;
     border-radius: 4px;
+    font-size: 1.05rem;
   }
 
   li[data-estado="bien"] {
-    border-left-color: var(--theme-success-500);
+    border-left-color: #2f9e5f;
   }
 
   li[data-estado="revisar"] {
@@ -161,4 +162,184 @@
 .salud-sitio__nota {
   margin: 0;
   color: var(--theme-elevation-650);
+  font-size: 1rem;
+}
+
+// ── Bienvenida: el saludo y los trabajos más comunes a un clic.
+.bienvenida {
+  max-width: 60rem;
+  margin: 0 0 1.5rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 8px;
+  background: var(--theme-elevation-50);
+
+  &__cabecera {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    h2 {
+      margin: 0 0 0.25rem;
+      font-size: 2rem;
+    }
+
+    p {
+      max-width: 42rem;
+      margin: 0;
+      color: var(--theme-elevation-800);
+      font-size: 1.1rem;
+    }
+  }
+
+  &__sitio {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 1rem;
+    border: 1px solid var(--theme-elevation-400);
+    border-radius: 4px;
+    color: var(--theme-text);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      background: var(--theme-elevation-100);
+    }
+  }
+
+  // Texto solo para lectores de pantalla.
+  &__oculto {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  &__acciones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0 0;
+    padding: 0;
+    list-style: none;
+
+    a {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      min-height: 44px;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--theme-elevation-150);
+      border-radius: 6px;
+      background: var(--theme-bg);
+      color: var(--theme-text);
+      text-decoration: none;
+      transition:
+        border-color 0.15s,
+        transform 0.15s;
+
+      &:hover {
+        border-color: var(--theme-elevation-500);
+        transform: translateY(-1px);
+      }
+
+      &:focus-visible {
+        outline: 3px solid var(--theme-text);
+        outline-offset: 2px;
+      }
+
+      strong {
+        font-size: 1.1rem;
+      }
+
+      span {
+        color: var(--theme-elevation-650);
+        font-size: 1rem;
+      }
+    }
+  }
+
+  &__pasos {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--theme-elevation-200);
+
+    h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    ol {
+      font-size: 1.05rem;
+      display: grid;
+      gap: 0.35rem;
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+
+    a {
+      color: var(--theme-text);
+      font-weight: 600;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bienvenida__acciones a {
+    transition: none;
+
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+// ── Marca: logo de la pantalla de entrada.
+.logo-panel {
+  display: inline-flex;
+  gap: 0.9rem;
+  align-items: center;
+
+  img {
+    width: auto;
+    height: 64px;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  &__texto {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+
+    strong {
+      font-size: 1.35rem;
+    }
+
+    small {
+      color: var(--theme-elevation-650);
+      font-size: 1rem;
+    }
+  }
+}
+
+// ── Celda «Visible / Oculta» de las listas.
+.celda-visible {
+  display: inline-block;
+  padding: 0.1rem 0.6rem;
+  border: 1px solid var(--theme-elevation-300);
+  border-radius: 999px;
+  font-weight: 600;
+
+  &--oculta {
+    border-color: var(--theme-warning-500);
+    background: var(--theme-warning-100);
+    color: var(--theme-text);
+  }
 }

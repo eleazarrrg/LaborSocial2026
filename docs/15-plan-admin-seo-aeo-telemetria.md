@@ -49,6 +49,19 @@ Hecho el 28-10-2026: entrada a `/admin` y segundo factor activo.
 
 ## 3. Fase 1 — Panel más usable (UX medio)
 
+> **Estado (29-10-2026): hecho lo que no dependía de nadie, y verificado con el panel abierto** (base local,
+> cuenta de prueba, segundo factor incluido; tema claro y oscuro).
+> - **Hecho:** menú por tareas (Bandeja → Publicar → Sistema); inicio con saludo, cuatro acciones y «Primeros
+>   pasos» para cuentas de menos de 30 días; logo de la fundación en la entrada y el menú; ayudas en lenguaje
+>   llano (proyectos, convocatorias, usuarios, preguntas); botón de vista previa en proyectos y noticias
+>   (solo si están visibles/publicadas); columna «Visible / Oculta» en lugar de «verdadero»; tarjeta «Salud del sitio».
+> - **Medido:** contraste mínimo 10.45:1 en oscuro y 7.23:1 en claro (exigido 4.5:1); botones de 44 px o más;
+>   texto de ayuda de 13 px o más (la base del panel es de 13 px); títulos al mismo tamaño que los de Payload.
+> - **Pendiente:** la **prueba con tres personas** (publicar y ocultar una noticia en menos de 3 minutos, sin ayuda).
+>   Es lo único que confirma si el panel es de verdad más fácil; sin ella la mejora es una apuesta informada.
+> - **Limitación conocida:** a 390 px aparece un desborde de 17 px que viene del menú lateral oculto de Payload,
+>   no de los componentes propios.
+
 El panel es de Payload (React y estilos propios, no Tailwind): se personaliza con variables CSS, textos,
 agrupación y componentes propios. No se rehace desde cero.
 
@@ -136,6 +149,6 @@ cuenta de Cloudflare) → Fase 1 → Fase 4.
 | Fecha del lanzamiento (día de quitar `noindex`) | Edwin | Antes de Fase 2 |
 | Cuenta de Cloudflare y Search Console a nombre de la fundación | Edwin / quien administre | Antes de Fase 3 |
 | Compra del dominio `refuva.org` | Edwin | Antes del lanzamiento |
-| Tres personas para la prueba de usabilidad del panel | Edwin | Fin de Fase 1 |
-| Preguntas reales para las páginas de preguntas frecuentes | Edwin | Fase 2 |
+| Tres personas para la prueba de usabilidad del panel | Edwin | **Ya** (Fase 1 construida) |
+| Revisar las 18 preguntas frecuentes que se sembraron por defecto (son un punto de partida) | Edwin | Antes del lanzamiento |
 | Asesor legal que revise `/privacidad` | Fundación | Antes de activar la medición |

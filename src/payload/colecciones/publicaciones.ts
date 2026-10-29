@@ -144,7 +144,14 @@ function crearPublicacion(c: {
     slug: c.slug,
     labels: { singular: c.singular, plural: c.plural },
     admin: {
-      group: "Contenido",
+      group: "Publicar",
+      // «Vista previa» abre la noticia en el sitio, solo si ya está publicada.
+      ...(c.slug === "noticias"
+        ? {
+            preview: (doc: Record<string, unknown>) =>
+              doc._status === "published" && typeof doc.slug === "string" ? `/noticias/${doc.slug}` : null,
+          }
+        : {}),
       useAsTitle: "titulo",
       defaultColumns: c.columnas,
       listSearchableFields: ["titulo", "resumen"],

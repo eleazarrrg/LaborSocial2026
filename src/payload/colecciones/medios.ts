@@ -15,7 +15,7 @@ export const Medios: CollectionConfig = {
   slug: "medios",
   labels: { singular: "Imagen", plural: "Imágenes" },
   admin: {
-    group: "Contenido",
+    group: "Publicar",
     useAsTitle: "alt",
     defaultColumns: ["filename", "alt", "createdAt"],
     description: "Las fotos y los logos del sitio. Cada imagen necesita su texto alternativo.",

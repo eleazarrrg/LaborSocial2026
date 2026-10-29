@@ -79,7 +79,10 @@ export const Preguntas: CollectionConfig = {
           label: "Visible en el sitio",
           type: "checkbox",
           defaultValue: true,
-          admin: { width: "25%" },
+          admin: {
+            width: "25%",
+            components: { Cell: "/payload/componentes/celda-visible#CeldaVisible" },
+          },
         },
       ],
     },

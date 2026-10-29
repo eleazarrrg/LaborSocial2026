@@ -67,16 +67,16 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    noticias: Noticia;
-    eventos: Evento;
-    proyectos: Proyecto;
-    preguntas: Pregunta;
-    medios: Medio;
     'solicitudes-cita': SolicitudesCita;
     'inscripciones-voluntariado': InscripcionesVoluntariado;
     'inscripciones-padrinos': InscripcionesPadrino;
     'mensajes-contacto': MensajesContacto;
     cuarentena: Cuarentena;
+    proyectos: Proyecto;
+    noticias: Noticia;
+    eventos: Evento;
+    preguntas: Pregunta;
+    medios: Medio;
     convocatorias: Convocatoria;
     usuarios: Usuario;
     bitacora: Bitacora;
@@ -88,16 +88,16 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    noticias: NoticiasSelect<false> | NoticiasSelect<true>;
-    eventos: EventosSelect<false> | EventosSelect<true>;
-    proyectos: ProyectosSelect<false> | ProyectosSelect<true>;
-    preguntas: PreguntasSelect<false> | PreguntasSelect<true>;
-    medios: MediosSelect<false> | MediosSelect<true>;
     'solicitudes-cita': SolicitudesCitaSelect<false> | SolicitudesCitaSelect<true>;
     'inscripciones-voluntariado': InscripcionesVoluntariadoSelect<false> | InscripcionesVoluntariadoSelect<true>;
     'inscripciones-padrinos': InscripcionesPadrinosSelect<false> | InscripcionesPadrinosSelect<true>;
     'mensajes-contacto': MensajesContactoSelect<false> | MensajesContactoSelect<true>;
     cuarentena: CuarentenaSelect<false> | CuarentenaSelect<true>;
+    proyectos: ProyectosSelect<false> | ProyectosSelect<true>;
+    noticias: NoticiasSelect<false> | NoticiasSelect<true>;
+    eventos: EventosSelect<false> | EventosSelect<true>;
+    preguntas: PreguntasSelect<false> | PreguntasSelect<true>;
+    medios: MediosSelect<false> | MediosSelect<true>;
     convocatorias: ConvocatoriasSelect<false> | ConvocatoriasSelect<true>;
     usuarios: UsuariosSelect<false> | UsuariosSelect<true>;
     bitacora: BitacoraSelect<false> | BitacoraSelect<true>;
@@ -147,322 +147,6 @@ export interface UsuarioAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "noticias".
- */
-export interface Noticia {
-  id: number;
-  /**
-   * Dice de qué trata. Entre 5 y 160 caracteres.
-   */
-  titulo: string;
-  /**
-   * Sale del título. No cambia después de publicar, para no romper los enlaces compartidos.
-   */
-  slug: string;
-  /**
-   * Es lo que se ve en la lista y al compartir. Una o dos frases.
-   */
-  resumen: string;
-  /**
-   * Negrita, enlaces, listas y fotos entre párrafos. Nada más: así todas las noticias se ven igual de bien.
-   */
-  cuerpo?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Elígela de la biblioteca o súbela. Su texto alternativo se pide al subirla.
-   */
-  portada?: (number | null) | Medio;
-  /**
-   * Opcional. Aparece en su página y en los filtros.
-   */
-  proyecto?: (number | null) | Proyecto;
-  destacado?: boolean | null;
-  /**
-   * Se pone sola al publicar. Es la fecha que ve el visitante y la que ordena la lista.
-   */
-  publicadoEn?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Las fotos y los logos del sitio. Cada imagen necesita su texto alternativo.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "medios".
- */
-export interface Medio {
-  id: number;
-  _objectKey?: string | null;
-  /**
-   * Describe qué se ve, para quien no puede verla. Por ejemplo: «Voluntarios sirviendo comida en una jornada». Si es un logo, el nombre del proyecto.
-   */
-  alt: string;
-  /**
-   * Opcional. Se ve debajo de la foto.
-   */
-  pie?: string | null;
-  /**
-   * Foto de archivo puesta mientras llegan las de la fundación. El inicio del panel avisa cuántas quedan: reemplázalas antes de publicar el sitio.
-   */
-  provisional?: boolean | null;
-  /**
-   * Quien tomó la foto.
-   */
-  autor?: string | null;
-  fuente?: string | null;
-  /**
-   * Ejemplo: Licencia de Unsplash.
-   */
-  licencia?: string | null;
-  /**
-   * Márcalo si en la foto se reconoce a un menor o a alguien en situación de calle.
-   */
-  requiereConsentimiento?: boolean | null;
-  /**
-   * Sin el consentimiento firmado no se puede guardar esta foto.
-   */
-  consentimientoRegistrado?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-  sizes?: {
-    miniatura?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    portada?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    panoramica?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "proyectos".
- */
-export interface Proyecto {
-  id: number;
-  tipo: 'proyecto' | 'campana';
-  /**
-   * Ejemplo: historias-que-sanan. No se cambia después: rompería los enlaces.
-   */
-  codigo: string;
-  nombre: string;
-  /**
-   * Para el menú y las listas, donde el nombre completo no cabe.
-   */
-  nombreCorto: string;
-  resumen: string;
-  /**
-   * El texto oficial de la fundación. Cada proyecto nació de una historia.
-   */
-  historia?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Solo si es verdad y la fundación lo confirmó. Si no, déjalo en blanco.
-   */
-  enHonorA?: string | null;
-  poblacion?: string | null;
-  requisitos?:
-    | {
-        texto: string;
-        id?: string | null;
-      }[]
-    | null;
-  cuando?: string | null;
-  /**
-   * Solo una cifra real que Edwin haya dicho. Ejemplo: +30
-   */
-  cifraValor?: string | null;
-  /**
-   * Ejemplo: escuelas en lista de espera
-   */
-  cifraPie?: string | null;
-  accionEtiqueta?: string | null;
-  /**
-   * Una página del sitio (por ejemplo /participar/apadrinar) o un enlace completo.
-   */
-  accionHref?: string | null;
-  /**
-   * Su texto alternativo se pide al subirlo a la biblioteca.
-   */
-  logo?: (number | null) | Medio;
-  /**
-   * La foto principal del proyecto: se ve a todo el ancho arriba de su página y en su bloque del inicio.
-   */
-  fondo: {
-    /**
-     * Horizontal y de 2000 px de ancho como mínimo para que se vea nítida en pantallas grandes. Sin foto, el bloque queda en el color del tinte.
-     */
-    imagen?: (number | null) | Medio;
-    /**
-     * El color de la marca que viste la foto. Con cualquiera de los cuatro, el texto blanco se lee.
-     */
-    tinte: 'turquesa' | 'naranja' | 'marron' | 'noche';
-  };
-  /**
-   * Para los logos que traen fondo propio: el color de sus esquinas, para que el borde no se note.
-   */
-  logoFondo?: string | null;
-  /**
-   * Obligatorio en todo lo que toque salud mental o suicidio: la página termina con el 911 y la Línea 147. Solo administración puede cambiarlo.
-   */
-  bloqueCrisis?: boolean | null;
-  /**
-   * Menor va primero. Usa saltos de 10 para poder meter uno en medio.
-   */
-  orden?: number | null;
-  /**
-   * Desmárcalo para ocultarlo sin borrarlo.
-   */
-  activo?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "eventos".
- */
-export interface Evento {
-  id: number;
-  /**
-   * Dice de qué trata. Entre 5 y 160 caracteres.
-   */
-  titulo: string;
-  /**
-   * Sale del título. No cambia después de publicar, para no romper los enlaces compartidos.
-   */
-  slug: string;
-  /**
-   * Es lo que se ve en la lista y al compartir. Una o dos frases.
-   */
-  resumen: string;
-  /**
-   * Negrita, enlaces, listas y fotos entre párrafos. Nada más: así todas las noticias se ven igual de bien.
-   */
-  cuerpo?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Elígela de la biblioteca o súbela. Su texto alternativo se pide al subirla.
-   */
-  portada?: (number | null) | Medio;
-  /**
-   * Opcional. Aparece en su página y en los filtros.
-   */
-  proyecto?: (number | null) | Proyecto;
-  destacado?: boolean | null;
-  /**
-   * Se pone sola al publicar. Es la fecha que ve el visitante y la que ordena la lista.
-   */
-  publicadoEn?: string | null;
-  /**
-   * Hora de Panamá. Cuando pasa, el evento deja de listarse solo.
-   */
-  fechaInicio: string;
-  fechaFin?: string | null;
-  lugar?: string | null;
-  direccion?: string | null;
-  inscripcionUrl?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  deletedAt?: string | null;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * Las preguntas que más se repiten, con su respuesta. Se ven en el sitio y ayudan a que te encuentren.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "preguntas".
- */
-export interface Pregunta {
-  id: number;
-  /**
-   * Como la diría una persona que entra por primera vez. Termina con signo de interrogación.
-   */
-  pregunta: string;
-  /**
-   * Clara y corta (hasta 600 caracteres). Solo lo que la fundación puede cumplir: nada de plazos ni montos que no estén confirmados. Si hablas de una emergencia, remite al 911 o a la Línea 147.
-   */
-  respuesta: string;
-  /**
-   * Además de la página de preguntas, aparece al pie de la página de su tema.
-   */
-  tema: 'general' | 'cita' | 'donar' | 'voluntariado' | 'padrinos' | 'alianzas';
-  /**
-   * Menor número, más arriba.
-   */
-  orden: number;
-  activo?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "solicitudes-cita".
  */
 export interface SolicitudesCita {
@@ -504,6 +188,9 @@ export interface SolicitudesCita {
  */
 export interface Usuario {
   id: number;
+  /**
+   * Cómo quieres que te salude el panel y cómo aparecerás en el historial.
+   */
   nombre: string;
   rol: 'administrador' | 'editor';
   /**
@@ -616,15 +303,27 @@ export interface Convocatoria {
    * El código del proyecto, como aparece en su dirección web.
    */
   proyectoSlug: string;
+  /**
+   * Hoy solo existe la convocatoria de padrinos y madrinas.
+   */
   tipo: 'padrinos';
+  /**
+   * Cómo se llama esta convocatoria, por ejemplo «Padrinos y madrinas · Navidad 2026».
+   */
   titulo: string;
   descripcion?: string | null;
   textoSiCerrada: string;
+  /**
+   * Hora de Panamá. Antes de esta fecha el formulario se ve cerrado.
+   */
   abreEn: string;
   /**
    * Hora de Panamá. Para que cierre al terminar el 15, pon el 16 a las 00:00.
    */
   cierraEn: string;
+  /**
+   * Márcala para dejar de recibir inscripciones ya, sin esperar la fecha de cierre.
+   */
   cerradaManualmente?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -688,6 +387,328 @@ export interface Cuarentena {
   createdAt: string;
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "proyectos".
+ */
+export interface Proyecto {
+  id: number;
+  tipo: 'proyecto' | 'campana';
+  /**
+   * Ejemplo: historias-que-sanan. No se cambia después: rompería los enlaces.
+   */
+  codigo: string;
+  nombre: string;
+  /**
+   * Para el menú y las listas, donde el nombre completo no cabe.
+   */
+  nombreCorto: string;
+  /**
+   * Una frase que explique qué hace, para el menú y las tarjetas. Los buscadores muestran unos 160 caracteres: lo importante, al principio.
+   */
+  resumen: string;
+  /**
+   * El texto oficial de la fundación. Cada proyecto nació de una historia.
+   */
+  historia?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Solo si es verdad y la fundación lo confirmó. Si no, déjalo en blanco.
+   */
+  enHonorA?: string | null;
+  /**
+   * Quién participa o se beneficia, en pocas palabras. Sin nombres ni datos de niños.
+   */
+  poblacion?: string | null;
+  requisitos?:
+    | {
+        texto: string;
+        id?: string | null;
+      }[]
+    | null;
+  cuando?: string | null;
+  /**
+   * Solo una cifra real que Edwin haya dicho. Ejemplo: +30
+   */
+  cifraValor?: string | null;
+  /**
+   * Ejemplo: escuelas en lista de espera
+   */
+  cifraPie?: string | null;
+  accionEtiqueta?: string | null;
+  /**
+   * Una página del sitio (por ejemplo /participar/apadrinar) o un enlace completo.
+   */
+  accionHref?: string | null;
+  /**
+   * Su texto alternativo se pide al subirlo a la biblioteca.
+   */
+  logo?: (number | null) | Medio;
+  /**
+   * La foto principal del proyecto: se ve a todo el ancho arriba de su página y en su bloque del inicio.
+   */
+  fondo: {
+    /**
+     * Horizontal y de 2000 px de ancho como mínimo para que se vea nítida en pantallas grandes. Sin foto, el bloque queda en el color del tinte.
+     */
+    imagen?: (number | null) | Medio;
+    /**
+     * El color de la marca que viste la foto. Con cualquiera de los cuatro, el texto blanco se lee.
+     */
+    tinte: 'turquesa' | 'naranja' | 'marron' | 'noche';
+  };
+  /**
+   * Para los logos que traen fondo propio: el color de sus esquinas, para que el borde no se note.
+   */
+  logoFondo?: string | null;
+  /**
+   * Obligatorio en todo lo que toque salud mental o suicidio: la página termina con el 911 y la Línea 147. Solo administración puede cambiarlo.
+   */
+  bloqueCrisis?: boolean | null;
+  /**
+   * Menor va primero. Usa saltos de 10 para poder meter uno en medio.
+   */
+  orden?: number | null;
+  /**
+   * Desmárcalo para ocultarlo sin borrarlo.
+   */
+  activo?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Las fotos y los logos del sitio. Cada imagen necesita su texto alternativo.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "medios".
+ */
+export interface Medio {
+  id: number;
+  _objectKey?: string | null;
+  /**
+   * Describe qué se ve, para quien no puede verla. Por ejemplo: «Voluntarios sirviendo comida en una jornada». Si es un logo, el nombre del proyecto.
+   */
+  alt: string;
+  /**
+   * Opcional. Se ve debajo de la foto.
+   */
+  pie?: string | null;
+  /**
+   * Foto de archivo puesta mientras llegan las de la fundación. El inicio del panel avisa cuántas quedan: reemplázalas antes de publicar el sitio.
+   */
+  provisional?: boolean | null;
+  /**
+   * Quien tomó la foto.
+   */
+  autor?: string | null;
+  fuente?: string | null;
+  /**
+   * Ejemplo: Licencia de Unsplash.
+   */
+  licencia?: string | null;
+  /**
+   * Márcalo si en la foto se reconoce a un menor o a alguien en situación de calle.
+   */
+  requiereConsentimiento?: boolean | null;
+  /**
+   * Sin el consentimiento firmado no se puede guardar esta foto.
+   */
+  consentimientoRegistrado?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    miniatura?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    portada?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    panoramica?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "noticias".
+ */
+export interface Noticia {
+  id: number;
+  /**
+   * Dice de qué trata. Entre 5 y 160 caracteres.
+   */
+  titulo: string;
+  /**
+   * Sale del título. No cambia después de publicar, para no romper los enlaces compartidos.
+   */
+  slug: string;
+  /**
+   * Es lo que se ve en la lista y al compartir. Una o dos frases.
+   */
+  resumen: string;
+  /**
+   * Negrita, enlaces, listas y fotos entre párrafos. Nada más: así todas las noticias se ven igual de bien.
+   */
+  cuerpo?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Elígela de la biblioteca o súbela. Su texto alternativo se pide al subirla.
+   */
+  portada?: (number | null) | Medio;
+  /**
+   * Opcional. Aparece en su página y en los filtros.
+   */
+  proyecto?: (number | null) | Proyecto;
+  destacado?: boolean | null;
+  /**
+   * Se pone sola al publicar. Es la fecha que ve el visitante y la que ordena la lista.
+   */
+  publicadoEn?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eventos".
+ */
+export interface Evento {
+  id: number;
+  /**
+   * Dice de qué trata. Entre 5 y 160 caracteres.
+   */
+  titulo: string;
+  /**
+   * Sale del título. No cambia después de publicar, para no romper los enlaces compartidos.
+   */
+  slug: string;
+  /**
+   * Es lo que se ve en la lista y al compartir. Una o dos frases.
+   */
+  resumen: string;
+  /**
+   * Negrita, enlaces, listas y fotos entre párrafos. Nada más: así todas las noticias se ven igual de bien.
+   */
+  cuerpo?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Elígela de la biblioteca o súbela. Su texto alternativo se pide al subirla.
+   */
+  portada?: (number | null) | Medio;
+  /**
+   * Opcional. Aparece en su página y en los filtros.
+   */
+  proyecto?: (number | null) | Proyecto;
+  destacado?: boolean | null;
+  /**
+   * Se pone sola al publicar. Es la fecha que ve el visitante y la que ordena la lista.
+   */
+  publicadoEn?: string | null;
+  /**
+   * Hora de Panamá. Cuando pasa, el evento deja de listarse solo.
+   */
+  fechaInicio: string;
+  fechaFin?: string | null;
+  lugar?: string | null;
+  direccion?: string | null;
+  inscripcionUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Las preguntas que más se repiten, con su respuesta. Se ven en el sitio y ayudan a que te encuentren.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "preguntas".
+ */
+export interface Pregunta {
+  id: number;
+  /**
+   * Como la diría una persona que entra por primera vez. Termina con signo de interrogación.
+   */
+  pregunta: string;
+  /**
+   * Clara y corta (hasta 600 caracteres). Solo lo que la fundación puede cumplir: nada de plazos ni montos que no estén confirmados. Si hablas de una emergencia, remite al 911 o a la Línea 147.
+   */
+  respuesta: string;
+  /**
+   * Además de la página de preguntas, aparece al pie de la página de su tema.
+   */
+  tema: 'general' | 'cita' | 'donar' | 'voluntariado' | 'padrinos' | 'alianzas';
+  /**
+   * Menor número, más arriba.
+   */
+  orden: number;
+  activo?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Registro inalterable de quién vio y quién cambió cada solicitud.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -747,26 +768,6 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'noticias';
-        value: number | Noticia;
-      } | null)
-    | ({
-        relationTo: 'eventos';
-        value: number | Evento;
-      } | null)
-    | ({
-        relationTo: 'proyectos';
-        value: number | Proyecto;
-      } | null)
-    | ({
-        relationTo: 'preguntas';
-        value: number | Pregunta;
-      } | null)
-    | ({
-        relationTo: 'medios';
-        value: number | Medio;
-      } | null)
-    | ({
         relationTo: 'solicitudes-cita';
         value: number | SolicitudesCita;
       } | null)
@@ -785,6 +786,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'cuarentena';
         value: number | Cuarentena;
+      } | null)
+    | ({
+        relationTo: 'proyectos';
+        value: number | Proyecto;
+      } | null)
+    | ({
+        relationTo: 'noticias';
+        value: number | Noticia;
+      } | null)
+    | ({
+        relationTo: 'eventos';
+        value: number | Evento;
+      } | null)
+    | ({
+        relationTo: 'preguntas';
+        value: number | Pregunta;
+      } | null)
+    | ({
+        relationTo: 'medios';
+        value: number | Medio;
       } | null)
     | ({
         relationTo: 'convocatorias';
@@ -839,158 +860,6 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "noticias_select".
- */
-export interface NoticiasSelect<T extends boolean = true> {
-  titulo?: T;
-  slug?: T;
-  resumen?: T;
-  cuerpo?: T;
-  portada?: T;
-  proyecto?: T;
-  destacado?: T;
-  publicadoEn?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  deletedAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "eventos_select".
- */
-export interface EventosSelect<T extends boolean = true> {
-  titulo?: T;
-  slug?: T;
-  resumen?: T;
-  cuerpo?: T;
-  portada?: T;
-  proyecto?: T;
-  destacado?: T;
-  publicadoEn?: T;
-  fechaInicio?: T;
-  fechaFin?: T;
-  lugar?: T;
-  direccion?: T;
-  inscripcionUrl?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  deletedAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "proyectos_select".
- */
-export interface ProyectosSelect<T extends boolean = true> {
-  tipo?: T;
-  codigo?: T;
-  nombre?: T;
-  nombreCorto?: T;
-  resumen?: T;
-  historia?: T;
-  enHonorA?: T;
-  poblacion?: T;
-  requisitos?:
-    | T
-    | {
-        texto?: T;
-        id?: T;
-      };
-  cuando?: T;
-  cifraValor?: T;
-  cifraPie?: T;
-  accionEtiqueta?: T;
-  accionHref?: T;
-  logo?: T;
-  fondo?:
-    | T
-    | {
-        imagen?: T;
-        tinte?: T;
-      };
-  logoFondo?: T;
-  bloqueCrisis?: T;
-  orden?: T;
-  activo?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "preguntas_select".
- */
-export interface PreguntasSelect<T extends boolean = true> {
-  pregunta?: T;
-  respuesta?: T;
-  tema?: T;
-  orden?: T;
-  activo?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "medios_select".
- */
-export interface MediosSelect<T extends boolean = true> {
-  _objectKey?: T;
-  alt?: T;
-  pie?: T;
-  provisional?: T;
-  autor?: T;
-  fuente?: T;
-  licencia?: T;
-  requiereConsentimiento?: T;
-  consentimientoRegistrado?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-  sizes?:
-    | T
-    | {
-        miniatura?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        portada?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        panoramica?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1119,6 +988,158 @@ export interface CuarentenaSelect<T extends boolean = true> {
   veredicto?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "proyectos_select".
+ */
+export interface ProyectosSelect<T extends boolean = true> {
+  tipo?: T;
+  codigo?: T;
+  nombre?: T;
+  nombreCorto?: T;
+  resumen?: T;
+  historia?: T;
+  enHonorA?: T;
+  poblacion?: T;
+  requisitos?:
+    | T
+    | {
+        texto?: T;
+        id?: T;
+      };
+  cuando?: T;
+  cifraValor?: T;
+  cifraPie?: T;
+  accionEtiqueta?: T;
+  accionHref?: T;
+  logo?: T;
+  fondo?:
+    | T
+    | {
+        imagen?: T;
+        tinte?: T;
+      };
+  logoFondo?: T;
+  bloqueCrisis?: T;
+  orden?: T;
+  activo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "noticias_select".
+ */
+export interface NoticiasSelect<T extends boolean = true> {
+  titulo?: T;
+  slug?: T;
+  resumen?: T;
+  cuerpo?: T;
+  portada?: T;
+  proyecto?: T;
+  destacado?: T;
+  publicadoEn?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "eventos_select".
+ */
+export interface EventosSelect<T extends boolean = true> {
+  titulo?: T;
+  slug?: T;
+  resumen?: T;
+  cuerpo?: T;
+  portada?: T;
+  proyecto?: T;
+  destacado?: T;
+  publicadoEn?: T;
+  fechaInicio?: T;
+  fechaFin?: T;
+  lugar?: T;
+  direccion?: T;
+  inscripcionUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "preguntas_select".
+ */
+export interface PreguntasSelect<T extends boolean = true> {
+  pregunta?: T;
+  respuesta?: T;
+  tema?: T;
+  orden?: T;
+  activo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "medios_select".
+ */
+export interface MediosSelect<T extends boolean = true> {
+  _objectKey?: T;
+  alt?: T;
+  pie?: T;
+  provisional?: T;
+  autor?: T;
+  fuente?: T;
+  licencia?: T;
+  requiereConsentimiento?: T;
+  consentimientoRegistrado?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        miniatura?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        portada?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        panoramica?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

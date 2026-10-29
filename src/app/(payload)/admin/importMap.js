@@ -9,7 +9,11 @@ import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { HeadingFeatureClient as HeadingFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ParagraphFeatureClient as ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { CeldaVisible as CeldaVisible_4d560b8024544985a937e6c58fb680ee } from '../../../payload/componentes/celda-visible'
 import { TOTPField as TOTPField_4eaf6cb33cfb75be01716613e3c9a512 } from 'payload-totp/rsc'
+import { Icono as Icono_4b049b1cd61069bc498bfc7091e1877e } from '../../../payload/componentes/logo'
+import { Logo as Logo_4b049b1cd61069bc498bfc7091e1877e } from '../../../payload/componentes/logo'
+import { Bienvenida as Bienvenida_40163b4755ff87ce7930c803d9c12f65 } from '../../../payload/componentes/bienvenida'
 import { AvisoFotos as AvisoFotos_1b01754220554127ab9e2d4f3ff256b4 } from '../../../payload/componentes/aviso-fotos'
 import { ResumenBandeja as ResumenBandeja_841f56aa55fd2e4af0d8853391118d9f } from '../../../payload/componentes/resumen-bandeja'
 import { SaludSitio as SaludSitio_f6ac43fe7c0540388d67990d8fbedc2b } from '../../../payload/componentes/salud-sitio'
@@ -32,7 +36,11 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#HeadingFeatureClient": HeadingFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ParagraphFeatureClient": ParagraphFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "/payload/componentes/celda-visible#CeldaVisible": CeldaVisible_4d560b8024544985a937e6c58fb680ee,
   "payload-totp/rsc#TOTPField": TOTPField_4eaf6cb33cfb75be01716613e3c9a512,
+  "/payload/componentes/logo#Icono": Icono_4b049b1cd61069bc498bfc7091e1877e,
+  "/payload/componentes/logo#Logo": Logo_4b049b1cd61069bc498bfc7091e1877e,
+  "/payload/componentes/bienvenida#Bienvenida": Bienvenida_40163b4755ff87ce7930c803d9c12f65,
   "/payload/componentes/aviso-fotos#AvisoFotos": AvisoFotos_1b01754220554127ab9e2d4f3ff256b4,
   "/payload/componentes/resumen-bandeja#ResumenBandeja": ResumenBandeja_841f56aa55fd2e4af0d8853391118d9f,
   "/payload/componentes/salud-sitio#SaludSitio": SaludSitio_f6ac43fe7c0540388d67990d8fbedc2b,

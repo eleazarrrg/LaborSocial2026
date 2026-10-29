@@ -110,7 +110,12 @@ export default buildConfig({
     user: Usuarios.slug,
     meta: { titleSuffix: " · Panel REFUVA" },
     components: {
+      graphics: {
+        Logo: "/payload/componentes/logo#Logo",
+        Icon: "/payload/componentes/logo#Icono",
+      },
       beforeDashboard: [
+        "/payload/componentes/bienvenida#Bienvenida",
         "/payload/componentes/aviso-fotos#AvisoFotos",
         "/payload/componentes/resumen-bandeja#ResumenBandeja",
         "/payload/componentes/salud-sitio#SaludSitio",
@@ -136,16 +141,18 @@ export default buildConfig({
   // Menos superficie de ataque: el sitio no usa GraphQL.
   graphQL: { disable: true },
   collections: [
-    Noticias,
-    Eventos,
-    Proyectos,
-    Preguntas,
-    Medios,
+    // El menú del panel sigue este orden: Bandeja (lo que hay que atender), Publicar (lo que se ve en
+    // el sitio) y Sistema. Quien solo edita contenido no ve la Bandeja.
     SolicitudesCita,
     InscripcionesVoluntariado,
     InscripcionesPadrinos,
     MensajesContacto,
     Cuarentena,
+    Proyectos,
+    Noticias,
+    Eventos,
+    Preguntas,
+    Medios,
     Convocatorias,
     Usuarios,
     Bitacora,

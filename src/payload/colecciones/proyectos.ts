@@ -20,8 +20,13 @@ export const Proyectos: CollectionConfig = {
   slug: "proyectos",
   labels: { singular: "Proyecto o campaña", plural: "Proyectos y campañas" },
   admin: {
-    group: "Contenido",
+    group: "Publicar",
     useAsTitle: "nombre",
+    // «Vista previa» abre la página pública, solo si el proyecto está visible.
+    preview: (doc) =>
+      doc.activo && typeof doc.codigo === "string"
+        ? `/${doc.tipo === "campana" ? "campanas" : "proyectos"}/${doc.codigo}`
+        : null,
     defaultColumns: ["nombre", "tipo", "orden", "activo"],
     listSearchableFields: ["nombre", "nombreCorto"],
   },
@@ -81,6 +86,10 @@ export const Proyectos: CollectionConfig = {
       minLength: 20,
       maxLength: 240,
       hooks: { beforeValidate: [lenguajeSeguro] },
+      admin: {
+        description:
+          "Una frase que explique qué hace, para el menú y las tarjetas. Los buscadores muestran unos 160 caracteres: lo importante, al principio.",
+      },
     },
     {
       name: "historia",
@@ -98,7 +107,13 @@ export const Proyectos: CollectionConfig = {
       localized: true,
       admin: { description: "Solo si es verdad y la fundación lo confirmó. Si no, déjalo en blanco." },
     },
-    { name: "poblacion", label: "A quién llega", type: "text", localized: true },
+    {
+      name: "poblacion",
+      label: "A quién llega",
+      type: "text",
+      localized: true,
+      admin: { description: "Quién participa o se beneficia, en pocas palabras. Sin nombres ni datos de niños." },
+    },
     {
       name: "requisitos",
       label: "Requisitos para participar",
@@ -186,7 +201,11 @@ export const Proyectos: CollectionConfig = {
       label: "Visible en el sitio",
       type: "checkbox",
       defaultValue: true,
-      admin: { position: "sidebar", description: "Desmárcalo para ocultarlo sin borrarlo." },
+      admin: {
+        position: "sidebar",
+        description: "Desmárcalo para ocultarlo sin borrarlo.",
+        components: { Cell: "/payload/componentes/celda-visible#CeldaVisible" },
+      },
     },
   ],
 };

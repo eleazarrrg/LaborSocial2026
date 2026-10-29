@@ -13,7 +13,7 @@ export const Fondos: GlobalConfig = {
   slug: "fondos",
   label: "Fondos del inicio",
   admin: {
-    group: "Sitio",
+    group: "Publicar",
     description: "Cambia la foto de cada bloque del inicio y elige su tinte. Si quitas la foto, el bloque vuelve a su color.",
   },
   // La API pública está cerrada; el sitio lee con la API local (src/lib/contenido.ts).

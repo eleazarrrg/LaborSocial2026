@@ -221,7 +221,7 @@ function crearBandeja(c: ConfigBandeja): CollectionConfig {
     slug: c.slug,
     labels: { singular: c.singular, plural: c.plural },
     admin: {
-      group: "Solicitudes",
+      group: "Bandeja",
       useAsTitle: "nombre",
       defaultColumns: ["nombre", "estado", "createdAt"],
       listSearchableFields: ["nombre", "correo"],

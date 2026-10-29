@@ -10,7 +10,7 @@ export const Cuarentena: CollectionConfig = {
   slug: "cuarentena",
   labels: { singular: "Envío en cuarentena", plural: "Cuarentena" },
   admin: {
-    group: "Solicitudes",
+    group: "Bandeja",
     useAsTitle: "formulario",
     defaultColumns: ["createdAt", "formulario", "revisado"],
     description:

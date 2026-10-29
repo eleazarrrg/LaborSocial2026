@@ -40,7 +40,13 @@ export const Usuarios: CollectionConfig = {
     delete: soloAdmin,
   },
   fields: [
-    { name: "nombre", type: "text", required: true },
+    {
+      name: "nombre",
+      label: "Nombre",
+      type: "text",
+      required: true,
+      admin: { description: "Cómo quieres que te salude el panel y cómo aparecerás en el historial." },
+    },
     {
       name: "rol",
       type: "select",
