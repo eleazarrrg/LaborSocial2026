@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FormularioContacto } from "@/components/formularios/form-contacto";
+import { Instagram, WhatsApp } from "@/components/iconos";
 import { Nota, TituloPagina } from "@/components/ui";
-import { CONTACTO } from "@/lib/contacto";
+import { CONTACTO, enlaceWhatsapp, whatsappVisible } from "@/lib/contacto";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -28,8 +29,21 @@ export default function Contacto() {
             <dl className="mt-5 space-y-5 text-sm">
               <div>
                 <dt className="font-semibold">WhatsApp</dt>
-                <dd className="mt-1 text-tinta-suave">
-                  {CONTACTO.whatsapp ?? "Pendiente de confirmar."}
+                <dd className="mt-1">
+                  {enlaceWhatsapp() ? (
+                    <a
+                      href={enlaceWhatsapp() ?? "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-11 items-center gap-2 font-semibold text-fuerte underline underline-offset-2"
+                    >
+                      <WhatsApp className="size-5" />
+                      <span className="cifras-alineadas">{whatsappVisible()}</span>
+                      <span className="sr-only"> (se abre en otra pestaña)</span>
+                    </a>
+                  ) : (
+                    <span className="text-tinta-suave">Pendiente de confirmar.</span>
+                  )}
                 </dd>
               </div>
               <div>
@@ -44,9 +58,13 @@ export default function Contacto() {
                 <dd className="mt-1">
                   <a
                     href={CONTACTO.instagram}
-                    className="text-fuerte underline underline-offset-2"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-11 items-center gap-2 font-semibold text-fuerte underline underline-offset-2"
                   >
-                    Ver la cuenta
+                    <Instagram className="size-5" />
+                    {CONTACTO.instagramUsuario}
+                    <span className="sr-only"> (se abre en otra pestaña)</span>
                   </a>
                 </dd>
               </div>

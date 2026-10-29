@@ -9,6 +9,20 @@ export const metadata: Metadata = {
     "Quién es la Fundación REFUVA, cómo empezó y por qué sostiene tantos proyectos a la vez en Panamá.",
 };
 
+/**
+ * Los textos oficiales de la fundación (documento BANNERS, entregado el 29-10-2026), copiados sin cambios.
+ * Hoy viven aquí; pasarlos al panel es parte del apartado de textos editables.
+ */
+const QUIENES = "Es una organización comprometida con el fortalecimiento humano, emocional, psicológico y comunitario a través de programas de acompañamiento psicológico, promoción de la salud mental, prevención social, actividades comunitarias, capacitaciones y apoyo integral. Nos enfocamos en mejorar la calidad de vida de niños, jóvenes, adultos y familias, creando espacios seguros donde cada persona pueda descubrir su fortaleza interior, superar obstáculos, desarrollar habilidades que contribuyan a su crecimiento personal, y a la creación de comunidades más resilientes, empáticas y unidas.";
+const MISION = "Brindar acompañamiento humano, psicológico y social a personas en situación de vulnerabilidad, promoviendo la resiliencia, la fortaleza emocional y el desarrollo integral mediante programas de orientación, apoyo comunitario y atención profesional.";
+const VISION = "Ser una fundación reconocida por su compromiso social, impacto humano y fortalecimiento comunitario, generando espacios seguros, inclusivos y transformadores para las personas y familias que requieren apoyo integral.";
+const VALORES = ["Respeto", "Empatía", "Solidaridad", "Compromiso social", "Confidencialidad", "Inclusión", "Responsabilidad", "Humanidad"];
+const PRINCIPIOS = [
+  { nombre: "Resiliencia", texto: "Es la capacidad de afrontar situaciones difíciles, superar adversidades y transformar las experiencias dolorosas en procesos de crecimiento personal y fortalecimiento emocional." },
+  { nombre: "Fuerza", texto: "Es la habilidad emocional, mental y humana para mantenerse firme ante las dificultades, perseverar y continuar avanzando a pesar de las circunstancias." },
+  { nombre: "Valentía", texto: "Es la fuerza interior que impulsa a las personas a enfrentar sus miedos, dificultades y desafíos con determinación, esperanza y dignidad." },
+];
+
 export default async function Nosotros() {
   return (
     <>
@@ -55,20 +69,42 @@ export default async function Nosotros() {
             </Nota>
           </div>
 
-          <section className="mt-16">
-            <h2 className="text-2xl font-semibold sm:text-3xl">
+          <section className="mt-16" aria-labelledby="mision">
+            <h2 id="mision" className="text-2xl font-semibold sm:text-3xl">
               Misión, visión y valores
             </h2>
-            <div className="mt-7 grid gap-4 sm:grid-cols-3">
-              {["Misión", "Visión", "Valores"].map((t) => (
-                <div
-                  key={t}
-                  className="rounded-xl border border-dashed border-borde-fuerte bg-papel-alto p-6"
+            <p className="mt-4 max-w-[62ch] leading-relaxed sm:text-lg">{QUIENES}</p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {[
+                { titulo: "Misión", texto: MISION },
+                { titulo: "Visión", texto: VISION },
+              ].map((b) => (
+                <div key={b.titulo} className="rounded-2xl border border-borde bg-papel-alto p-6 sm:p-7">
+                  <h3 className="font-display text-xl font-extrabold">{b.titulo}</h3>
+                  <p className="mt-3 leading-relaxed">{b.texto}</p>
+                </div>
+              ))}
+            </div>
+
+            <h3 className="mt-10 font-display text-xl font-extrabold">Valores</h3>
+            <ul className="mt-4 flex flex-wrap gap-2.5">
+              {VALORES.map((v) => (
+                <li
+                  key={v}
+                  className="rounded-full border border-borde-fuerte bg-superficie px-4 py-2 font-semibold"
                 >
-                  <h3 className="font-display text-lg font-semibold">{t}</h3>
-                  <p className="mt-2.5 text-sm text-tinta-suave">
-                    Texto pendiente de entrega.
-                  </p>
+                  {v}
+                </li>
+              ))}
+            </ul>
+
+            <h3 className="mt-10 font-display text-xl font-extrabold">Principios fundamentales</h3>
+            <div className="mt-4 grid gap-4 sm:grid-cols-3">
+              {PRINCIPIOS.map((pr) => (
+                <div key={pr.nombre} className="rounded-2xl border border-borde bg-superficie p-6">
+                  <p className="font-display text-2xl font-extrabold text-fuerte">{pr.nombre}</p>
+                  <p className="mt-2.5 leading-relaxed text-tinta-suave">{pr.texto}</p>
                 </div>
               ))}
             </div>

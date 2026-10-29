@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Flecha, Telefono } from "@/components/iconos";
+import { Flecha, Instagram, Telefono, WhatsApp } from "@/components/iconos";
 import { SelectorTema } from "@/components/tema";
 import { rutaDe } from "@/lib/catalogo";
+import { CONTACTO, enlaceWhatsapp, whatsappVisible } from "@/lib/contacto";
 import { campanas, proyectos } from "@/lib/contenido";
 import { RECURSOS_CRISIS, VERIFICADO_EL } from "@/lib/crisis";
 
@@ -26,6 +27,11 @@ const PARTICIPAR = [
 ];
 
 const ENLACE = "underline-offset-4 hover:underline";
+
+// Redes: el icono va en una ficha de 44 px (área táctil cómoda) y el nombre siempre escrito al lado.
+const RED = "group inline-flex min-h-11 items-center gap-3 rounded-lg underline-offset-4 hover:underline";
+const FICHA_ICONO =
+  "grid size-11 shrink-0 place-items-center rounded-xl border border-sobre-marca/45 transition-colors group-hover:bg-sobre-marca/15";
 
 function Columna({
   titulo,
@@ -66,6 +72,43 @@ export async function Pie() {
               {listaCampanas.length} campañas en Panamá: la salud mental es una parte,
               no el todo.
             </p>
+
+            <div className="mt-7">
+              <h2 className="text-lg font-extrabold">Síguenos y escríbenos</h2>
+              <ul className="mt-3 space-y-1.5">
+                <li>
+                  <a href={CONTACTO.instagram} target="_blank" rel="noopener noreferrer" className={RED}>
+                    <span className={FICHA_ICONO}>
+                      <Instagram className="size-6" />
+                    </span>
+                    <span className="leading-tight">
+                      <span className="block text-sm">Instagram</span>
+                      <strong className="block">{CONTACTO.instagramUsuario}</strong>
+                      <span className="sr-only"> (se abre en otra pestaña)</span>
+                    </span>
+                  </a>
+                </li>
+                {enlaceWhatsapp() && (
+                  <li>
+                    <a href={enlaceWhatsapp() ?? "#"} target="_blank" rel="noopener noreferrer" className={RED}>
+                      <span className={FICHA_ICONO}>
+                        <WhatsApp className="size-6" />
+                      </span>
+                      <span className="leading-tight">
+                        <span className="block text-sm">WhatsApp</span>
+                        <strong className="cifras-alineadas block whitespace-nowrap">{whatsappVisible()}</strong>
+                        <span className="sr-only"> (se abre en otra pestaña)</span>
+                      </span>
+                    </a>
+                  </li>
+                )}
+              </ul>
+              {enlaceWhatsapp() && (
+                <p className="mt-3 max-w-xs text-sm leading-relaxed">
+                  El WhatsApp no es un canal de emergencia. Si es urgente, llama al 911 o a la Línea 147.
+                </p>
+              )}
+            </div>
           </div>
 
           <nav aria-label="Proyectos y campañas">

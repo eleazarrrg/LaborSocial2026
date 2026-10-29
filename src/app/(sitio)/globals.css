@@ -190,6 +190,12 @@ h3 {
   border-radius: 3px;
 }
 
+/* Sobre el turquesa del pie, el anillo naranja casi no se distingue (WCAG 1.4.11 pide 3:1): se pinta del
+   color del texto, que sí contrasta. */
+footer :focus-visible {
+  outline-color: currentColor;
+}
+
 /* Movimiento: poco y con motivo. Sin JavaScript, así que no suma peso ni retrasa el primer pintado.
    · .revelar: el bloque sube 16 px y aparece cuando entra en pantalla (marca el orden de lectura).
      Los que ya están a la vista al cargar nacen completos. Solo catálogos y titulares; nunca el bloque

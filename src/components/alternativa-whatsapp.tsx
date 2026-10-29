@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CONTACTO } from "@/lib/contacto";
+import { WhatsApp } from "@/components/iconos";
+import { CONTACTO, enlaceWhatsapp } from "@/lib/contacto";
 
 /**
  * El camino alternativo cuando el formulario no basta.
@@ -38,10 +39,14 @@ export function AlternativaWhatsApp({
 
   return (
     <a
-      href={`https://wa.me/${CONTACTO.whatsapp}`}
-      className="inline-flex min-h-12 items-center rounded-lg bg-superficie px-6 py-3.5 font-semibold text-tinta ring-1 ring-inset ring-borde-fuerte transition-colors hover:bg-papel-alto"
+      href={enlaceWhatsapp() ?? "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex min-h-12 items-center gap-2.5 rounded-lg bg-superficie px-6 py-3.5 font-semibold text-tinta ring-1 ring-inset ring-borde-fuerte transition-colors hover:bg-papel-alto"
     >
+      <WhatsApp className="size-5" />
       {texto}
+      <span className="sr-only"> (se abre en otra pestaña)</span>
     </a>
   );
 }

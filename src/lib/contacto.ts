@@ -12,8 +12,11 @@
  */
 
 export const CONTACTO = {
-  /** Pendiente S-07: número de WhatsApp empresarial. */
-  whatsapp: null as string | null,
+  /**
+   * WhatsApp de la fundación, solo dígitos con el código de país (Panamá, 507): es la forma que pide
+   * `wa.me`. Entregado el 29-10-2026 (+507 6058-3801). Confirmar con Edwin que es el número de la fundación.
+   */
+  whatsapp: "50760583801" as string | null,
   /**
    * El correo que la fundación usa hoy. Es un Gmail, no el institucional:
    * sirve de interino hasta que haya dominio propio (R-07, pendiente T-05).
@@ -47,3 +50,14 @@ export const PRECIO_CONSULTA = "B/.15.00";
  * fila (`politica_version`). Cambia este texto cada vez que cambie la política.
  */
 export const POLITICA_VERSION = "borrador-2026-10";
+
+/** «+507 6058-3801»: como se escribe en pantalla el número de WhatsApp (507 + 8 dígitos). */
+export function whatsappVisible(): string | null {
+  const m = CONTACTO.whatsapp?.match(/^507(\d{4})(\d{4})$/);
+  return m ? `+507 ${m[1]}-${m[2]}` : (CONTACTO.whatsapp ?? null);
+}
+
+/** El enlace que abre el chat (la app en el teléfono, WhatsApp Web en el computador). */
+export function enlaceWhatsapp(): string | null {
+  return CONTACTO.whatsapp ? `https://wa.me/${CONTACTO.whatsapp}` : null;
+}

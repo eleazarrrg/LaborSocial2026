@@ -60,3 +60,29 @@ export function Corazon({ className }: Props) {
     </Trazo>
   );
 }
+
+/** Instagram: el cuadro redondeado, el lente y el punto. Dibujado aquí (no es el logo oficial con degradado). */
+export function Instagram({ className }: Props) {
+  return (
+    <Trazo className={className}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="M17.5 6.5h.01" strokeWidth={3} />
+    </Trazo>
+  );
+}
+
+/** WhatsApp: la burbuja de chat con un auricular dentro. Dibujada aquí (no es el logo oficial). */
+export function WhatsApp({ className }: Props) {
+  return (
+    <Trazo className={className}>
+      <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z" />
+      <g transform="translate(7.3 7.3) scale(0.4)">
+        <path
+          strokeWidth={4.4}
+          d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"
+        />
+      </g>
+    </Trazo>
+  );
+}

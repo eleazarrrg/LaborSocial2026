@@ -174,6 +174,8 @@ const DECORATIVOS = new Map([
   ["opacity-50", "el separador · entre dos teléfonos"],
   ["opacity-60", "botón deshabilitado mientras se envía"],
   ["opacity-40", "filete decorativo sobre cada dedicatoria «En honor a…»; no lleva texto"],
+  ["border-sobre-marca/45", "borde de la ficha del icono de Instagram o WhatsApp en el pie; el icono y el nombre (8.62:1) llevan el significado"],
+  ["bg-sobre-marca/15", "relleno de esa ficha al pasar el cursor; no es información"],
   ["decoration-papel/30", "subrayado del número; el número va a contraste pleno"],
   ["ring-valiente/30", "halo del campo con error; el borde sólido es el límite"],
   ["border-valiente/40", "borde del resumen de errores; lo delimita su relleno"],

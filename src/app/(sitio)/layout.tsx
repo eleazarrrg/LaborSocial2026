@@ -89,6 +89,7 @@ const DATOS_FUNDACION = {
       founder: { "@type": "Person", name: "Edwin Quintero", jobTitle: "Psicólogo" },
       sameAs: [CONTACTO.instagram],
       ...(CONTACTO.correo ? { email: CONTACTO.correo } : {}),
+      ...(CONTACTO.whatsapp ? { telephone: `+${CONTACTO.whatsapp}` } : {}),
     },
     {
       "@type": "WebSite",
@@ -118,8 +119,10 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  // suppressHydrationWarning en <html>: el guion del tema pone data-tema antes de pintar
+  // (components/tema.tsx) y ese atributo nunca coincide con el HTML del servidor.
   return (
-    <html lang="es-PA" className={`${fuente.variable} ${titulares.variable}`}>
+    <html lang="es-PA" className={`${fuente.variable} ${titulares.variable}`} suppressHydrationWarning>
       <head>
         {/* Corre antes del primer pintado para que quien eligió tema oscuro no
             vea un fogonazo blanco en cada carga. Ver components/tema.tsx. */}
