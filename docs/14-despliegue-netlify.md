@@ -21,7 +21,7 @@ Los valores los pone una persona de la fundación en el panel. **Nunca en el rep
 |---|---|
 | `DATABASE_URL` | Supabase → Connect → Transaction pooler (`:6543`) |
 | `DATABASE_POOL_MAX` | `1` (cada función usa una sola conexión) |
-| `DATABASE_CA_CERT` | Supabase → Database → SSL Configuration → certificado completo |
+| `DATABASE_CA_CERT_B64` | El certificado de Supabase (Database → SSL Configuration) en **base64, en una sola línea**: `node -e "console.log(Buffer.from(require('fs').readFileSync('prod-ca-2021.crt')).toString('base64'))"`. Un PEM de varias líneas pegado en el panel pierde los saltos y la conexión falla con `self-signed certificate in certificate chain` (pasó en la primera prueba, 28 oct). El código también acepta `DATABASE_CA_CERT` e intenta reconstruirlo, pero la versión base64 no se puede romper. |
 | `PAYLOAD_SECRET` | Texto aleatorio de 32+ caracteres, generado por la fundación |
 | `NEXT_PUBLIC_SERVER_URL` | La dirección pública del sitio (`https://…`) |
 | `PAYLOAD_MIGRAR_AL_ARRANCAR` | `false`: las migraciones se aplican a mano, no al arrancar cada función |

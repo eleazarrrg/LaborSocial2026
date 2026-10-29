@@ -34,9 +34,26 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
  * Se quita `sslmode` de la URL porque, en `pg`, el de la URL reemplazaría al objeto `ssl` y
  * dejaría fuera el CA. En local (sin CA) la conexión va tal cual.
  */
+/**
+ * El CA de la base llega por variable de entorno, y los certificados PEM son de varias líneas: al
+ * pegarlos en un panel (Netlify) los saltos se pierden o se vuelven espacios, y la conexión falla con
+ * «self-signed certificate in certificate chain». Por eso se reconstruye el PEM desde su cuerpo
+ * base64, y se acepta también DATABASE_CA_CERT_B64: el mismo PEM en base64, en una sola línea, que
+ * ningún panel puede romper. Devuelve undefined si no hay un certificado completo.
+ */
+function certificadoCA(): string | undefined {
+  const b64 = process.env.DATABASE_CA_CERT_B64?.trim();
+  const crudo = (b64 ? Buffer.from(b64, "base64").toString("utf8") : process.env.DATABASE_CA_CERT) ?? "";
+  const cuerpos = [...crudo.replace(/\\n/g, "\n").matchAll(/-----BEGIN CERTIFICATE-----([\s\S]*?)-----END CERTIFICATE-----/g)];
+  if (!cuerpos.length) return undefined;
+  return cuerpos
+    .map((m) => `-----BEGIN CERTIFICATE-----\n${(m[1].replace(/\s+/g, "").match(/.{1,64}/g) ?? []).join("\n")}\n-----END CERTIFICATE-----\n`)
+    .join("");
+}
+
 function conexion() {
   const url = process.env.DATABASE_URL ?? "";
-  const ca = process.env.DATABASE_CA_CERT;
+  const ca = certificadoCA();
   // Sin URL (el build de Next, que no toca la base) no hay nada que configurar.
   if (!url || !esProduccion()) return { connectionString: url };
   const sinModo = new URL(url);
@@ -65,7 +82,7 @@ function comprobarConfiguracion(): void {
   if (!esProduccion()) return;
   const faltas: string[] = [];
   if ((process.env.PAYLOAD_SECRET ?? "").length < 32) faltas.push("PAYLOAD_SECRET (32+ caracteres)");
-  if (!process.env.DATABASE_CA_CERT) faltas.push("DATABASE_CA_CERT");
+  if (!certificadoCA()) faltas.push("DATABASE_CA_CERT (PEM completo, BEGIN a END) o DATABASE_CA_CERT_B64");
   if (!/^https:\/\//.test(process.env.NEXT_PUBLIC_SERVER_URL ?? "")) faltas.push("NEXT_PUBLIC_SERVER_URL (https)");
   const avisos = process.env.AVISOS_CORREO ?? "";
   if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(avisos) || /CAMBIAR/i.test(avisos)) {
