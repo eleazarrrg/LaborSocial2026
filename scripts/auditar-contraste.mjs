@@ -173,6 +173,7 @@ const DECORATIVOS = new Map([
   ["opacity-100", "estado hover, vuelve a opacidad plena"],
   ["opacity-50", "el separador · entre dos teléfonos"],
   ["opacity-60", "botón deshabilitado mientras se envía"],
+  ["opacity-40", "filete decorativo sobre cada dedicatoria «En honor a…»; no lleva texto"],
   ["decoration-papel/30", "subrayado del número; el número va a contraste pleno"],
   ["ring-valiente/30", "halo del campo con error; el borde sólido es el límite"],
   ["border-valiente/40", "borde del resumen de errores; lo delimita su relleno"],
