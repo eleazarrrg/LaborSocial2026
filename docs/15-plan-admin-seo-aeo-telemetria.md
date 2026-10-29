@@ -57,6 +57,10 @@ Hecho el 28-10-2026: entrada a `/admin` y segundo factor activo.
 >   (solo si están visibles/publicadas); columna «Visible / Oculta» en lugar de «verdadero»; tarjeta «Salud del sitio».
 > - **Medido:** contraste mínimo 10.45:1 en oscuro y 7.23:1 en claro (exigido 4.5:1); botones de 44 px o más;
 >   texto de ayuda de 13 px o más (la base del panel es de 13 px); títulos al mismo tamaño que los de Payload.
+> - **Piel visual de la fundación (29-10-2026):** el panel dejó el gris de fábrica de Payload. Se reemplazó su escala
+>   de grises por una verde azulada de la marca (`src/app/(payload)/tema-refuva.scss`), con acentos turquesa y naranja,
+>   las tipografías del sitio (Atkinson y Bricolage, `tipografia.tsx`), los arcos de la marca en la entrada y en la
+>   bienvenida, menú con pastilla activa, tablas y botones propios. Medido en claro y oscuro: peor contraste 5.58:1.
 > - **Pendiente:** la **prueba con tres personas** (publicar y ocultar una noticia en menos de 3 minutos, sin ayuda).
 >   Es lo único que confirma si el panel es de verdad más fácil; sin ella la mejora es una apuesta informada.
 > - **Limitación conocida:** a 390 px aparece un desborde de 17 px que viene del menú lateral oculto de Payload,

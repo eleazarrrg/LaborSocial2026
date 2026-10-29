@@ -17,6 +17,7 @@ import { Bienvenida as Bienvenida_40163b4755ff87ce7930c803d9c12f65 } from '../..
 import { AvisoFotos as AvisoFotos_1b01754220554127ab9e2d4f3ff256b4 } from '../../../payload/componentes/aviso-fotos'
 import { ResumenBandeja as ResumenBandeja_841f56aa55fd2e4af0d8853391118d9f } from '../../../payload/componentes/resumen-bandeja'
 import { SaludSitio as SaludSitio_f6ac43fe7c0540388d67990d8fbedc2b } from '../../../payload/componentes/salud-sitio'
+import { Tipografia as Tipografia_f123daac0fda6c567da33eeb17e174d1 } from '../../../payload/componentes/tipografia'
 import { TOTPProvider as TOTPProvider_4eaf6cb33cfb75be01716613e3c9a512 } from 'payload-totp/rsc'
 import { TOTPSetup as TOTPSetup_4eaf6cb33cfb75be01716613e3c9a512 } from 'payload-totp/rsc'
 import { TOTPVerify as TOTPVerify_4eaf6cb33cfb75be01716613e3c9a512 } from 'payload-totp/rsc'
@@ -44,6 +45,7 @@ export const importMap = {
   "/payload/componentes/aviso-fotos#AvisoFotos": AvisoFotos_1b01754220554127ab9e2d4f3ff256b4,
   "/payload/componentes/resumen-bandeja#ResumenBandeja": ResumenBandeja_841f56aa55fd2e4af0d8853391118d9f,
   "/payload/componentes/salud-sitio#SaludSitio": SaludSitio_f6ac43fe7c0540388d67990d8fbedc2b,
+  "/payload/componentes/tipografia#Tipografia": Tipografia_f123daac0fda6c567da33eeb17e174d1,
   "payload-totp/rsc#TOTPProvider": TOTPProvider_4eaf6cb33cfb75be01716613e3c9a512,
   "payload-totp/rsc#TOTPSetup": TOTPSetup_4eaf6cb33cfb75be01716613e3c9a512,
   "payload-totp/rsc#TOTPVerify": TOTPVerify_4eaf6cb33cfb75be01716613e3c9a512,

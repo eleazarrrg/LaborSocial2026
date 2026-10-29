@@ -1,9 +1,11 @@
+@use "./tema-refuva.scss";
+
 /* Estilos propios del panel. Solo variables de tema de Payload: así funcionan en claro y oscuro
    y heredan el contraste que Payload ya cuida. */
 
 .resumen-bandeja {
   margin-bottom: 2.5rem;
-  max-width: 60rem;
+  max-width: 72rem;
 
   h2 {
     margin: 0 0 1rem;
@@ -113,7 +115,7 @@
 }
 
 .salud-sitio {
-  max-width: 60rem;
+  max-width: 72rem;
   margin: 0 0 1.5rem;
 
   h2 {
@@ -167,12 +169,31 @@
 
 // ── Bienvenida: el saludo y los trabajos más comunes a un clic.
 .bienvenida {
-  max-width: 60rem;
+  position: relative;
+  max-width: 72rem;
   margin: 0 0 1.5rem;
-  padding: 1.25rem 1.5rem;
+  padding: 1.75rem 2rem;
   border: 1px solid var(--theme-elevation-150);
-  border-radius: 8px;
-  background: var(--theme-elevation-50);
+  border-radius: var(--style-radius-l);
+  background: linear-gradient(120deg, var(--refuva-tenue) 0%, var(--theme-bg) 70%);
+  box-shadow: var(--refuva-sombra);
+
+  // Los tres arcos de la marca, como en el sitio. Solo en pantallas anchas, donde no tapan nada.
+  @media (min-width: 56rem) {
+    padding-right: 13rem;
+
+    &::after {
+      position: absolute;
+      right: 1.75rem;
+      bottom: 0;
+      width: 9.5rem;
+      height: 6.5rem;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 100'%3E%3Cpath d='M0 100V42a25 25 0 0 1 50 0v58z' fill='%23005557'/%3E%3Cpath d='M50 100V32a25 25 0 0 1 50 0v68z' fill='%23a34700'/%3E%3Cpath d='M100 100V58a25 25 0 0 1 50 0v42z' fill='%237d2b00'/%3E%3C/svg%3E")
+        no-repeat right bottom / contain;
+      content: "";
+      pointer-events: none;
+    }
+  }
 
   &__cabecera {
     display: flex;
@@ -223,7 +244,7 @@
 
   &__acciones {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(11.5rem, 1fr));
     gap: 0.75rem;
     margin: 1rem 0 0;
     padding: 0;

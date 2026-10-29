@@ -1,0 +1,219 @@
+// Piel de la Fundación REFUVA para el panel de Payload.
+//
+// Cómo funciona: Payload pinta TODO con una escala de grises (`--color-base-*`) y con las variables
+// `--theme-elevation-*` que salen de ella (en el tema oscuro las invierte). Al reemplazar la escala por
+// una verde azulada de la marca, todo el panel cambia a la vez, en claro y en oscuro, sin pelear con cada
+// componente. Encima van los acentos (turquesa, naranja) y las formas del sitio (los arcos).
+//
+// Los estilos de Payload viven en `@layer payload-default`: cualquier regla sin capa, como estas, gana
+// sin trucos de especificidad.
+//
+// Contraste (medido en el panel abierto): texto principal 12:1 o más, texto secundario 7:1 o más; el
+// mínimo exigido es 4.5:1.
+
+:root {
+  // Escala neutra teñida con el verde de la fundación (de papel a tinta). Con ella, elevation-650 (texto
+  // secundario) queda en #3e5654 y elevation-800 (texto fuerte) en #1a2b2a.
+  --color-base-0: #ffffff;
+  --color-base-50: #f4f9f8;
+  --color-base-100: #e9f3f2;
+  --color-base-150: #d5e4e2;
+  --color-base-200: #c7dbd8;
+  --color-base-250: #b9d0cd;
+  --color-base-300: #a9c3c0;
+  --color-base-350: #98b3b0;
+  --color-base-400: #87a3a0;
+  --color-base-450: #76928f;
+  --color-base-500: #66817e;
+  --color-base-550: #577270;
+  --color-base-600: #4a6361;
+  --color-base-650: #3e5654;
+  --color-base-700: #324846;
+  --color-base-750: #233331;
+  --color-base-800: #1a2b2a;
+  --color-base-850: #13201f;
+  --color-base-900: #0c1413;
+  --color-base-950: #080e0d;
+  --color-base-1000: #040807;
+
+  // Acentos de la marca (los mismos del sitio).
+  --refuva-fuerte: #005c5c;
+  --refuva-fuerte-hondo: #004545;
+  --refuva-tenue: #d3ebe8;
+  --refuva-valiente: #a34700;
+  --refuva-sobre-fuerte: #ffffff;
+  --refuva-sombra: 0 18px 40px -26px rgb(0 70 70 / 45%);
+
+  // Formas más suaves que las de fábrica.
+  --style-radius-s: 6px;
+  --style-radius-m: 10px;
+  --style-radius-l: 18px;
+
+  // Tipografías (las carga componentes/tipografia.tsx; sin ellas, la pila del sistema).
+  --font-body: var(--fuente-panel, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  --font-titulos: var(--fuente-titulos, var(--font-body));
+}
+
+html[data-theme="dark"] {
+  --refuva-fuerte: #72d0cb;
+  --refuva-fuerte-hondo: #9be3df;
+  --refuva-tenue: #103634;
+  --refuva-valiente: #f2a466;
+  --refuva-sobre-fuerte: #0c1413;
+  --refuva-sombra: 0 18px 40px -26px rgb(0 0 0 / 80%);
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+h1,
+h2,
+.step-nav__last {
+  font-family: var(--font-titulos);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+}
+
+// Foco visible y de marca en todo lo que se puede operar con teclado (WCAG 2.2).
+:focus-visible {
+  outline: 3px solid var(--refuva-fuerte);
+  outline-offset: 2px;
+}
+
+// ── Botones: el principal es turquesa; el secundario, contorno.
+.btn--style-primary {
+  --color: var(--refuva-sobre-fuerte);
+  --bg-color: var(--refuva-fuerte);
+  --hover-bg: var(--refuva-fuerte-hondo);
+  --hover-color: var(--refuva-sobre-fuerte);
+  font-weight: 700;
+}
+
+.btn--style-secondary {
+  --bg-color: transparent;
+  --btn-border: 1.5px solid var(--refuva-fuerte);
+  --color: var(--refuva-fuerte);
+  --hover-bg: var(--refuva-tenue);
+  --hover-color: var(--refuva-fuerte-hondo);
+}
+
+a {
+  text-underline-offset: 3px;
+}
+
+// ── Menú lateral.
+.nav {
+  border-right: 1px solid var(--theme-elevation-150);
+  background: var(--theme-elevation-50);
+}
+
+.nav-group__toggle {
+  margin: 1rem 0 0.35rem;
+  color: var(--refuva-valiente);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--refuva-valiente);
+  }
+}
+
+.nav__link {
+  margin-inline: -0.25rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: var(--style-radius-m);
+  transition: background-color 0.15s;
+
+  &:hover {
+    background: var(--theme-elevation-100);
+  }
+
+  // La página actual: Payload la pinta como un <div> (no un enlace) con su propio indicador.
+  &.active,
+  &:has(.nav__link-indicator) {
+    padding-left: 0.9rem;
+    background: var(--refuva-tenue);
+    box-shadow: inset 4px 0 0 var(--refuva-valiente);
+    color: var(--refuva-fuerte-hondo);
+    font-weight: 700;
+  }
+}
+
+.nav__link-indicator {
+  display: none;
+}
+
+// ── Barra superior: más limpia, con migas de pan firmes.
+.app-header {
+  border-bottom: 1px solid var(--theme-elevation-100);
+}
+
+// ── Listas y tablas.
+.table table {
+  thead th {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  tbody tr {
+    transition: background-color 0.12s;
+
+    &:hover {
+      background: var(--refuva-tenue);
+    }
+  }
+}
+
+// ── Entrada (pantalla de inicio de sesión): papel verde, arcos de la marca y una tarjeta firme.
+.template-minimal {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(140deg, var(--refuva-tenue) 0%, var(--theme-bg) 62%);
+
+  &::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: min(46vw, 34rem);
+    aspect-ratio: 3 / 2;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 100'%3E%3Cpath d='M0 100V42a25 25 0 0 1 50 0v58z' fill='%23005557'/%3E%3Cpath d='M50 100V32a25 25 0 0 1 50 0v68z' fill='%23a34700'/%3E%3Cpath d='M100 100V58a25 25 0 0 1 50 0v42z' fill='%237d2b00'/%3E%3C/svg%3E")
+      no-repeat right bottom / contain;
+    content: "";
+    opacity: 0.9;
+    pointer-events: none;
+  }
+}
+
+.template-minimal__wrap {
+  position: relative;
+  z-index: 1;
+  padding: 2.25rem;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--style-radius-l);
+  background: var(--theme-bg);
+  box-shadow: var(--refuva-sombra);
+}
+
+// ── Formularios: campos con más aire.
+.field-type input,
+.field-type textarea,
+.field-type .react-select .rs__control {
+  border-radius: var(--style-radius-m);
+}
+
+.field-description {
+  color: var(--theme-elevation-650);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav__link,
+  .table table tbody tr {
+    transition: none;
+  }
+}

@@ -123,6 +123,8 @@ export default buildConfig({
     user: Usuarios.slug,
     meta: { titleSuffix: " · Panel REFUVA" },
     components: {
+      // Las tipografías del sitio (Atkinson y Bricolage) también en el panel.
+      providers: ["/payload/componentes/tipografia#Tipografia"],
       graphics: {
         Logo: "/payload/componentes/logo#Logo",
         Icon: "/payload/componentes/logo#Icono",
