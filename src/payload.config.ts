@@ -112,6 +112,7 @@ export default buildConfig({
       beforeDashboard: [
         "/payload/componentes/aviso-fotos#AvisoFotos",
         "/payload/componentes/resumen-bandeja#ResumenBandeja",
+        "/payload/componentes/salud-sitio#SaludSitio",
       ],
     },
     importMap: { baseDir: path.resolve(dirname) },
