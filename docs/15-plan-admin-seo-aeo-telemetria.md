@@ -11,7 +11,7 @@
 | Accesibilidad | **100** | Lighthouse móvil, producción |
 | Buenas prácticas | **96** | Lighthouse móvil, producción |
 | SEO (Lighthouse) | **63** | Falla **solo** `is-crawlable`: el sitio lleva `noindex` a propósito |
-| Consola del navegador | **1 error**: React #418 (hidratación) en la portada | Lighthouse + consola. **No se reproduce en local**; causa sin determinar |
+| Consola del navegador | **1 error**: React #418 (hidratación) en todas las páginas de Netlify | Lighthouse + consola. **No se reproduce en local**; causa sin determinar (ver §2) |
 | `robots.txt`, `sitemap.xml`, `llms.txt` | **404** los tres | `curl` |
 | Imagen para compartir (Open Graph) | **404**, y no hay etiquetas `og:*` | `curl` |
 | Datos estructurados (JSON-LD) | **0** | HTML de la portada |
@@ -25,14 +25,26 @@
 una sesión real (el segundo factor lo activa una persona de la fundación); si Cloudflare Web Analytics
 usa cookies o guarda IP (la documentación consultada no lo dice).
 
-## 2. Fase 0 — Antes de todo (esta semana)
+## 2. Pendientes de operación (la Fase 0 original se retiró)
+
+Hecho el 28-10-2026: entrada a `/admin` y segundo factor activo.
 
 1. Rotar lo que pasó por el chat: contraseña de la base, llaves de Storage, clave de Resend, `PAYLOAD_SECRET`.
-2. Entrar a `/admin`, activar el segundo factor y cambiar la contraseña temporal.
-3. Decidir cómo evitar que Supabase Free se pause a los 7 días sin actividad (plan de pago o consulta
+2. Decidir cómo evitar que Supabase Free se pause a los 7 días sin actividad (plan de pago o consulta
    diaria desde el hosting, nunca GitHub Actions).
-4. **Corregir el error de hidratación #418.** Reproducir con `npm run build` + `npm start` contra la base
-   y buscar el componente que renderiza distinto en servidor y cliente.
+3. **Error de hidratación #418 en producción (abierto).** Aparece en todas las páginas de Netlify, incluida
+   `/privacidad` (casi solo texto), y en ninguna prueba local. Descartado el 28-10:
+   - Un componente concreto: no aparece en `next dev` con la base conectada ni en `next start` sin base.
+   - El comentario `<!-- This site is hosted on Netlify… -->` que Netlify inyecta en el `<head>`: reproducido
+     con un proxy local, no provoca el error.
+   - El script `/.netlify/scripts/hud` (y su `iframe#nl-badge-frame`) del plan gratuito: reproducido con
+     un proxy local, no provoca el error.
+
+   **Impacto:** React recupera la página renderizándola en el cliente; el sitio funciona y Lighthouse da
+   accesibilidad 100. Es un costo de rendimiento, no un fallo visible.
+   **Siguiente intento:** (a) probar el mismo despliegue en DigitalOcean o con `next start` contra la base
+   (distingue si es Netlify o los datos); (b) revisar la respuesta de Netlify con transferencia
+   fragmentada (`Transfer-Encoding: chunked`) frente al servidor local.
    *Aceptación:* 0 errores en consola en Lighthouse.
 
 ## 3. Fase 1 — Panel más usable (UX medio)
@@ -110,7 +122,7 @@ Todo lo anterior se documenta en `docs/09-operacion-y-traspaso.md` con responsab
 
 ## 7. Orden recomendado y decisiones pendientes
 
-**Orden:** Fase 0 → Fase 2 (código; es lo que más rinde y no depende de nadie) → Fase 3 (en cuanto exista la
+**Orden:** pendientes de operación → Fase 2 (código; es lo que más rinde y no depende de nadie) → Fase 3 (en cuanto exista la
 cuenta de Cloudflare) → Fase 1 → Fase 4.
 
 | Decisión | Quién | Para cuándo |
