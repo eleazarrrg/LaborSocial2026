@@ -2,8 +2,11 @@ import type { Metadata, Viewport } from "next";
 import { Atkinson_Hyperlegible_Next, Bricolage_Grotesque } from "next/font/google";
 import { BandaCrisis } from "@/components/banda-crisis";
 import { Encabezado } from "@/components/encabezado";
+import { JsonLd } from "@/components/json-ld";
 import { Pie } from "@/components/pie";
 import { guionAntiParpadeo } from "@/components/tema";
+import { CONTACTO } from "@/lib/contacto";
+import { sitioIndexable, URL_SITIO } from "@/lib/sitio";
 import "./globals.css";
 
 /**
@@ -45,15 +48,56 @@ const titulares = Bricolage_Grotesque({
 
 export const metadata: Metadata = {
   // Las imágenes de las noticias para compartir salen con dirección relativa sin esto.
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000"),
+  metadataBase: new URL(URL_SITIO),
   title: {
     default: "Fundación REFUVA — Resiliente, Fuerte, Valiente",
     template: "%s · Fundación REFUVA",
   },
   description:
     "Fundación panameña: salud mental en escuelas, alimentación en la calle y a animales, Navidad para niños que nunca la han vivido, escritura terapéutica, emprendimiento y campañas de prevención del suicidio.",
-  // Prototipo en revisión: no se indexa hasta que Edwin apruebe el contenido.
-  robots: { index: false, follow: false },
+  // Prototipo en revisión: no se indexa hasta que se ponga INDEXAR=true (ver lib/sitio.ts).
+  robots: { index: sitioIndexable(), follow: sitioIndexable() },
+  // «./» = la dirección de cada página (cada una declara su propia versión preferida).
+  alternates: { canonical: "./" },
+  openGraph: {
+    type: "website",
+    siteName: "Fundación REFUVA",
+    locale: "es_PA",
+    title: "Fundación REFUVA — Resiliente, Fuerte, Valiente",
+    description:
+      "Fundación panameña: salud mental en escuelas, alimentación en la calle y a animales, Navidad para niños que nunca la han vivido, escritura terapéutica y emprendimiento.",
+  },
+  twitter: { card: "summary_large_image" },
+};
+
+/** Quién es la fundación, para buscadores y asistentes. Solo datos ya públicos en el sitio. */
+const DATOS_FUNDACION = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "NGO",
+      "@id": `${URL_SITIO}/#fundacion`,
+      name: "Fundación REFUVA",
+      alternateName: "REFUVA",
+      url: URL_SITIO,
+      logo: `${URL_SITIO}/marca/institucional.png`,
+      slogan: "Resiliente, Fuerte, Valiente",
+      description:
+        "Fundación panameña sin fines de lucro con varios proyectos y campañas: salud mental en escuelas, alimentación en la calle y a animales, Navidad para niños, escritura terapéutica y emprendimiento.",
+      areaServed: { "@type": "Country", name: "Panamá" },
+      founder: { "@type": "Person", name: "Edwin Quintero", jobTitle: "Psicólogo" },
+      sameAs: [CONTACTO.instagram],
+      ...(CONTACTO.correo ? { email: CONTACTO.correo } : {}),
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${URL_SITIO}/#sitio`,
+      url: URL_SITIO,
+      name: "Fundación REFUVA",
+      inLanguage: "es-PA",
+      publisher: { "@id": `${URL_SITIO}/#fundacion` },
+    },
+  ],
 };
 
 /**
@@ -81,6 +125,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: guionAntiParpadeo }} />
       </head>
       <body>
+        <JsonLd datos={DATOS_FUNDACION} />
         {/* Una barra de color avanza con el scroll (CSS puro; invisible sin soporte o con reduced-motion). */}
         <div aria-hidden className="progreso-scroll" />
         <a

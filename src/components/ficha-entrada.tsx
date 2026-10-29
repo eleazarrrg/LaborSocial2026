@@ -3,9 +3,11 @@ import Link from "next/link";
 import { BloqueCrisis } from "@/components/banda-crisis";
 import { ArcoFoto } from "@/components/arco-foto";
 import { Flecha } from "@/components/iconos";
+import { JsonLd } from "@/components/json-ld";
 import { Boton, Placa } from "@/components/ui";
 import { rutaDe, type Entrada } from "@/lib/catalogo";
 import { campanas, proyectos } from "@/lib/contenido";
+import { URL_SITIO } from "@/lib/sitio";
 
 /**
  * La ficha de un proyecto o de una campaña.
@@ -30,8 +32,20 @@ export async function FichaEntrada({ entrada }: { entrada: Entrada }) {
   const i = hermanas.findIndex((e) => e.codigo === entrada.codigo);
   const siguiente = hermanas[(i + 1) % hermanas.length];
 
+  const indiceRuta = esCampana ? "/campanas" : "/proyectos";
+  const migas = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: URL_SITIO },
+      { "@type": "ListItem", position: 2, name: esCampana ? "Campañas" : "Proyectos", item: `${URL_SITIO}${indiceRuta}` },
+      { "@type": "ListItem", position: 3, name: entrada.nombre, item: `${URL_SITIO}${rutaDe(entrada)}` },
+    ],
+  };
+
   return (
     <>
+      <JsonLd datos={migas} />
       {/* Misma composición que la portada: texto sobre papel y la foto en arco, a color. Si la
           entrada es de prevención del suicidio (`bloqueCrisis`), nada se mueve. */}
       <header className="overflow-hidden border-b border-borde bg-papel">

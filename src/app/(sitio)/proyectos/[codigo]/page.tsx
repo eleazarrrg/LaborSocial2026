@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { FichaEntrada } from "@/components/ficha-entrada";
 import { entradaPorCodigo } from "@/lib/contenido";
+import { metadatosDeEntrada } from "@/lib/metadatos";
 
 type Props = { params: Promise<{ codigo: string }> };
 
@@ -9,7 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { codigo } = await params;
   const p = await entradaPorCodigo("proyecto", codigo);
   if (!p) return {};
-  return { title: p.nombre, description: p.resumen };
+  return metadatosDeEntrada(p);
 }
 
 export default async function PaginaProyecto({ params }: Props) {
