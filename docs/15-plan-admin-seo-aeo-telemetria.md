@@ -68,6 +68,12 @@ ayuda**, y encuentra una solicitud pendiente en menos de 1 minuto. Se prueba con
 
 ## 4. Fase 2 — SEO y AEO con zona de evaluación
 
+> **Estado (28-10-2026):** hecho `robots`, `sitemap`, interruptor `INDEXAR`, `canonical`, Open Graph/Twitter con
+> imagen de la fundación, JSON-LD (`NGO`, `WebSite`, `BreadcrumbList`) y la tarjeta «Salud del sitio».
+> Con `INDEXAR=true` Lighthouse móvil da **SEO 100** en local. **Pendiente:** `FAQPage` (necesita las preguntas
+> de Edwin), `Event` y `DonateAction` (donar no tiene una dirección de pago propia: es Yappy o transferencia),
+> y Search Console / Bing (cuentas de la fundación).
+
 **AEO** (que los asistentes y buscadores con respuestas directas citen bien a la fundación): datos
 estructurados, nombre y datos consistentes en todo el sitio, y respuestas cortas y verificables en las
 páginas clave. `llms.txt` se puede añadir, pero **no hay evidencia sólida** de que alguien lo use; no es prioridad.

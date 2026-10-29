@@ -27,6 +27,7 @@ Los valores los pone una persona de la fundación en el panel. **Nunca en el rep
 | `PAYLOAD_MIGRAR_AL_ARRANCAR` | `false`: las migraciones se aplican a mano, no al arrancar cada función |
 | `SPACES_BUCKET` / `_REGION` / `_ENDPOINT` / `_PUBLIC_URL` | Supabase → Storage → S3 Connection |
 | `SPACES_KEY` / `SPACES_SECRET` | Supabase → Storage → New access key (se muestra una vez) |
+| `INDEXAR` | Déjala **sin definir** mientras el sitio sea prueba (buscadores bloqueados). El día del lanzamiento: `INDEXAR=true` y volver a desplegar. Cambia a la vez la etiqueta `robots` y `robots.txt`. |
 | `AVISOS_CORREO` | Buzón de la fundación que recibe los avisos |
 | `RESEND_API_KEY` / `CORREO_REMITENTE` | Resend → API Keys; remitente verificado |
 
