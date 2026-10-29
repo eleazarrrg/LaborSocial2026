@@ -22,6 +22,7 @@ import {
   SolicitudesCita,
 } from "./payload/colecciones/solicitudes";
 import { migrations } from "./migrations";
+import { CA_SUPABASE } from "./payload/ca-supabase";
 import { ErrorSeguro } from "./payload/errores";
 import { Usuarios } from "./payload/colecciones/usuarios";
 import { revalidarAlGuardar } from "./payload/revalidar";
@@ -52,11 +53,23 @@ function certificadoCA(): string | undefined {
     .join("");
 }
 
+const esLocal = (url: string) => /@(127\.0\.0\.1|localhost)[:/]/.test(url);
+const esSupabase = (url: string) => /@[^/]*\.supabase\.(com|co)[:/]/.test(url);
+
+/**
+ * El certificado con que se verifica la base: el de la variable de entorno si existe y, para una base de
+ * Supabase, el propio de Supabase (público, ver ca-supabase.ts). Para otra base remota, solo el de la variable.
+ */
+const caDe = (url: string): string | undefined =>
+  certificadoCA() ?? (esSupabase(url) ? CA_SUPABASE : undefined);
+
 function conexion() {
   const url = process.env.DATABASE_URL ?? "";
-  const ca = certificadoCA();
-  // Sin URL (el build de Next, que no toca la base) no hay nada que configurar.
-  if (!url || !esProduccion()) return { connectionString: url };
+  const ca = caDe(url);
+  // Sin URL (el build de Next, que no toca la base) o con una base local: nada que cifrar. Cualquier base
+  // REMOTA (producción, o la demo y las migraciones desde un equipo contra Supabase) va con TLS verificado:
+  // Supabase rechaza las conexiones sin cifrar (ESSLREQUIRED).
+  if (!url || (!esProduccion() && esLocal(url))) return { connectionString: url };
   const sinModo = new URL(url);
   sinModo.searchParams.delete("sslmode");
   // En producción, TLS siempre. Sin el CA, igual se exige un certificado válido: la conexión
@@ -83,7 +96,7 @@ function comprobarConfiguracion(): void {
   if (!esProduccion()) return;
   const faltas: string[] = [];
   if ((process.env.PAYLOAD_SECRET ?? "").length < 32) faltas.push("PAYLOAD_SECRET (32+ caracteres)");
-  if (!certificadoCA()) faltas.push("DATABASE_CA_CERT (PEM completo, BEGIN a END) o DATABASE_CA_CERT_B64");
+  if (!caDe(process.env.DATABASE_URL ?? "")) faltas.push("DATABASE_CA_CERT_B64 (una base que no es de Supabase necesita su certificado)");
   if (!/^https:\/\//.test(process.env.NEXT_PUBLIC_SERVER_URL ?? "")) faltas.push("NEXT_PUBLIC_SERVER_URL (https)");
   const avisos = process.env.AVISOS_CORREO ?? "";
   if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(avisos) || /CAMBIAR/i.test(avisos)) {
