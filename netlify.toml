@@ -1,12 +1,13 @@
 # Netlify. El comando y el directorio de publicación los detecta Netlify (Next.js Runtime).
 #
 # El escáner de secretos de Netlify falla el build si el VALOR de una variable aparece en el repo o en
-# la salida. Estas seis no son secretos: el nombre del bucket, la región, el endpoint y la URL
-# pública de las fotos (que va en el HTML de cada foto), el remitente de los correos y la dirección
-# pública del sitio (NEXT_PUBLIC_ = pública por diseño). Se excluyen SOLO ellas:
+# la salida. Estas no son secretos: el nombre del bucket, la región, el endpoint y la URL
+# pública de las fotos (que va en el HTML de cada foto), el remitente de los correos, la dirección
+# pública del sitio (NEXT_PUBLIC_ = pública por diseño) y el certificado CA de Supabase (público;
+# su cabecera «-----BEGIN CERTIFICATE-----» además aparece en payload.config.ts). Se excluyen SOLO ellas:
 # DATABASE_URL, DATABASE_CA_CERT, PAYLOAD_SECRET, SPACES_KEY, SPACES_SECRET y RESEND_API_KEY
 # siguen vigiladas.
 [build.environment]
-  SECRETS_SCAN_OMIT_KEYS = "SPACES_BUCKET,SPACES_REGION,SPACES_ENDPOINT,SPACES_PUBLIC_URL,CORREO_REMITENTE,NEXT_PUBLIC_SERVER_URL"
+  SECRETS_SCAN_OMIT_KEYS = "SPACES_BUCKET,SPACES_REGION,SPACES_ENDPOINT,SPACES_PUBLIC_URL,CORREO_REMITENTE,NEXT_PUBLIC_SERVER_URL,DATABASE_CA_CERT,DATABASE_CA_CERT_B64"
   # package.json pide Node 22.x; sin esto Netlify usa la 24 y avisa de motor no soportado.
   NODE_VERSION = "22"
