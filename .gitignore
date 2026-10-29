@@ -82,3 +82,6 @@ npm-debug.log*
 
 # Originales de las fotos de referencia (2400 px): se bajan con scripts/preparar-fotos.mjs.
 /contenido-provisional/candidatas/
+
+# Config local de MCP (apunta al proyecto personal de Supabase)
+.mcp.json
