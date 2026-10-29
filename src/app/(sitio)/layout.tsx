@@ -6,7 +6,7 @@ import { JsonLd } from "@/components/json-ld";
 import { Pie } from "@/components/pie";
 import { guionAntiParpadeo } from "@/components/tema";
 import { CONTACTO } from "@/lib/contacto";
-import { sitioIndexable, URL_SITIO } from "@/lib/sitio";
+import { IMAGEN_COMPARTIR, sitioIndexable, URL_SITIO } from "@/lib/sitio";
 import "./globals.css";
 
 /**
@@ -63,6 +63,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "Fundación REFUVA",
     locale: "es_PA",
+    images: [IMAGEN_COMPARTIR],
     title: "Fundación REFUVA — Resiliente, Fuerte, Valiente",
     description:
       "Fundación panameña: salud mental en escuelas, alimentación en la calle y a animales, Navidad para niños que nunca la han vivido, escritura terapéutica y emprendimiento.",
