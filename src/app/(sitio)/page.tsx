@@ -195,7 +195,7 @@ export default async function Inicio() {
       {dedicatorias.length > 0 && (
         <section
           aria-labelledby="titulo-honor"
-          className="overflow-hidden"
+          className="overflow-x-clip"
           style={{ backgroundColor: "var(--tinte-marron)", color: "var(--sobre-tinte)" }}
         >
           <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
@@ -203,18 +203,28 @@ export default async function Inicio() {
               Nada de esto empezó como un proyecto. Empezó como una persona.
             </h2>
             <ul className="mt-8 space-y-7 sm:space-y-9">
-              {dedicatorias.map((e, i) => (
-                <li key={e.codigo} className={`honor ${i % 2 ? "sm:pl-[10vw]" : ""}`}>
-                  <Link href={rutaDe(e)} className="group block">
-                    <span className="block text-base font-bold underline-offset-4 group-hover:underline sm:text-lg">
-                      {e.nombreCorto}
-                    </span>
-                    <span className="mt-1 block font-display text-[length:clamp(1.7rem,0.9rem+3vw,3.2rem)] leading-[1.04] font-extrabold text-balance">
-                      En honor a {e.enHonorA}.
-                    </span>
-                  </Link>
-                </li>
-              ))}
+              {dedicatorias.map((e, i) => {
+                // Las campañas de prevención del suicidio no se mueven (CLAUDE.md §5.1).
+                const quieta = e.tipo === "campana" && e.bloqueCrisis;
+                const lado = i % 2 ? 1 : -1;
+                return (
+                  <li
+                    key={e.codigo}
+                    className={`${quieta ? "" : "honor"} ${i % 2 ? "sm:pl-[10vw]" : ""}`}
+                    style={{ "--lado": lado, "--origen": lado < 0 ? "left" : "right" } as React.CSSProperties}
+                  >
+                    <span aria-hidden className={`mb-3 block h-px w-full bg-current opacity-40 ${quieta ? "" : "honor-filete"}`} />
+                    <Link href={rutaDe(e)} className="group block">
+                      <span className={`block text-base font-bold underline-offset-4 group-hover:underline sm:text-lg ${quieta ? "" : "honor-nombre"}`}>
+                        {e.nombreCorto}
+                      </span>
+                      <span className="mt-1 block font-display text-[length:clamp(1.7rem,0.9rem+3vw,3.2rem)] leading-[1.04] font-extrabold text-balance">
+                        En honor a {e.enHonorA}.
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </section>
@@ -224,7 +234,9 @@ export default async function Inicio() {
       <Fondo fondo={fondos.declaracion} como="section">
         <div className="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 sm:py-16">
           <p className="font-display text-3xl leading-tight font-extrabold text-balance sm:text-5xl">
-            Resiliente. Fuerte. Valiente.
+            <span className="lema" style={{ "--lado": -1 } as React.CSSProperties}>Resiliente.</span>{" "}
+            <span className="lema" style={{ "--sube": 1 } as React.CSSProperties}>Fuerte.</span>{" "}
+            <span className="lema" style={{ "--lado": 1 } as React.CSSProperties}>Valiente.</span>
           </p>
           <p className="mx-auto mt-4 max-w-[50ch] text-lg sm:text-xl">
             Eso quiere decir REFUVA. Es el nombre de la fundación y es la manera en que trabaja.

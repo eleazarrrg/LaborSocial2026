@@ -242,10 +242,34 @@ h3 {
       animation-timeline: view();
       animation-range: entry calc(var(--i, 0) * 4%) entry calc(26% + var(--i, 0) * 4%);
     }
-    .honor {
-      animation: honra linear both;
+    /* Cada dedicatoria entra desde un lado (--lado: -1 izquierda, 1 derecha, alternando); el nombre
+       del proyecto viaja al revés y el filete se dibuja desde ese mismo lado. Todo atado al scroll. */
+    .honor,
+    .honor-nombre,
+    .honor-filete,
+    .lema {
       animation-timeline: view();
-      animation-range: entry 10% cover 45%;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+    .honor {
+      animation-name: honra;
+      animation-range: entry 0% cover 38%;
+    }
+    .honor-nombre {
+      animation-name: honra-nombre;
+      animation-range: entry 0% cover 45%;
+    }
+    .honor-filete {
+      animation-name: filete;
+      animation-range: entry 0% cover 30%;
+      transform-origin: var(--origen, left);
+    }
+    /* «Resiliente. Fuerte. Valiente.»: una palabra desde cada lado y la del medio desde abajo. */
+    .lema {
+      display: inline-block;
+      animation-name: lema;
+      animation-range: entry 5% cover 35%;
     }
   }
 }
@@ -283,7 +307,36 @@ h3 {
     /* 0.72 y no menos: aun sin entrar en pantalla, el texto blanco sobre el marrón tiene que
        cumplir AA (4.5:1). El QA midió 3.63:1 con 0.18. */
     opacity: 0.72;
-    transform: translateX(-4vw);
+    transform: translateX(calc(var(--lado, -1) * 16vw));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes honra-nombre {
+  from {
+    transform: translateX(calc(var(--lado, -1) * -7vw));
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes filete {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes lema {
+  from {
+    opacity: 0.75;
+    transform: translate(calc(var(--lado, 0) * 14vw), calc(var(--sube, 0) * 0.6em));
   }
   to {
     opacity: 1;
