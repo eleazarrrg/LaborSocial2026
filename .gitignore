@@ -85,3 +85,6 @@ npm-debug.log*
 
 # Config local de MCP (apunta al proyecto personal de Supabase)
 .mcp.json
+
+# Local Netlify folder
+.netlify

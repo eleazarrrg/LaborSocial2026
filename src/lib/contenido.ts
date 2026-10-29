@@ -92,8 +92,11 @@ function aEntrada(p: Proyecto): Entrada {
  */
 const leerCatalogo = unstable_cache(
   async (): Promise<Entrada[]> => {
+    console.log("[DIAG-7c2e] catálogo: getPayload…");
     const payload = await getPayload({ config });
+    console.log("[DIAG-7c2e] catálogo: getPayload listo; consultando proyectos…");
     const { docs } = await proyectosActivos(payload);
+    console.log(`[DIAG-7c2e] catálogo: ${docs.length} proyectos`);
     if (docs.length) return docs.map(aEntrada);
     // Sin activos: el catálogo del código solo si la base NUNCA se sembró. Si Edwin ocultó todo,
     // se respeta y no reaparece lo escrito en el código.
