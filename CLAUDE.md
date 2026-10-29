@@ -78,7 +78,7 @@ y el costo en `docs/12-presupuesto-hosting.md`. `docs/05` queda como historia de
 | Hosting | **DigitalOcean App Platform**, con **Cloudflare** delante | Servidor gestionado (lo parcha DigitalOcean), todo en una cuenta y una factura. Spec en `.do/app.yaml`. |
 | Imágenes (CMS, fase 2) | **DigitalOcean Spaces** | Compatible con S3 y con CDN. |
 | Correo transaccional | **Resend**, desde los ganchos de Payload | 3.000/mes gratis, tope de **100/día**. Ese tope muerde en la campaña navideña: ver §7. |
-| Analítica | **Cloudflare Web Analytics** | Sin cookies ⇒ sin banner de consentimiento. GA4 solo si se aprueba Google Ad Grants. |
+| Analítica | **Cloudflare Web Analytics** | Visitas, páginas más vistas, origen, país y dispositivo, sin seguir a personas ni vender datos (§5.2, «Medición de visitas»). Funciona con un script, sin pasar el tráfico por Cloudflare. Conserva 6 meses en su panel. GA4 solo si se aprueba Google Ad Grants. |
 | Dominio | **refuva.org** (~USD 12/año) | El `.org.pa` cuesta el doble, obliga a 2 años por adelantado y exige revisión documental. |
 | Feed de Instagram | **Behold.so** (gratis), leído desde el servidor | Behold renueva el token de Meta. Nosotros no dejamos ningún secreto que caduque. |
 
@@ -159,6 +159,25 @@ No es contenido neutro y **no se escribe a ojo**.
 - Consentimiento con casilla **activa, nunca premarcada**, en lenguaje llano y con enlace a una
   política de privacidad legible.
 - Retención definida por tabla, y borrado real cuando vence.
+- **Medición de visitas (decidido el 28 de octubre de 2026 por la dirección del proyecto).** La
+  fundación necesita saber cuánta gente entra (por día y por mes), qué páginas ven más y de dónde
+  llegan, para acercarse a las personas. Está permitido. Reglas, sin excepción:
+  - **Nunca se vende, se cede ni se comparte** con terceros con fines comerciales o de publicidad.
+  - Se mide **la visita, no a la persona**: páginas vistas, visitas, origen, país y tipo de
+    dispositivo. **No se guarda la dirección IP en claro.** Si hace falta contar visitantes únicos
+    en un registro propio, se guarda un identificador derivado (hash con sal que cambia cada día), que
+    no permite reconstruir ni seguir a nadie de un día a otro.
+  - Nada que enlace una visita con una persona concreta: ni con una solicitud de cita, ni con un
+    mensaje, ni con una inscripción. Las páginas de crisis se cuentan como cualquier otra, sin
+    registro por persona.
+  - El detalle crudo se conserva **90 días como máximo**; después solo quedan las cifras agregadas.
+  - Lo que se mide, por qué y por cuánto tiempo **está escrito en la política de privacidad antes de
+    activarlo** (`/privacidad`, sección «Cookies y medición»). Si cambia la medición, cambia ese texto
+    en el mismo commit.
+  - Antes de publicar, un asesor legal revisa el texto frente a las normas de protección de datos
+    aplicables en Panamá. Este documento no sustituye esa revisión.
+  - La cuenta de la herramienta de analítica es de la fundación (§5.3), nunca de una persona del
+    equipo.
 - Nadie más que administración, con el segundo factor verificado, ve una solicitud. Lo hacen cumplir
   los permisos de Payload; RLS queda activo en toda tabla como segunda defensa — sin excepción y sin
   «lo arreglamos después».
