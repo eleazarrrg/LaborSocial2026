@@ -21,6 +21,7 @@ const PAGINAS = [
   "/alianzas",
   "/contacto",
   "/noticias",
+  "/preguntas-frecuentes",
   "/privacidad",
   "/terminos",
 ];

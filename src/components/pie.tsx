@@ -21,6 +21,7 @@ const PARTICIPAR = [
   { href: "/participar/voluntariado", texto: "Ser voluntario" },
   { href: "/donar", texto: "Donar" },
   { href: "/alianzas", texto: "Proponer una alianza" },
+  { href: "/preguntas-frecuentes", texto: "Preguntas frecuentes" },
   { href: "/contacto", texto: "Contacto" },
 ];
 

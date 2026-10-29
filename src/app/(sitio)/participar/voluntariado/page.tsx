@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FormularioVoluntariado } from "@/components/formularios/form-voluntariado";
+import { PreguntasFrecuentes } from "@/components/preguntas-frecuentes";
 
 export const metadata: Metadata = {
   title: "Ser voluntario",
@@ -30,6 +31,7 @@ const NECESIDADES = [
 
 export default function Voluntariado() {
   return (
+    <>
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
       <nav aria-label="Miga de pan" className="text-sm text-tinta-suave">
         <Link href="/participar" className="-my-1.5 inline-block py-1.5 hover:text-tinta">
@@ -79,5 +81,7 @@ export default function Voluntariado() {
         </aside>
       </div>
     </div>
+    <PreguntasFrecuentes tema="voluntariado" />
+    </>
   );
 }

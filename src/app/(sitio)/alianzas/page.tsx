@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { FormularioContacto } from "@/components/formularios/form-contacto";
 import { Nota, TituloPagina } from "@/components/ui";
 import { proyectos } from "@/lib/contenido";
+import { PreguntasFrecuentes } from "@/components/preguntas-frecuentes";
 
 export const metadata: Metadata = {
   title: "Solicitar una alianza",
@@ -54,6 +55,7 @@ export default async function Alianzas() {
           </Nota>
         </aside>
       </div>
+      <PreguntasFrecuentes tema="alianzas" />
     </>
   );
 }

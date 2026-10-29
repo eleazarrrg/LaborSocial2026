@@ -70,6 +70,7 @@ export interface Config {
     noticias: Noticia;
     eventos: Evento;
     proyectos: Proyecto;
+    preguntas: Pregunta;
     medios: Medio;
     'solicitudes-cita': SolicitudesCita;
     'inscripciones-voluntariado': InscripcionesVoluntariado;
@@ -90,6 +91,7 @@ export interface Config {
     noticias: NoticiasSelect<false> | NoticiasSelect<true>;
     eventos: EventosSelect<false> | EventosSelect<true>;
     proyectos: ProyectosSelect<false> | ProyectosSelect<true>;
+    preguntas: PreguntasSelect<false> | PreguntasSelect<true>;
     medios: MediosSelect<false> | MediosSelect<true>;
     'solicitudes-cita': SolicitudesCitaSelect<false> | SolicitudesCitaSelect<true>;
     'inscripciones-voluntariado': InscripcionesVoluntariadoSelect<false> | InscripcionesVoluntariadoSelect<true>;
@@ -432,6 +434,34 @@ export interface Evento {
   _status?: ('draft' | 'published') | null;
 }
 /**
+ * Las preguntas que más se repiten, con su respuesta. Se ven en el sitio y ayudan a que te encuentren.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "preguntas".
+ */
+export interface Pregunta {
+  id: number;
+  /**
+   * Como la diría una persona que entra por primera vez. Termina con signo de interrogación.
+   */
+  pregunta: string;
+  /**
+   * Clara y corta (hasta 600 caracteres). Solo lo que la fundación puede cumplir: nada de plazos ni montos que no estén confirmados. Si hablas de una emergencia, remite al 911 o a la Línea 147.
+   */
+  respuesta: string;
+  /**
+   * Además de la página de preguntas, aparece al pie de la página de su tema.
+   */
+  tema: 'general' | 'cita' | 'donar' | 'voluntariado' | 'padrinos' | 'alianzas';
+  /**
+   * Menor número, más arriba.
+   */
+  orden: number;
+  activo?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "solicitudes-cita".
  */
@@ -729,6 +759,10 @@ export interface PayloadLockedDocument {
         value: number | Proyecto;
       } | null)
     | ({
+        relationTo: 'preguntas';
+        value: number | Pregunta;
+      } | null)
+    | ({
         relationTo: 'medios';
         value: number | Medio;
       } | null)
@@ -880,6 +914,19 @@ export interface ProyectosSelect<T extends boolean = true> {
       };
   logoFondo?: T;
   bloqueCrisis?: T;
+  orden?: T;
+  activo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "preguntas_select".
+ */
+export interface PreguntasSelect<T extends boolean = true> {
+  pregunta?: T;
+  respuesta?: T;
+  tema?: T;
   orden?: T;
   activo?: T;
   updatedAt?: T;

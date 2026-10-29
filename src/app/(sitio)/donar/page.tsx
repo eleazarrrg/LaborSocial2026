@@ -4,6 +4,7 @@ import { BotonCopiar } from "@/components/boton-copiar";
 import { Palabras } from "@/components/palabras";
 import { Boton, TituloPagina } from "@/components/ui";
 import { CONTACTO, DONACIONES, PRECIO_CONSULTA } from "@/lib/contacto";
+import { PreguntasFrecuentes } from "@/components/preguntas-frecuentes";
 
 export const metadata: Metadata = {
   title: "Donar",
@@ -194,6 +195,7 @@ export default function Donar() {
           </div>
         </section>
       </div>
+      <PreguntasFrecuentes tema="donar" />
     </>
   );
 }

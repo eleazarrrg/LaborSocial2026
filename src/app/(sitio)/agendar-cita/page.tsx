@@ -4,6 +4,7 @@ import { BloqueCrisis } from "@/components/banda-crisis";
 import { FormularioCita } from "@/components/formularios/form-cita";
 import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 import { PRECIO_CONSULTA } from "@/lib/contacto";
+import { PreguntasFrecuentes } from "@/components/preguntas-frecuentes";
 
 export const metadata: Metadata = {
   title: "Agendar una cita",
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
  */
 export default function AgendarCita() {
   return (
+    <>
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
       <header className="max-w-3xl">
         <h1 className="text-4xl leading-[1.08] font-semibold sm:text-5xl">
@@ -116,5 +118,7 @@ export default function AgendarCita() {
         .
       </p>
     </div>
+    <PreguntasFrecuentes tema="cita" />
+    </>
   );
 }

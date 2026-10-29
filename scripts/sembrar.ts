@@ -20,6 +20,7 @@ import { readFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { getPayload } from "payload";
 import { CATALOGO } from "../src/lib/catalogo";
+import { PREGUNTAS_BASE } from "../src/lib/preguntas-base";
 import type { Tinte } from "../src/lib/fondo";
 import config from "../src/payload.config";
 import { parrafosALexical } from "../src/payload/lexical";
@@ -171,8 +172,20 @@ for (const f of fotos) {
   }
 }
 
+// 4. Las preguntas frecuentes de `src/lib/preguntas-base.ts`: solo si la colección está vacía, para
+//    no pisar lo que la fundación ya editó, ocultó o borró a propósito.
+const { totalDocs: yaHayPreguntas } = await payload.count({ collection: "preguntas", overrideAccess: true });
+let preguntasNuevas = 0;
+if (yaHayPreguntas === 0) {
+  for (const p of PREGUNTAS_BASE) {
+    await payload.create({ collection: "preguntas", overrideAccess: true, data: { ...p, activo: true } });
+    preguntasNuevas++;
+  }
+}
+
 console.log(
   `\nSiembra lista: ${cuenta.logos} logos, ${cuenta.proyectos} proyectos o campañas nuevos` +
-    ` (${cuenta.existentes} ya estaban), ${cuenta.fotos} fotos de referencia subidas y ${cuenta.asignadas} asignadas a su espacio.`,
+    ` (${cuenta.existentes} ya estaban), ${cuenta.fotos} fotos de referencia subidas y ${cuenta.asignadas} asignadas a su espacio.` +
+    ` Preguntas frecuentes nuevas: ${preguntasNuevas}${yaHayPreguntas ? " (ya había, no se tocan)" : ""}.`,
 );
 process.exit(0);

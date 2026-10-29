@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FormularioPadrino } from "@/components/formularios/form-padrino";
+import { PreguntasFrecuentes } from "@/components/preguntas-frecuentes";
 
 export const metadata: Metadata = {
   title: "Ser padrino o madrina",
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
  */
 export default function Apadrinar() {
   return (
+    <>
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
       <nav aria-label="Miga de pan" className="text-sm text-tinta-suave">
         <Link href="/participar" className="-my-1.5 inline-block py-1.5 hover:text-tinta">
@@ -80,5 +82,7 @@ export default function Apadrinar() {
         </aside>
       </div>
     </div>
+    <PreguntasFrecuentes tema="padrinos" />
+    </>
   );
 }

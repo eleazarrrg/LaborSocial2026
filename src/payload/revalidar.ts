@@ -14,7 +14,7 @@ import { ETIQUETA_CMS } from "@/lib/cache-cms";
  * sitio se pone al día solo cuando vence la caché (SEGUNDOS_CACHE).
  */
 
-const COLECCIONES = new Set(["proyectos", "noticias", "eventos", "medios"]);
+const COLECCIONES = new Set(["proyectos", "noticias", "eventos", "medios", "preguntas"]);
 const GLOBALES = new Set(["fondos"]);
 
 function expirar(origen: string): void {

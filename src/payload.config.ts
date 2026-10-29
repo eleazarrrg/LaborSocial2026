@@ -13,6 +13,7 @@ import { Cuarentena } from "./payload/colecciones/cuarentena";
 import { Medios } from "./payload/colecciones/medios";
 import { Eventos, Noticias } from "./payload/colecciones/publicaciones";
 import { Proyectos } from "./payload/colecciones/proyectos";
+import { Preguntas } from "./payload/colecciones/preguntas";
 import { Fondos } from "./payload/globales/fondos";
 import {
   InscripcionesPadrinos,
@@ -138,6 +139,7 @@ export default buildConfig({
     Noticias,
     Eventos,
     Proyectos,
+    Preguntas,
     Medios,
     SolicitudesCita,
     InscripcionesVoluntariado,
