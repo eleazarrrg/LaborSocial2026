@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 import { BotonCopiar } from "@/components/boton-copiar";
 import { Palabras } from "@/components/palabras";
 import { Boton, TituloPagina } from "@/components/ui";
@@ -100,14 +101,17 @@ export default async function Donar() {
                 la fundación los confirme, para que nadie transfiera a una cuenta
                 equivocada. Si quieres dar hoy, escríbenos y te los pasamos.
               </p>
-              {a.correo && (
-                <a
-                  href={`mailto:${a.correo}`}
-                  className="mt-4 inline-flex min-h-11 items-center font-bold text-fuerte underline underline-offset-4"
-                >
-                  {a.correo}
-                </a>
-              )}
+              <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3">
+                <AlternativaWhatsApp texto="Escríbenos por WhatsApp" />
+                {a.correo && (
+                  <a
+                    href={`mailto:${a.correo}`}
+                    className="inline-flex min-h-11 items-center font-bold text-fuerte underline underline-offset-4"
+                  >
+                    {a.correo}
+                  </a>
+                )}
+              </div>
             </div>
           ) : (
             <div className="mt-8 grid gap-6 lg:grid-cols-2">

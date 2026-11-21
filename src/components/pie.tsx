@@ -6,6 +6,7 @@ import { rutaDe } from "@/lib/catalogo";
 import { ajustes, enlaceWhatsapp, whatsappVisible } from "@/lib/ajustes";
 import { campanas, proyectos } from "@/lib/contenido";
 import { RECURSOS_CRISIS, VERIFICADO_EL } from "@/lib/crisis";
+import { sitioIndexable } from "@/lib/sitio";
 
 /**
  * Pie, con el patrón de Mind: una franja entera en el turquesa de marca.
@@ -218,11 +219,14 @@ export async function Pie() {
           </div>
         </div>
 
-        <p className="mt-8 max-w-3xl text-sm leading-relaxed">
-          <strong>Prototipo en revisión.</strong> Los textos definitivos y las
-          fotografías están pendientes de entrega; lo que se muestra sirve para
-          validar la dirección con la fundación, no para publicarse.
-        </p>
+        {/* Aviso de trabajo: desaparece sola cuando el sitio se abre a buscadores (INDEXAR=true). */}
+        {!sitioIndexable() && (
+          <p className="mt-8 max-w-3xl text-sm leading-relaxed">
+            <strong>Prototipo en revisión.</strong> Los textos definitivos y las
+            fotografías están pendientes de entrega; lo que se muestra sirve para
+            validar la dirección con la fundación, no para publicarse.
+          </p>
+        )}
       </div>
     </footer>
   );

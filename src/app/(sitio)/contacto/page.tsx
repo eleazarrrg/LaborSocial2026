@@ -5,6 +5,7 @@ import { Enlace, Instagram, WhatsApp } from "@/components/iconos";
 import { Nota, TituloPagina } from "@/components/ui";
 import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 import { ajustes, enlaceWhatsapp, whatsappVisible } from "@/lib/ajustes";
+import { sitioIndexable } from "@/lib/sitio";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -119,11 +120,14 @@ export default async function Contacto() {
             </Link>
           </section>
 
-          <Nota>
-            El mapa se añade cuando la fundación confirme si hay una dirección
-            publicable. Se cargará solo si lo pides, para no traer cookies de
-            terceros a quien no las quiere.
-          </Nota>
+          {/* Nota de trabajo: desaparece sola cuando el sitio se abre a buscadores (INDEXAR=true). */}
+          {!sitioIndexable() && (
+            <Nota>
+              El mapa se añade cuando la fundación confirme si hay una dirección
+              publicable. Se cargará solo si lo pides, para no traer cookies de
+              terceros a quien no las quiere.
+            </Nota>
+          )}
         </aside>
       </div>
     </>

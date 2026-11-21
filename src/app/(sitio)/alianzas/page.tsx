@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { FormularioContacto } from "@/components/formularios/form-contacto";
 import { Nota, TituloPagina } from "@/components/ui";
 import { proyectos } from "@/lib/contenido";
+import { sitioIndexable } from "@/lib/sitio";
 import { PreguntasFrecuentes } from "@/components/preguntas-frecuentes";
 import { AlternativaWhatsApp } from "@/components/alternativa-whatsapp";
 
@@ -47,13 +48,16 @@ export default async function Alianzas() {
             </ul>
           </section>
 
-          <Nota>
-            <strong className="text-tinta">Nota del prototipo.</strong> Este
-            formulario todavía es el genérico. Los campos propios de una alianza
-            —institución, cargo, proyecto de interés y población estimada—
-            entran con la siguiente iteración, junto con su bandeja separada en
-            el panel.
-          </Nota>
+          {/* Nota de trabajo: desaparece sola cuando el sitio se abre a buscadores (INDEXAR=true). */}
+          {!sitioIndexable() && (
+            <Nota>
+              <strong className="text-tinta">Nota del prototipo.</strong> Este
+              formulario todavía es el genérico. Los campos propios de una alianza
+              —institución, cargo, proyecto de interés y población estimada—
+              entran con la siguiente iteración, junto con su bandeja separada en
+              el panel.
+            </Nota>
+          )}
         </aside>
       </div>
       <PreguntasFrecuentes tema="alianzas" />

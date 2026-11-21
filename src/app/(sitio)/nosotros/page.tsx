@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { FotoBanda } from "@/components/foto-banda";
 import { Boton, Nota, TituloPagina } from "@/components/ui";
+import { sitioIndexable } from "@/lib/sitio";
 
 export const metadata: Metadata = {
   title: "Nosotros",
@@ -55,18 +56,6 @@ export default async function Nosotros() {
               vez: escuelas, calle, animales, prevención del suicidio,
               comunidades de alto riesgo, escritura terapéutica y Navidad.
             </p>
-          </div>
-
-          <div className="mt-9 max-w-[62ch]">
-            <Nota tono="atencion">
-              <strong className="text-tinta">
-                Misión, visión y valores pendientes.
-              </strong>{" "}
-              El texto oficial lo tiene la fundación y todavía no ha llegado
-              (pendiente O-08). Lo de arriba lo redactó el equipo a partir de la
-              reunión del 20 de agosto de 2026, y hay que sustituirlo por el
-              definitivo antes de publicar.
-            </Nota>
           </div>
 
           <section className="mt-16" aria-labelledby="mision">
@@ -125,12 +114,15 @@ export default async function Nosotros() {
                 Ver todos los proyectos
               </Boton>
             </div>
-            <div className="mt-7 max-w-[62ch]">
-              <Nota>
-                Documentos de personería jurídica y transparencia: pendiente de
-                decidir con la fundación si se publican o solo se mencionan.
-              </Nota>
-            </div>
+            {/* Nota de trabajo: desaparece sola cuando el sitio se abre a buscadores (INDEXAR=true). */}
+            {!sitioIndexable() && (
+              <div className="mt-7 max-w-[62ch]">
+                <Nota>
+                  Documentos de personería jurídica y transparencia: pendiente de
+                  decidir con la fundación si se publican o solo se mencionan.
+                </Nota>
+              </div>
+            )}
           </section>
         </div>
 

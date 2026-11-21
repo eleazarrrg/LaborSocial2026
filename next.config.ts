@@ -19,6 +19,8 @@ const CABECERAS = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Hay dos layouts raíz (sitio y panel): sin esto, un 404 fuera de ellos sale como la página en inglés de Next.
+  experimental: { globalNotFound: true },
   async headers() {
     return [{ source: "/:path*", headers: CABECERAS }];
   },

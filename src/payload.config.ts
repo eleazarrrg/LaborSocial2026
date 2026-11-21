@@ -80,6 +80,10 @@ function conexion() {
     ssl: ca ? { ca, rejectUnauthorized: true } : { rejectUnauthorized: true },
     // En serverless (Vercel) cada instancia usa una sola conexión, para no agotar el pooler.
     ...(process.env.DATABASE_POOL_MAX ? { max: Number(process.env.DATABASE_POOL_MAX) } : {}),
+    // Si la base no contesta (pausada, caída), fallar pronto: así la página llega al respaldo del código
+    // (lib/contenido.ts, lib/ajustes.ts) antes de que la función de Netlify agote su tiempo y devuelva 502.
+    connectionTimeoutMillis: 4_000,
+    query_timeout: 8_000,
   };
 }
 
