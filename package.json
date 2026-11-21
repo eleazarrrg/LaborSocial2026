@@ -20,7 +20,8 @@
     "demo:dev": "node scripts/demo-dev.mjs",
     "demo:migrar": "node --env-file=.env.demo node_modules/payload/bin.js migrate",
     "demo:sembrar": "node --env-file=.env.demo node_modules/payload/bin.js run scripts/sembrar.ts",
-    "demo:admin": "node --env-file=.env.demo node_modules/payload/bin.js run scripts/crear-primera-admin.ts"
+    "demo:admin": "node --env-file=.env.demo node_modules/payload/bin.js run scripts/crear-primera-admin.ts",
+    "demo:crear-admin": "node --env-file=.env.demo node_modules/payload/bin.js run scripts/crear-admin.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.90.2",
